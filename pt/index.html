@@ -135,9 +135,9 @@ p code, li code, td code {
       <p class="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto">Escreva codigo em portugues. Execute no seu navegador.</p>
     </div>
 
-    <div class="grid lg:grid-cols-2 gap-6 animate-slide-up">
+    <div class="flex flex-col lg:flex-row gap-6 animate-slide-up" style="height: calc(100vh - 22rem); min-height: 360px;">
       <!-- Editor -->
-      <div class="rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-white">
+      <div class="flex-1 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-white flex flex-col">
         <div class="flex items-center gap-1.5 px-4 py-3 bg-gray-100 border-b border-gray-200">
           <div class="w-3 h-3 rounded-full bg-red-400"></div>
           <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
@@ -147,7 +147,7 @@ p code, li code, td code {
             <button id="runBtn" class="bg-pinky-400 hover:bg-pinky-500 text-white px-5 py-1.5 rounded-lg text-sm font-semibold transition-all shadow-md shadow-pinky-200 active:scale-95">Run</button>
           </div>
         </div>
-        <textarea id="codeEditor" class="w-full h-[340px] bg-[#1e1e2e] text-[#cdd6f4] p-5 font-mono text-sm outline-none resize-none leading-relaxed" spellcheck="false">CRIA nome = "XanaScript"
+        <textarea id="codeEditor" class="w-full flex-1 min-h-[180px] bg-[#1e1e2e] text-[#cdd6f4] p-5 font-mono text-sm outline-none resize-none leading-relaxed" spellcheck="false">CRIA nome = "XanaScript"
 CRIA idade = 5
 
 CHAMA ESSE CARA saudacao(nome, idade) {
@@ -165,7 +165,7 @@ SOLTA O GRITO("Soma de 1 a 10: " + soma)</textarea>
       </div>
 
       <!-- Output -->
-      <div class="rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-white">
+      <div class="flex-1 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-white flex flex-col">
         <div class="flex items-center gap-1.5 px-4 py-3 bg-gray-100 border-b border-gray-200">
           <div class="w-3 h-3 rounded-full bg-red-400"></div>
           <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
@@ -173,7 +173,7 @@ SOLTA O GRITO("Soma de 1 a 10: " + soma)</textarea>
           <span class="text-gray-500 text-sm ml-3 font-medium">Output</span>
           <button id="clearBtn" class="ml-auto text-xs text-gray-400 hover:text-gray-600 transition-colors">Clear</button>
         </div>
-        <pre id="output" class="h-[340px] bg-[#1e1e2e] text-[#a6e3a1] p-5 font-mono text-sm overflow-auto leading-relaxed">> Ready to run XanaScript code...</pre>
+        <pre id="output" class="flex-1 min-h-[180px] m-0 bg-[#1e1e2e] text-[#a6e3a1] p-5 font-mono text-sm overflow-auto leading-relaxed whitespace-pre-wrap">Ready to run XanaScript code...</pre>
       </div>
     </div>
 
@@ -876,21 +876,8 @@ Help: Adicione `CRIA z = valor` antes de usar</pre>
   </div>
 </section>
 
-<footer class="py-10 px-6 border-t border-gray-200 text-center text-gray-400 text-sm">
-  <div class="max-w-3xl mx-auto">
-    <p>Feito com paixao por <a href="https://github.com/flazo0" class="text-pinky-400 no-underline hover:underline">flazo0</a> e <a href="https://github.com/xanascr" class="text-pinky-400 no-underline hover:underline">@xanascr</a></p>
-    <div class="flex justify-center gap-6 mt-3 flex-wrap">
-      <a href="https://github.com/xanascr/xs" class="text-gray-400 no-underline hover:text-pinky-400">Core</a>
-      <a href="https://github.com/xanascr/xs-vscode" class="text-gray-400 no-underline hover:text-pinky-400">VS Code</a>
-      <a href="https://github.com/xanascr/xs-site" class="text-gray-400 no-underline hover:text-pinky-400">Site</a>
-      <a href="https://github.com/xanascr/xs-examples" class="text-gray-400 no-underline hover:text-pinky-400">Exemplos</a>
-    </div>
-    <div class="flex justify-center gap-4 mt-4 text-xs">
-      <a href="/en/" class="text-gray-400 no-underline hover:text-pinky-400">English</a>
-      <a href="/es/" class="text-gray-400 no-underline hover:text-pinky-400">Espanol</a>
-    </div>
-    <p class="mt-4 text-xs">Programe em portugues. Execute em WebAssembly.</p>
-  </div>
+<footer class="py-6 px-6 border-t border-gray-200 text-center text-gray-400 text-xs">
+  <p>XanaScript — feito por <a href="https://github.com/flazo0" class="text-pinky-400 no-underline hover:underline">flazo0</a></p>
 </footer>
 
 <script>
@@ -909,96 +896,619 @@ var editor = document.getElementById('codeEditor');
 var output = document.getElementById('output');
 var runBtn = document.getElementById('runBtn');
 var clearBtn = document.getElementById('clearBtn');
+var printLines = [];
 
-function xsRun(code) {
-  var lines = code.split('\n');
-  var result = [];
-  var vars = {};
-  
-  function evaluate(expr) {
-    expr = expr.trim();
-    // Numbers
-    if (!isNaN(parseFloat(expr)) && isFinite(expr)) return parseFloat(expr);
-    // Strings
-    if ((expr.startsWith('"') && expr.endsWith('"')) || (expr.startsWith("'") && expr.endsWith("'"))) return expr.slice(1, -1);
-    // Boolean
-    if (expr === 'VERDADEIRO') return true;
-    if (expr === 'FALSO') return false;
-    if (expr === 'NULO') return null;
-    // Variable
-    if (expr in vars) return vars[expr];
-    // Binary ops
-    var parts = expr.split(/([+\-*/%]|==|!=|>=|<=|>|<|&&|\|\|)/g);
-    // Simple arithmetic
-    if (expr.includes('+') && !expr.includes('"')) {
-      var p = expr.split('+');
-      return evaluate(p[0].trim()) + evaluate(p[1].trim());
+function xsTokenize(code) {
+  var tokens = [], i = 0, ch, line = 1, col = 1;
+  while (i < code.length) {
+    ch = code[i];
+    if (ch === ' ' || ch === '\t' || ch === '\r') { i++; col++; continue; }
+    if (ch === '\n') { tokens.push({t:'n',l:line,c:col}); i++; line++; col = 1; continue; }
+    if (ch === '/' && code[i+1] === '/') { while (i < code.length && code[i] !== '\n') { i++; col++; } continue; }
+    if (ch === '"' || ch === "'") {
+      var q = ch, s = i+1;
+      i++; col++; while (i < code.length && code[i] !== q) { if (code[i] === '\\') { i++; col++; } i++; col++; }
+      tokens.push({t:'s', v:code.slice(s,i), l:line, c:col}); if (i < code.length) { i++; col++; }
+      continue;
     }
-    if (expr.includes('*')) {
-      var p = expr.split('*');
-      return evaluate(p[0].trim()) * evaluate(p[1].trim());
+    if (ch === '`') {
+      var s = ++i; col++;
+      while (i < code.length && code[i] !== '`') { if (code[i] === '\\') { i++; col++; } i++; col++; }
+      tokens.push({t:'t', v:code.slice(s,i), l:line, c:col}); if (i < code.length) { i++; col++; }
+      continue;
     }
-    if (expr.includes('-')) {
-      var p = expr.split('-');
-      return evaluate(p[0].trim()) - evaluate(p[1].trim());
+    if (/[0-9]/.test(ch) || (ch === '-' && /[0-9]/.test(code[i+1]) && (!tokens.length || tokens[tokens.length-1].t !== 'n'))) {
+      var s = i; if (code[i] === '-') { i++; col++; }
+      while (i < code.length && /[0-9.]/.test(code[i])) { i++; col++; }
+      tokens.push({t:'N', v:parseFloat(code.slice(s,i)), l:line, c:col}); continue;
     }
-    if (expr.includes('/')) {
-      var p = expr.split('/');
-      return evaluate(p[0].trim()) / evaluate(p[1].trim());
-    }
-    return expr;
-  }
-
-  for (var i = 0; i < lines.length; i++) {
-    var line = lines[i].trim();
-    if (!line || line.startsWith('//')) continue;
-    
-    // SOLTA O GRITO
-    if (line.startsWith('SOLTA O GRITO')) {
-      var args = line.match(/SOLTA\s*O\s*GRITO\s*\((.*)\)/);
-      if (args) {
-        var val = args[1].trim();
-        if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
-          result.push(val.slice(1, -1));
-        } else {
-          result.push(evaluate(val));
+    if (/[A-Za-z_]/i.test(ch) || ch > '~') {
+      var s = i, scol = col;
+      while (i < code.length && (/[A-Za-z0-9_]/i.test(code[i]) || code[i] > '~')) { i++; col++; }
+      var m = {'CHAMA ESSE CARA':1,'SE LIGA SO':1,'SENAO SE LIGA SO':1,'REPETE NA MORAL':1,'REPETE AI':1,'SOLTA O GRITO':1,'AGORA VAI':1,'ESPERA AI':1,'CRIA SERVIDOR':1};
+      var found = false;
+      for (var kw in m) {
+        if (code.slice(s, s+kw.length) === kw && (!/[A-Za-z0-9_]/.test(code[s+kw.length]) || !(code[s+kw.length]))) {
+          tokens.push({t:'K', v:kw, l:line, c:scol}); i = s + kw.length; col = scol + kw.length; found = true; break;
         }
       }
-      continue;
+      if (found) continue;
+      tokens.push({t:'I', v:code.slice(s,i), l:line, c:scol}); continue;
     }
-    
-    // CRIA
-    var criaMatch = line.match(/CRIA\s+(\w+)\s*=\s*(.+)/);
-    if (criaMatch) {
-      vars[criaMatch[1].trim()] = evaluate(criaMatch[2].trim());
-      continue;
+    var two = code.slice(i,i+2);
+    if (/^(==|!=|>=|<=|&&|\|\||\+=|-=|\*=|/=|%=|\?\.|\?\?|~=|=>)$/.test(two)) { tokens.push({t:'O', v:two, l:line, c:col}); i+=2; col+=2; continue; }
+    if ('+-*/%=<>!&|?.~'.includes(ch)) { tokens.push({t:'O', v:ch, l:line, c:col}); i++; col++; continue; }
+    if ('(){}[],.:;@#^'.includes(ch)) { tokens.push({t:'P', v:ch, l:line, c:col}); i++; col++; continue; }
+    i++; col++;
+  }
+  return tokens;
+}
+
+function fmtErr(msg, code, errtk) {
+  var lines = code.split('\n');
+  var ln = errtk ? errtk.l : 1;
+  var cn = errtk ? errtk.c : 1;
+  var ctxLine = lines[ln-1] || '';
+  var arrow = '';
+  for (var a = 0; a < cn-1; a++) arrow += ' ';
+  arrow += '^';
+  var label = ' ' + (errtk && errtk.v ? errtk.v : '');
+  var maxLen = String(lines.length).length;
+  var pad = function(n) { var s = String(n); while (s.length < maxLen) s = ' ' + s; return s; };
+  var out = '';
+  out += '  \u2554\u2550\u2550\u2550 Error \u2550\u2550\u2550\u2557\n';
+  out += '  \u2551 ' + msg + '\n';
+  out += '  \u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255F';
+  out += '\n';
+  out += '  \u2500\u2500> input.xs:' + ln + ':' + cn;
+  out += '\n';
+  if (ln > 1) out += ' ' + pad(ln-1) + ' | ' + lines[ln-2] + '\n';
+  out += ' ' + pad(ln) + ' | ' + ctxLine + '\n';
+  out += '   ' + Array(maxLen+1).join(' ') + ' | ' + arrow + label + '\n';
+  return out;
+}
+
+function xsRun(code) {
+  printLines = [];
+  var tok = xsTokenize(code);
+  var pos = 0, env = {_parent: null, _vars: {}};
+  var funcs = {}, classes = {}, macros = {}, loopBreak = false, loopContinue = false, retVal = undefined;
+  
+  function currentEnv() { return env; }
+  function lookup(name) {
+    var e = env;
+    while (e) { if (name in e._vars) return e._vars[name]; e = e._parent; }
+    return undefined;
+  }
+  function setVar(name, val) {
+    var e = env;
+    while (e) { if (name in e._vars) { e._vars[name] = val; return; } e = e._parent; }
+    env._vars[name] = val;
+  }
+  function pushEnv() { var e = {_parent: env, _vars: {}}; env = e; return e; }
+  function popEnv() { if (env._parent) { env = env._parent; } }
+  
+  function peek() { return pos < tok.length ? tok[pos] : null; }
+  function next() { return tok[pos++]; }
+  function expect(t, v) {
+    var tk = peek();
+    if (!tk || (t && tk.t !== t) || (v !== undefined && tk.v !== v)) {
+      var exp = (v !== undefined ? t + ' ' + v : t) || 'token';
+      throw new Error('Expected ' + exp + ', got ' + (tk ? tk.t + ':' + tk.v : 'EOF'), tk);
     }
-    
-    // CHAMA ESSE CARA - function definition
-    if (line.startsWith('CHAMA ESSE CARA')) {
-      continue;
+    return next();
+  }
+  function skipNewlines() { while (peek() && peek().t === 'n') pos++; }
+  
+  function parseExpr() { return parseCond(); }
+  function parseCond() {
+    var left = parseOr();
+    if (peek() && peek().t === 'O' && peek().v === '?') { next(); var t = parseExpr(); expect('O', ':'); var f = parseExpr(); return {type:'cond', cond:left, t:t, f:f}; }
+    return left;
+  }
+  function parseOr() {
+    var left = parseAnd();
+    while (peek() && peek().t === 'O' && peek().v === '||') { next(); var right = parseAnd(); left = {type:'binop', op:'||', left:left, right:right}; }
+    return left;
+  }
+  function parseAnd() {
+    var left = parseEq();
+    while (peek() && peek().t === 'O' && peek().v === '&&') { next(); var right = parseEq(); left = {type:'binop', op:'&&', left:left, right:right}; }
+    return left;
+  }
+  function parseEq() {
+    var left = parseComp();
+    while (peek() && peek().t === 'O' && (peek().v === '==' || peek().v === '!=' || peek().v === '~=')) { var op = next().v; var right = parseComp(); left = {type:'binop', op:op, left:left, right:right}; }
+    return left;
+  }
+  function parseComp() {
+    var left = parseAdd();
+    while (peek() && peek().t === 'O' && (peek().v === '>' || peek().v === '<' || peek().v === '>=' || peek().v === '<=')) { var op = next().v; var right = parseAdd(); left = {type:'binop', op:op, left:left, right:right}; }
+    return left;
+  }
+  function parseAdd() {
+    var left = parseMul();
+    while (peek() && peek().t === 'O' && (peek().v === '+' || peek().v === '-')) { var op = next().v; var right = parseMul(); left = {type:'binop', op:op, left:left, right:right}; }
+    return left;
+  }
+  function parseMul() {
+    var left = parseUnary();
+    while (peek() && peek().t === 'O' && (peek().v === '*' || peek().v === '/' || peek().v === '%')) { var op = next().v; var right = parseUnary(); left = {type:'binop', op:op, left:left, right:right}; }
+    return left;
+  }
+  function parseUnary() {
+    if (peek() && peek().t === 'O' && (peek().v === '-' || peek().v === '!')) { var op = next().v; return {type:'unary', op:op, arg:parseUnary()}; }
+    return parsePrimary();
+  }
+  function parsePrimary() {
+    skipNewlines();
+    var tk = peek();
+    if (!tk) return {type:'nil'};
+    if (tk.t === 'N') { next(); return {type:'num', v:tk.v}; }
+    if (tk.t === 's') { next(); return {type:'str', v:tk.v}; }
+    if (tk.t === 't') {
+      next();
+      var parts = tk.v.split(/(\$\{[^}]*\})/);
+      var exprs = [];
+      for (var pi = 0; pi < parts.length; pi++) {
+        if (parts[pi].startsWith('${') && parts[pi].endsWith('}')) {
+          var subTok = xsTokenize(parts[pi].slice(2,-1));
+          var savedPos = pos, savedTok = tok;
+          tok = subTok; pos = 0;
+          exprs.push(parseExpr());
+          tok = savedTok; pos = savedPos;
+        } else { exprs.push({type:'str', v:parts[pi]}); }
+      }
+      return {type:'templ', parts:exprs};
     }
-    
-    // VOLTA
-    if (line.startsWith('VOLTA')) {
-      continue;
+    if (tk.t === 'P' && tk.v === '(') { next(); var expr = parseExpr(); expect('P', ')'); return expr; }
+    if (tk.t === 'P' && tk.v === '[') {
+      next(); var arr = [];
+      while (peek() && !(peek().t === 'P' && peek().v === ']')) { arr.push(parseExpr()); if (peek() && peek().t === 'P' && peek().v === ',') next(); skipNewlines(); }
+      expect('P', ']'); return {type:'array', items:arr};
     }
-    
-    // REPETE NA MORAL (for loop) - simplified
-    if (line.startsWith('REPETE NA MORAL')) {
-      continue;
+    if (tk.t === 'P' && tk.v === '{') {
+      next(); var obj = {};
+      while (peek() && !(peek().t === 'P' && peek().v === '}')) {
+        var key = peek();
+        if (key.t === 'I' || key.t === 's') { next(); expect('O', ':'); obj[key.v] = parseExpr(); }
+        if (peek() && peek().t === 'P' && peek().v === ',') next(); skipNewlines();
+      }
+      expect('P', '}'); return {type:'object', map:obj};
     }
-    
-    // Close braces
-    if (line === '}') continue;
+    if (tk.t === 'K' && (tk.v === 'VERDADEIRO' || tk.v === 'FALSO' || tk.v === 'NULO')) { next(); return {type:'literal', v:tk.v}; }
+    if (tk.t === 'I') {
+      var name = next().v;
+      if (peek() && peek().t === 'P' && peek().v === '(') {
+        next(); var args = [];
+        while (peek() && !(peek().t === 'P' && peek().v === ')')) { args.push(parseExpr()); if (peek() && peek().t === 'P' && peek().v === ',') next(); skipNewlines(); }
+        expect('P', ')'); return {type:'call', name:name, args:args};
+      }
+      if (peek() && peek().t === 'O' && peek().v === '?.') { next(); var propName = peek(); next(); return {type:'optchain', obj:{type:'var', name:name}, prop:propName.v}; }
+      if (peek() && peek().t === 'P' && peek().v === '.') {
+        next(); var prop = next().v;
+        if (peek() && peek().t === 'P' && peek().v === '(') {
+          next(); var margs = [];
+          while (peek() && !(peek().t === 'P' && peek().v === ')')) { margs.push(parseExpr()); if (peek() && peek().t === 'P' && peek().v === ',') next(); }
+          expect('P', ')'); return {type:'mcall', obj:{type:'var', name:name}, method:prop, args:margs};
+        }
+        return {type:'prop', obj:{type:'var', name:name}, prop:prop};
+      }
+      return {type:'var', name:name};
+    }
+    if (tk.t === 'I' && tk.v === 'ISTO') { next(); if (peek() && peek().t === 'P' && peek().v === '.') { next(); var prop = next().v; return {type:'prop', obj:{type:'this'}, prop:prop}; } return {type:'this'}; }
+    if (tk.t === 'K' && tk.v === 'NOVA') { next(); var clsName = next().v; expect('P', '('); var args = []; while (peek() && !(peek().t === 'P' && peek().v === ')')) { args.push(parseExpr()); if (peek() && peek().t === 'P' && peek().v === ',') next(); } expect('P', ')'); return {type:'new', name:clsName, args:args}; }
+    throw new Error('Unexpected token: ' + (tk ? tk.t + ':' + tk.v : 'EOF'), tk);
   }
   
-  return result.join('\n');
+  function evalExpr(expr, envOverride) {
+    var e = envOverride || env;
+    if (!expr) return undefined;
+    switch (expr.type) {
+      case 'nil': return undefined;
+      case 'num': return expr.v;
+      case 'str': return expr.v;
+      case 'literal':
+        if (expr.v === 'VERDADEIRO') return true;
+        if (expr.v === 'FALSO') return false;
+        if (expr.v === 'NULO') return null;
+        return undefined;
+      case 'templ': return expr.parts.map(function(p) { return String(evalExpr(p, e)); }).join('');
+      case 'var':
+        var v = lookup(expr.name);
+        if (v === undefined && !(expr.name in env._vars)) {
+          var all = Object.keys(env._vars).concat(Object.keys(funcs)).concat(Object.keys(classes));
+          var hint = '';
+          for (var hi = 0; hi < all.length; hi++) {
+            if (all[hi].toLowerCase() === expr.name.toLowerCase()) { hint = '\n  Hint: Did you mean "' + all[hi] + '"?'; break; }
+          }
+          throw new Error('Variable "' + expr.name + '" was not defined' + hint);
+        }
+        return v;
+      case 'this': return e._this;
+      case 'prop': return evalExpr(expr.obj, e) ? evalExpr(expr.obj, e)[expr.prop] : undefined;
+      case 'optchain': var obj = evalExpr(expr.obj, e); return obj ? obj[expr.prop] : undefined;
+      case 'array': return expr.items.map(function(item) { return evalExpr(item, e); });
+      case 'object':
+        var result = {};
+        for (var key in expr.map) result[key] = evalExpr(expr.map[key], e);
+        return result;
+      case 'unary':
+        var val = evalExpr(expr.arg, e);
+        if (expr.op === '-') return -val;
+        if (expr.op === '!') return !val;
+        return val;
+      case 'binop':
+        var left = evalExpr(expr.left, e), right = evalExpr(expr.right, e);
+        switch (expr.op) {
+          case '+': return left + right; case '-': return left - right;
+          case '*': return left * right; case '/': return left / right;
+          case '%': return left % right; case '==': return left === right;
+          case '!=': return left !== right; case '>': return left > right;
+          case '<': return left < right; case '>=': return left >= right;
+          case '<=': return left <= right; case '&&': return left && right;
+          case '||': return left || right;
+          case '??': return left !== null && left !== undefined ? left : right;
+          case '~=': try { return new RegExp(right).test(left); } catch(_) { return false; }
+        }
+        return undefined;
+      case 'cond': return evalExpr(expr.cond, e) ? evalExpr(expr.t, e) : evalExpr(expr.f, e);
+      case 'call':
+        if (expr.name === 'SOLTA O GRITO') { var val = evalExpr(expr.args[0], e); printLines.push(String(val)); return val; }
+        if (expr.name === 'SORTEIA') { var min = evalExpr(expr.args[0], e) || 0; var max = evalExpr(expr.args[1], e) || 1; return Math.floor(Math.random() * (max - min + 1)) + min; }
+        if (expr.name === 'TAMANHO') { var arr = evalExpr(expr.args[0], e); return arr && arr.length !== undefined ? arr.length : 0; }
+        if (expr.name === 'PARSEIA') { try { return JSON.parse(evalExpr(expr.args[0], e)); } catch(_) { return null; } }
+        if (expr.name === 'AGORA VAI') { printLines.push('> AGORA VAI: fetching ' + evalExpr(expr.args[0], e) + ' (simulated)'); return '{"simulated":true}'; }
+        if (expr.name === 'ESPERA AI') { return undefined; }
+        if (expr.name === 'VOA') { loopBreak = true; return undefined; }
+        if (expr.name === 'CONTINUA') { loopContinue = true; return undefined; }
+        if (expr.name === 'AFIRMA') {
+          var cond = evalExpr(expr.args[0], e);
+          if (!cond) { printLines.push('  FAIL: assertion failed'); throw new Error('Assertion failed'); }
+          printLines.push('  PASS: assertion ok');
+          return cond;
+        }
+        if (expr.name === 'ASSUNTO') {
+          var a = evalExpr(expr.args[0], e), b = evalExpr(expr.args[1], e);
+          if (a !== b) { printLines.push('  FAIL: expected ' + JSON.stringify(b) + ' got ' + JSON.stringify(a)); throw new Error('Assertion equal failed'); }
+          printLines.push('  PASS: ' + JSON.stringify(a) + ' === ' + JSON.stringify(b));
+          return true;
+        }
+        if (funcs[expr.name]) {
+          var fn = funcs[expr.name];
+          var callEnv = pushEnv();
+          callEnv._vars['ISTO'] = e._this || {};
+          for (var pi = 0; pi < fn.params.length; pi++) callEnv._vars[fn.params[pi]] = evalExpr(expr.args[pi], e);
+          try { execBlock(fn.body); } catch(r) { if (r && r._return) { popEnv(); return r._return; } throw r; }
+          popEnv(); return undefined;
+        }
+        if (macros[expr.name]) {
+          var macro = macros[expr.name];
+          var subst = {};
+          for (var pi = 0; pi < macro.params.length; pi++) subst[macro.params[pi]] = expr.args[pi];
+          return evalMacro(macro.body, subst, e);
+        }
+        if (classes[expr.name]) {
+          var cls = classes[expr.name];
+          var inst = {}; inst._class = cls;
+          if (cls.constructor) {
+            var ce = pushEnv(); ce._this = inst;
+            for (var pi = 0; pi < cls.constructor.params.length; pi++) ce._vars[cls.constructor.params[pi]] = evalExpr(expr.args[pi], e);
+            try { execBlock(cls.constructor.body); } catch(r) { if (r && r._return) {} }
+            popEnv();
+          }
+          return inst;
+        }
+        throw new Error('Function "' + expr.name + '" not found');
+      case 'mcall':
+        var obj = evalExpr(expr.obj, e);
+        if (obj && typeof obj[expr.method] === 'function') {
+          return obj[expr.method].apply(obj, expr.args.map(function(a) { return evalExpr(a, e); }));
+        }
+        throw new Error('Method "' + expr.method + '" not found on object');
+      case 'new':
+        if (classes[expr.name]) {
+          var cls = classes[expr.name];
+          var inst = {}; inst._class = cls;
+          if (cls.constructor) {
+            var ce = pushEnv(); ce._this = inst;
+            for (var pi = 0; pi < cls.constructor.params.length; pi++) ce._vars[cls.constructor.params[pi]] = evalExpr(expr.args[pi], e);
+            try { execBlock(cls.constructor.body); } catch(r) { if (r && r._return) {} }
+            popEnv();
+          }
+          return inst;
+        }
+        throw new Error('Unknown class: ' + expr.name);
+    }
+    return undefined;
+  }
+  
+  function evalMacro(body, subst, e) {
+    var code = body;
+    for (var name in subst) {
+      var val = evalExpr(subst[name], e);
+      code = code.split(name).join(String(val));
+    }
+    var saved = {tok:tok, pos:pos, env:env};
+    tok = xsTokenize(code); pos = 0;
+    var result = parseExpr();
+    tok = saved.tok; pos = saved.pos; env = saved.env;
+    return evalExpr(result, e);
+  }
+  
+  function execBlock(tokens, isTop) {
+    var saved = {tok:tok, pos:pos, env:env};
+    tok = tokens; pos = 0;
+    while (pos < tok.length && !loopBreak && !loopContinue) {
+      skipNewlines(); if (pos >= tok.length) break;
+      execStatement();
+      skipNewlines();
+    }
+    tok = saved.tok; pos = saved.pos; env = saved.env;
+  }
+  
+  function execStatement() {
+    skipNewlines();
+    if (pos >= tok.length) return;
+    var tk = peek();
+    
+    if (tk.t === 'P' && tk.v === '}') return;
+    
+    if (tk.t === 'K' && tk.v === 'CRIA') {
+      next();
+      if (!peek() || peek().t !== 'I') throw new Error('Expected variable name', peek());
+      var name = next().v;
+      if (peek() && peek().t === 'O' && peek().v === ':') { next(); if (peek()) next(); }
+      if (peek() && peek().t === 'O' && peek().v === '=') { next(); env._vars[name] = evalExpr(parseExpr()); } else { env._vars[name] = undefined; }
+      return;
+    }
+    
+    if (tk.t === 't') { evalExpr(parseExpr()); return; }
+    
+    if (tk.t === 'K' && tk.v === 'CRIA SERVIDOR') {
+      next(); var port = evalExpr(parseExpr());
+      if (peek() && peek().t === 'P' && peek().v === ',') { next(); }
+      printLines.push('> Server started on port ' + port + ' (simulated)');
+      return;
+    }
+    
+    if (tk.t === 'K' && tk.v === 'CHAMA ESSE CARA') {
+      next(); var fnName = next().v;
+      expect('P', '('); var params = [];
+      while (peek() && !(peek().t === 'P' && peek().v === ')')) { params.push(next().v); if (peek() && peek().t === 'P' && peek().v === ',') next(); }
+      expect('P', ')'); expect('P', '{'); var start = pos; var depth = 1;
+      while (pos < tok.length && depth > 0) {
+        if (tok[pos].t === 'P' && tok[pos].v === '{') depth++;
+        else if (tok[pos].t === 'P' && tok[pos].v === '}') depth--;
+        pos++;
+      }
+      funcs[fnName] = {params:params, body:tok.slice(start, pos-1)};
+      return;
+    }
+    
+    if (tk.t === 'K' && tk.v === 'CLASSE') {
+      next(); var clsName = next().v; var parentCls = null;
+      if (peek() && peek().t === 'K' && peek().v === 'HERDA') { next(); parentCls = next().v; }
+      expect('P', '{'); skipNewlines();
+      var cls = {name:clsName, parent:parentCls, constructor:null, methods:{}};
+      while (peek() && !(peek().t === 'P' && peek().v === '}')) {
+        if (peek().t === 'K' && peek().v === 'CONSTRUTOR') {
+          next(); expect('P', '('); var cparams = [];
+          while (peek() && !(peek().t === 'P' && peek().v === ')')) { cparams.push(next().v); if (peek() && peek().t === 'P' && peek().v === ',') next(); }
+          expect('P', ')'); expect('P', '{'); var cs = pos; var cd = 1;
+          while (pos < tok.length && cd > 0) { if (tok[pos].t === 'P' && tok[pos].v === '{') cd++; else if (tok[pos].t === 'P' && tok[pos].v === '}') cd--; pos++; }
+          cls.constructor = {params:cparams, body:tok.slice(cs, pos-1)};
+        } else if (peek().t === 'K' && peek().v === 'METODO') {
+          next(); var mname = next().v; expect('P', '('); var mparams = [];
+          while (peek() && !(peek().t === 'P' && peek().v === ')')) { mparams.push(next().v); if (peek() && peek().t === 'P' && peek().v === ',') next(); }
+          expect('P', ')'); expect('P', '{'); var ms = pos; var md = 1;
+          while (pos < tok.length && md > 0) { if (tok[pos].t === 'P' && tok[pos].v === '{') md++; else if (tok[pos].t === 'P' && tok[pos].v === '}') md--; pos++; }
+          cls.methods[mname] = {params:mparams, body:tok.slice(ms, pos-1)};
+        } else { pos++; }
+        skipNewlines();
+      }
+      expect('P', '}');
+      classes[clsName] = cls;
+      return;
+    }
+    
+    if (tk.t === 'K' && tk.v === 'MACRO') {
+      next(); var macroName = next().v;
+      expect('P', '('); var mparams = [];
+      while (peek() && !(peek().t === 'P' && peek().v === ')')) { mparams.push(next().v); if (peek() && peek().t === 'P' && peek().v === ',') next(); }
+      expect('P', ')'); expect('P', '{'); var ms = pos; var md = 1;
+      while (pos < tok.length && md > 0) { if (tok[pos].t === 'P' && tok[pos].v === '{') md++; else if (tok[pos].t === 'P' && tok[pos].v === '}') md--; pos++; }
+      var macroBody = tok.slice(ms, pos-1).map(function(t) { return t.v !== undefined ? String(t.v) : t.t; }).join(' ');
+      macros[macroName] = {params:mparams, body:macroBody};
+      return;
+    }
+    
+    if (tk.t === 'K' && tk.v === 'TESTE') {
+      next(); var desc = peek().t === 's' ? next().v : '';
+      expect('P', '{'); var start = pos; var depth = 1;
+      while (pos < tok.length && depth > 0) { if (tok[pos].t === 'P' && tok[pos].v === '{') depth++; else if (tok[pos].t === 'P' && tok[pos].v === '}') depth--; pos++; }
+      var testBody = tok.slice(start, pos-1);
+      printLines.push('> Running test: ' + desc);
+      try { execBlock(testBody); printLines.push('> Test passed: ' + desc); } catch(e) {
+        if (e && e._return) {} else { printLines.push('> Test FAILED: ' + desc + ' - ' + e.message); }
+      }
+      return;
+    }
+    
+    if (tk.t === 'K' && tk.v === 'TABELA') {
+      next(); var tblName = next().v; expect('P', '{');
+      var fields = {};
+      while (peek() && !(peek().t === 'P' && peek().v === '}')) {
+        var fname = next().v; expect('O', ':'); var ftype = next().v;
+        fields[fname] = ftype;
+        if (peek() && peek().t === 'P' && peek().v === ',') next();
+      }
+      expect('P', '}');
+      var table = {_name: tblName, _fields: fields, _rows: [], _id: 1};
+      table.criar = function(d) { d.id = table._id++; table._rows.push(d); printLines.push('> Created ' + tblName + ': ' + JSON.stringify(d)); return d; };
+      table.listar = function() { return table._rows; };
+      table.buscar = function(id) { for (var i = 0; i < table._rows.length; i++) { if (table._rows[i].id === id) return table._rows[i]; } return null; };
+      table.atualizar = function(id, d) { var r = table.buscar(id); if (r) { for (var k in d) r[k] = d[k]; } return r; };
+      table.deletar = function(id) { for (var i = 0; i < table._rows.length; i++) { if (table._rows[i].id === id) { table._rows.splice(i, 1); return true; } } return false; };
+      table.buscarOnde = function(f) { return table._rows.filter(function(r) { for (var k in f) { if (r[k] !== f[k]) return false; } return true; }); };
+      env._vars[tblName] = table;
+      printLines.push('> Table ' + tblName + ' created with fields: ' + Object.keys(fields).join(', '));
+      return;
+    }
+    
+    if (tk.t === 'K' && tk.v === 'IMPORTA') { next(); var path = peek().t === 's' ? next().v : ''; printLines.push('> Imported ' + path + ' (simulated)'); return; }
+    if (tk.t === 'K' && tk.v === 'EXPORTA') { next(); var expName = next().v; env._vars['EXPORTED_' + expName] = lookup(expName); return; }
+    
+    if (tk.t === 'K' && tk.v === 'SOLTA O GRITO') {
+      next(); expect('P', '('); var val = parseExpr(); expect('P', ')');
+      printLines.push(String(evalExpr(val)));
+      return;
+    }
+    
+    if (tk.t === 'K' && tk.v === 'SE LIGA SO') {
+      next(); expect('P', '('); var cond = evalExpr(parseExpr()); expect('P', ')');
+      expect('P', '{'); var ifBody = collectBlock();
+      var executed = false;
+      if (cond) { executed = true; execBlock(ifBody); if (loopBreak || loopContinue) return; }
+      while (peek() && peek().t === 'K' && peek().v === 'SENAO SE LIGA SO') {
+        if (executed) { next(); expect('P', '('); parseExpr(); expect('P', ')'); expect('P', '{'); collectBlock(); } else {
+          next(); expect('P', '('); var eCond = evalExpr(parseExpr()); expect('P', ')'); expect('P', '{'); var eBody = collectBlock();
+          if (eCond) { executed = true; execBlock(eBody); if (loopBreak || loopContinue) return; }
+        }
+      }
+      if (peek() && peek().t === 'K' && peek().v === 'SENAO') { next(); expect('P', '{'); var elseBody = collectBlock(); if (!executed) execBlock(elseBody); }
+      return;
+    }
+    
+    if (tk.t === 'K' && tk.v === 'REPETE NA MORAL') {
+      next(); expect('P', '('); execStatement();
+      var cond, incTokens;
+      if (peek() && peek().t === 'P' && peek().v === ';') { next(); cond = parseExpr(); expect('P', ';'); incTokens = []; while (peek() && !(peek().t === 'P' && peek().v === ')')) incTokens.push(next()); }
+      else { cond = {type:'literal', v:'VERDADEIRO'}; }
+      expect('P', ')'); expect('P', '{'); var forBody = collectBlock();
+      while (evalExpr(cond)) {
+        loopBreak = false; loopContinue = false; execBlock(forBody);
+        if (loopBreak) { loopBreak = false; break; }
+        if (incTokens && incTokens.length) { var saved = {tok:tok, pos:pos}; tok = incTokens; pos = 0; execStatement(); tok = saved.tok; pos = saved.pos; }
+        loopContinue = false;
+      }
+      loopBreak = false; loopContinue = false;
+      return;
+    }
+    
+    if (tk.t === 'K' && tk.v === 'REPETE AI') {
+      next(); expect('P', '('); var wc = parseExpr(); expect('P', ')'); expect('P', '{'); var wb = collectBlock();
+      while (evalExpr(wc)) {
+        loopBreak = false; loopContinue = false; execBlock(wb);
+        if (loopBreak) { loopBreak = false; break; }
+        loopContinue = false;
+      }
+      return;
+    }
+    
+    if (tk.t === 'K' && tk.v === 'ESCOLHE') {
+      next(); expect('P', '('); var switchVal = evalExpr(parseExpr()); expect('P', ')'); expect('P', '{');
+      var matched = false;
+      while (peek() && !(peek().t === 'P' && peek().v === '}')) {
+        skipNewlines();
+        if (peek().t === 'K' && peek().v === 'CASO') {
+          next(); var caseVal = evalExpr(parseExpr()); expect('P', ':');
+          var caseBody = [];
+          while (peek() && !(peek().t === 'K' && (peek().v === 'CASO' || peek().v === 'PADRAO')) && !(peek().t === 'P' && peek().v === '}')) caseBody.push(next());
+          if (matched || caseVal === switchVal) {
+            matched = true; var saved = {tok:tok, pos:pos}; tok = caseBody; pos = 0;
+            while (pos < tok.length) execStatement();
+            tok = saved.tok; pos = saved.pos;
+          }
+        } else if (peek().t === 'K' && peek().v === 'PADRAO') {
+          next(); expect('P', ':');
+          if (!matched) { while (peek() && !(peek().t === 'P' && peek().v === '}')) execStatement(); }
+          else { while (peek() && !(peek().t === 'P' && peek().v === '}')) pos++; }
+        } else { pos++; }
+      }
+      expect('P', '}');
+      return;
+    }
+    
+    if (tk.t === 'K' && tk.v === 'COMBINA') {
+      next(); expect('P', '('); var matchVal = evalExpr(parseExpr()); expect('P', ')'); expect('P', '{');
+      while (peek() && !(peek().t === 'P' && peek().v === '}')) {
+        skipNewlines();
+        if (peek().t === 'K' && peek().v === 'CASO') {
+          next(); var pat = parseExpr(); expect('O', '=>');
+          if (pat.type === 'var' && pat.name === '_') { var r = evalExpr(parseExpr()); while (peek() && !(peek().t === 'P' && peek().v === '}') && !(peek().t === 'K' && peek().v === 'CASO')) pos++; printLines.push(String(r)); break; }
+          if (evalExpr(pat) === matchVal) { var r = evalExpr(parseExpr()); while (peek() && !(peek().t === 'P' && peek().v === '}') && !(peek().t === 'K' && peek().v === 'CASO')) pos++; printLines.push(String(r)); break; }
+        } else pos++;
+      }
+      expect('P', '}');
+      return;
+    }
+    
+    if (tk.t === 'K' && tk.v === 'TENTA') {
+      next(); expect('P', '{'); var tryBody = collectBlock();
+      try { execBlock(tryBody); } catch(e) {
+        if (peek() && peek().t === 'K' && peek().v === 'PEGA') {
+          next(); expect('P', '('); var errName = next().v; expect('P', ')'); expect('P', '{'); var catchBody = collectBlock();
+          var ce = pushEnv(); ce._vars[errName] = e.message; execBlock(catchBody); popEnv();
+        }
+      }
+      return;
+    }
+    
+    if (tk.t === 'K' && tk.v === 'VOLTA') { next(); var retExpr = parseExpr(); throw {_return: evalExpr(retExpr)}; }
+    if (tk.t === 'K' && tk.v === 'VOA') { next(); expect('P', '('); expect('P', ')'); loopBreak = true; return; }
+    if (tk.t === 'K' && tk.v === 'CONTINUA') { next(); expect('P', '('); expect('P', ')'); loopContinue = true; return; }
+    if (tk.t === 'K' && tk.v === 'AGORA VAI') { next(); expect('P', '('); var url = evalExpr(parseExpr()); expect('P', ')'); printLines.push('> GET ' + url + ' (simulated)'); return; }
+    if (tk.t === 'K' && tk.v === 'ESPERA AI') { next(); expect('P', '('); parseExpr(); expect('P', ')'); return; }
+    if (tk.t === 'K' && tk.v === 'SORTEIA') { next(); expect('P', '('); var smin = evalExpr(parseExpr()); if (peek() && peek().t === 'P' && peek().v === ',') next(); var smax = evalExpr(parseExpr()); expect('P', ')'); printLines.push(String(Math.floor(Math.random() * (smax - smin + 1)) + smin)); return; }
+    
+    if (tk.t === 'I') {
+      var n = tk.v; tok[pos].t = 'I'; tok[pos].v = n; pos++;
+      var assignOp = null;
+      if (peek() && peek().t === 'O' && (peek().v === '=' || peek().v === '+=' || peek().v === '-=' || peek().v === '*=' || peek().v === '/=' || peek().v === '%=')) {
+        assignOp = next().v;
+        var val = evalExpr(parseExpr());
+        if (assignOp === '=') setVar(n, val);
+        else if (assignOp === '+=') setVar(n, lookup(n) + val);
+        else if (assignOp === '-=') setVar(n, lookup(n) - val);
+        else if (assignOp === '*=') setVar(n, lookup(n) * val);
+        else if (assignOp === '/=') setVar(n, lookup(n) / val);
+        else if (assignOp === '%=') setVar(n, lookup(n) % val);
+        return;
+      }
+      // function call or expression as statement
+      pos--; tok[pos].t = 'I'; tok[pos].v = n;
+      var expr = parseExpr();
+      if (expr && expr.type === 'call' && !funcs[expr.name] && !macros[expr.name] && !classes[expr.name] && expr.name !== 'SOLTA O GRITO' && expr.name !== 'SORTEIA' && expr.name !== 'TAMANHO' && expr.name !== 'PARSEIA' && expr.name !== 'AGORA VAI' && expr.name !== 'ESPERA AI' && expr.name !== 'VOA' && expr.name !== 'CONTINUA' && expr.name !== 'AFIRMA' && expr.name !== 'ASSUNTO') {
+        throw new Error('Function "' + expr.name + '" not found');
+      }
+      evalExpr(expr);
+      return;
+    }
+    
+    evalExpr(parseExpr());
+  }
+  
+  function collectBlock() {
+    var start = pos; var depth = 1;
+    while (pos < tok.length && depth > 0) {
+      if (tok[pos].t === 'P' && tok[pos].v === '{') depth++;
+      else if (tok[pos].t === 'P' && tok[pos].v === '}') depth--;
+      pos++;
+    }
+    return tok.slice(start, pos-1);
+  }
+  
+  pos = 0;
+  while (pos < tok.length) { skipNewlines(); if (pos >= tok.length) break; execStatement(); skipNewlines(); }
+  
+  return printLines.join('\n');
 }
 
 runBtn.addEventListener('click', function() {
   var code = editor.value;
-  output.textContent = '> Running XanaScript...\n';
+  output.textContent = '';
+  output.className = output.className.replace(/text-\[\#[a-f0-9]+\]/g, '').trim();
   runBtn.disabled = true;
   runBtn.textContent = 'Running...';
   runBtn.classList.add('opacity-75');
@@ -1006,21 +1516,35 @@ runBtn.addEventListener('click', function() {
   setTimeout(function() {
     try {
       var out = xsRun(code);
-      output.textContent = out || '> Program finished (no output)';
+      output.style.color = '#a6e3a1';
+      output.textContent = out || 'Program finished (no output)';
     } catch(e) {
-      output.textContent = '> Error: ' + e.message;
+      if (e && e._return) {
+        output.style.color = '#a6e3a1';
+        output.textContent = 'Return: ' + JSON.stringify(e._return);
+      } else {
+        output.style.color = '#f58b8e';
+        var errtk = null;
+        var posMatch = e.message.match(/at token (\d+)/);
+        if (posMatch) {
+          var tkIdx = parseInt(posMatch[1]);
+          var toks = xsTokenize(code);
+          if (toks[tkIdx]) errtk = toks[tkIdx];
+        }
+        output.textContent = fmtErr(e.message, code, errtk);
+      }
     }
     runBtn.disabled = false;
     runBtn.textContent = 'Run';
     runBtn.classList.remove('opacity-75');
-  }, 300);
+  }, 100);
 });
 
 clearBtn.addEventListener('click', function() {
-  output.textContent = '> Ready to run XanaScript code...';
+  output.style.color = '#a6e3a1';
+  output.textContent = 'Ready to run XanaScript code...';
 });
 
-// Ctrl+Enter to run
 editor.addEventListener('keydown', function(e) {
   if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
     e.preventDefault();
