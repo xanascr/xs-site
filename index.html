@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XanaScript — Programe em português. Execute em WebAssembly.</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<meta name="description" content="XanaScript é uma linguagem de programação completa com sintaxe em português, compilador otimizante, WebAssembly nativo, ORM embutido, macros compile-time e LSP.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d1117;
+  --bg2: #161b22;
+  --bg3: #1c2333;
+  --border: #30363d;
+  --text: #c9d1d9;
+  --text2: #8b949e;
+  --text3: #484f58;
+  --accent: #58a6ff;
+  --green: #3fb950;
+  --red: #f85149;
+  --yellow: #d29922;
+  --gradient: linear-gradient(135deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden;
+}
+::selection { background: rgba(88,166,255,.3); color: #fff; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 80px 0; }
+.section-title {
+  font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 16px;
+}
+.section-title span { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.section-subtitle { text-align: center; color: var(--text2); font-size: 1.05rem; max-width: 600px; margin: 0 auto 48px; }
+
+/* ═══ NAV ═══ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  height: 64px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; background: var(--bg2); border-bottom: 1px solid var(--border);
+}
+nav .logo { font-size: 20px; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+nav .links { display: flex; gap: 20px; align-items: center; }
+nav .links a { color: var(--text2); text-decoration: none; font-size: 14px; transition: color .2s; }
+nav .links a:hover { color: var(--text); }
+nav .links .btn { padding: 8px 20px; background: var(--accent); color: #fff !important; border-radius: 6px; font-weight: 600; }
+nav .links .btn:hover { background: #79c0ff; }
+.mobile-toggle { display: none; background: none; border: none; color: var(--text); font-size: 24px; cursor: pointer; }
+
+/* ═══ HERO ═══ */
+.hero {
+  text-align: center; padding: 140px 24px 80px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+  background: radial-gradient(circle at 30% 50%, rgba(88,166,255,.05) 0%, transparent 50%),
+              radial-gradient(circle at 70% 50%, rgba(63,185,80,.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+.hero h1 { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 900; line-height: 1.1; margin-bottom: 16px; }
+.hero h1 span { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero p { font-size: clamp(1rem, 2.5vw, 1.25rem); color: var(--text2); max-width: 650px; margin: 0 auto 32px; }
+.hero .actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.hero .actions a {
+  padding: 14px 32px; border-radius: 8px; font-size: 16px; font-weight: 600;
+  text-decoration: none; transition: all .2s;
+}
+.hero .actions .primary { background: var(--accent); color: #fff; }
+.hero .actions .primary:hover { background: #79c0ff; transform: translateY(-2px); }
+.hero .actions .secondary { border: 1px solid var(--border); color: var(--text); }
+.hero .actions .secondary:hover { border-color: var(--accent); background: rgba(88,166,255,.1); }
+.hero .cmd {
+  margin-top: 36px; display: inline-flex; align-items: center; gap: 12px;
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+  padding: 12px 24px; font-family: 'JetBrains Mono', monospace; font-size: 14px;
+  color: var(--text2); cursor: pointer; transition: all .2s;
+}
+.hero .cmd:hover { border-color: var(--accent); color: var(--text); }
+.hero .cmd .prompt { color: var(--green); }
+.hero .cmd .cmd-text { color: var(--accent); }
+
+/* ═══ FEATURES GRID ═══ */
+.features-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;
+}
+.feature-card {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+  padding: 32px; transition: all .3s;
+}
+.feature-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 8px 32px rgba(0,0,0,.3); }
+.feature-card .icon { font-size: 32px; margin-bottom: 16px; display: block; }
+.feature-card h3 { font-size: 18px; margin-bottom: 8px; }
+.feature-card p { font-size: 14px; color: var(--text2); }
+
+/* ═══ CODE BLOCKS ═══ */
+.code-block {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+  overflow: hidden; margin: 20px 0;
+}
+.code-block .header {
+  padding: 10px 16px; border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; font-size: 12px; color: var(--text2);
+}
+.code-block .header .lang { color: var(--accent); font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: .5px; }
+.code-block pre {
+  padding: 16px; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 13px;
+  overflow-x: auto; line-height: 1.5;
+}
+.code-block pre .kw { color: #ff6b6b; font-weight: 600; }
+.code-block pre .str { color: #ffd93d; }
+.code-block pre .num { color: #6bcb77; }
+.code-block pre .fn { color: #58a6ff; }
+.code-block pre .cm { color: #484f58; font-style: italic; }
+.code-block pre .typ { color: #bc8cff; }
+.code-block pre .bo { color: #ff6b6b; }
+p code, li code, td code {
+  background: var(--bg3); color: var(--accent); padding: 2px 8px; border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace; font-size: .85em;
+}
+
+/* ═══ TABLES ═══ */
+.table-wrap { overflow-x: auto; margin: 20px 0; border: 1px solid var(--border); border-radius: 12px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+thead { background: var(--bg2); }
+th { padding: 14px 16px; text-align: left; font-weight: 600; color: var(--text2); border-bottom: 1px solid var(--border); }
+td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text2); }
+tr:last-child td { border-bottom: none; }
+td:first-child { font-weight: 600; color: var(--text); }
+.yes { color: var(--green); }
+.no { color: var(--red); }
+.partial { color: var(--yellow); }
+
+/* ═══ DOC SECTIONS ═══ */
+.doc-section { margin-bottom: 60px; }
+.doc-section:last-child { margin-bottom: 0; }
+.doc-section h3 { font-size: 24px; font-weight: 700; margin-bottom: 16px; }
+.doc-section h4 { font-size: 18px; font-weight: 600; margin-bottom: 12px; margin-top: 28px; }
+.doc-section h5 { font-size: 15px; font-weight: 600; margin-bottom: 8px; margin-top: 24px; color: var(--text2); }
+.doc-section p { margin-bottom: 16px; color: var(--text2); font-size: 15px; }
+.doc-section ul, .doc-section ol { margin: 8px 0 16px 24px; color: var(--text2); font-size: 15px; line-height: 1.8; }
+.doc-section li { margin-bottom: 4px; }
+.doc-section hr { margin: 40px 0; border: none; border-top: 1px solid var(--border); }
+
+/* ═══ TWO COLUMN ═══ */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+
+/* ═══ CLI GRID ═══ */
+.cli-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 8px; }
+.cli-item {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+  padding: 12px 16px; transition: all .2s;
+}
+.cli-item:hover { border-color: var(--accent); }
+.cli-item code { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--accent); white-space: nowrap; }
+.cli-item span:last-child { font-size: 13px; color: var(--text2); }
+
+/* ═══ FOOTER ═══ */
+footer {
+  text-align: center; padding: 40px 24px; border-top: 1px solid var(--border);
+  color: var(--text2); font-size: 14px;
+}
+footer .logo-bottom { font-size: 20px; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+footer a { color: var(--accent); text-decoration: none; }
+footer .footer-links { display: flex; justify-content: center; gap: 24px; margin-top: 12px; flex-wrap: wrap; }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 900px) {
+  nav .links a:not(.btn) { display: none; }
+  nav .links a.btn { display: inline-block; }
+  .mobile-toggle { display: block; }
+  .two-col { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .section { padding: 48px 0; }
+  .hero { padding: 100px 16px 48px; }
+  .hero .actions a { padding: 12px 20px; font-size: 14px; width: 100%; justify-content: center; }
+  .cli-grid { grid-template-columns: 1fr; }
+  .code-block pre { font-size: 12px; padding: 12px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo">⚡ XanaScript</a>
+  <button class="mobile-toggle" onclick="document.querySelector('nav .links').classList.toggle('open')">☰</button>
+  <div class="links">
+    <a href="#instalacao">Instalação</a>
+    <a href="#sintaxe">Sintaxe</a>
+    <a href="#features">Features</a>
+    <a href="#wasm">Wasm</a>
+    <a href="#comparacao">vs JS/TS</a>
+    <a href="https://github.com/xanascr/xs" target="_blank">GitHub</a>
+    <a href="#download" class="btn">Download</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <h1>Programe em <span>Português</span><br>Execute em <span>WebAssembly</span></h1>
+  <p>XanaScript é uma linguagem de programação completa com sintaxe em português, compilador otimizante que gera JavaScript ultra-rápido e WebAssembly nativo — sem runtime pesado.</p>
+  <div class="actions">
+    <a href="#download" class="primary">📦 Download</a>
+    <a href="https://github.com/xanascr/xs" class="secondary">GitHub →</a>
+  </div>
+  <div class="cmd" onclick="copyCmd(this)" title="Clique para copiar">
+    <span><span class="prompt">$</span> <span class="cmd-text">xs run app.xs</span></span>
+    <span style="font-size:16px">📋</span>
+  </div>
+</section>
+
+<!-- ═══ INSTALAÇÃO ═══ -->
+<section class="section" id="instalacao">
+  <div class="container">
+    <h2 class="section-title">📦 <span>Instalação</span></h2>
+    <p class="section-subtitle">Escolha seu método — instalador .exe, binário nativo, npm, ou código fonte.</p>
+
+    <div class="two-col" id="download">
+      <div class="doc-section">
+        <h3>🪟 Instalador .exe (Windows)</h3>
+        <p>Baixe e execute — instala tudo e configura o PATH automaticamente. <strong>Zero dependências.</strong></p>
+        <div class="cli-grid" style="margin-top:16px">
+          <div class="cli-item" style="justify-content:center;padding:20px;background:var(--bg3);border-color:var(--accent)">
+            <a href="https://github.com/xanascr/xs-installer/releases" target="_blank" style="color:var(--accent);font-weight:700;font-size:18px;text-decoration:none">
+              📥 Baixar xs-install.exe
+            </a>
+          </div>
+        </div>
+        <p style="margin-top:12px;font-size:13px;color:var(--text3)">
+          Também disponível: <a href="https://github.com/xanascr/xs-installer/releases" style="color:var(--accent)">xs-uninstall.exe</a> para remover do sistema.
+        </p>
+      </div>
+      <div class="doc-section">
+        <h3>📦 npm (Cross-platform)</h3>
+        <p>Requer Node.js. Funciona no Windows, Linux e macOS.</p>
+        <div class="code-block">
+          <div class="header"><span class="lang">Bash</span></div>
+          <pre>npm install -g xanascript
+xs run app.xs</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-top:24px">
+      <div class="doc-section">
+        <h3>⚡ Binário Nativo</h3>
+        <p>Baixe o executável único das <a href="https://github.com/xanascr/xs/releases" style="color:var(--accent)">releases</a>.</p>
+        <table>
+          <thead><tr><th>Plataforma</th><th>Download</th></tr></thead>
+          <tbody>
+            <tr><td>Windows x64</td><td><code>xs.exe</code></td></tr>
+            <tr><td>Linux x64</td><td><code>xs</code></td></tr>
+            <tr><td>macOS x64 / ARM64</td><td><code>xs</code></td></tr>
+          </tbody>
+        </table>
+        <div class="code-block">
+          <div class="header"><span class="lang">Bash</span></div>
+          <pre><span class="cm"># Linux/macOS</span>
+chmod +x xs
+sudo cp xs /usr/local/bin/
+xs run app.xs
+
+<span class="cm"># Windows</span>
+xs.exe run app.xs</pre>
+        </div>
+      </div>
+      <div class="doc-section">
+        <h3>🔧 Código Fonte</h3>
+        <p>Clone o repositório e compile você mesmo (requer <a href="https://bun.sh" style="color:var(--accent)">bun</a>).</p>
+        <div class="code-block">
+          <div class="header"><span class="lang">Bash</span></div>
+          <pre>git clone https://github.com/xanascr/xs.git
+cd xs
+npm install
+npm install -g bun
+node scripts/build-all.js
+<span class="cm"># Gera: dist/xs(.exe)</span></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-top:24px">
+      <div class="doc-section">
+        <h3>🔌 VS Code Extension</h3>
+        <p>Syntax highlight, snippets, LSP integrado. <a href="https://github.com/xanascr/xs-vscode" style="color:var(--accent)">Veja no GitHub</a>.</p>
+        <div class="code-block">
+          <div class="header"><span class="lang">Bash</span></div>
+          <pre>git clone https://github.com/xanascr/xs-vscode.git
+cd xs-vscode
+npm install -g vsce
+vsce package
+code --install-extension xanascript-*.vsix</pre>
+        </div>
+      </div>
+      <div class="doc-section">
+        <h3>📖 Exemplos</h3>
+        <p>Códigos de exemplo em <a href="https://github.com/xanascr/xs-examples" style="color:var(--accent)">xs-examples</a>.</p>
+        <div class="code-block">
+          <div class="header"><span class="lang">Bash</span></div>
+          <pre>git clone https://github.com/xanascr/xs-examples.git
+cd xs-examples
+xs run hello.xs
+xs run server.xs</pre>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:32px">
+      <h3 style="text-align:center;margin-bottom:16px">📋 Comandos</h3>
+      <div class="cli-grid">
+        <div class="cli-item"><code>xs run app.xs</code><span>Executar</span></div>
+        <div class="cli-item"><code>xs check app.xs</code><span>Verificar sintaxe</span></div>
+        <div class="cli-item"><code>xs build app.xs</code><span>Build JS</span></div>
+        <div class="cli-item"><code>xs build --opt</code><span>JS ultra-otimizado</span></div>
+        <div class="cli-item"><code>xs build --wasm</code><span>WebAssembly</span></div>
+        <div class="cli-item"><code>xs build --standalone</code><span>JS único + runtime</span></div>
+        <div class="cli-item"><code>xs test .</code><span>Rodar testes</span></div>
+        <div class="cli-item"><code>xs dev app.xs</code><span>Hot reload</span></div>
+        <div class="cli-item"><code>xs repl</code><span>Modo interativo</span></div>
+        <div class="cli-item"><code>xs lsp</code><span>Language Server</span></div>
+        <div class="cli-item"><code>xs fmt app.xs</code><span>Formatar</span></div>
+        <div class="cli-item"><code>xs docs src/ docs/</code><span>Documentação HTML</span></div>
+        <div class="cli-item"><code>xs init meu-app</code><span>Novo projeto</span></div>
+        <div class="cli-item"><code>xs install pacote</code><span>Instalar pacote</span></div>
+        <div class="cli-item"><code>xs publish</code><span>Publicar</span></div>
+        <div class="cli-item"><code>xs bench</code><span>Benchmark</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SINTAXE ═══ -->
+<section class="section" id="sintaxe" style="background:var(--bg2)">
+  <div class="container">
+    <h2 class="section-title">📖 <span>Sintaxe Completa</span></h2>
+    <p class="section-subtitle">Toda keyword é português claro. O código se explica sozinho.</p>
+
+    <!-- Variáveis -->
+    <div class="doc-section">
+      <h3>Variáveis e Tipos</h3>
+      <div class="two-col">
+        <div>
+          <div class="code-block">
+            <div class="header"><span class="lang">XS</span></div>
+            <pre><span class="kw">CRIA</span> x = <span class="num">10</span>                       <span class="cm">// mutável</span>
+<span class="kw">CRIA</span> nome: <span class="typ">TEXTO</span> = <span class="str">"João"</span>       <span class="cm">// type hint</span>
+<span class="kw">CRIA</span> ativo: <span class="typ">BOOLEANO</span> = <span class="bo">VERDADEIRO</span>
+x += <span class="num">5</span>                              <span class="cm">// += -= *= /= %=</span></pre>
+          </div>
+        </div>
+        <div>
+          <table>
+            <thead><tr><th>Tipo</th><th>Exemplo</th></tr></thead>
+            <tbody>
+              <tr><td><code>NUMERO</code></td><td><code>42</code>, <code>3.14</code></td></tr>
+              <tr><td><code>TEXTO</code></td><td><code>"olá"</code></td></tr>
+              <tr><td><code>BOOLEANO</code></td><td><code>VERDADEIRO</code>/<code>FALSO</code></td></tr>
+              <tr><td><code>NULO</code></td><td><code>NULO</code></td></tr>
+              <tr><td><code>[ ]</code></td><td><code>[1, 2, 3]</code></td></tr>
+              <tr><td><code>{ }</code></td><td><code>{ nome: "João" }</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Funções -->
+    <div class="doc-section">
+      <h3>Funções</h3>
+      <div class="two-col">
+        <div>
+          <div class="code-block">
+            <div class="header"><span class="lang">XS</span></div>
+            <pre><span class="kw">CHAMA ESSE CARA</span> <span class="fn">soma</span>(a, b) {
+  <span class="kw">VOLTA</span> a + b
+}
+
+<span class="kw">CRIA</span> <span class="fn">quadrado</span> = (x) => x * x
+
+<span class="kw">CRIA</span> <span class="fn">fetch</span> = <span class="kw">ASSINCRONO</span> (url) => {
+  <span class="kw">VOLTA</span> <span class="kw">AGORA VAI</span>(url)
+}
+
+<span class="kw">CRIA</span> r = soma(<span class="num">3</span>, <span class="num">4</span>)  <span class="cm">// r = 7</span></pre>
+          </div>
+        </div>
+        <div>
+          <p><code>CHAMA ESSE CARA</code> declara funções. <code>VOLTA</code> retorna. Arrow functions com <code>=></code>. <code>ASSINCRONO</code> para async.</p>
+          <p><code>EXPORTA</code> torna a função disponível para outros módulos via <code>IMPORTA</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controle -->
+    <div class="doc-section">
+      <h3>Controle de Fluxo</h3>
+      <div class="two-col">
+        <div>
+          <div class="code-block">
+            <div class="header"><span class="lang">XS</span></div>
+            <pre><span class="kw">SE LIGA SO</span> (idade >= <span class="num">18</span>) {
+  <span class="kw">SOLTA O GRITO</span>(<span class="str">"Maior"</span>)
+} <span class="kw">SENAO SE LIGA SO</span> (idade >= <span class="num">12</span>) {
+  <span class="kw">SOLTA O GRITO</span>(<span class="str">"Adolescente"</span>)
+} <span class="kw">SENAO</span> {
+  <span class="kw">SOLTA O GRITO</span>(<span class="str">"Criança"</span>)
+}
+
+<span class="kw">REPETE NA MORAL</span> (<span class="kw">CRIA</span> i = <span class="num">0</span>; i < <span class="num">5</span>; i++) {
+  <span class="kw">SOLTA O GRITO</span>(i)
+}
+
+<span class="kw">REPETE AI</span> (condicao) { ... }
+
+<span class="kw">VOA</span>()       <span class="cm">// break</span>
+<span class="kw">CONTINUA</span>()  <span class="cm">// continue</span></pre>
+          </div>
+        </div>
+        <div>
+          <p><code>SE LIGA SO</code> / <code>SENAO SE LIGA SO</code> / <code>SENAO</code> para condicionais.</p>
+          <p><code>REPETE NA MORAL</code> = for. <code>REPETE AI</code> = while.</p>
+          <p><code>VOA()</code> = break. <code>CONTINUA()</code> = continue.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- OOP -->
+    <div class="doc-section">
+      <h3>Classes e OOP</h3>
+      <div class="two-col">
+        <div>
+          <div class="code-block">
+            <div class="header"><span class="lang">XS</span></div>
+            <pre><span class="kw">CLASSE</span> <span class="fn">Animal</span> {
+  <span class="kw">CONSTRUTOR</span>(nome) {
+    <span class="kw">CRIA</span> <span class="kw">ISTO</span>.nome = nome
+  }
+  <span class="kw">METODO</span> <span class="fn">falar</span>() {
+    <span class="kw">SOLTA O GRITO</span>(<span class="kw">ISTO</span>.nome + <span class="str">" faz barulho"</span>)
+  }
+}
+
+<span class="kw">CLASSE</span> <span class="fn">Cachorro</span> <span class="kw">HERDA</span> <span class="fn">Animal</span> {
+  <span class="kw">METODO</span> <span class="fn">falar</span>() {
+    <span class="kw">SOLTA O GRITO</span>(<span class="kw">ISTO</span>.nome + <span class="str">" faz: Au au!"</span>)
+  }
+}
+
+<span class="kw">CRIA</span> rex = <span class="kw">NOVA</span> Cachorro(<span class="str">"Rex"</span>)
+rex.falar()</pre>
+          </div>
+        </div>
+        <div>
+          <p><code>CLASSE</code>, <code>HERDA</code>, <code>CONSTRUTOR</code>, <code>METODO</code>, <code>ISTO</code> (this), <code>NOVA</code> (new).</p>
+          <p>Herança simples com <code>HERDA</code>. Métodos são declarados com <code>METODO</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Switch + Pattern -->
+    <div class="doc-section">
+      <h3>Switch / Pattern Matching</h3>
+      <div class="two-col">
+        <div>
+          <div class="code-block">
+            <div class="header"><span class="lang">XS</span></div>
+            <pre><span class="kw">ESCOLHE</span> (dia) {
+  <span class="kw">CASO</span> <span class="num">1</span>:
+    <span class="kw">SOLTA O GRITO</span>(<span class="str">"Domingo"</span>)
+  <span class="kw">CASO</span> <span class="num">2</span>:
+  <span class="kw">CASO</span> <span class="num">3</span>:
+    <span class="kw">SOLTA O GRITO</span>(<span class="str">"Início da semana"</span>)
+  <span class="kw">PADRAO</span>:
+    <span class="kw">SOLTA O GRITO</span>(<span class="str">"Outro"</span>)
+}
+
+<span class="kw">CRIA</span> res = <span class="kw">COMBINA</span> (valor) {
+  <span class="kw">CASO</span> <span class="num">0</span> => <span class="str">"zero"</span>
+  <span class="kw">CASO</span> [a, b] => <span class="str">"array de 2"</span>
+  <span class="kw">CASO</span> { nome } => nome
+  <span class="kw">CASO</span> _ => <span class="str">"outro"</span>
+}</pre>
+          </div>
+        </div>
+        <div>
+          <p><strong>ESCOLHE/CASO/PADRAO</strong> — switch tradicional com fallthrough.</p>
+          <p><strong>COMBINA</strong> — pattern matching estilo Rust. Desestrutura arrays, objetos. <code>_</code> é wildcard.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mais recursos -->
+    <div class="doc-section">
+      <h3>Mais Recursos</h3>
+      <div class="two-col">
+        <div>
+          <h5>Template Strings</h5>
+          <div class="code-block">
+            <div class="header"><span class="lang">XS</span></div>
+            <pre><span class="kw">CRIA</span> nome = <span class="str">"XanaScript"</span>
+<span class="kw">SOLTA O GRITO</span>(<span class="str">`Bem-vindo ao ${nome}!`</span>)</pre>
+          </div>
+
+          <h5>Try / Catch</h5>
+          <div class="code-block">
+            <div class="header"><span class="lang">XS</span></div>
+            <pre><span class="kw">TENTA</span> {
+  <span class="kw">CRIA</span> r = <span class="kw">PARSEIA</span>(<span class="str">"json"</span>)
+} <span class="kw">PEGA</span> (erro) {
+  <span class="kw">SOLTA O GRITO</span>(<span class="str">"Deu ruim:"</span>, erro)
+}</pre>
+          </div>
+
+          <h5>Destructuring + Spread</h5>
+          <div class="code-block">
+            <div class="header"><span class="lang">XS</span></div>
+            <pre><span class="kw">CRIA</span> [a, b] = [<span class="num">1</span>, <span class="num">2</span>]
+<span class="kw">CRIA</span> clone = [...lista, <span class="num">6</span>]
+<span class="kw">CRIA</span> r = pessoa?.endereco ?? <span class="str">"N/A"</span></pre>
+          </div>
+        </div>
+        <div>
+          <h5>Módulos</h5>
+          <div class="code-block">
+            <div class="header"><span class="lang">XS</span></div>
+            <pre><span class="cm">// math.xs</span>
+<span class="kw">EXPORTA</span> soma
+<span class="kw">CHAMA ESSE CARA</span> <span class="fn">soma</span>(a, b) { <span class="kw">VOLTA</span> a + b }
+
+<span class="cm">// main.xs</span>
+<span class="kw">IMPORTA</span> <span class="str">"./math.xs"</span>
+<span class="kw">SOLTA O GRITO</span>(soma(<span class="num">2</span>, <span class="num">3</span>))
+
+<span class="kw">IMPORTA</span> <span class="str">"./math.xs"</span> as m
+<span class="kw">SOLTA O GRITO</span>(m.soma(<span class="num">2</span>, <span class="num">3</span>))</pre>
+          </div>
+
+          <h5>Operadores</h5>
+          <div class="code-block">
+            <div class="header"><span class="lang">XS</span></div>
+            <pre>a + b   a - b   a * b   a / b   a % b
+a == b  a != b  a > b   a < b   a >= b  a <= b
+a && b  a || b  !a
+a ? b : c                              <span class="cm">// ternário</span>
+<span class="str">"hello"</span> ~= <span class="str">"^h.*o$"</span>                <span class="cm">// regex</span>
+x += <span class="num">1</span>   x -= <span class="num">1</span>   x *= <span class="num">2</span></pre>
+          </div>
+
+          <h5>Built-ins</h5>
+          <div class="code-block">
+            <div class="header"><span class="lang">XS</span></div>
+            <pre><span class="kw">SOLTA O GRITO</span>(<span class="str">"log"</span>)       <span class="cm">// console.log</span>
+<span class="kw">AGORA VAI</span>(url)              <span class="cm">// HTTP GET</span>
+<span class="kw">ESPERA AI</span>(<span class="num">1000</span>)              <span class="cm">// sleep</span>
+<span class="kw">SORTEIA</span>(<span class="num">1</span>, <span class="num">10</span>)                <span class="cm">// aleatório</span>
+<span class="kw">PARSEIA</span>(json)               <span class="cm">// JSON.parse</span>
+<span class="kw">TAMANHO</span>(array)              <span class="cm">// length</span>
+<span class="kw">CRIA SERVIDOR</span>(<span class="num">3000</span>, handler) <span class="cm">// HTTP server</span></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEATURES ═══ -->
+<section class="section" id="features">
+  <div class="container">
+    <h2 class="section-title">🚀 <span>Por que XanaScript?</span></h2>
+    <p class="section-subtitle">Uma linguagem que não tem medo de ser diferente — e extremamente capaz.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <span class="icon">🇧🇷</span>
+        <h3>Sintaxe em Português</h3>
+        <p><code>CRIA</code>, <code>SE LIGA SO</code>, <code>REPETE NA MORAL</code> — código que qualquer brasileiro entende de primeira.</p>
+      </div>
+      <div class="feature-card">
+        <span class="icon">⚡</span>
+        <h3>JS Ultra-Otimizado</h3>
+        <p>TypedArrays automáticos, integer hints, loop unrolling, constant folding. Gera JS mais rápido que código manual.</p>
+      </div>
+      <div class="feature-card">
+        <span class="icon">🌐</span>
+        <h3>WebAssembly Nativo</h3>
+        <p>Compila direto pra <code>.wasm</code> — sem Emscripten, sem wabt.js. Emissor binário próprio.</p>
+      </div>
+      <div class="feature-card">
+        <span class="icon">🗄️</span>
+        <h3>ORM Embutido</h3>
+        <p><code>TABELA Usuario { nome: TEXTO }</code> → CRUD automático. Zero configuração, zero dependências.</p>
+      </div>
+      <div class="feature-card">
+        <span class="icon">🧩</span>
+        <h3>Macros Compile-Time</h3>
+        <p><code>MACRO quadrado(x) { x * x }</code> — expandido em tempo de compilação. Zero custo em runtime.</p>
+      </div>
+      <div class="feature-card">
+        <span class="icon">🧪</span>
+        <h3>Test Runner Nativo</h3>
+        <p><code>TESTE "desc" { AFIRMA(x == 5) }</code>. Descoberta automática, output colorido, exit code pra CI.</p>
+      </div>
+      <div class="feature-card">
+        <span class="icon">🖥️</span>
+        <h3>LSP Completo</h3>
+        <p>Autocomplete, erros em tempo real, hover, go-to-definition. VS Code, Neovim, qualquer editor LSP.</p>
+      </div>
+      <div class="feature-card">
+        <span class="icon">📦</span>
+        <h3>Gerenciador de Pacotes</h3>
+        <p><code>xs install</code>, <code>xs publish</code>. Pacotes via GitHub com fallback pra npm.</p>
+      </div>
+      <div class="feature-card">
+        <span class="icon">🔍</span>
+        <h3>Erros estilo Rust</h3>
+        <p>Erros com código fonte destacado, seta apontando o local exato, hint e help com sugestões.</p>
+      </div>
+      <div class="feature-card">
+        <span class="icon">🔌</span>
+        <h3>VS Code Extension</h3>
+        <p>Syntax highlight, 18 snippets, LSP integrado, comandos Run (Ctrl+Alt+X), Build, Test, Format.</p>
+      </div>
+      <div class="feature-card">
+        <span class="icon">🎮</span>
+        <h3>CLI Completa</h3>
+        <p>REPL, formatador, watcher com hot reload, bytecode VM, benchmark, docs generator. 20+ comandos.</p>
+      </div>
+      <div class="feature-card">
+        <span class="icon">📋</span>
+        <h3>Task Runner</h3>
+        <p><code>TAREFA build { }</code> em <code>tarefas.xs</code>. Execute com <code>xs build</code>. Sem Makefile.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WASM ═══ -->
+<section class="section" id="wasm" style="background:var(--bg2)">
+  <div class="container">
+    <h2 class="section-title">🌐 <span>WebAssembly Nativo</span></h2>
+    <p class="section-subtitle">XanaScript é a única linguagem meme que compila direto pra <code>.wasm</code> sem dependências externas.</p>
+    <div class="two-col">
+      <div>
+        <div class="code-block">
+          <div class="header"><span class="lang">XS</span><span class="filename">math.xs</span></div>
+          <pre><span class="kw">CHAMA ESSE CARA</span> <span class="fn">soma</span>(a, b) {
+  <span class="kw">VOLTA</span> a + b
+}
+<span class="kw">CHAMA ESSE CARA</span> <span class="fn">main</span>() {
+  <span class="kw">VOLTA</span> soma(<span class="num">10</span>, <span class="num">20</span>)
+}</pre>
+        </div>
+        <div class="cmd" style="display:inline-flex;margin-top:12px" onclick="copyCmd(this)">
+          <span><span class="prompt">$</span> <span class="cmd-text">xs build --wasm math.xs</span></span>
+          <span style="font-size:16px">📋</span>
+        </div>
+      </div>
+      <div>
+        <p>O módulo <code>src/wasm_binary.js</code> contém um <strong>emissor Wasm binário próprio</strong> que:</p>
+        <ol>
+          <li>Pega a AST otimizada</li>
+          <li>Emite o formato binário Wasm diretamente (magic + versão + seções)</li>
+          <li>Usa encoding LEB128 próprio</li>
+          <li>Gera opcodes i32: constantes, aritmética, if/else, loops, funções</li>
+        </ol>
+        <p><strong>Zero dependências.</strong> Sem Emscripten, sem wabt.js, sem AssemblyScript.</p>
+        <div class="cli-grid" style="margin-top:16px">
+          <div class="cli-item"><code>i32</code><span>Inteiros 32-bit</span></div>
+          <div class="cli-item"><code>+ - * / %</code><span>Aritmética</span></div>
+          <div class="cli-item"><code>if/else</code><span>Condicionais</span></div>
+          <div class="cli-item"><code>loops</code><span>For / While</span></div>
+          <div class="cli-item"><code>call</code><span>Chamadas</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ORM ═══ -->
+<section class="section" id="orm">
+  <div class="container">
+    <h2 class="section-title">🗄️ <span>ORM Embutido</span></h2>
+    <p class="section-subtitle">Declare uma tabela, ganhe CRUD automático com armazenamento JSON local.</p>
+    <div class="two-col">
+      <div>
+        <div class="code-block">
+          <div class="header"><span class="lang">XS</span></div>
+          <pre><span class="kw">TABELA</span> <span class="fn">Produto</span> {
+  nome: <span class="typ">TEXTO</span>,
+  preco: <span class="typ">NUMERO</span>,
+  estoque: <span class="typ">NUMERO</span>
+}
+
+<span class="kw">CRIA</span> repo = Produto
+repo.criar({ nome: <span class="str">"Teclado"</span>, preco: <span class="num">250</span>, estoque: <span class="num">10</span> })
+repo.criar({ nome: <span class="str">"Mouse"</span>, preco: <span class="num">120</span>, estoque: <span class="num">25</span> })
+
+<span class="kw">SOLTA O GRITO</span>(repo.listar())       <span class="cm">// todos</span>
+<span class="kw">SOLTA O GRITO</span>(repo.buscar(<span class="num">1</span>))     <span class="cm">// por ID</span>
+<span class="kw">CRIA</span> caros = repo.buscarOnde({ preco: <span class="num">250</span> })
+repo.atualizar(<span class="num">1</span>, { nome: <span class="str">"Teclado RGB"</span> })
+repo.deletar(<span class="num">2</span>)</pre>
+        </div>
+      </div>
+      <div>
+        <table>
+          <thead><tr><th>Tipo</th><th>Descrição</th></tr></thead>
+          <tbody>
+            <tr><td><code>TEXTO</code></td><td>string</td></tr>
+            <tr><td><code>NUMERO</code></td><td>number</td></tr>
+            <tr><td><code>BOOLEANO</code></td><td>boolean</td></tr>
+            <tr><td><code>DATA</code></td><td>string ISO</td></tr>
+            <tr><td><code>QUALQUER</code></td><td>any</td></tr>
+          </tbody>
+        </table>
+        <div class="cli-grid" style="margin-top:16px">
+          <div class="cli-item"><code>.criar(dados)</code><span>CREATE</span></div>
+          <div class="cli-item"><code>.listar()</code><span>READ ALL</span></div>
+          <div class="cli-item"><code>.buscar(id)</code><span>READ BY ID</span></div>
+          <div class="cli-item"><code>.atualizar(id, dados)</code><span>UPDATE</span></div>
+          <div class="cli-item"><code>.deletar(id)</code><span>DELETE</span></div>
+          <div class="cli-item"><code>.buscarOnde(filtro)</code><span>FILTER</span></div>
+          <div class="cli-item"><code>.contar()</code><span>COUNT</span></div>
+        </div>
+        <p style="margin-top:16px">Cada tabela vira um arquivo <code>JSON</code>. IDs auto-incrementados com timestamps automáticos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MACROS ═══ -->
+<section class="section" id="macros" style="background:var(--bg2)">
+  <div class="container">
+    <h2 class="section-title">🧩 <span>Macros Compile-Time</span></h2>
+    <p class="section-subtitle">Código que gera código — expandido durante a compilação, zero custo em runtime.</p>
+    <div class="two-col">
+      <div>
+        <div class="code-block">
+          <div class="header"><span class="lang">XS</span></div>
+          <pre><span class="kw">MACRO</span> <span class="fn">quadrado</span>(x) { x * x }
+<span class="kw">MACRO</span> <span class="fn">cubo</span>(x) { x * quadrado(x) }
+<span class="kw">MACRO</span> <span class="fn">maior</span>(a, b) {
+  <span class="kw">SE LIGA SO</span> (a > b) { a } <span class="kw">SENAO</span> { b }
+}
+<span class="kw">CRIA</span> r1 = quadrado(<span class="num">5</span>)      <span class="cm">// → 5*5 = 25</span>
+<span class="kw">CRIA</span> r2 = cubo(<span class="num">3</span>)          <span class="cm">// → 27</span>
+<span class="kw">CRIA</span> r3 = maior(<span class="num">10</span>, <span class="num">20</span>)    <span class="cm">// → 20</span>
+<span class="kw">CRIA</span> r4 = maior(quadrado(<span class="num">4</span>), cubo(<span class="num">2</span>))</pre>
+        </div>
+      </div>
+      <div>
+        <p>Macros funcionam como <code>#define</code> em C, mas com sintaxe XanaScript:</p>
+        <ol>
+          <li>O optimizer coleta todas as declarações <code>MACRO</code></li>
+          <li>Cada chamada é substituída pelo corpo com parâmetros substituídos</li>
+          <li>Macros aninhadas são expandidas recursivamente</li>
+          <li>Após expansão, as declarações <code>MACRO</code> somem da AST</li>
+        </ol>
+        <p>O resultado é código literal — sem overhead de chamada, sem closure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TESTES ═══ -->
+<section class="section" id="testes">
+  <div class="container">
+    <h2 class="section-title">🧪 <span>Test Runner</span></h2>
+    <p class="section-subtitle">Framework de testes integrado — sem Jest, sem Mocha, zero dependências.</p>
+    <div class="two-col">
+      <div>
+        <div class="code-block">
+          <div class="header"><span class="lang">XS</span><span class="filename">test_math.xs</span></div>
+          <pre><span class="kw">TESTE</span> <span class="str">"soma de dois números"</span> {
+  <span class="kw">CRIA</span> r = <span class="num">2</span> + <span class="num">3</span>
+  <span class="kw">AFIRMA</span>(r == <span class="num">5</span>)
+  <span class="kw">ASSUNTO</span>(r, <span class="num">5</span>)
+}
+<span class="kw">TESTE</span> <span class="str">"multiplicação"</span> {
+  <span class="kw">CRIA</span> r = <span class="num">3</span> * <span class="num">4</span>
+  <span class="kw">ASSUNTO</span>(r, <span class="num">12</span>)
+}</pre>
+        </div>
+        <div class="cmd" style="display:inline-flex;margin-top:8px" onclick="copyCmd(this)">
+          <span><span class="prompt">$</span> <span class="cmd-text">xs test .</span></span>
+          <span style="font-size:16px">📋</span>
+        </div>
+      </div>
+      <div>
+        <p>Arquivos com <code>test</code> no nome são detectados recursivamente. <code>AFIRMA</code> para assert truthy, <code>ASSUNTO</code> para equal.</p>
+        <p>Output colorido com ✅/❌, tempo de execução, exit code 1 em falha (CI/CD ready).</p>
+        <div class="code-block" style="margin-top:16px">
+          <div class="header"><span class="lang">Output</span></div>
+          <pre style="color:var(--green)">  ✅ soma de dois números
+  ✅ multiplicação
+  ❌ divisão por zero
+
+  ✅ 2 passaram  ❌ 1 falharam  ⏱ 0.01s</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LSP ═══ -->
+<section class="section" id="lsp" style="background:var(--bg2)">
+  <div class="container">
+    <h2 class="section-title">🖥️ <span>LSP — Language Server Protocol</span></h2>
+    <p class="section-subtitle">Autocomplete, erros em tempo real, hover e go-to-definition para qualquer editor compatível.</p>
+    <div class="two-col">
+      <div>
+        <p>Inicie o servidor com <code>xs lsp</code> e conecte seu editor. Comunicação via stdin/stdout usando JSON-RPC.</p>
+        <div class="code-block">
+          <div class="header"><span class="lang">Bash</span></div>
+          <pre>xs lsp</pre>
+        </div>
+        <h4 style="margin-top:20px">Neovim</h4>
+        <div class="code-block">
+          <div class="header"><span class="lang">Lua</span></div>
+          <pre>vim.api.nvim_create_autocmd(<span class="str">"FileType"</span>, {
+  pattern = <span class="str">"xs"</span>,
+  callback = <span class="kw">function</span>()
+    vim.lsp.start({
+      name = <span class="str">"xanascript"</span>,
+      cmd = { <span class="str">"xs"</span>, <span class="str">"lsp"</span> },
+    })
+  <span class="kw">end</span>,
+})</pre>
+        </div>
+      </div>
+      <div>
+        <div class="cli-grid">
+          <div class="cli-item">✅ Diagnósticos em tempo real</div>
+          <div class="cli-item">✅ Autocomplete de keywords + built-ins</div>
+          <div class="cli-item">✅ Hover com documentação</div>
+          <div class="cli-item">✅ Go-to-definition</div>
+        </div>
+        <h4 style="margin-top:24px">VS Code</h4>
+        <p>A extensão <code>vscode-xs/</code> já integra o LSP automaticamente ao abrir um arquivo <code>.xs</code>.</p>
+        <div class="cli-grid" style="margin-top:12px">
+          <div class="cli-item"><code>Ctrl+Alt+X</code><span>Run</span></div>
+          <div class="cli-item"><code>Ctrl+Alt+B</code><span>Build</span></div>
+          <div class="cli-item"><code>Ctrl+Shift+F</code><span>Format</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ERROS ═══ -->
+<section class="section" id="erros">
+  <div class="container">
+    <h2 class="section-title">🔍 <span>Erros estilo Rust</span></h2>
+    <p class="section-subtitle">Código fonte destacado, seta apontando o local exato, hint e help com sugestões de correção.</p>
+    <div class="two-col">
+      <div>
+        <div class="code-block">
+          <div class="header"><span class="lang">XS</span></div>
+          <pre><span class="kw">CRIA</span> x = <span class="num">10</span>
+<span class="kw">CRIA</span> y = z    <span class="cm">// z não foi definido</span></pre>
+        </div>
+      </div>
+      <div>
+        <div class="code-block">
+          <div class="header"><span class="lang">Erro</span></div>
+          <pre style="color:var(--red)">╔═══ XanaScript ERROR
+║ Variável `z` não foi definida
+║ Código: E002
+║
+║ --> input.xs:2:11
+║
+║     1 │ CRIA x = 10
+║ >   2 │ CRIA y = z
+║       │          ^
+║
+║ 💡 Esqueceu de declarar "z" com CRIA?
+║ 🔧 Adicione `CRIA z = valor` antes de usar
+╚══════════════════════════</pre>
+        </div>
+      </div>
+    </div>
+    <div class="table-wrap" style="margin-top:24px">
+      <table>
+        <thead><tr><th>Código</th><th>Significado</th></tr></thead>
+        <tbody>
+          <tr><td>E001</td><td>Token inesperado</td></tr>
+          <tr><td>E002</td><td>Variável não definida</td></tr>
+          <tr><td>E003</td><td>Não é uma função</td></tr>
+          <tr><td>E004</td><td>Tipo incompatível</td></tr>
+          <tr><td>E005</td><td>Sintaxe inválida</td></tr>
+          <tr><td>E100</td><td>Falha HTTP</td></tr>
+          <tr><td>E999</td><td>Erro interno</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ COMPARAÇÃO ═══ -->
+<section class="section" id="comparacao" style="background:var(--bg2)">
+  <div class="container">
+    <h2 class="section-title">📊 <span>XanaScript vs JavaScript / TypeScript</span></h2>
+    <p class="section-subtitle">Uma linguagem que entrega o que JS/TS prometem — e muito mais.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Característica</th><th>XanaScript</th><th>JavaScript</th><th>TypeScript</th></tr></thead>
+        <tbody>
+          <tr><td>Sintaxe em PT-BR</td><td><span class="yes">✅</span></td><td><span class="no">❌</span></td><td><span class="no">❌</span></td></tr>
+          <tr><td>Compilação Wasm direta</td><td><span class="yes">✅</span></td><td><span class="partial">⚠ Emscripten</span></td><td><span class="partial">⚠ AssemblyScript</span></td></tr>
+          <tr><td>ORM embutido</td><td><span class="yes">✅</span></td><td><span class="no">❌</span></td><td><span class="no">❌</span></td></tr>
+          <tr><td>Macros compile-time</td><td><span class="yes">✅</span></td><td><span class="no">❌</span></td><td><span class="no">❌</span></td></tr>
+          <tr><td>Pattern Matching</td><td><span class="yes">✅</span></td><td><span class="no">❌</span></td><td><span class="no">❌</span></td></tr>
+          <tr><td>Loop Unrolling</td><td><span class="yes">✅</span></td><td><span class="no">❌</span></td><td><span class="no">❌</span></td></tr>
+          <tr><td>TypedArrays automáticos</td><td><span class="yes">✅</span></td><td><span class="no">❌</span></td><td><span class="no">❌</span></td></tr>
+          <tr><td>Integer Math Hints</td><td><span class="yes">✅</span></td><td><span class="no">❌</span></td><td><span class="no">❌</span></td></tr>
+          <tr><td>Constant Folding</td><td><span class="yes">✅</span></td><td><span class="no">❌</span></td><td><span class="no">❌</span></td></tr>
+          <tr><td>Erros estilo Rust</td><td><span class="yes">✅</span></td><td><span class="no">❌</span></td><td><span class="no">❌</span></td></tr>
+          <tr><td>LSP</td><td><span class="yes">✅</span></td><td><span class="no">❌</span></td><td><span class="yes">✅</span></td></tr>
+          <tr><td>Test Runner nativo</td><td><span class="yes">✅</span></td><td><span class="no">❌</span></td><td><span class="no">❌</span></td></tr>
+          <tr><td>Task Runner nativo</td><td><span class="yes">✅</span></td><td><span class="no">❌</span></td><td><span class="no">❌</span></td></tr>
+          <tr><td>Classes/OOP</td><td><span class="yes">✅</span></td><td><span class="yes">✅</span></td><td><span class="yes">✅</span></td></tr>
+          <tr><td>Template Strings</td><td><span class="yes">✅</span></td><td><span class="yes">✅</span></td><td><span class="yes">✅</span></td></tr>
+          <tr><td>CLI Completa</td><td><span class="yes">✅</span> 20+ cmd</td><td><span class="partial">⚠ Node.js</span></td><td><span class="partial">⚠ tsc</span></td></tr>
+          <tr><td>Hot Reload</td><td><span class="yes">✅</span></td><td><span class="partial">⚠ nodemon</span></td><td><span class="partial">⚠ ts-node</span></td></tr>
+          <tr><td>Standalone Binary</td><td><span class="yes">✅</span></td><td><span class="partial">⚠ pkg/bun</span></td><td><span class="partial">⚠ pkg/bun</span></td></tr>
+          <tr><td>Bytecode VM</td><td><span class="yes">✅</span></td><td><span class="no">❌</span></td><td><span class="no">❌</span></td></tr>
+          <tr><td>Built-ins nativas</td><td><span class="yes">✅</span></td><td><span class="no">❌</span></td><td><span class="no">❌</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ARQUITETURA ═══ -->
+<section class="section" id="arquitetura">
+  <div class="container">
+    <h2 class="section-title">🏗️ <span>Arquitetura</span></h2>
+    <p class="section-subtitle">Como o código em português vira executável de alta performance.</p>
+    <div class="code-block">
+      <div class="header"><span class="lang">Pipeline</span></div>
+      <pre style="font-size:14px;line-height:2;text-align:center">
+<span style="color:#ff6b6b;font-weight:700">Código .xs</span>
+    │
+    ▼
+┌─────────────────────┐
+│  Lexer (lexer.js)   │  Tokeniza (linha/coluna)
+└─────────┬───────────┘
+          │ tokens[]
+          ▼
+┌─────────────────────┐
+│ Parser (parser.js)  │  AST com loc tracking
+└─────────┬───────────┘
+          │ AST
+          ▼
+┌─────────────────────┐
+│ Optimizer (opt.js)  │  Macros, constant folding,
+│                     │  dead branch elimination
+└─────────┬───────────┘
+          │ AST otimizada
+          ▼
+    ┌────┴────┐
+    │         │
+    ▼         ▼
+┌────────┐ ┌──────────────────────┐
+│Runtime │ │     Codegen          │
+│(interp)│ │ codegen.js     (JS)  │
+│        │ │ codegen_opt.js (JS++)│
+│        │ │ codegen_wasm.js(WAT) │
+│        │ │ wasm_binary.js(.wasm)│
+└────────┘ └──────────────────────┘
+      </pre>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ROADMAP ═══ -->
+<section class="section" id="roadmap" style="background:var(--bg2)">
+  <div class="container">
+    <h2 class="section-title">🛣️ <span>Roadmap</span></h2>
+    <p class="section-subtitle">O que já implementamos e o que está por vir.</p>
+    <div class="two-col">
+      <div>
+        <h4>✅ Implementado</h4>
+        <div class="cli-grid" style="margin-top:12px">
+          <div class="cli-item">✅ Lexer + Parser + AST (loc tracking)</div>
+          <div class="cli-item">✅ Erros estilo Rust (código + seta + hint)</div>
+          <div class="cli-item">✅ Macros compile-time (MACRO)</div>
+          <div class="cli-item">✅ ORM embutido (TABELA → CRUD)</div>
+          <div class="cli-item">✅ LSP (autocomplete, hover, go-to-def)</div>
+          <div class="cli-item">✅ Test runner (TESTE, AFIRMA, ASSUNTO)</div>
+          <div class="cli-item">✅ Task runner (TAREFA)</div>
+          <div class="cli-item">✅ Docs generator (xs docs)</div>
+          <div class="cli-item">✅ Wasm binary emitter direto</div>
+          <div class="cli-item">✅ VS Code Extension com LSP</div>
+          <div class="cli-item">✅ Standalone CLI nativo (bun --compile)</div>
+          <div class="cli-item">✅ Classes/OOP (CLASSE, HERDA, ISTO)</div>
+          <div class="cli-item">✅ Pattern Matching (COMBINA)</div>
+          <div class="cli-item">✅ Template Strings + Try/Catch</div>
+          <div class="cli-item">✅ Módulos (IMPORTA, EXPORTA)</div>
+          <div class="cli-item">✅ Servidor HTTP embutido</div>
+          <div class="cli-item">✅ Bytecode VM (26 opcodes)</div>
+          <div class="cli-item">✅ Gerenciador de pacotes</div>
+        </div>
+      </div>
+      <div>
+        <h4>🔜 Próximos passos</h4>
+        <div class="cli-grid" style="margin-top:12px">
+          <div class="cli-item">⬜ Source maps completos (VLQ)</div>
+          <div class="cli-item">⬜ Classes com super()</div>
+          <div class="cli-item">⬜ Pattern matching com guards</div>
+          <div class="cli-item">⬜ Macros higiênicas</div>
+          <div class="cli-item">⬜ Publicar VS Code Extension no Marketplace</div>
+          <div class="cli-item">⬜ Publicar VS Code Extension no Marketplace</div>
+          <div class="cli-item">⬜ Debugger (step, breakpoints)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="logo-bottom">⚡ XanaScript</div>
+  <p>Feito com 💚 pelo <a href="https://github.com/xanascr">@xanascript</a></p>
+  <div class="footer-links">
+    <a href="https://github.com/xanascr/xs">Core</a>
+    <a href="https://github.com/xanascr/xs-vscode">VS Code</a>
+    <a href="https://github.com/xanascr/xs-installer">Installer</a>
+    <a href="https://github.com/xanascr/xs-site">Site</a>
+    <a href="https://github.com/xanascr/xs-examples">Exemplos</a>
+  </div>
+  <p style="margin-top:16px;font-size:12px">Programe em português. Execute em WebAssembly.</p>
+</footer>
+
+<script>
+function copyCmd(el) {
+  const text = el.textContent.trim().replace('📋', '').replace('$', '').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const hint = el.querySelector('span:last-child');
+    if (hint) { hint.textContent = '✅'; setTimeout(() => hint.textContent = '📋', 1500); }
+  }).catch(() => {});
+}
+</script>
+</body>
+</html>
