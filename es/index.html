@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XanaScript — Programa en portugues. Ejecuta en WebAssembly.</title>
+<link rel="icon" href="/images/logo.png">
+<meta name="description" content="XanaScript es un lenguaje de programacion completo con sintaxis en portugues, compilador optimizante, WebAssembly nativo, ORM incorporado, macros compile-time y LSP.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        pinky: {
+          50: '#fef6f6',
+          100: '#fde8e8',
+          200: '#fbd5d5',
+          300: '#f8b4b4',
+          400: '#f58b8e',
+          500: '#e86a6e',
+          600: '#d44a4f',
+          700: '#b23a3e',
+          800: '#933337',
+          900: '#7a2d31',
+        }
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+      }
+    }
+  }
+}
+</script>
+<style>
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+.code-block pre { font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6; overflow-x: auto; }
+.code-block .kw { color: #e86a6e; font-weight: 600; }
+.code-block .str { color: #d97706; }
+.code-block .num { color: #059669; }
+.code-block .fn { color: #6366f1; }
+.code-block .cm { color: #9ca3af; font-style: italic; }
+.code-block .typ { color: #8b5cf6; }
+.code-block .bo { color: #e86a6e; }
+p code, li code, td code {
+  background: #fde8e8; color: #d44a4f; padding: 2px 8px; border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace; font-size: .85em;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-in { animation: fadeIn 0.5s ease-out both; }
+</style>
+</head>
+<body class="bg-white text-gray-900 font-sans">
+
+<nav class="fixed top-0 left-0 right-0 z-50 h-16 bg-white/90 backdrop-blur-sm border-b border-gray-200 flex items-center justify-between px-6 lg:px-10">
+  <a href="/es/" class="flex items-center gap-3 no-underline">
+    <img src="/images/logo.png" alt="XanaScript" class="w-8 h-8">
+    <span class="text-lg font-extrabold text-pinky-500">XanaScript</span>
+  </a>
+  <div class="flex items-center gap-6 text-sm">
+    <a href="#instalacion" class="text-gray-500 hover:text-gray-900 no-underline transition-colors">Instalacion</a>
+    <a href="#sintaxis" class="text-gray-500 hover:text-gray-900 no-underline transition-colors">Sintaxis</a>
+    <a href="#features" class="text-gray-500 hover:text-gray-900 no-underline transition-colors">Features</a>
+    <a href="#wasm" class="text-gray-500 hover:text-gray-900 no-underline transition-colors">Wasm</a>
+    <a href="#comparacion" class="text-gray-500 hover:text-gray-900 no-underline transition-colors">vs JS/TS</a>
+    <a href="https://github.com/xanascr/xs" target="_blank" class="text-gray-500 hover:text-gray-900 no-underline transition-colors">GitHub</a>
+    <a href="#instalacion" class="bg-pinky-400 hover:bg-pinky-500 text-white px-5 py-2 rounded-lg font-semibold no-underline transition-all text-sm">Instalar</a>
+  </div>
+</nav>
+
+<section class="pt-36 pb-20 px-6 text-center relative overflow-hidden bg-gradient-to-b from-pinky-50/50 to-white">
+  <div class="max-w-4xl mx-auto animate-in" style="animation-delay:0.1s">
+    <h1 class="text-5xl md:text-7xl font-black leading-tight mb-5">
+      Programa en <span class="text-pinky-400">Portugues</span><br>
+      Ejecuta en <span class="text-pinky-400">WebAssembly</span>
+    </h1>
+    <p class="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto mb-8 leading-relaxed">
+      XanaScript es un lenguaje de programacion completo con sintaxis en portugues, compilador optimizante que genera JavaScript ultra-rapido y WebAssembly nativo — sin dependencias de runtime.
+    </p>
+    <div class="flex gap-4 justify-center flex-wrap">
+      <a href="#instalacion" class="bg-pinky-400 hover:bg-pinky-500 text-white px-7 py-3.5 rounded-xl font-semibold no-underline transition-all shadow-lg shadow-pinky-200">Instalar</a>
+      <a href="https://github.com/xanascr/xs" class="border-2 border-gray-200 hover:border-pinky-400 text-gray-700 px-7 py-3.5 rounded-xl font-semibold no-underline transition-all">GitHub</a>
+    </div>
+    <div onclick="copyCmd(this)" class="mt-8 inline-flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-5 py-3 font-mono text-sm text-gray-500 cursor-pointer transition-all hover:border-pinky-400 hover:text-gray-700 select-none">
+      <span class="text-pinky-400">$</span>
+      <span class="text-gray-800">xs run app.xs</span>
+    </div>
+  </div>
+</section>
+
+<section id="instalacion" class="py-20 px-6">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4">Instalacion</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg">Elige tu metodo — npm, binario nativo, o codigo fuente.</p>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="bg-pinky-50 rounded-2xl p-8 border border-pinky-100">
+        <h3 class="text-xl font-bold mb-3">npm (Multi-plataforma)</h3>
+        <p class="text-gray-500 text-sm mb-4">Requiere Node.js. Funciona en Windows, Linux y macOS.</p>
+        <div class="code-block bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div class="px-4 py-2 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">Bash</div>
+          <pre class="p-4">npm install -g xanascript
+xs run app.xs</pre>
+        </div>
+      </div>
+      <div class="bg-pinky-50 rounded-2xl p-8 border border-pinky-100">
+        <h3 class="text-xl font-bold mb-3">Binario Nativo</h3>
+        <p class="text-gray-500 text-sm mb-4">Descarga el ejecutable unico de las <a href="https://github.com/xanascr/xs/releases" class="text-pinky-400 hover:underline">releases</a>.</p>
+        <div class="code-block bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div class="px-4 py-2 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">Bash</div>
+          <pre class="p-4"><span class="cm"># Linux/macOS</span>
+chmod +x xs
+sudo cp xs /usr/local/bin/
+xs run app.xs
+
+<span class="cm"># Windows</span>
+xs.exe run app.xs</pre>
+        </div>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6 mt-6">
+      <div class="bg-pinky-50 rounded-2xl p-8 border border-pinky-100">
+        <h3 class="text-xl font-bold mb-3">VS Code Extension</h3>
+        <p class="text-gray-500 text-sm mb-4">Syntax highlight, snippets, LSP integrado. <a href="https://github.com/xanascr/xs-vscode" class="text-pinky-400 hover:underline">Mira en GitHub</a>.</p>
+        <div class="code-block bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div class="px-4 py-2 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">Bash</div>
+          <pre class="p-4">git clone https://github.com/xanascr/xs-vscode.git
+cd xs-vscode
+npm install -g vsce
+vsce package
+code --install-extension xanascript-*.vsix</pre>
+        </div>
+      </div>
+      <div class="bg-pinky-50 rounded-2xl p-8 border border-pinky-100">
+        <h3 class="text-xl font-bold mb-3">Ejemplos</h3>
+        <p class="text-gray-500 text-sm mb-4">Codigos de ejemplo en <a href="https://github.com/xanascr/xs-examples" class="text-pinky-400 hover:underline">xs-examples</a>.</p>
+        <div class="code-block bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div class="px-4 py-2 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">Bash</div>
+          <pre class="p-4">git clone https://github.com/xanascr/xs-examples.git
+cd xs-examples
+xs run hello.xs
+xs run server.xs</pre>
+        </div>
+      </div>
+      <div class="bg-pinky-50 rounded-2xl p-8 border border-pinky-100 md:col-span-2">
+        <h3 class="text-xl font-bold mb-3">Comandos</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">xs run app.xs</code><span class="text-gray-400 text-xs">Ejecutar</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">xs check app.xs</code><span class="text-gray-400 text-xs">Verificar</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">xs build app.xs</code><span class="text-gray-400 text-xs">Build JS</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">xs build --opt</code><span class="text-gray-400 text-xs">JS optimizado</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">xs build --wasm</code><span class="text-gray-400 text-xs">WebAssembly</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">xs build --standalone</code><span class="text-gray-400 text-xs">JS unico + runtime</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">xs test .</code><span class="text-gray-400 text-xs">Ejecutar tests</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">xs dev app.xs</code><span class="text-gray-400 text-xs">Hot reload</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">xs repl</code><span class="text-gray-400 text-xs">Interactivo</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">xs lsp</code><span class="text-gray-400 text-xs">Language Server</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">xs fmt app.xs</code><span class="text-gray-400 text-xs">Formatear</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">xs docs src/ docs/</code><span class="text-gray-400 text-xs">Docs HTML</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">xs init mi-app</code><span class="text-gray-400 text-xs">Nuevo proyecto</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">xs install paquete</code><span class="text-gray-400 text-xs">Instalar paquete</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">xs publish</code><span class="text-gray-400 text-xs">Publicar</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">xs bench</code><span class="text-gray-400 text-xs">Benchmark</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="sintaxis" class="py-20 px-6 bg-pinky-50/50">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4">Sintaxis Completa</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg">Cada keyword es portugues claro. El codigo se explica solo.</p>
+
+    <div class="mb-12">
+      <h3 class="text-2xl font-bold mb-6">Variables y Tipos</h3>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
+          <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
+          <pre class="p-4"><span class="kw">CRIA</span> x = <span class="num">10</span>                       <span class="cm">// mutable</span>
+<span class="kw">CRIA</span> nombre: <span class="typ">TEXTO</span> = <span class="str">"Juan"</span>      <span class="cm">// type hint</span>
+<span class="kw">CRIA</span> activo: <span class="typ">BOOLEANO</span> = <span class="bo">VERDADEIRO</span>
+x += <span class="num">5</span>                              <span class="cm">// += -= *= /= %=</span></pre>
+        </div>
+        <div>
+          <table class="w-full text-sm">
+            <thead><tr><th class="text-left font-semibold text-gray-500 pb-2">Tipo</th><th class="text-left font-semibold text-gray-500 pb-2">Ejemplo</th></tr></thead>
+            <tbody class="text-gray-600">
+              <tr><td class="py-1.5"><code class="bg-pinky-50">NUMERO</code></td><td><code class="bg-pinky-50">42</code>, <code class="bg-pinky-50">3.14</code></td></tr>
+              <tr><td class="py-1.5"><code class="bg-pinky-50">TEXTO</code></td><td><code class="bg-pinky-50">"hola"</code></td></tr>
+              <tr><td class="py-1.5"><code class="bg-pinky-50">BOOLEANO</code></td><td><code class="bg-pinky-50">VERDADEIRO</code>/<code class="bg-pinky-50">FALSO</code></td></tr>
+              <tr><td class="py-1.5"><code class="bg-pinky-50">NULO</code></td><td><code class="bg-pinky-50">NULO</code></td></tr>
+              <tr><td class="py-1.5"><code class="bg-pinky-50">[ ]</code></td><td><code class="bg-pinky-50">[1, 2, 3]</code></td></tr>
+              <tr><td class="py-1.5"><code class="bg-pinky-50">{ }</code></td><td><code class="bg-pinky-50">{ nombre: "Juan" }</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-12">
+      <h3 class="text-2xl font-bold mb-6">Funciones</h3>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
+          <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
+          <pre class="p-4"><span class="kw">CHAMA ESSE CARA</span> <span class="fn">suma</span>(a, b) {
+  <span class="kw">VOLTA</span> a + b
+}
+
+<span class="kw">CRIA</span> <span class="fn">cuadrado</span> = (x) => x * x
+
+<span class="kw">CRIA</span> <span class="fn">fetch</span> = <span class="kw">ASSINCRONO</span> (url) => {
+  <span class="kw">VOLTA</span> <span class="kw">AGORA VAI</span>(url)
+}
+
+<span class="kw">CRIA</span> r = suma(<span class="num">3</span>, <span class="num">4</span>)  <span class="cm">// r = 7</span></pre>
+        </div>
+        <div>
+          <p class="text-gray-600 mb-3"><code class="bg-pinky-50">CHAMA ESSE CARA</code> declara funciones. <code class="bg-pinky-50">VOLTA</code> retorna. Arrow functions con <code>=></code>. <code class="bg-pinky-50">ASSINCRONO</code> para async.</p>
+          <p class="text-gray-600"><code class="bg-pinky-50">EXPORTA</code> hace disponible la funcion para otros modulos via <code class="bg-pinky-50">IMPORTA</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-12">
+      <h3 class="text-2xl font-bold mb-6">Control de Flujo</h3>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
+          <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
+          <pre class="p-4"><span class="kw">SE LIGA SO</span> (edad >= <span class="num">18</span>) {
+  <span class="kw">SOLTA O GRITO</span>(<span class="str">"Adulto"</span>)
+} <span class="kw">SENAO SE LIGA SO</span> (edad >= <span class="num">12</span>) {
+  <span class="kw">SOLTA O GRITO</span>(<span class="str">"Adolescente"</span>)
+} <span class="kw">SENAO</span> {
+  <span class="kw">SOLTA O GRITO</span>(<span class="str">"Nino"</span>)
+}
+
+<span class="kw">REPETE NA MORAL</span> (<span class="kw">CRIA</span> i = <span class="num">0</span>; i < <span class="num">5</span>; i++) {
+  <span class="kw">SOLTA O GRITO</span>(i)
+}
+
+<span class="kw">REPETE AI</span> (condicion) { ... }
+
+<span class="kw">VOA</span>()       <span class="cm">// break</span>
+<span class="kw">CONTINUA</span>()  <span class="cm">// continue</span></pre>
+        </div>
+        <div>
+          <p class="text-gray-600 mb-3"><code class="bg-pinky-50">SE LIGA SO</code> / <code class="bg-pinky-50">SENAO SE LIGA SO</code> / <code class="bg-pinky-50">SENAO</code> para condicionales.</p>
+          <p class="text-gray-600 mb-3"><code class="bg-pinky-50">REPETE NA MORAL</code> = for. <code class="bg-pinky-50">REPETE AI</code> = while.</p>
+          <p class="text-gray-600"><code class="bg-pinky-50">VOA()</code> = break. <code class="bg-pinky-50">CONTINUA()</code> = continue.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-12">
+      <h3 class="text-2xl font-bold mb-6">Clases y OOP</h3>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
+          <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
+          <pre class="p-4"><span class="kw">CLASSE</span> <span class="fn">Animal</span> {
+  <span class="kw">CONSTRUTOR</span>(nombre) {
+    <span class="kw">CRIA</span> <span class="kw">ISTO</span>.nombre = nombre
+  }
+  <span class="kw">METODO</span> <span class="fn">hablar</span>() {
+    <span class="kw">SOLTA O GRITO</span>(<span class="kw">ISTO</span>.nombre + <span class="str">" hace ruido"</span>)
+  }
+}
+
+<span class="kw">CLASSE</span> <span class="fn">Perro</span> <span class="kw">HERDA</span> <span class="fn">Animal</span> {
+  <span class="kw">METODO</span> <span class="fn">hablar</span>() {
+    <span class="kw">SOLTA O GRITO</span>(<span class="kw">ISTO</span>.nombre + <span class="str">" dice: Guau!"</span>)
+  }
+}
+
+<span class="kw">CRIA</span> rex = <span class="kw">NOVA</span> Perro(<span class="str">"Rex"</span>)
+rex.hablar()</pre>
+        </div>
+        <div>
+          <p class="text-gray-600 mb-3"><code class="bg-pinky-50">CLASSE</code>, <code class="bg-pinky-50">HERDA</code>, <code class="bg-pinky-50">CONSTRUTOR</code>, <code class="bg-pinky-50">METODO</code>, <code class="bg-pinky-50">ISTO</code> (this), <code class="bg-pinky-50">NOVA</code> (new).</p>
+          <p class="text-gray-600">Herencia simple con <code class="bg-pinky-50">HERDA</code>. Metodos declarados con <code class="bg-pinky-50">METODO</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-12">
+      <h3 class="text-2xl font-bold mb-6">Switch / Pattern Matching</h3>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
+          <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
+          <pre class="p-4"><span class="kw">ESCOLHE</span> (dia) {
+  <span class="kw">CASO</span> <span class="num">1</span>:
+    <span class="kw">SOLTA O GRITO</span>(<span class="str">"Domingo"</span>)
+  <span class="kw">CASO</span> <span class="num">2</span>:
+  <span class="kw">CASO</span> <span class="num">3</span>:
+    <span class="kw">SOLTA O GRITO</span>(<span class="str">"Inicio de semana"</span>)
+  <span class="kw">PADRAO</span>:
+    <span class="kw">SOLTA O GRITO</span>(<span class="str">"Otro"</span>)
+}
+
+<span class="kw">CRIA</span> res = <span class="kw">COMBINA</span> (valor) {
+  <span class="kw">CASO</span> <span class="num">0</span> => <span class="str">"cero"</span>
+  <span class="kw">CASO</span> [a, b] => <span class="str">"array de 2"</span>
+  <span class="kw">CASO</span> { nombre } => nombre
+  <span class="kw">CASO</span> _ => <span class="str">"otro"</span>
+}</pre>
+        </div>
+        <div>
+          <p class="text-gray-600 mb-3"><strong class="text-gray-800">ESCOLHE/CASO/PADRAO</strong> — switch tradicional con fallthrough.</p>
+          <p class="text-gray-600"><strong class="text-gray-800">COMBINA</strong> — pattern matching estilo Rust. Desestructura arrays, objetos. <code class="bg-pinky-50">_</code> es wildcard.</p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="text-2xl font-bold mb-6">Mas Recursos</h3>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <h4 class="font-semibold mb-3 text-gray-700">Template Strings</h4>
+          <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden mb-6">
+            <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
+            <pre class="p-4"><span class="kw">CRIA</span> nombre = <span class="str">"XanaScript"</span>
+<span class="kw">SOLTA O GRITO</span>(<span class="str">`Bienvenido a ${nombre}!`</span>)</pre>
+          </div>
+
+          <h4 class="font-semibold mb-3 text-gray-700">Try / Catch</h4>
+          <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden mb-6">
+            <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
+            <pre class="p-4"><span class="kw">TENTA</span> {
+  <span class="kw">CRIA</span> r = <span class="kw">PARSEIA</span>(<span class="str">"json"</span>)
+} <span class="kw">PEGA</span> (error) {
+  <span class="kw">SOLTA O GRITO</span>(<span class="str">"Fallo:"</span>, error)
+}</pre>
+          </div>
+
+          <h4 class="font-semibold mb-3 text-gray-700">Destructuring + Spread</h4>
+          <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
+            <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
+            <pre class="p-4"><span class="kw">CRIA</span> [a, b] = [<span class="num">1</span>, <span class="num">2</span>]
+<span class="kw">CRIA</span> clone = [...lista, <span class="num">6</span>]
+<span class="kw">CRIA</span> r = persona?.direccion ?? <span class="str">"N/A"</span></pre>
+          </div>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-3 text-gray-700">Modulos</h4>
+          <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden mb-6">
+            <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
+            <pre class="p-4"><span class="cm">// math.xs</span>
+<span class="kw">EXPORTA</span> suma
+<span class="kw">CHAMA ESSE CARA</span> <span class="fn">suma</span>(a, b) { <span class="kw">VOLTA</span> a + b }
+
+<span class="cm">// main.xs</span>
+<span class="kw">IMPORTA</span> <span class="str">"./math.xs"</span>
+<span class="kw">SOLTA O GRITO</span>(suma(<span class="num">2</span>, <span class="num">3</span>))
+
+<span class="kw">IMPORTA</span> <span class="str">"./math.xs"</span> as m
+<span class="kw">SOLTA O GRITO</span>(m.suma(<span class="num">2</span>, <span class="num">3</span>))</pre>
+          </div>
+
+          <h4 class="font-semibold mb-3 text-gray-700">Operadores</h4>
+          <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden mb-6">
+            <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
+            <pre class="p-4">a + b   a - b   a * b   a / b   a % b
+a == b  a != b  a > b   a < b   a >= b  a <= b
+a && b  a || b  !a
+a ? b : c                              <span class="cm">// ternario</span>
+<span class="str">"hello"</span> ~= <span class="str">"^h.*o$"</span>                <span class="cm">// regex</span>
+x += <span class="num">1</span>   x -= <span class="num">1</span>   x *= <span class="num">2</span></pre>
+          </div>
+
+          <h4 class="font-semibold mb-3 text-gray-700">Built-ins</h4>
+          <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
+            <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
+            <pre class="p-4"><span class="kw">SOLTA O GRITO</span>(<span class="str">"log"</span>)       <span class="cm">// console.log</span>
+<span class="kw">AGORA VAI</span>(url)              <span class="cm">// HTTP GET</span>
+<span class="kw">ESPERA AI</span>(<span class="num">1000</span>)              <span class="cm">// sleep</span>
+<span class="kw">SORTEIA</span>(<span class="num">1</span>, <span class="num">10</span>)                <span class="cm">// aleatorio</span>
+<span class="kw">PARSEIA</span>(json)               <span class="cm">// JSON.parse</span>
+<span class="kw">TAMANHO</span>(array)              <span class="cm">// length</span>
+<span class="kw">CRIA SERVIDOR</span>(<span class="num">3000</span>, handler) <span class="cm">// HTTP server</span></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features" class="py-20 px-6">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4">Por que XanaScript?</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg">Un lenguaje que no tiene miedo de ser diferente — y extremadamente capaz.</p>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+        <h3 class="font-bold text-lg mb-2">Sintaxis en Portugues</h3>
+        <p class="text-gray-500 text-sm"><code>CRIA</code>, <code>SE LIGA SO</code>, <code>REPETE NA MORAL</code> — codigo que cualquier brasileiro entiende a primera vista.</p>
+      </div>
+      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+        <h3 class="font-bold text-lg mb-2">JS Ultra-Optimizado</h3>
+        <p class="text-gray-500 text-sm">TypedArrays automaticos, integer hints, loop unrolling, constant folding. Genera JS mas rapido que codigo manual.</p>
+      </div>
+      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+        <h3 class="font-bold text-lg mb-2">WebAssembly Nativo</h3>
+        <p class="text-gray-500 text-sm">Compila directo a <code>.wasm</code> — sin Emscripten, sin wabt.js. Emisor binario propio.</p>
+      </div>
+      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+        <h3 class="font-bold text-lg mb-2">ORM Incorporado</h3>
+        <p class="text-gray-500 text-sm"><code>TABELA Usuario { nome: TEXTO }</code> → CRUD automatico. Zero configuracion, zero dependencias.</p>
+      </div>
+      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+        <h3 class="font-bold text-lg mb-2">Macros Compile-Time</h3>
+        <p class="text-gray-500 text-sm"><code>MACRO quadrado(x) { x * x }</code> — expandido en tiempo de compilacion. Zero costo en runtime.</p>
+      </div>
+      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+        <h3 class="font-bold text-lg mb-2">Test Runner Nativo</h3>
+        <p class="text-gray-500 text-sm"><code>TESTE "desc" { AFIRMA(x == 5) }</code>. Descubrimiento automatico, output colorido, exit code para CI.</p>
+      </div>
+      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+        <h3 class="font-bold text-lg mb-2">LSP Completo</h3>
+        <p class="text-gray-500 text-sm">Autocomplete, errores en tiempo real, hover, go-to-definition. VS Code, Neovim, cualquier editor LSP.</p>
+      </div>
+      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+        <h3 class="font-bold text-lg mb-2">Gestor de Paquetes</h3>
+        <p class="text-gray-500 text-sm"><code>xs install</code>, <code>xs publish</code>. Paquetes via GitHub con fallback a npm.</p>
+      </div>
+      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+        <h3 class="font-bold text-lg mb-2">Errores estilo Rust</h3>
+        <p class="text-gray-500 text-sm">Errores con codigo fuente destacado, flecha apuntando al lugar exacto, hint y help con sugerencias.</p>
+      </div>
+      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+        <h3 class="font-bold text-lg mb-2">VS Code Extension</h3>
+        <p class="text-gray-500 text-sm">Syntax highlight, 18 snippets, LSP integrado, comandos Run (Ctrl+Alt+X), Build, Test, Format.</p>
+      </div>
+      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+        <h3 class="font-bold text-lg mb-2">CLI Completa</h3>
+        <p class="text-gray-500 text-sm">REPL, formateador, watcher con hot reload, bytecode VM, benchmark, docs generator. 20+ comandos.</p>
+      </div>
+      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+        <h3 class="font-bold text-lg mb-2">Task Runner</h3>
+        <p class="text-gray-500 text-sm"><code>TAREFA build { }</code> en <code>tarefas.xs</code>. Ejecuta con <code>xs build</code>. Sin Makefile.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="wasm" class="py-20 px-6 bg-pinky-50/50">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4">WebAssembly Nativo</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg">XanaScript es el unico lenguaje que compila directo a <code>.wasm</code> sin dependencias externas.</p>
+    <div class="grid md:grid-cols-2 gap-8">
+      <div>
+        <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
+          <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
+          <pre class="p-4"><span class="kw">CHAMA ESSE CARA</span> <span class="fn">suma</span>(a, b) {
+  <span class="kw">VOLTA</span> a + b
+}
+<span class="kw">CHAMA ESSE CARA</span> <span class="fn">main</span>() {
+  <span class="kw">VOLTA</span> suma(<span class="num">10</span>, <span class="num">20</span>)
+}</pre>
+        </div>
+        <div onclick="copyCmd(this)" class="mt-3 inline-flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 font-mono text-sm text-gray-500 cursor-pointer transition-all hover:border-pinky-400 select-none">
+          <span class="text-pinky-400">$</span>
+          <span class="text-gray-800">xs build --wasm math.xs</span>
+        </div>
+      </div>
+      <div>
+        <p class="text-gray-600 mb-4">El modulo <code class="bg-pinky-50">src/wasm_binary.js</code> contiene un <strong class="text-gray-800">emisor Wasm binario propio</strong> que:</p>
+        <ol class="list-decimal list-inside text-gray-600 space-y-1.5 mb-4">
+          <li>Toma la AST optimizada</li>
+          <li>Emite el formato binario Wasm directamente (magic + version + secciones)</li>
+          <li>Usa codificacion LEB128 propia</li>
+          <li>Genera opcodes i32: constantes, aritmetica, if/else, loops, funciones</li>
+        </ol>
+        <p class="text-gray-600 mb-4"><strong class="text-gray-800">Zero dependencias.</strong> Sin Emscripten, sin wabt.js, sin AssemblyScript.</p>
+        <div class="grid grid-cols-2 gap-2">
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">i32</code><span class="text-gray-400 text-xs">Enteros 32-bit</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">+ - * / %</code><span class="text-gray-400 text-xs">Aritmetica</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">if/else</code><span class="text-gray-400 text-xs">Condicionales</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">loops</code><span class="text-gray-400 text-xs">For / While</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">call</code><span class="text-gray-400 text-xs">Llamadas</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="orm" class="py-20 px-6">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4">ORM Incorporado</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg">Declara una tabla, obten CRUD automatico con almacenamiento JSON local.</p>
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
+        <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
+        <pre class="p-4"><span class="kw">TABELA</span> <span class="fn">Producto</span> {
+  nombre: <span class="typ">TEXTO</span>,
+  precio: <span class="typ">NUMERO</span>,
+  stock: <span class="typ">NUMERO</span>
+}
+
+<span class="kw">CRIA</span> repo = Producto
+repo.crear({ nombre: <span class="str">"Teclado"</span>, precio: <span class="num">250</span>, stock: <span class="num">10</span> })
+repo.crear({ nombre: <span class="str">"Raton"</span>, precio: <span class="num">120</span>, stock: <span class="num">25</span> })
+
+<span class="kw">SOLTA O GRITO</span>(repo.listar())         <span class="cm">// todos</span>
+<span class="kw">SOLTA O GRITO</span>(repo.buscar(<span class="num">1</span>))       <span class="cm">// por ID</span>
+<span class="kw">CRIA</span> caros = repo.buscarOnde({ precio: <span class="num">250</span> })
+repo.atualizar(<span class="num">1</span>, { nombre: <span class="str">"Teclado RGB"</span> })
+repo.deletar(<span class="num">2</span>)</pre>
+      </div>
+      <div>
+        <table class="w-full text-sm mb-6">
+          <thead><tr><th class="text-left font-semibold text-gray-500 pb-2">Tipo</th><th class="text-left font-semibold text-gray-500 pb-2">Descripcion</th></tr></thead>
+          <tbody class="text-gray-600">
+            <tr><td class="py-1"><code class="bg-pinky-50">TEXTO</code></td><td>string</td></tr>
+            <tr><td class="py-1"><code class="bg-pinky-50">NUMERO</code></td><td>number</td></tr>
+            <tr><td class="py-1"><code class="bg-pinky-50">BOOLEANO</code></td><td>boolean</td></tr>
+            <tr><td class="py-1"><code class="bg-pinky-50">DATA</code></td><td>string ISO</td></tr>
+            <tr><td class="py-1"><code class="bg-pinky-50">QUALQUER</code></td><td>any</td></tr>
+          </tbody>
+        </table>
+        <div class="grid grid-cols-2 gap-2">
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">.criar(datos)</code><span class="text-gray-400 text-xs">CREATE</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">.listar()</code><span class="text-gray-400 text-xs">READ ALL</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">.buscar(id)</code><span class="text-gray-400 text-xs">READ BY ID</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">.atualizar(id, datos)</code><span class="text-gray-400 text-xs">UPDATE</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">.deletar(id)</code><span class="text-gray-400 text-xs">DELETE</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">.buscarOnde(filtro)</code><span class="text-gray-400 text-xs">FILTER</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">.contar()</code><span class="text-gray-400 text-xs">COUNT</span></div>
+        </div>
+        <p class="text-gray-500 text-sm mt-4">Cada tabla se convierte en un archivo <code class="bg-pinky-50">JSON</code>. IDs auto-incrementados con timestamps automaticos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="macros" class="py-20 px-6 bg-pinky-50/50">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4">Macros Compile-Time</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg">Codigo que genera codigo — expandido durante la compilacion, zero costo en runtime.</p>
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
+        <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
+        <pre class="p-4"><span class="kw">MACRO</span> <span class="fn">cuadrado</span>(x) { x * x }
+<span class="kw">MACRO</span> <span class="fn">cubo</span>(x) { x * cuadrado(x) }
+<span class="kw">MACRO</span> <span class="fn">mayor</span>(a, b) {
+  <span class="kw">SE LIGA SO</span> (a > b) { a } <span class="kw">SENAO</span> { b }
+}
+<span class="kw">CRIA</span> r1 = cuadrado(<span class="num">5</span>)      <span class="cm">// -> 5*5 = 25</span>
+<span class="kw">CRIA</span> r2 = cubo(<span class="num">3</span>)          <span class="cm">// -> 27</span>
+<span class="kw">CRIA</span> r3 = mayor(<span class="num">10</span>, <span class="num">20</span>)    <span class="cm">// -> 20</span>
+<span class="kw">CRIA</span> r4 = mayor(cuadrado(<span class="num">4</span>), cubo(<span class="num">2</span>))</pre>
+      </div>
+      <div>
+        <p class="text-gray-600 mb-4">Los macros funcionan como <code class="bg-pinky-50">#define</code> en C, pero con sintaxis XanaScript:</p>
+        <ol class="list-decimal list-inside text-gray-600 space-y-1.5">
+          <li>El optimizer recolecta todas las declaraciones <code class="bg-pinky-50">MACRO</code></li>
+          <li>Cada llamada es reemplazada por el cuerpo con parametros sustituidos</li>
+          <li>Macros anidados se expanden recursivamente</li>
+          <li>Despues de la expansion, las declaraciones <code class="bg-pinky-50">MACRO</code> desaparecen de la AST</li>
+        </ol>
+        <p class="text-gray-600 mt-4">El resultado es codigo literal — sin overhead de llamada, sin closure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tests" class="py-20 px-6">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4">Test Runner</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg">Framework de tests integrado — sin Jest, sin Mocha, zero dependencias.</p>
+    <div class="grid md:grid-cols-2 gap-8">
+      <div>
+        <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
+          <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
+          <pre class="p-4"><span class="kw">TESTE</span> <span class="str">"suma de dos numeros"</span> {
+  <span class="kw">CRIA</span> r = <span class="num">2</span> + <span class="num">3</span>
+  <span class="kw">AFIRMA</span>(r == <span class="num">5</span>)
+  <span class="kw">ASSUNTO</span>(r, <span class="num">5</span>)
+}
+<span class="kw">TESTE</span> <span class="str">"multiplicacion"</span> {
+  <span class="kw">CRIA</span> r = <span class="num">3</span> * <span class="num">4</span>
+  <span class="kw">ASSUNTO</span>(r, <span class="num">12</span>)
+}</pre>
+        </div>
+        <div onclick="copyCmd(this)" class="mt-3 inline-flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 font-mono text-sm text-gray-500 cursor-pointer transition-all hover:border-pinky-400 select-none">
+          <span class="text-pinky-400">$</span>
+          <span class="text-gray-800">xs test .</span>
+        </div>
+      </div>
+      <div>
+        <p class="text-gray-600 mb-4">Archivos con <code class="bg-pinky-50">test</code> en el nombre se detectan recursivamente. <code class="bg-pinky-50">AFIRMA</code> para assert truthy, <code class="bg-pinky-50">ASSUNTO</code> para equal.</p>
+        <p class="text-gray-600 mb-4">Output colorido con paso/fallo, tiempo de ejecucion, exit code 1 en fallo (CI/CD ready).</p>
+        <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
+          <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">Output</div>
+          <pre class="p-4 text-green-600">  PASS suma de dos numeros
+  PASS multiplicacion
+  FAIL division por cero
+
+  2 pasaron  1 fallo  0.01s</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="lsp" class="py-20 px-6 bg-pinky-50/50">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4">LSP — Language Server Protocol</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg">Autocomplete, errores en tiempo real, hover y go-to-definition para cualquier editor compatible.</p>
+    <div class="grid md:grid-cols-2 gap-8">
+      <div>
+        <p class="text-gray-600 mb-3">Inicia el servidor con <code class="bg-pinky-50">xs lsp</code> y conecta tu editor. Comunicacion via stdin/stdout usando JSON-RPC.</p>
+        <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden mb-6">
+          <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">Bash</div>
+          <pre class="p-4">xs lsp</pre>
+        </div>
+        <h4 class="font-semibold mb-3 text-gray-700">Neovim</h4>
+        <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
+          <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">Lua</div>
+          <pre class="p-4">vim.api.nvim_create_autocmd(<span class="str">"FileType"</span>, {
+  pattern = <span class="str">"xs"</span>,
+  callback = <span class="kw">function</span>()
+    vim.lsp.start({
+      name = <span class="str">"xanascript"</span>,
+      cmd = { <span class="str">"xs"</span>, <span class="str">"lsp"</span> },
+    })
+  <span class="kw">end</span>,
+})</pre>
+        </div>
+      </div>
+      <div>
+        <div class="space-y-2 mb-6">
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm">Diagnosticos en tiempo real</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm">Autocomplete de keywords + built-ins</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm">Hover con documentacion</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm">Go-to-definition</div>
+        </div>
+        <h4 class="font-semibold mb-3 text-gray-700">VS Code</h4>
+        <p class="text-gray-600 mb-4">La extension <code class="bg-pinky-50">vscode-xs/</code> ya integra LSP automaticamente al abrir un archivo <code class="bg-pinky-50">.xs</code>.</p>
+        <div class="space-y-2">
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">Ctrl+Alt+X</code><span class="text-gray-400 text-xs">Run</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">Ctrl+Alt+B</code><span class="text-gray-400 text-xs">Build</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">Ctrl+Shift+F</code><span class="text-gray-400 text-xs">Format</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="errores" class="py-20 px-6">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4">Errores estilo Rust</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg">Codigo fuente destacado, flecha apuntando al lugar exacto, hint y help con sugerencias.</p>
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
+        <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
+        <pre class="p-4"><span class="kw">CRIA</span> x = <span class="num">10</span>
+<span class="kw">CRIA</span> y = z    <span class="cm">// z no fue definido</span></pre>
+      </div>
+      <div>
+        <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
+          <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-red-500 uppercase tracking-wider font-semibold">Error</div>
+          <pre class="p-4 text-red-500">ERROR: Variable `z` no fue definida
+Code: E002
+
+ --> input.xs:2:11
+
+   1 | CRIA x = 10
+ > 2 | CRIA y = z
+     |          ^
+
+Hint: Olvidaste declarar "z" con CRIA?
+Help: Agrega `CRIA z = valor` antes de usar</pre>
+        </div>
+      </div>
+    </div>
+    <div class="overflow-x-auto mt-8 border border-gray-200 rounded-2xl">
+      <table class="w-full text-sm">
+        <thead><tr><th class="text-left font-semibold text-gray-500 p-4 bg-gray-50">Codigo</th><th class="text-left font-semibold text-gray-500 p-4 bg-gray-50">Significado</th></tr></thead>
+        <tbody class="text-gray-600">
+          <tr><td class="p-4 border-t border-gray-100"><code class="bg-pinky-50">E001</code></td><td class="p-4 border-t border-gray-100">Token inesperado</td></tr>
+          <tr><td class="p-4 border-t border-gray-100"><code class="bg-pinky-50">E002</code></td><td class="p-4 border-t border-gray-100">Variable no definida</td></tr>
+          <tr><td class="p-4 border-t border-gray-100"><code class="bg-pinky-50">E003</code></td><td class="p-4 border-t border-gray-100">No es una funcion</td></tr>
+          <tr><td class="p-4 border-t border-gray-100"><code class="bg-pinky-50">E004</code></td><td class="p-4 border-t border-gray-100">Tipo incompatible</td></tr>
+          <tr><td class="p-4 border-t border-gray-100"><code class="bg-pinky-50">E005</code></td><td class="p-4 border-t border-gray-100">Sintaxis invalida</td></tr>
+          <tr><td class="p-4 border-t border-gray-100"><code class="bg-pinky-50">E100</code></td><td class="p-4 border-t border-gray-100">Fallo HTTP</td></tr>
+          <tr><td class="p-4 border-t border-gray-100"><code class="bg-pinky-50">E999</code></td><td class="p-4 border-t border-gray-100">Error interno</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="comparacion" class="py-20 px-6 bg-pinky-50/50">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4">XanaScript vs JavaScript / TypeScript</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg">Un lenguaje que entrega lo que JS/TS prometen — y mucho mas.</p>
+    <div class="overflow-x-auto border border-gray-200 rounded-2xl">
+      <table class="w-full text-sm">
+        <thead><tr><th class="text-left font-semibold text-gray-500 p-4 bg-gray-50">Caracteristica</th><th class="text-left font-semibold text-gray-500 p-4 bg-gray-50">XanaScript</th><th class="text-left font-semibold text-gray-500 p-4 bg-gray-50">JavaScript</th><th class="text-left font-semibold text-gray-500 p-4 bg-gray-50">TypeScript</th></tr></thead>
+        <tbody class="text-gray-600">
+          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Sintaxis en PT-BR</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-red-400">No</td></tr>
+          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Compilacion Wasm directa</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td><td class="p-4 border-t border-gray-100 text-amber-500">Emscripten</td><td class="p-4 border-t border-gray-100 text-amber-500">AssemblyScript</td></tr>
+          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">ORM incorporado</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-red-400">No</td></tr>
+          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Macros compile-time</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-red-400">No</td></tr>
+          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Pattern Matching</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-red-400">No</td></tr>
+          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Loop Unrolling</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-red-400">No</td></tr>
+          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">TypedArrays automaticos</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-red-400">No</td></tr>
+          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Integer Math Hints</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-red-400">No</td></tr>
+          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Constant Folding</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-red-400">No</td></tr>
+          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Errores estilo Rust</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-red-400">No</td></tr>
+          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">LSP</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td></tr>
+          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Test Runner nativo</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-red-400">No</td></tr>
+          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Task Runner nativo</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-red-400">No</td></tr>
+          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Classes/OOP</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td></tr>
+          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Template Strings</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td></tr>
+          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">CLI Completa</td><td class="p-4 border-t border-gray-100 text-green-600">20+ cmd</td><td class="p-4 border-t border-gray-100 text-amber-500">Node.js</td><td class="p-4 border-t border-gray-100 text-amber-500">tsc</td></tr>
+          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Hot Reload</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td><td class="p-4 border-t border-gray-100 text-amber-500">nodemon</td><td class="p-4 border-t border-gray-100 text-amber-500">ts-node</td></tr>
+          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Standalone Binary</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td><td class="p-4 border-t border-gray-100 text-amber-500">pkg/bun</td><td class="p-4 border-t border-gray-100 text-amber-500">pkg/bun</td></tr>
+          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Bytecode VM</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-red-400">No</td></tr>
+          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Built-ins nativas</td><td class="p-4 border-t border-gray-100 text-green-600">Si</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-red-400">No</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="arquitectura" class="py-20 px-6">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4">Arquitectura</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg">Como el codigo en portugues se convierte en ejecutable de alta performance.</p>
+    <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
+      <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">Pipeline</div>
+      <pre class="p-6 text-sm leading-loose text-center">
+<span class="text-pinky-500 font-bold">Codigo .xs</span>
+    |
+    v
++-----------------------+
+|  Lexer (lexer.js)     |  Tokeniza (linea/columna)
++-----------+-----------+
+            | tokens[]
+            v
++-----------------------+
+| Parser (parser.js)    |  AST con loc tracking
++-----------+-----------+
+            | AST
+            v
++-----------------------+
+| Optimizer (opt.js)    |  Macros, constant folding,
+|                       |  dead branch elimination
++-----------+-----------+
+            | AST optimizada
+            v
+      +----+----+
+      |         |
+      v         v
++---------+ +----------------------+
+| Runtime | |     Codegen          |
+| (interp)| | codegen.js     (JS)  |
+|         | | codegen_opt.js (JS++)|
+|         | | codegen_wasm.js(WAT) |
+|         | | wasm_binary.js(.wasm)|
++---------+ +----------------------+
+      </pre>
+    </div>
+  </div>
+</section>
+
+<section id="roadmap" class="py-20 px-6 bg-pinky-50/50">
+  <div class="max-w-5xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4">Roadmap</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg">Lo que ya implementamos y lo que esta por venir.</p>
+    <div class="grid md:grid-cols-2 gap-8">
+      <div>
+        <h3 class="font-bold text-xl mb-4 text-green-700">Implementado</h3>
+        <div class="space-y-2">
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Lexer + Parser + AST (loc tracking)</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Errores estilo Rust (codigo + flecha + hint)</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Macros compile-time (MACRO)</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">ORM incorporado (TABELA > CRUD)</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">LSP (autocomplete, hover, go-to-def)</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Test runner (TESTE, AFIRMA, ASSUNTO)</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Task runner (TAREFA)</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Docs generator (xs docs)</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Wasm binary emitter directo</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">VS Code Extension con LSP</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Standalone CLI nativo (bun --compile)</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Classes/OOP (CLASSE, HERDA, ISTO)</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Pattern Matching (COMBINA)</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Template Strings + Try/Catch</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Modulos (IMPORTA, EXPORTA)</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Servidor HTTP incorporado</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Bytecode VM (26 opcodes)</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Gestor de paquetes</div>
+        </div>
+      </div>
+      <div>
+        <h3 class="font-bold text-xl mb-4 text-amber-600">Proximos pasos</h3>
+        <div class="space-y-2">
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-amber-200 px-3 py-2.5 text-sm text-gray-500">Source maps completos (VLQ)</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-amber-200 px-3 py-2.5 text-sm text-gray-500">Classes con super()</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-amber-200 px-3 py-2.5 text-sm text-gray-500">Pattern matching con guards</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-amber-200 px-3 py-2.5 text-sm text-gray-500">Macros higienicas</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-amber-200 px-3 py-2.5 text-sm text-gray-500">Publicar VS Code Extension en Marketplace</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-amber-200 px-3 py-2.5 text-sm text-gray-500">Debugger (step, breakpoints)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="py-10 px-6 border-t border-gray-200 text-center text-gray-400 text-sm">
+  <div class="max-w-3xl mx-auto">
+    <img src="/images/logo.png" alt="XanaScript" class="w-8 h-8 mx-auto mb-3">
+    <p>Hecho por <a href="https://github.com/xanascr" class="text-pinky-400 no-underline hover:underline">@xanascr</a></p>
+    <div class="flex justify-center gap-6 mt-3 flex-wrap">
+      <a href="https://github.com/xanascr/xs" class="text-gray-400 no-underline hover:text-pinky-400">Core</a>
+      <a href="https://github.com/xanascr/xs-vscode" class="text-gray-400 no-underline hover:text-pinky-400">VS Code</a>
+      <a href="https://github.com/xanascr/xs-site" class="text-gray-400 no-underline hover:text-pinky-400">Site</a>
+      <a href="https://github.com/xanascr/xs-examples" class="text-gray-400 no-underline hover:text-pinky-400">Ejemplos</a>
+    </div>
+    <div class="flex justify-center gap-4 mt-4 text-xs">
+      <a href="/en/" class="text-gray-400 no-underline hover:text-pinky-400">English</a>
+      <a href="/pt/" class="text-gray-400 no-underline hover:text-pinky-400">Portugues</a>
+    </div>
+    <p class="mt-4 text-xs">Programa en portugues. Ejecuta en WebAssembly.</p>
+  </div>
+</footer>
+
+<script>
+function copyCmd(el) {
+  var text = el.textContent.replace('$', '').trim();
+  navigator.clipboard.writeText(text).then(function() {
+    var original = el.innerHTML;
+    el.innerHTML = '<span class="text-green-500">Copiado!</span>';
+    setTimeout(function() { el.innerHTML = original; }, 1500);
+  }).catch(function() {});
+}
+</script>
+</body>
+</html>
