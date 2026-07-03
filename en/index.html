@@ -937,7 +937,7 @@ function xsTokenize(code) {
       tokens.push({t:'I', v:code.slice(s,i), l:line, c:scol}); continue;
     }
     var two = code.slice(i,i+2);
-    if (/^(==|!=|>=|<=|&&|\|\||\+=|-=|\*=|/=|%=|\?\.|\?\?|~=|=>)$/.test(two)) { tokens.push({t:'O', v:two, l:line, c:col}); i+=2; col+=2; continue; }
+    if (/^(==|!=|>=|<=|&&|\|\||\+=|-=|\*=|\/=|%=|\?\.|\?\?|~=|=>)$/.test(two)) { tokens.push({t:'O', v:two, l:line, c:col}); i+=2; col+=2; continue; }
     if ('+-*/%=<>!&|?.~'.includes(ch)) { tokens.push({t:'O', v:ch, l:line, c:col}); i++; col++; continue; }
     if ('(){}[],.:;@#^'.includes(ch)) { tokens.push({t:'P', v:ch, l:line, c:col}); i++; col++; continue; }
     i++; col++;
