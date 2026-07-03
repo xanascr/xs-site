@@ -926,9 +926,10 @@ function xsTokenize(code) {
     if (/[A-Za-z_]/i.test(ch) || ch > '~') {
       var s = i, scol = col;
       while (i < code.length && (/[A-Za-z0-9_]/i.test(code[i]) || code[i] > '~')) { i++; col++; }
-      var m = {'CHAMA ESSE CARA':1,'SE LIGA SO':1,'SENAO SE LIGA SO':1,'REPETE NA MORAL':1,'REPETE AI':1,'SOLTA O GRITO':1,'AGORA VAI':1,'ESPERA AI':1,'CRIA SERVIDOR':1};
+      var kwlist = ['CHAMA ESSE CARA','SENAO SE LIGA SO','REPETE NA MORAL','CRIA SERVIDOR','SE LIGA SO','REPETE AI','SOLTA O GRITO','AGORA VAI','ESPERA AI','VERDADEIRO','FALSO','NULO','ASSINCRONO','CLASSE','CONSTRUTOR','METODO','ISTO','NOVA','HERDA','MACRO','TESTE','AFIRMA','ASSUNTO','TABELA','IMPORTA','EXPORTA','TENTA','PEGA','ESCOLHE','CASO','PADRAO','COMBINA','VOA','CONTINUA','CRIA','VOLTA','SE','SENAO'];
       var found = false;
-      for (var kw in m) {
+      for (var ki = 0; ki < kwlist.length; ki++) {
+        var kw = kwlist[ki];
         if (code.slice(s, s+kw.length) === kw && (!/[A-Za-z0-9_]/.test(code[s+kw.length]) || !(code[s+kw.length]))) {
           tokens.push({t:'K', v:kw, l:line, c:scol}); i = s + kw.length; col = scol + kw.length; found = true; break;
         }
@@ -1097,8 +1098,9 @@ function xsRun(code) {
       }
       return {type:'var', name:name};
     }
-    if (tk.t === 'I' && tk.v === 'ISTO') { next(); if (peek() && peek().t === 'P' && peek().v === '.') { next(); var prop = next().v; return {type:'prop', obj:{type:'this'}, prop:prop}; } return {type:'this'}; }
+    if (tk.t === 'K' && tk.v === 'ISTO') { next(); if (peek() && peek().t === 'P' && peek().v === '.') { next(); var prop = next().v; return {type:'prop', obj:{type:'this'}, prop:prop}; } return {type:'this'}; }
     if (tk.t === 'K' && tk.v === 'NOVA') { next(); var clsName = next().v; expect('P', '('); var args = []; while (peek() && !(peek().t === 'P' && peek().v === ')')) { args.push(parseExpr()); if (peek() && peek().t === 'P' && peek().v === ',') next(); } expect('P', ')'); return {type:'new', name:clsName, args:args}; }
+    if (tk.t === 'K') { var name = next().v; if (peek() && peek().t === 'P' && peek().v === '(') { next(); var args = []; while (peek() && !(peek().t === 'P' && peek().v === ')')) { args.push(parseExpr()); if (peek() && peek().t === 'P' && peek().v === ',') next(); skipNewlines(); } expect('P', ')'); return {type:'call', name:name, args:args}; } return {type:'var', name:name}; }
     throw new Error('Unexpected token: ' + (tk ? tk.t + ':' + tk.v : 'EOF'), tk);
   }
   
