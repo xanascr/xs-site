@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>XanaScript — Portuguese-syntax language, WebAssembly-native</title>
-<link rel="icon" href="/images/logo.png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 font-family=%22Inter,sans-serif%22 font-weight=%22900%22 fill=%22%23f58b8e%22>XS</text></svg>">
 <meta name="description" content="XanaScript is a complete programming language with Portuguese syntax, optimizing compiler, native WebAssembly, built-in ORM, compile-time macros, and LSP.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -60,7 +60,6 @@ p code, li code, td code {
 
 <nav class="fixed top-0 left-0 right-0 z-50 h-16 bg-white/90 backdrop-blur-sm border-b border-gray-200 flex items-center justify-between px-6 lg:px-10">
   <a href="/en/" class="flex items-center gap-3 no-underline">
-    <img src="/images/logo.png" alt="XanaScript" class="w-8 h-8">
     <span class="text-lg font-extrabold text-pinky-500">XanaScript</span>
   </a>
   <div class="flex items-center gap-6 text-sm">
@@ -97,7 +96,7 @@ p code, li code, td code {
 <section id="install" class="py-20 px-6">
   <div class="max-w-5xl mx-auto">
     <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4">Installation</h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg">Choose your method — npm, native binary, or source code.</p>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg">Install via npm — the easiest way to get started.</p>
     <div class="grid md:grid-cols-2 gap-6">
       <div class="bg-pinky-50 rounded-2xl p-8 border border-pinky-100">
         <h3 class="text-xl font-bold mb-3">npm (Cross-platform)</h3>
@@ -108,22 +107,6 @@ p code, li code, td code {
 xs run app.xs</pre>
         </div>
       </div>
-      <div class="bg-pinky-50 rounded-2xl p-8 border border-pinky-100">
-        <h3 class="text-xl font-bold mb-3">Native Binary</h3>
-        <p class="text-gray-500 text-sm mb-4">Download the single executable from <a href="https://github.com/xanascr/xs/releases" class="text-pinky-400 hover:underline">releases</a>.</p>
-        <div class="code-block bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <div class="px-4 py-2 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">Bash</div>
-          <pre class="p-4"><span class="cm"># Linux/macOS</span>
-chmod +x xs
-sudo cp xs /usr/local/bin/
-xs run app.xs
-
-<span class="cm"># Windows</span>
-xs.exe run app.xs</pre>
-        </div>
-      </div>
-    </div>
-    <div class="grid md:grid-cols-2 gap-6 mt-6">
       <div class="bg-pinky-50 rounded-2xl p-8 border border-pinky-100">
         <h3 class="text-xl font-bold mb-3">VS Code Extension</h3>
         <p class="text-gray-500 text-sm mb-4">Syntax highlight, snippets, integrated LSP. <a href="https://github.com/xanascr/xs-vscode" class="text-pinky-400 hover:underline">See on GitHub</a>.</p>
@@ -136,6 +119,8 @@ vsce package
 code --install-extension xanascript-*.vsix</pre>
         </div>
       </div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6 mt-6">
       <div class="bg-pinky-50 rounded-2xl p-8 border border-pinky-100">
         <h3 class="text-xl font-bold mb-3">Examples</h3>
         <p class="text-gray-500 text-sm mb-4">Sample code in <a href="https://github.com/xanascr/xs-examples" class="text-pinky-400 hover:underline">xs-examples</a>.</p>
@@ -814,7 +799,6 @@ Help: Add `CRIA z = value` before using it</pre>
 
 <footer class="py-10 px-6 border-t border-gray-200 text-center text-gray-400 text-sm">
   <div class="max-w-3xl mx-auto">
-    <img src="/images/logo.png" alt="XanaScript" class="w-8 h-8 mx-auto mb-3">
     <p>Made by <a href="https://github.com/xanascr" class="text-pinky-400 no-underline hover:underline">@xanascr</a></p>
     <div class="flex justify-center gap-6 mt-3 flex-wrap">
       <a href="https://github.com/xanascr/xs" class="text-gray-400 no-underline hover:text-pinky-400">Core</a>
