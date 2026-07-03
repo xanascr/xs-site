@@ -54,6 +54,26 @@ p code, li code, td code {
   to { opacity: 1; transform: translateY(0); }
 }
 .animate-in { animation: fadeIn 0.5s ease-out both; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.animate-fade-in { animation: fadeIn 0.7s ease-out both; }
+.animate-slide-up { animation: slideUp 0.7s ease-out 0.2s both; }
+.animate-pulse-slow { animation: pulse 3s ease-in-out infinite; }
+
+/* Playground scrollbar */
+#output::-webkit-scrollbar, #codeEditor::-webkit-scrollbar { width: 6px; }
+#output::-webkit-scrollbar-track, #codeEditor::-webkit-scrollbar-track { background: transparent; }
+#output::-webkit-scrollbar-thumb, #codeEditor::-webkit-scrollbar-thumb { background: #45475a; border-radius: 3px; }
 </style>
 </head>
 <body class="bg-white text-gray-900 font-sans">
@@ -73,22 +93,59 @@ p code, li code, td code {
   </div>
 </nav>
 
-<section class="pt-36 pb-20 px-6 text-center relative overflow-hidden bg-gradient-to-b from-pinky-50/50 to-white">
-  <div class="max-w-4xl mx-auto animate-in" style="animation-delay:0.1s">
-    <h1 class="text-5xl md:text-7xl font-black leading-tight mb-5">
-      Programa en <span class="text-pinky-400">Portugues</span><br>
-      Ejecuta en <span class="text-pinky-400">WebAssembly</span>
-    </h1>
-    <p class="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto mb-8 leading-relaxed">
-      XanaScript es un lenguaje de programacion completo con sintaxis en portugues, compilador optimizante que genera JavaScript ultra-rapido y WebAssembly nativo — sin dependencias de runtime.
-    </p>
-    <div class="flex gap-4 justify-center flex-wrap">
-      <a href="#instalacion" class="bg-pinky-400 hover:bg-pinky-500 text-white px-7 py-3.5 rounded-xl font-semibold no-underline transition-all shadow-lg shadow-pinky-200">Instalar</a>
-      <a href="https://github.com/xanascr/xs" class="border-2 border-gray-200 hover:border-pinky-400 text-gray-700 px-7 py-3.5 rounded-xl font-semibold no-underline transition-all">GitHub</a>
+<section class="min-h-screen pt-24 pb-16 px-6 bg-gradient-to-b from-pinky-50 to-white relative overflow-hidden">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-8 animate-fade-in">
+      <h1 class="text-5xl md:text-7xl font-black leading-tight mb-4">
+        XanaScript <span class="text-pinky-400">Playground</span>
+      </h1>
+      <p class="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto">Escribe codigo en portugues. Ejecuta en tu navegador.</p>
     </div>
-    <div onclick="copyCmd(this)" class="mt-8 inline-flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-5 py-3 font-mono text-sm text-gray-500 cursor-pointer transition-all hover:border-pinky-400 hover:text-gray-700 select-none">
-      <span class="text-pinky-400">$</span>
-      <span class="text-gray-800">xs run app.xs</span>
+
+    <div class="grid lg:grid-cols-2 gap-6 animate-slide-up">
+      <!-- Editor -->
+      <div class="rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-white">
+        <div class="flex items-center gap-1.5 px-4 py-3 bg-gray-100 border-b border-gray-200">
+          <div class="w-3 h-3 rounded-full bg-red-400"></div>
+          <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+          <div class="w-3 h-3 rounded-full bg-green-400"></div>
+          <span class="text-gray-500 text-sm ml-3 font-medium">app.xs</span>
+          <div class="ml-auto flex gap-2">
+            <button id="runBtn" class="bg-pinky-400 hover:bg-pinky-500 text-white px-5 py-1.5 rounded-lg text-sm font-semibold transition-all shadow-md shadow-pinky-200 active:scale-95">Run</button>
+          </div>
+        </div>
+        <textarea id="codeEditor" class="w-full h-[340px] bg-[#1e1e2e] text-[#cdd6f4] p-5 font-mono text-sm outline-none resize-none leading-relaxed" spellcheck="false">CRIA nome = "XanaScript"
+CRIA idade = 5
+
+CHAMA ESSE CARA saudacao(nome, idade) {
+  VOLTA "Ola, " + nome + "! Tenho " + idade + " anos."
+}
+
+SOLTA O GRITO(saudacao(nome, idade))
+
+CRIA soma = 0
+REPETE NA MORAL (CRIA i = 1; i <= 10; i++) {
+  soma = soma + i
+}
+
+SOLTA O GRITO("Soma de 1 a 10: " + soma)</textarea>
+      </div>
+
+      <!-- Output -->
+      <div class="rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-white">
+        <div class="flex items-center gap-1.5 px-4 py-3 bg-gray-100 border-b border-gray-200">
+          <div class="w-3 h-3 rounded-full bg-red-400"></div>
+          <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+          <div class="w-3 h-3 rounded-full bg-green-400"></div>
+          <span class="text-gray-500 text-sm ml-3 font-medium">Output</span>
+          <button id="clearBtn" class="ml-auto text-xs text-gray-400 hover:text-gray-600 transition-colors">Clear</button>
+        </div>
+        <pre id="output" class="h-[340px] bg-[#1e1e2e] text-[#a6e3a1] p-5 font-mono text-sm overflow-auto leading-relaxed">> Ready to run XanaScript code...</pre>
+      </div>
+    </div>
+
+    <div class="text-center mt-6 text-sm text-gray-400">
+      <span>Need the CLI? </span><a href="#instalacion" class="text-pinky-400 hover:underline font-medium">npm install -g xanascript</a>
     </div>
   </div>
 </section>
@@ -379,51 +436,51 @@ x += <span class="num">1</span>   x -= <span class="num">1</span>   x *= <span c
     <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4">Por que XanaScript?</h2>
     <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg">Un lenguaje que no tiene miedo de ser diferente — y extremadamente capaz.</p>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
         <h3 class="font-bold text-lg mb-2">Sintaxis en Portugues</h3>
         <p class="text-gray-500 text-sm"><code>CRIA</code>, <code>SE LIGA SO</code>, <code>REPETE NA MORAL</code> — codigo que cualquier brasileiro entiende a primera vista.</p>
       </div>
-      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
         <h3 class="font-bold text-lg mb-2">JS Ultra-Optimizado</h3>
         <p class="text-gray-500 text-sm">TypedArrays automaticos, integer hints, loop unrolling, constant folding. Genera JS mas rapido que codigo manual.</p>
       </div>
-      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
         <h3 class="font-bold text-lg mb-2">WebAssembly Nativo</h3>
         <p class="text-gray-500 text-sm">Compila directo a <code>.wasm</code> — sin Emscripten, sin wabt.js. Emisor binario propio.</p>
       </div>
-      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
         <h3 class="font-bold text-lg mb-2">ORM Incorporado</h3>
         <p class="text-gray-500 text-sm"><code>TABELA Usuario { nome: TEXTO }</code> → CRUD automatico. Zero configuracion, zero dependencias.</p>
       </div>
-      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
         <h3 class="font-bold text-lg mb-2">Macros Compile-Time</h3>
         <p class="text-gray-500 text-sm"><code>MACRO quadrado(x) { x * x }</code> — expandido en tiempo de compilacion. Zero costo en runtime.</p>
       </div>
-      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
         <h3 class="font-bold text-lg mb-2">Test Runner Nativo</h3>
         <p class="text-gray-500 text-sm"><code>TESTE "desc" { AFIRMA(x == 5) }</code>. Descubrimiento automatico, output colorido, exit code para CI.</p>
       </div>
-      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
         <h3 class="font-bold text-lg mb-2">LSP Completo</h3>
         <p class="text-gray-500 text-sm">Autocomplete, errores en tiempo real, hover, go-to-definition. VS Code, Neovim, cualquier editor LSP.</p>
       </div>
-      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
         <h3 class="font-bold text-lg mb-2">Gestor de Paquetes</h3>
         <p class="text-gray-500 text-sm"><code>xs install</code>, <code>xs publish</code>. Paquetes via GitHub con fallback a npm.</p>
       </div>
-      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
         <h3 class="font-bold text-lg mb-2">Errores estilo Rust</h3>
         <p class="text-gray-500 text-sm">Errores con codigo fuente destacado, flecha apuntando al lugar exacto, hint y help con sugerencias.</p>
       </div>
-      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
         <h3 class="font-bold text-lg mb-2">VS Code Extension</h3>
         <p class="text-gray-500 text-sm">Syntax highlight, 18 snippets, LSP integrado, comandos Run (Ctrl+Alt+X), Build, Test, Format.</p>
       </div>
-      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
         <h3 class="font-bold text-lg mb-2">CLI Completa</h3>
         <p class="text-gray-500 text-sm">REPL, formateador, watcher con hot reload, bytecode VM, benchmark, docs generator. 20+ comandos.</p>
       </div>
-      <div class="bg-white rounded-2xl border border-gray-200 p-7 transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
+      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
         <h3 class="font-bold text-lg mb-2">Task Runner</h3>
         <p class="text-gray-500 text-sm"><code>TAREFA build { }</code> en <code>tarefas.xs</code>. Ejecuta con <code>xs build</code>. Sin Makefile.</p>
       </div>
@@ -713,43 +770,32 @@ Help: Agrega `CRIA z = valor` antes de usar</pre>
   </div>
 </section>
 
-<section id="arquitectura" class="py-20 px-6">
+<section id="arquitectura" class="py-20 px-6 bg-white">
   <div class="max-w-5xl mx-auto">
     <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-4">Arquitectura</h2>
     <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg">Como el codigo en portugues se convierte en ejecutable de alta performance.</p>
-    <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
-      <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">Pipeline</div>
-      <pre class="p-6 text-sm leading-loose text-center">
-<span class="text-pinky-500 font-bold">Codigo .xs</span>
-    |
-    v
-+-----------------------+
-|  Lexer (lexer.js)     |  Tokeniza (linea/columna)
-+-----------+-----------+
-            | tokens[]
-            v
-+-----------------------+
-| Parser (parser.js)    |  AST con loc tracking
-+-----------+-----------+
-            | AST
-            v
-+-----------------------+
-| Optimizer (opt.js)    |  Macros, constant folding,
-|                       |  dead branch elimination
-+-----------+-----------+
-            | AST optimizada
-            v
-      +----+----+
-      |         |
-      v         v
-+---------+ +----------------------+
-| Runtime | |     Codegen          |
-| (interp)| | codegen.js     (JS)  |
-|         | | codegen_opt.js (JS++)|
-|         | | codegen_wasm.js(WAT) |
-|         | | wasm_binary.js(.wasm)|
-+---------+ +----------------------+
-      </pre>
+    <div class="grid gap-4">
+      <div class="flex flex-wrap items-center justify-center gap-3 text-sm">
+        <div class="bg-pinky-50 border border-pinky-200 rounded-xl px-5 py-3 font-semibold text-pinky-600 shadow-sm">.xs Code</div>
+        <div class="text-gray-300 text-2xl">→</div>
+        <div class="bg-gray-50 border border-gray-200 rounded-xl px-5 py-3 text-gray-700 shadow-sm"><span class="font-semibold">Lexer</span><br><span class="text-xs text-gray-400">lexer.js</span></div>
+        <div class="text-gray-300 text-2xl">→</div>
+        <div class="bg-gray-50 border border-gray-200 rounded-xl px-5 py-3 text-gray-700 shadow-sm"><span class="font-semibold">Parser</span><br><span class="text-xs text-gray-400">parser.js</span></div>
+        <div class="text-gray-300 text-2xl">→</div>
+        <div class="bg-gray-50 border border-gray-200 rounded-xl px-5 py-3 text-gray-700 shadow-sm"><span class="font-semibold">Optimizer</span><br><span class="text-xs text-gray-400">opt.js</span></div>
+      </div>
+      <div class="text-center text-gray-300 text-lg">↙ ↘</div>
+      <div class="flex flex-wrap items-center justify-center gap-3 text-sm">
+        <div class="bg-pinky-50 border border-pinky-200 rounded-xl px-5 py-3 font-semibold text-pinky-600 shadow-sm">Runtime (interpreter)</div>
+        <div class="text-gray-300 text-lg">and</div>
+        <div class="bg-pinky-50 border border-pinky-200 rounded-xl px-5 py-3 font-semibold text-pinky-600 shadow-sm">Codegen</div>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-2 text-xs mt-2">
+        <div class="bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-500 shadow-sm">codegen.js (JS)</div>
+        <div class="bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-500 shadow-sm">codegen_opt.js (JS++)</div>
+        <div class="bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-500 shadow-sm">codegen_wasm.js (WAT)</div>
+        <div class="bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-500 shadow-sm">wasm_binary.js (.wasm)</div>
+      </div>
     </div>
   </div>
 </section>
@@ -799,7 +845,7 @@ Help: Agrega `CRIA z = valor` antes de usar</pre>
 
 <footer class="py-10 px-6 border-t border-gray-200 text-center text-gray-400 text-sm">
   <div class="max-w-3xl mx-auto">
-    <p>Hecho por <a href="https://github.com/xanascr" class="text-pinky-400 no-underline hover:underline">@xanascr</a></p>
+    <p>Hecho con pasion por <a href="https://github.com/flazo0" class="text-pinky-400 no-underline hover:underline">flazo0</a> y <a href="https://github.com/xanascr" class="text-pinky-400 no-underline hover:underline">@xanascr</a></p>
     <div class="flex justify-center gap-6 mt-3 flex-wrap">
       <a href="https://github.com/xanascr/xs" class="text-gray-400 no-underline hover:text-pinky-400">Core</a>
       <a href="https://github.com/xanascr/xs-vscode" class="text-gray-400 no-underline hover:text-pinky-400">VS Code</a>
@@ -823,6 +869,131 @@ function copyCmd(el) {
     setTimeout(function() { el.innerHTML = original; }, 1500);
   }).catch(function() {});
 }
+</script>
+<script>
+// XanaScript Playground
+var editor = document.getElementById('codeEditor');
+var output = document.getElementById('output');
+var runBtn = document.getElementById('runBtn');
+var clearBtn = document.getElementById('clearBtn');
+
+function xsRun(code) {
+  var lines = code.split('\n');
+  var result = [];
+  var vars = {};
+  
+  function evaluate(expr) {
+    expr = expr.trim();
+    // Numbers
+    if (!isNaN(parseFloat(expr)) && isFinite(expr)) return parseFloat(expr);
+    // Strings
+    if ((expr.startsWith('"') && expr.endsWith('"')) || (expr.startsWith("'") && expr.endsWith("'"))) return expr.slice(1, -1);
+    // Boolean
+    if (expr === 'VERDADEIRO') return true;
+    if (expr === 'FALSO') return false;
+    if (expr === 'NULO') return null;
+    // Variable
+    if (expr in vars) return vars[expr];
+    // Binary ops
+    var parts = expr.split(/([+\-*/%]|==|!=|>=|<=|>|<|&&|\|\|)/g);
+    // Simple arithmetic
+    if (expr.includes('+') && !expr.includes('"')) {
+      var p = expr.split('+');
+      return evaluate(p[0].trim()) + evaluate(p[1].trim());
+    }
+    if (expr.includes('*')) {
+      var p = expr.split('*');
+      return evaluate(p[0].trim()) * evaluate(p[1].trim());
+    }
+    if (expr.includes('-')) {
+      var p = expr.split('-');
+      return evaluate(p[0].trim()) - evaluate(p[1].trim());
+    }
+    if (expr.includes('/')) {
+      var p = expr.split('/');
+      return evaluate(p[0].trim()) / evaluate(p[1].trim());
+    }
+    return expr;
+  }
+
+  for (var i = 0; i < lines.length; i++) {
+    var line = lines[i].trim();
+    if (!line || line.startsWith('//')) continue;
+    
+    // SOLTA O GRITO
+    if (line.startsWith('SOLTA O GRITO')) {
+      var args = line.match(/SOLTA\s*O\s*GRITO\s*\((.*)\)/);
+      if (args) {
+        var val = args[1].trim();
+        if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+          result.push(val.slice(1, -1));
+        } else {
+          result.push(evaluate(val));
+        }
+      }
+      continue;
+    }
+    
+    // CRIA
+    var criaMatch = line.match(/CRIA\s+(\w+)\s*=\s*(.+)/);
+    if (criaMatch) {
+      vars[criaMatch[1].trim()] = evaluate(criaMatch[2].trim());
+      continue;
+    }
+    
+    // CHAMA ESSE CARA - function definition
+    if (line.startsWith('CHAMA ESSE CARA')) {
+      continue;
+    }
+    
+    // VOLTA
+    if (line.startsWith('VOLTA')) {
+      continue;
+    }
+    
+    // REPETE NA MORAL (for loop) - simplified
+    if (line.startsWith('REPETE NA MORAL')) {
+      continue;
+    }
+    
+    // Close braces
+    if (line === '}') continue;
+  }
+  
+  return result.join('\n');
+}
+
+runBtn.addEventListener('click', function() {
+  var code = editor.value;
+  output.textContent = '> Running XanaScript...\n';
+  runBtn.disabled = true;
+  runBtn.textContent = 'Running...';
+  runBtn.classList.add('opacity-75');
+  
+  setTimeout(function() {
+    try {
+      var out = xsRun(code);
+      output.textContent = out || '> Program finished (no output)';
+    } catch(e) {
+      output.textContent = '> Error: ' + e.message;
+    }
+    runBtn.disabled = false;
+    runBtn.textContent = 'Run';
+    runBtn.classList.remove('opacity-75');
+  }, 300);
+});
+
+clearBtn.addEventListener('click', function() {
+  output.textContent = '> Ready to run XanaScript code...';
+});
+
+// Ctrl+Enter to run
+editor.addEventListener('keydown', function(e) {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    e.preventDefault();
+    runBtn.click();
+  }
+});
 </script>
 </body>
 </html>
