@@ -37,13 +37,13 @@
       });
   };
 
-  // ../xs-site/playground/entry.js
+  // entry.js
   var exports_entry = {};
   __export(exports_entry, {
     playgroundRun: () => playgroundRun
   });
 
-  // ../xs-site/playground/xs-src/lexer.js
+  // xs-src/lexer.js
   var KEYWORDS = new Set([
     "PARTIU",
     "ACABOU",
@@ -251,6 +251,8 @@
         "%=",
         "->",
         "~=",
+        "++",
+        "--",
         "//",
         "/*"
       ].includes(two)) {
@@ -273,7 +275,7 @@
     return tokens;
   }
 
-  // ../xs-site/playground/xs-src/ast.js
+  // xs-src/ast.js
   var _loc = null;
   function setLoc(loc) {
     _loc = loc;
@@ -312,6 +314,7 @@
   var BreakStmt = () => ({ type: "BreakStmt", loc: loc() });
   var ContinueStmt = () => ({ type: "ContinueStmt", loc: loc() });
   var Ternary = (test, cons, alt) => ({ type: "Ternary", test, cons, alt, loc: loc() });
+  var UpdateExpr = (op, arg, prefix) => ({ type: "UpdateExpr", op, arg, prefix, loc: loc() });
   var ClassDecl = (name, superClass, methods) => ({ type: "ClassDecl", name, superClass, methods, loc: loc() });
   var Method = (name, params, body, isConstructor) => ({ type: "Method", name, params, body, isConstructor, loc: loc() });
   var ThisExpr = () => ({ type: "ThisExpr", loc: loc() });
@@ -332,7 +335,7 @@
   var TableProp = (name, type) => ({ name, type, loc: loc() });
   var MacroDecl = (name, params, body) => ({ type: "MacroDecl", name, params, body, loc: loc() });
 
-  // ../xs-site/playground/xs-src/errors.js
+  // xs-src/errors.js
   var SOURCE_LINES = [];
   var SOURCE_FILE = "input.xs";
   var SOURCE_CODE = "";
@@ -432,7 +435,7 @@
     });
   }
 
-  // ../xs-site/playground/xs-src/parser.js
+  // xs-src/parser.js
   var PRECEDENCE = {
     "?": 0,
     "||": 1,
@@ -1062,6 +1065,9 @@
           const index = parseExpr();
           expect("]");
           expr = IndexExpr(expr, index);
+        } else if (peek().type === "++" || peek().type === "--") {
+          const op = next().type;
+          expr = UpdateExpr(op, expr, false);
         } else
           break;
       }
@@ -1235,7 +1241,7 @@
     return parseProgram();
   }
 
-  // ../xs-site/playground/xs-src/macros.js
+  // xs-src/macros.js
   function expandMacros(node, macros) {
     if (!node || typeof node !== "object")
       return node;
@@ -1341,7 +1347,7 @@
     return result;
   }
 
-  // ../xs-site/playground/xs-src/optimizer.js
+  // xs-src/optimizer.js
   function collectMacros(node) {
     const macros = new Map;
     if (!node || node.type !== "Program")
@@ -1520,7 +1526,7 @@
     }
   }
 
-  // ../xs-site/playground/browser-orm.js
+  // browser-orm.js
   var TIPOS_MAP = {
     TEXTO: "string",
     NUMERO: "number",
@@ -1612,7 +1618,7 @@
     };
   }
 
-  // ../xs-site/playground/xs-src/interpreter.js
+  // xs-src/interpreter.js
   class ReturnSignal {
     constructor(value) {
       this.value = value;
@@ -1681,6 +1687,21 @@
           throw err;
         }
         return env[node.name];
+      }
+      case "UpdateExpr": {
+        const v = await interpret(node.arg, env);
+        const nv = node.op === "++" ? v + 1 : v - 1;
+        if (node.arg.type === "Ident") {
+          env[node.arg.name] = nv;
+        } else if (node.arg.type === "Member") {
+          const obj = await interpret(node.arg.obj, env);
+          obj[node.arg.prop] = nv;
+        } else if (node.arg.type === "IndexExpr") {
+          const obj = await interpret(node.arg.obj, env);
+          const idx = await interpret(node.arg.index, env);
+          obj[idx] = nv;
+        }
+        return node.prefix ? nv : v;
       }
       case "Unary": {
         const v = await interpret(node.arg, env);
@@ -2100,7 +2121,7 @@
     }
   }
 
-  // ../xs-site/playground/entry.js
+  // entry.js
   async function playgroundRun(code) {
     const output = [];
     const env = {
