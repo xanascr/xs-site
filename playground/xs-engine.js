@@ -111,7 +111,7 @@
     "TIPO",
     "CRUD"
   ]);
-  function lex2(input, file = "input.xs") {
+  function lex(input, file = "input.xs") {
     const tokens = [];
     let i = 0;
     let line = 1;
@@ -689,8 +689,11 @@
         next();
         type = expect("IDENT").value;
       }
-      expect("=");
-      const init = parseExpr();
+      let init = null;
+      if (peek().type === "=") {
+        next();
+        init = parseExpr();
+      }
       if (expectSemi)
         optionalSemicolon();
       return { ...VarDecl(id, init), typeHint: type };
@@ -1124,6 +1127,18 @@
         next();
         return Ident("PARSEIA");
       }
+      if (t.type === "TAMANHO") {
+        next();
+        return Ident("TAMANHO");
+      }
+      if (t.type === "ENCONTRA") {
+        next();
+        return Ident("ENCONTRA");
+      }
+      if (t.type === "JUNTAR") {
+        next();
+        return Ident("JUNTAR");
+      }
       if (t.type === "VERDADEIRO") {
         next();
         return Bool(true);
@@ -1228,6 +1243,9 @@
       if (t.type === "IDENT") {
         next();
         return Ident(t.value);
+      }
+      if (t.type === "COMBINA") {
+        return parseMatch();
       }
       if (t.type === "(") {
         next();
@@ -1655,7 +1673,7 @@
         return result;
       }
       case "VarDecl": {
-        const val = await interpret(node.init, env);
+        const val = node.init ? await interpret(node.init, env) : undefined;
         env[node.id] = val;
         return val;
       }
@@ -2161,7 +2179,7 @@
     };
     setSource(code, "input.xs");
     try {
-      const tokens = lex2(code, "input.xs");
+      const tokens = lex(code, "input.xs");
       let ast = parse(tokens);
       ast = optimize(ast);
       await interpret(ast, env);
