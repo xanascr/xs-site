@@ -1,18 +1,18 @@
 # XanaScript Site
 
-Site oficial do XanaScript em https://xanascript.xyz
+Official website of the XanaScript programming language at https://xanascript.xyz
 
-Site estatico em HTML unico - zero dependencias, zero build.
+Single-file static HTML — zero dependencies, zero build step.
 
-## Desenvolvimento
+## Development
 
 ```bash
-# Sirva localmente com qualquer servidor HTTP
+# Serve locally with any HTTP server
 npx serve .
-# ou
+# or
 python -m http.server 8000
 ```
 
-## Repositorio
+## Repository
 
 https://github.com/xanascr/xs-site
