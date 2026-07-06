@@ -44,7 +44,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css">
+<!-- light theme -->
 <script>
 tailwind.config = {
   theme: {
@@ -111,20 +111,24 @@ p code, li code, td code {
 /* Playground scrollbar */
 #output::-webkit-scrollbar { width: 6px; }
 #output::-webkit-scrollbar-track { background: transparent; }
-#output::-webkit-scrollbar-thumb { background: #45475a; border-radius: 3px; }
-/* CodeMirror overrides */
-.CodeMirror { height: 100% !important; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
-.CodeMirror-gutters { background: #181825; border-right: 1px solid #313244; }
-.CodeMirror-linenumber { color: #585b70; }
+#output::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+/* CodeMirror overrides — light theme */
+.CodeMirror { height: 100% !important; font-family: 'JetBrains Mono', monospace; font-size: 13px; background: #fff; color: #374151; }
+.CodeMirror-gutters { background: #f9fafb; border-right: 1px solid #e5e7eb; }
+.CodeMirror-linenumber { color: #9ca3af; }
 .CodeMirror-cursor { border-left: 2px solid #f58b8e; }
-.cm-s-material-darker .cm-keyword { color: #e86a6e; font-weight: 600; }
-.cm-s-material-darker .cm-string { color: #d97706; }
-.cm-s-material-darker .cm-number { color: #059669; }
-.cm-s-material-darker .cm-def { color: #6366f1; }
-.cm-s-material-darker .cm-comment { color: #6c7086; font-style: italic; }
-.cm-s-material-darker .cm-operator { color: #89b4fa; }
-.CodeMirror-activeline-background { background: #1e1e2e !important; }
-.error-line-bg { background: rgba(245, 139, 142, 0.15) !important; }
+.CodeMirror-selected { background: #fde8e8 !important; }
+.cm-s-default .cm-keyword { color: #e86a6e; font-weight: 600; }
+.cm-s-default .cm-string { color: #d97706; }
+.cm-s-default .cm-number { color: #059669; }
+.cm-s-default .cm-def { color: #6366f1; }
+.cm-s-default .cm-comment { color: #9ca3af; font-style: italic; }
+.cm-s-default .cm-operator { color: #6b7280; }
+.cm-s-default .cm-variable { color: #374151; }
+.cm-s-default .cm-variable-2 { color: #374151; }
+.cm-s-default .cm-atom { color: #059669; }
+.CodeMirror-activeline-background { background: #f3f4f6 !important; }
+.error-line-bg { background: rgba(245, 139, 142, 0.12) !important; }
 </style>
 </head>
 <body class="bg-white text-gray-900 font-sans">
@@ -164,7 +168,7 @@ p code, li code, td code {
 
     <div class="flex flex-col lg:flex-row gap-4 sm:gap-6 animate-slide-up" style="height: min(calc(100dvh - 18rem), 640px); min-height: 300px;">
       <!-- Editor -->
-      <div class="flex-1 min-h-[200px] lg:min-h-0 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-[#1e1e2e] flex flex-col">
+      <div class="flex-1 min-h-[200px] lg:min-h-0 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-white flex flex-col">
         <div class="flex items-center gap-1.5 px-3 sm:px-4 py-2.5 sm:py-3 bg-gray-100 border-b border-gray-200">
           <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400"></div>
           <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
@@ -203,7 +207,7 @@ SOLTA O GRITO("Soma de 1 a 10: " + soma)</textarea>
           <span class="text-gray-500 text-sm ml-3 font-medium">Output</span>
           <button id="clearBtn" class="ml-auto text-xs text-gray-400 hover:text-gray-600 transition-colors">Clear</button>
         </div>
-        <pre id="output" class="flex-1 min-h-[180px] m-0 bg-[#1e1e2e] text-[#a6e3a1] p-5 font-mono text-sm overflow-auto leading-relaxed whitespace-pre-wrap">Ready to run XanaScript code...</pre>
+        <pre id="output" class="flex-1 min-h-[180px] m-0 bg-white text-gray-700 p-4 sm:p-5 font-mono text-xs sm:text-sm overflow-auto leading-relaxed whitespace-pre-wrap border-t border-gray-100">Ready to run XanaScript code...</pre>
       </div>
     </div>
 
@@ -934,7 +938,7 @@ var defaultCode = document.getElementById('codeEditor').value;
 var cmEditor = CodeMirror(document.getElementById('editorContainer'), {
   value: defaultCode,
   mode: 'javascript',
-  theme: 'material-darker',
+  theme: 'default',
   lineNumbers: true,
   indentUnit: 2,
   tabSize: 2,
@@ -976,7 +980,7 @@ function clearErrorLine() {
 
 function run() {
   output.textContent = '';
-  output.style.color = '#a6e3a1';
+  output.style.color = '#374151';
   runBtn.disabled = true;
   runBtn.textContent = 'Running...';
   runBtn.classList.add('opacity-75');
@@ -1008,7 +1012,7 @@ function run() {
 runBtn.addEventListener('click', run);
 
 clearBtn.addEventListener('click', function() {
-  output.style.color = '#a6e3a1';
+  output.style.color = '#374151';
   output.textContent = 'Ready to run XanaScript code...';
   clearErrorLine();
 });
