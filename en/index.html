@@ -43,6 +43,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css">
 <script>
 tailwind.config = {
   theme: {
@@ -105,9 +107,22 @@ p code, li code, td code {
 .animate-pulse-slow { animation: pulse 3s ease-in-out infinite; }
 
 /* Playground scrollbar */
-#output::-webkit-scrollbar, #codeEditor::-webkit-scrollbar { width: 6px; }
-#output::-webkit-scrollbar-track, #codeEditor::-webkit-scrollbar-track { background: transparent; }
-#output::-webkit-scrollbar-thumb, #codeEditor::-webkit-scrollbar-thumb { background: #45475a; border-radius: 3px; }
+#output::-webkit-scrollbar { width: 6px; }
+#output::-webkit-scrollbar-track { background: transparent; }
+#output::-webkit-scrollbar-thumb { background: #45475a; border-radius: 3px; }
+/* CodeMirror overrides */
+.CodeMirror { height: 100% !important; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+.CodeMirror-gutters { background: #181825; border-right: 1px solid #313244; }
+.CodeMirror-linenumber { color: #585b70; }
+.CodeMirror-cursor { border-left: 2px solid #f58b8e; }
+.cm-s-material-darker .cm-keyword { color: #e86a6e; font-weight: 600; }
+.cm-s-material-darker .cm-string { color: #d97706; }
+.cm-s-material-darker .cm-number { color: #059669; }
+.cm-s-material-darker .cm-def { color: #6366f1; }
+.cm-s-material-darker .cm-comment { color: #6c7086; font-style: italic; }
+.cm-s-material-darker .cm-operator { color: #89b4fa; }
+.CodeMirror-activeline-background { background: #1e1e2e !important; }
+.error-line-bg { background: rgba(245, 139, 142, 0.15) !important; }
 </style>
 </head>
 <body class="bg-white text-gray-900 font-sans">
@@ -123,6 +138,7 @@ p code, li code, td code {
     <a href="#install" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0">Install</a>
     <a href="#syntax" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0">Syntax</a>
     <a href="#features" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0">Features</a>
+    <a href="/docs/" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0">Docs</a>
     <a href="#wasm" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0">Wasm</a>
     <a href="#comparison" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0">vs JS/TS</a>
     <a href="https://github.com/xanascr/xs" target="_blank" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0">GitHub</a>
@@ -152,11 +168,13 @@ p code, li code, td code {
           <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
           <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
           <span class="text-gray-500 text-xs sm:text-sm ml-2 sm:ml-3 font-medium">app.xs</span>
-          <div class="ml-auto flex gap-2">
+          <div class="ml-auto flex gap-1 sm:gap-2">
             <button id="runBtn" class="bg-pinky-400 hover:bg-pinky-500 text-white px-4 sm:px-5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all shadow-md shadow-pinky-200 active:scale-95">Run</button>
           </div>
         </div>
-        <textarea id="codeEditor" class="w-full flex-1 min-h-[160px] bg-[#1e1e2e] text-[#cdd6f4] p-4 sm:p-5 font-mono text-xs sm:text-sm outline-none resize-none leading-relaxed" spellcheck="false">CRIA nome = "XanaScript"
+        <!-- Examples bar -->
+        <div id="examplesBar" class="flex items-center gap-1.5 px-3 sm:px-4 py-1.5 bg-gray-50 border-b border-gray-200 overflow-x-auto"></div>
+        <textarea id="codeEditor" name="codeEditor" spellcheck="false">CRIA nome = "XanaScript"
 CRIA idade = 5
 
 CHAMA ESSE CARA saudacao(nome, idade) {
@@ -171,6 +189,7 @@ REPETE NA MORAL (CRIA i = 1; i <= 10; i += 1) {
 }
 
 SOLTA O GRITO("Soma de 1 a 10: " + soma)</textarea>
+        <div id="editorContainer"></div>
       </div>
 
       <!-- Output -->
@@ -899,20 +918,72 @@ function copyCmd(el) {
   }).catch(function() {});
 }
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/selection/active-line.min.js"></script>
 <script src="../playground/xs-engine.js"></script>
 <script>
-var editor = document.getElementById('codeEditor');
 var output = document.getElementById('output');
 var runBtn = document.getElementById('runBtn');
 var clearBtn = document.getElementById('clearBtn');
 
-runBtn.addEventListener('click', function() {
+var defaultCode = document.getElementById('codeEditor').value;
+
+var cmEditor = CodeMirror(document.getElementById('editorContainer'), {
+  value: defaultCode,
+  mode: 'javascript',
+  theme: 'material-darker',
+  lineNumbers: true,
+  indentUnit: 2,
+  tabSize: 2,
+  lineWrapping: false,
+  styleActiveLine: true,
+  viewportMargin: Infinity,
+  extraKeys: {
+    'Ctrl-Enter': function(cm) { run(); },
+    'Cmd-Enter': function(cm) { run(); }
+  }
+});
+
+document.getElementById('codeEditor').style.display = 'none';
+
+var examples = {
+  'Hello World': 'CRIA nome = "XanaScript"\nSOLTA O GRITO("Hello from " + nome)',
+  'Fibonacci': 'CHAMA ESSE CARA fib(n) {\n  SE LIGA SO (n <= 1) { VOLTA n }\n  VOLTA fib(n - 1) + fib(n - 2)\n}\n\nCRIA i = 0\nREPETE AI (i <= 10) {\n  SOLTA O GRITO("fib(" + i + ") = " + fib(i))\n  i = i + 1\n}',
+  'Loop Sum': 'CRIA soma = 0\nREPETE NA MORAL (CRIA i = 1; i <= 100; i += 1) {\n  soma = soma + i\n}\nSOLTA O GRITO("Sum 1..100 = " + soma)',
+  'Classes': 'CLASSE Animal {\n  CONSTRUTOR(nome) {\n    CRIA ISTO.nome = nome\n  }\n  METODO falar() {\n    SOLTA O GRITO(ISTO.nome + " makes a sound")\n  }\n}\n\nCLASSE Cachorro HERDA Animal {\n  METODO falar() {\n    SOLTA O GRITO(ISTO.nome + " says: Woof!")\n  }\n}\n\nCRIA rex = NOVA Cachorro("Rex")\nrex.falar()',
+  'Pattern Match': 'CRIA descrever = (valor) => COMBINA (valor) {\n  CASO 0 => "zero"\n  CASO 1 => "one"\n  CASO _ => "something else"\n}\n\nSOLTA O GRITO(descrever(0))\nSOLTA O GRITO(descrever(1))\nSOLTA O GRITO(descrever(42))',
+  'Array Ops': 'CRIA nums = [1, 2, 3, 4, 5]\nCRIA doubled = []\nCRIA i = 0\nREPETE AI (i < TAMANHO(nums)) {\n  doubled[i] = nums[i] * 2\n  i = i + 1\n}\nSOLTA O GRITO("Original: " + nums)\nSOLTA O GRITO("Doubled: " + doubled)'
+};
+
+var bar = document.getElementById('examplesBar');
+for (var name in examples) {
+  var btn = document.createElement('button');
+  btn.textContent = name;
+  btn.className = 'text-xs px-2.5 py-1 rounded-md border border-gray-200 bg-white text-gray-500 hover:bg-pinky-50 hover:border-pinky-200 hover:text-pinky-600 transition-colors whitespace-nowrap flex-shrink-0';
+  btn.onclick = (function(code) {
+    return function() { cmEditor.setValue(code); clearErrorLine(); };
+  })(examples[name]);
+  bar.appendChild(btn);
+}
+
+function clearErrorLine() {
+  var line = cmEditor.getLineHandle(0);
+  if (line) { cmEditor.removeLineClass(line, 'background', 'error-line-bg'); }
+}
+
+function run() {
   output.textContent = '';
   output.style.color = '#a6e3a1';
   runBtn.disabled = true;
   runBtn.textContent = 'Running...';
   runBtn.classList.add('opacity-75');
-  window.playgroundRun(editor.value).then(function(out) {
+  clearErrorLine();
+
+  var code = cmEditor.getValue();
+  window.location.hash = '#code=' + encodeURIComponent(code);
+
+  window.playgroundRun(code).then(function(out) {
     output.textContent = out || 'Program finished (no output)';
     runBtn.disabled = false;
     runBtn.textContent = 'Run';
@@ -923,20 +994,29 @@ runBtn.addEventListener('click', function() {
     runBtn.disabled = false;
     runBtn.textContent = 'Run';
     runBtn.classList.remove('opacity-75');
+    var m = e.message.match(/input\.xs:(\d+):(\d+)/);
+    if (m) {
+      var lineNum = parseInt(m[1], 10) - 1;
+      cmEditor.addLineClass(lineNum, 'background', 'error-line-bg');
+      cmEditor.scrollIntoView({line: lineNum, ch: 0}, 200);
+    }
   });
-});
+}
+
+runBtn.addEventListener('click', run);
 
 clearBtn.addEventListener('click', function() {
   output.style.color = '#a6e3a1';
   output.textContent = 'Ready to run XanaScript code...';
+  clearErrorLine();
 });
 
-editor.addEventListener('keydown', function(e) {
-  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-    e.preventDefault();
-    runBtn.click();
+(function() {
+  var m = window.location.hash.match(/code=([^&]+)/);
+  if (m) {
+    cmEditor.setValue(decodeURIComponent(m[1]));
   }
-});
+})();
 </script>
 </body>
 </html>
