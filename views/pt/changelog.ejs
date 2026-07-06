@@ -1,0 +1,35 @@
+<%- include('../partials/head', { lang, t, alternates }) %>
+<%- include('../partials/navbar', { lang, t }) %>
+
+<section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-3xl md:text-5xl font-black text-center mb-4"><%= t('changelog.title') %></h1>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg font-light"><%= t('changelog.subtitle') %></p>
+
+    <div class="space-y-6">
+      <% changelog.forEach(function(r) { %>
+      <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <span class="<%= r.type === 'major' ? 'bg-green-100 text-green-700' : 'bg-pinky-50 text-pinky-600' %> text-xs font-bold px-2.5 py-1 rounded-full"><%= r.version %></span>
+            <span class="text-xs text-gray-400"><%= r.date %></span>
+          </div>
+          <% if (r.type === 'major') { %>
+          <span class="text-xs font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded">Major</span>
+          <% } %>
+        </div>
+        <ul class="space-y-1.5">
+          <% r.changes.forEach(function(c) { %>
+          <li class="text-sm text-gray-600 flex items-start gap-2">
+            <span class="text-pinky-400 mt-0.5">-</span>
+            <span><%= c %></span>
+          </li>
+          <% }) %>
+        </ul>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer', { lang, t }) %>

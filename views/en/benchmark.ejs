@@ -1,0 +1,37 @@
+<%- include('../partials/head', { lang, t, alternates }) %>
+<%- include('../partials/navbar', { lang, t }) %>
+
+<section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
+  <div class="max-w-5xl mx-auto">
+    <h1 class="text-3xl md:text-5xl font-black text-center mb-4"><%= t('benchmark.title') %></h1>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg font-light"><%= t('benchmark.subtitle') %></p>
+
+    <div class="overflow-x-auto border border-gray-200 rounded-2xl">
+      <table class="w-full text-sm">
+        <thead>
+          <tr>
+            <th class="text-left font-semibold text-gray-500 p-4 bg-gray-50">Benchmark</th>
+            <th class="text-right font-semibold text-pinky-500 p-4 bg-gray-50">XanaScript</th>
+            <th class="text-right font-semibold text-gray-500 p-4 bg-gray-50">JavaScript (Node)</th>
+            <th class="text-right font-semibold text-gray-500 p-4 bg-gray-50">Python 3</th>
+            <th class="text-right font-semibold text-gray-500 p-4 bg-gray-50">Lua</th>
+          </tr>
+        </thead>
+        <tbody class="text-gray-600">
+          <% benchmarks.forEach(function(b) { %>
+          <tr class="border-t border-gray-100">
+            <td class="p-4 font-medium text-gray-800"><%= b.name %></td>
+            <td class="p-4 text-right font-mono <%= b.higherBetter ? (b.xs >= b.js && b.xs >= b.python && b.xs >= b.lua ? 'text-green-600' : '') : (b.xs <= b.js && b.xs <= b.python && b.xs <= b.lua ? 'text-green-600' : '') %>"><%= b.xs.toLocaleString() %> <%= b.unit %></td>
+            <td class="p-4 text-right font-mono"><%= b.js.toLocaleString() %> <%= b.unit %></td>
+            <td class="p-4 text-right font-mono"><%= b.python.toLocaleString() %> <%= b.unit %></td>
+            <td class="p-4 text-right font-mono"><%= b.lua.toLocaleString() %> <%= b.unit %></td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+    <p class="text-center text-gray-400 text-xs mt-4">Lower is better, except req/s (higher is better). Tests run on AMD Ryzen 7, Node 22, Python 3.12, Lua 5.4.</p>
+  </div>
+</section>
+
+<%- include('../partials/footer', { lang, t }) %>

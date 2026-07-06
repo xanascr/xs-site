@@ -1,0 +1,117 @@
+<%- include('../partials/head', { lang, t, alternates }) %>
+<%- include('../partials/navbar', { lang, t }) %>
+
+<section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
+  <div class="max-w-5xl mx-auto">
+    <h1 class="text-3xl md:text-5xl font-black text-center mb-4"><%= t('docs.title') %></h1>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg font-light"><%= t('docs.subtitle') %></p>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="md:col-span-1">
+        <nav class="sticky top-24 space-y-1 text-sm">
+          <a href="#getting-started" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-pinky-50 hover:text-pinky-600 no-underline">Primeiros Passos</a>
+          <a href="#syntax" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-pinky-50 hover:text-pinky-600 no-underline">Referência de Sintaxe</a>
+          <a href="#keywords" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-pinky-50 hover:text-pinky-600 no-underline">Palavras-chave</a>
+          <a href="#builtins" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-pinky-50 hover:text-pinky-600 no-underline">Funções Embutidas</a>
+          <a href="#stdlib" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-pinky-50 hover:text-pinky-600 no-underline">Biblioteca Padrão</a>
+          <a href="#orm" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-pinky-50 hover:text-pinky-600 no-underline">Referência ORM</a>
+          <a href="#cli" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-pinky-50 hover:text-pinky-600 no-underline">Comandos CLI</a>
+          <a href="#errors" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-pinky-50 hover:text-pinky-600 no-underline">Códigos de Erro</a>
+        </nav>
+      </div>
+      <div class="md:col-span-2 prose prose-sm max-w-none text-gray-600">
+        <h2 id="getting-started" class="text-2xl font-black text-gray-800 mt-0">Primeiros Passos</h2>
+        <p>XanaScript é uma linguagem de programação com sintaxe em português. Compila para JavaScript e WebAssembly.</p>
+        <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto">npm install -g xanascript
+xs run app.xs</pre>
+
+        <h2 id="syntax" class="text-2xl font-black text-gray-800 mt-8">Referência de Sintaxe</h2>
+        <p>Documentação completa da sintaxe está disponível no <a href="https://github.com/xanascr/xs/tree/main/docs" class="text-pinky-400 hover:underline">repositório xs</a>.</p>
+
+        <h2 id="keywords" class="text-2xl font-black text-gray-800 mt-8">Palavras-chave</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border border-gray-200 rounded-xl">
+            <thead><tr><th class="text-left p-3 bg-gray-50 font-semibold">Palavra-chave</th><th class="text-left p-3 bg-gray-50 font-semibold">Significado</th></tr></thead>
+            <tbody>
+              <tr><td class="p-3 border-t"><code>CRIA</code></td><td class="p-3 border-t">let / const</td></tr>
+              <tr><td class="p-3 border-t"><code>CHAMA ESSE CARA</code></td><td class="p-3 border-t">function</td></tr>
+              <tr><td class="p-3 border-t"><code>VOLTA</code></td><td class="p-3 border-t">return</td></tr>
+              <tr><td class="p-3 border-t"><code>SE LIGA SO</code></td><td class="p-3 border-t">if</td></tr>
+              <tr><td class="p-3 border-t"><code>SENAO</code></td><td class="p-3 border-t">else</td></tr>
+              <tr><td class="p-3 border-t"><code>REPETE NA MORAL</code></td><td class="p-3 border-t">for</td></tr>
+              <tr><td class="p-3 border-t"><code>REPETE AI</code></td><td class="p-3 border-t">while</td></tr>
+              <tr><td class="p-3 border-t"><code>SOLTA O GRITO</code></td><td class="p-3 border-t">console.log</td></tr>
+              <tr><td class="p-3 border-t"><code>CLASSE</code></td><td class="p-3 border-t">class</td></tr>
+              <tr><td class="p-3 border-t"><code>HERDA</code></td><td class="p-3 border-t">extends</td></tr>
+              <tr><td class="p-3 border-t"><code>ISTO</code></td><td class="p-3 border-t">this</td></tr>
+              <tr><td class="p-3 border-t"><code>NOVA</code></td><td class="p-3 border-t">new</td></tr>
+              <tr><td class="p-3 border-t"><code>TENTA</code></td><td class="p-3 border-t">try</td></tr>
+              <tr><td class="p-3 border-t"><code>PEGA</code></td><td class="p-3 border-t">catch</td></tr>
+              <tr><td class="p-3 border-t"><code>COMBINA</code></td><td class="p-3 border-t">match</td></tr>
+              <tr><td class="p-3 border-t"><code>MACRO</code></td><td class="p-3 border-t">macro</td></tr>
+              <tr><td class="p-3 border-t"><code>TABELA</code></td><td class="p-3 border-t">tabela (ORM)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="builtins" class="text-2xl font-black text-gray-800 mt-8">Funções Embutidas</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border border-gray-200 rounded-xl">
+            <thead><tr><th class="text-left p-3 bg-gray-50 font-semibold">Função</th><th class="text-left p-3 bg-gray-50 font-semibold">Descrição</th></tr></thead>
+            <tbody>
+              <tr><td class="p-3 border-t"><code>SOLTA O GRITO(x)</code></td><td class="p-3 border-t">Imprime no console</td></tr>
+              <tr><td class="p-3 border-t"><code>AGORA VAI(url)</code></td><td class="p-3 border-t">Requisição HTTP GET</td></tr>
+              <tr><td class="p-3 border-t"><code>ESPERA AI(ms)</code></td><td class="p-3 border-t">Aguardar / pausar</td></tr>
+              <tr><td class="p-3 border-t"><code>SORTEIA(a, b)</code></td><td class="p-3 border-t">Número aleatório</td></tr>
+              <tr><td class="p-3 border-t"><code>PARSEIA(json)</code></td><td class="p-3 border-t">JSON.parse</td></tr>
+              <tr><td class="p-3 border-t"><code>TAMANHO(x)</code></td><td class="p-3 border-t">Tamanho de array/string</td></tr>
+              <tr><td class="p-3 border-t"><code>TIPO(x)</code></td><td class="p-3 border-t">Tipo do valor</td></tr>
+              <tr><td class="p-3 border-t"><code>OUVE_AQUI(k)</code></td><td class="p-3 border-t">Variável de ambiente</td></tr>
+              <tr><td class="p-3 border-t"><code>OUVE_TUDO()</code></td><td class="p-3 border-t">Array de argumentos CLI</td></tr>
+              <tr><td class="p-3 border-t"><code>CRIA SERVIDOR(p, h)</code></td><td class="p-3 border-t">Servidor HTTP</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="cli" class="text-2xl font-black text-gray-800 mt-8">Comandos CLI</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border border-gray-200 rounded-xl">
+            <thead><tr><th class="text-left p-3 bg-gray-50 font-semibold">Comando</th><th class="text-left p-3 bg-gray-50 font-semibold">Descrição</th></tr></thead>
+            <tbody>
+              <tr><td class="p-3 border-t"><code>xs run file.xs</code></td><td class="p-3 border-t">Executar arquivo</td></tr>
+              <tr><td class="p-3 border-t"><code>xs build file.xs</code></td><td class="p-3 border-t">Compilar para JS</td></tr>
+              <tr><td class="p-3 border-t"><code>xs build --wasm file.xs</code></td><td class="p-3 border-t">Compilar para Wasm</td></tr>
+              <tr><td class="p-3 border-t"><code>xs test .</code></td><td class="p-3 border-t">Executar testes</td></tr>
+              <tr><td class="p-3 border-t"><code>xs fmt file.xs</code></td><td class="p-3 border-t">Formatar código</td></tr>
+              <tr><td class="p-3 border-t"><code>xs repl</code></td><td class="p-3 border-t">Iniciar REPL</td></tr>
+              <tr><td class="p-3 border-t"><code>xs lsp</code></td><td class="p-3 border-t">Iniciar servidor LSP</td></tr>
+              <tr><td class="p-3 border-t"><code>xs init</code></td><td class="p-3 border-t">Criar novo projeto</td></tr>
+              <tr><td class="p-3 border-t"><code>xs install pkg</code></td><td class="p-3 border-t">Instalar pacote</td></tr>
+              <tr><td class="p-3 border-t"><code>xs publish</code></td><td class="p-3 border-t">Publicar pacote</td></tr>
+              <tr><td class="p-3 border-t"><code>xs watch file.xs</code></td><td class="p-3 border-t">Observar + recarregamento automático</td></tr>
+              <tr><td class="p-3 border-t"><code>xs docs</code></td><td class="p-3 border-t">Gerar documentação</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="errors" class="text-2xl font-black text-gray-800 mt-8">Códigos de Erro</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border border-gray-200 rounded-xl">
+            <thead><tr><th class="text-left p-3 bg-gray-50 font-semibold">Código</th><th class="text-left p-3 bg-gray-50 font-semibold">Significado</th></tr></thead>
+            <tbody>
+              <tr><td class="p-3 border-t"><code>E001</code></td><td class="p-3 border-t">Token inesperado</td></tr>
+              <tr><td class="p-3 border-t"><code>E002</code></td><td class="p-3 border-t">Variável não definida</td></tr>
+              <tr><td class="p-3 border-t"><code>E003</code></td><td class="p-3 border-t">Não é uma função</td></tr>
+              <tr><td class="p-3 border-t"><code>E004</code></td><td class="p-3 border-t">Tipo incompatível</td></tr>
+              <tr><td class="p-3 border-t"><code>E005</code></td><td class="p-3 border-t">Sintaxe inválida</td></tr>
+              <tr><td class="p-3 border-t"><code>E100</code></td><td class="p-3 border-t">Falha HTTP</td></tr>
+              <tr><td class="p-3 border-t"><code>E999</code></td><td class="p-3 border-t">Erro interno</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer', { lang, t }) %>

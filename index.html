@@ -3,16 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>XanaScript</title>
+<title>XanaScript — Portuguese-syntax Programming Language</title>
 <script>
 (function() {
-  var lang = (navigator.language || navigator.userLanguage || 'en').substring(0, 2);
+  var lang = (navigator.language || navigator.userLanguage || 'en').slice(0, 2);
   var map = { pt: '/pt/', es: '/es/' };
-  window.location.replace(map[lang] || '/en/');
+  window.location.href = map[lang] || '/en/';
 })();
 </script>
+<link rel="manifest" href="/manifest.json">
 </head>
 <body>
-<p>Redirecting...</p>
+  <p>Redirecting...</p>
 </body>
 </html>

@@ -1,0 +1,96 @@
+<footer class="py-6 px-6 border-t border-gray-200 text-center text-gray-400 text-xs">
+  <p><%= t('footer.text') %></p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/selection/active-line.min.js"></script>
+<script src="/playground/xs-engine.js"></script>
+<script>
+var output = document.getElementById('output');
+var runBtn = document.getElementById('runBtn');
+var clearBtn = document.getElementById('clearBtn');
+var defaultCode = document.getElementById('codeEditor').value;
+var cmEditor = CodeMirror(document.getElementById('editorContainer'), {
+  value: defaultCode,
+  mode: 'javascript',
+  theme: 'default',
+  lineNumbers: true,
+  indentUnit: 2,
+  tabSize: 2,
+  lineWrapping: false,
+  styleActiveLine: true,
+  viewportMargin: Infinity,
+  extraKeys: {
+    'Ctrl-Enter': function(cm) { run(); },
+    'Cmd-Enter': function(cm) { run(); }
+  }
+});
+document.getElementById('codeEditor').style.display = 'none';
+var examples = {
+  'Hello World': 'CRIA nome = "XanaScript"\nSOLTA O GRITO("Hello from " + nome)',
+  'Fibonacci': 'CHAMA ESSE CARA fib(n) {\n  SE LIGA SO (n <= 1) { VOLTA n }\n  VOLTA fib(n - 1) + fib(n - 2)\n}\n\nCRIA i = 0\nREPETE AI (i <= 10) {\n  SOLTA O GRITO("fib(" + i + ") = " + fib(i))\n  i = i + 1\n}',
+  'Loop Sum': 'CRIA soma = 0\nREPETE NA MORAL (CRIA i = 1; i <= 100; i += 1) {\n  soma = soma + i\n}\nSOLTA O GRITO("Sum 1..100 = " + soma)',
+  'Classes': 'CLASSE Animal {\n  CONSTRUTOR(nome) {\n    CRIA ISTO.nome = nome\n  }\n  METODO falar() {\n    SOLTA O GRITO(ISTO.nome + " makes a sound")\n  }\n}\n\nCLASSE Cachorro HERDA Animal {\n  METODO falar() {\n    SOLTA O GRITO(ISTO.nome + " says: Woof!")\n  }\n}\n\nCRIA rex = NOVA Cachorro("Rex")\nrex.falar()',
+  'Pattern Match': 'CRIA descrever = (valor) => COMBINA (valor) {\n  CASO 0 => "zero"\n  CASO 1 => "one"\n  CASO _ => "something else"\n}\n\nSOLTA O GRITO(descrever(0))\nSOLTA O GRITO(descrever(1))\nSOLTA O GRITO(descrever(42))',
+  'Array Ops': 'CRIA nums = [1, 2, 3, 4, 5]\nCRIA doubled = []\nCRIA i = 0\nREPETE AI (i < TAMANHO(nums)) {\n  doubled[i] = nums[i] * 2\n  i = i + 1\n}\nSOLTA O GRITO("Original: " + nums)\nSOLTA O GRITO("Doubled: " + doubled)'
+};
+var bar = document.getElementById('examplesBar');
+for (var name in examples) {
+  var btn = document.createElement('button');
+  btn.textContent = name;
+  btn.className = 'text-xs px-2.5 py-1 rounded-md border border-gray-200 bg-white text-gray-500 hover:bg-pinky-50 hover:border-pinky-200 hover:text-pinky-600 transition-colors whitespace-nowrap flex-shrink-0';
+  btn.onclick = (function(code) {
+    return function() { cmEditor.setValue(code); clearErrorLine(); };
+  })(examples[name]);
+  bar.appendChild(btn);
+}
+function clearErrorLine() {
+  var line = cmEditor.getLineHandle(0);
+  if (line) { cmEditor.removeLineClass(line, 'background', 'error-line-bg'); }
+}
+function run() {
+  output.textContent = '';
+  output.style.color = '#374151';
+  runBtn.disabled = true;
+  runBtn.textContent = 'Running...';
+  runBtn.classList.add('opacity-75');
+  clearErrorLine();
+  var code = cmEditor.getValue();
+  window.location.hash = '#code=' + encodeURIComponent(code);
+  window.playgroundRun(code).then(function(out) {
+    output.textContent = out || 'Program finished (no output)';
+    runBtn.disabled = false;
+    runBtn.textContent = '<%= t('playground.run') %>';
+    runBtn.classList.remove('opacity-75');
+  }).catch(function(err) {
+    var msg = err.message || String(err);
+    output.textContent = msg;
+    var m = msg.match(/input\.xs:(\d+):(\d+)/);
+    if (m) {
+      var lineNum = parseInt(m[1]) - 1;
+      var line = cmEditor.getLineHandle(lineNum);
+      if (line) {
+        cmEditor.addLineClass(lineNum, 'background', 'error-line-bg');
+        cmEditor.scrollIntoView({ line: lineNum, ch: 0 }, 80);
+      }
+    }
+    runBtn.disabled = false;
+    runBtn.textContent = '<%= t('playground.run') %>';
+    runBtn.classList.remove('opacity-75');
+  });
+}
+runBtn.addEventListener('click', run);
+clearBtn.addEventListener('click', function() {
+  output.style.color = '#374151';
+  output.textContent = '<%= t('playground.ready') %>';
+  clearErrorLine();
+});
+(function() {
+  var m = window.location.hash.match(/code=([^&]+)/);
+  if (m) {
+    cmEditor.setValue(decodeURIComponent(m[1]));
+  }
+})();
+</script>
+</body>
+</html>

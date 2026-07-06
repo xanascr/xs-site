@@ -1,0 +1,25 @@
+<nav class="fixed top-0 left-0 right-0 z-50 h-16 bg-white/90 backdrop-blur-sm border-b border-gray-200 flex items-center justify-between px-4 sm:px-6 lg:px-10">
+  <a href="/<%= lang === 'en' ? '' : lang %>/" class="flex items-center gap-3 no-underline">
+    <span class="text-lg font-black text-pinky-500">XanaScript</span>
+  </a>
+  <button id="menuBtn" class="lg:hidden p-2 text-gray-500 hover:text-gray-900" onclick="document.getElementById('navLinks').classList.toggle('hidden')">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
+  <div id="navLinks" class="hidden lg:flex absolute lg:static top-16 left-0 right-0 bg-white/95 lg:bg-transparent backdrop-blur-sm lg:backdrop-blur-none border-b lg:border-b-0 border-gray-200 px-4 lg:px-0 pb-4 lg:pb-0 flex-col lg:flex-row items-start lg:items-center gap-3 lg:gap-6 text-sm shadow-lg lg:shadow-none">
+    <a href="/<%= lang === 'en' ? '' : lang %>/#install" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0"><%= t('nav.install') %></a>
+    <a href="/<%= lang === 'en' ? '' : lang %>/#syntax" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0"><%= t('nav.syntax') %></a>
+    <a href="/<%= lang === 'en' ? '' : lang %>/#features" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0"><%= t('nav.features') %></a>
+    <a href="/<%= lang === 'en' ? '' : lang %>/docs" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0"><%= t('nav.docs') %></a>
+    <a href="/<%= lang === 'en' ? '' : lang %>/examples" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0"><%= t('nav.examples') %></a>
+    <a href="/<%= lang === 'en' ? '' : lang %>/benchmark" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0"><%= t('nav.benchmark') %></a>
+    <a href="/<%= lang === 'en' ? '' : lang %>/changelog" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0"><%= t('nav.changelog') %></a>
+    <a href="/<%= lang === 'en' ? '' : lang %>/packages" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0"><%= t('nav.packages') %></a>
+    <a href="https://github.com/xanascr/xs" target="_blank" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0"><%= t('nav.github') %></a>
+    <div class="flex items-center gap-1.5 w-full lg:w-auto py-2 lg:py-0 border-t lg:border-t-0 border-gray-100 pt-3 lg:pt-0 mt-2 lg:mt-0">
+      <a href="/en/" class="text-xs font-semibold px-2 py-1 rounded no-underline transition-colors <%= lang === 'en' ? 'text-white bg-pinky-400' : 'text-gray-400 hover:text-gray-700 hover:bg-gray-100' %>">EN</a>
+      <a href="/pt/" class="text-xs font-semibold px-2 py-1 rounded no-underline transition-colors <%= lang === 'pt' ? 'text-white bg-pinky-400' : 'text-gray-400 hover:text-gray-700 hover:bg-gray-100' %>">PT</a>
+      <a href="/es/" class="text-xs font-semibold px-2 py-1 rounded no-underline transition-colors <%= lang === 'es' ? 'text-white bg-pinky-400' : 'text-gray-400 hover:text-gray-700 hover:bg-gray-100' %>">ES</a>
+    </div>
+    <a href="/<%= lang === 'en' ? '' : lang %>/#install" class="block w-full lg:w-auto text-center bg-pinky-400 hover:bg-pinky-500 text-white px-5 py-2 rounded-lg font-semibold no-underline transition-all text-sm"><%= t('nav.getStarted') %></a>
+  </div>
+</nav>
