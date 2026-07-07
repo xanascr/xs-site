@@ -10,6 +10,10 @@
       <input name="password" type="password" placeholder="Password" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-pinky-400">
       <div id="loginError" class="text-red-500 text-sm hidden"></div>
       <button type="submit" class="w-full bg-pinky-400 hover:bg-pinky-500 text-white font-semibold py-3 rounded-xl transition-all">LOGIN</button>
+      <div id="resendVerify" class="text-center hidden">
+        <button id="resendBtn" class="text-pinky-400 hover:underline text-sm">Resend verification email</button>
+        <p id="resendMsg" class="text-green-500 text-xs hidden"></p>
+      </div>
       <p class="text-center text-sm"><a href="<%= lang === 'en' ? '' : '/' + lang %>/forgot-password" class="text-pinky-400 hover:underline">Forgot password?</a></p>
     </form>
 
@@ -46,6 +50,9 @@
       if (!data.ok) {
         loginError.textContent = data.error;
         loginError.classList.remove('hidden');
+        if (data.emailNotVerified) {
+          document.getElementById('resendVerify').classList.remove('hidden');
+        }
         return;
       }
       if (data.require2fa) {
@@ -60,6 +67,40 @@
     } catch (e) {
       loginError.textContent = 'Network error';
       loginError.classList.remove('hidden');
+    }
+  };
+
+  document.getElementById('resendBtn').onclick = async function() {
+    var fd = new FormData(loginForm);
+    var btn = document.getElementById('resendBtn');
+    var msg = document.getElementById('resendMsg');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    msg.classList.add('hidden');
+    try {
+      var r = await fetch('/api/auth/resend-verification-public', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: fd.get('username'), password: fd.get('password') }),
+      });
+      var d = await r.json();
+      if (d.ok) {
+        msg.textContent = 'Verification email sent! Check your inbox.';
+        msg.classList.remove('hidden');
+        btn.remove();
+      } else {
+        msg.textContent = d.error || 'Failed to resend. Try again.';
+        msg.classList.remove('hidden');
+        msg.style.color = 'red';
+        btn.disabled = false;
+        btn.textContent = 'Resend verification email';
+      }
+    } catch (e) {
+      msg.textContent = 'Network error';
+      msg.classList.remove('hidden');
+      msg.style.color = 'red';
+      btn.disabled = false;
+      btn.textContent = 'Resend verification email';
     }
   };
 

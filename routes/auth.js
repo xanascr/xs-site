@@ -385,6 +385,29 @@ router.post("/resend-verification", auth, async (req, res) => {
   }
 });
 
+// Public resend-verification (no auth required — user provides username+password)
+router.post("/resend-verification-public", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password)
+      return res.status(400).json({ ok: false, error: "Username and password required" });
+
+    const user = await User.findOne({ $or: [{ username }, { email: username }] });
+    if (!user) return res.status(404).json({ ok: false, error: "User not found" });
+    if (!(await user.comparePassword(password)))
+      return res.status(401).json({ ok: false, error: "Invalid credentials" });
+    if (user.emailVerified)
+      return res.json({ ok: true, message: "Already verified" });
+
+    const token = user.generateVerificationToken();
+    await user.save();
+    await sendVerificationEmail(user.email, user.username, token);
+    res.json({ ok: true, message: "Verification email sent" });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: "Internal server error" });
+  }
+});
+
 router.post("/verify-email", async (req, res) => {
   try {
     const { token } = req.body;
