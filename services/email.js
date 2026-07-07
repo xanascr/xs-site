@@ -3,7 +3,6 @@ import ejs from "ejs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { enqueue } from "./emailQueue.js";
-import { BANNER_BASE64 } from "../emails/banner.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const TEMPLATES_DIR = path.join(__dirname, "..", "emails");
@@ -25,7 +24,6 @@ function renderTemplate(templateName, data) {
   const filePath = path.join(TEMPLATES_DIR, `${templateName}.ejs`);
   return ejs.renderFile(filePath, {
     ...data,
-    bannerBase64: BANNER_BASE64,
     siteUrl: SITE_URL,
   });
 }
