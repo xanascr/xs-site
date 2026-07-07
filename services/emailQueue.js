@@ -19,7 +19,10 @@ try {
       },
     });
     emailQueue.on("error", (err) => console.warn("[email-queue] Bull error:", err.message));
+    emailQueue.on("failed", (job, err) => console.error("[email-queue] Job failed after", job.attemptsMade, "attempts:", err.message));
+    emailQueue.on("completed", (job) => console.log("[email-queue] Job completed:", job.data.to));
     emailQueue.process(async (job) => {
+      console.log("[email-queue] Processing email to", job.data.to);
       await job.data.sendMailFn(job.data);
     });
   }

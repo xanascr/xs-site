@@ -31,7 +31,13 @@ function renderTemplate(templateName, data) {
 }
 
 async function sendMail(options) {
-  await transporter.sendMail({ from: FROM, ...options });
+  try {
+    await transporter.sendMail({ from: FROM, ...options });
+    console.log("[email] Sent to", options.to);
+  } catch (e) {
+    console.error("[email] Failed to send to", options.to, ":", e.message);
+    throw e;
+  }
 }
 
 export async function sendVerificationEmail(email, username, token) {
