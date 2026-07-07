@@ -1,15 +1,13 @@
 {
-  "nav.install": "Install",
-  "nav.syntax": "Syntax",
-  "nav.features": "Features",
   "nav.docs": "Docs",
-  "nav.wasm": "Wasm",
   "nav.examples": "Examples",
-  "nav.benchmark": "Benchmark",
-  "nav.changelog": "Changelog",
+  "nav.playground": "Playground",
   "nav.packages": "Packages",
   "nav.github": "GitHub",
-  "nav.getStarted": "Get Started",
+  "nav.login": "Login",
+  "nav.signup": "Sign Up",
+  "nav.dashboard": "Dashboard",
+  "nav.logout": "Logout",
   "hero.title": "Write code in Portuguese. Run it <span class=\"text-pinky-400\">anywhere</span>.",
   "hero.subtitle": "A full programming language with optimizing compiler, built-in ORM, compile-time macros, and native WebAssembly.",
   "playground.run": "Run",
@@ -41,9 +39,5 @@
   "packages.publish": "Publish Package",
   "packages.noResults": "No packages found.",
   "docs.title": "Documentation",
-  "docs.subtitle": "Complete API reference for the XanaScript language.",
-  "nav.login": "Login",
-  "nav.signup": "Sign Up",
-  "nav.dashboard": "Dashboard",
-  "nav.logout": "Logout"
+  "docs.subtitle": "Complete API reference for the XanaScript language."
 }

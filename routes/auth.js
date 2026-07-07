@@ -132,7 +132,7 @@ router.post("/2fa/verify", async (req, res) => {
     }
 
     // Try TOTP code first
-    if (verifyToken(user.twoFactorSecret, code)) {
+    if (await verifyToken(user.twoFactorSecret, code)) {
       const token = signToken(user);
       return res.json({ ok: true, token, user: user.toPublic() });
     }
@@ -192,7 +192,7 @@ router.post("/2fa/confirm", auth, async (req, res) => {
       return res.status(400).json({ ok: false, error: "2FA already enabled" });
     }
 
-    if (!verifyToken(user.twoFactorSecret, code)) {
+    if (!(await verifyToken(user.twoFactorSecret, code))) {
       return res.status(401).json({ ok: false, error: "Invalid code. Make sure your authenticator app is synced." });
     }
 
@@ -224,7 +224,7 @@ router.post("/2fa/disable", auth, async (req, res) => {
 
     // Verify TOTP or backup code if provided
     if (code && user.twoFactorEnabled) {
-      const validTotp = verifyToken(user.twoFactorSecret, code);
+      const validTotp = await verifyToken(user.twoFactorSecret, code);
       const validBackup = verifyBackupCode(code, user.twoFactorBackupCodes);
       if (!validTotp && !validBackup) {
         return res.status(401).json({ ok: false, error: "Invalid 2FA code" });

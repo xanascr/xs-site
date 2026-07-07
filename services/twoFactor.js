@@ -1,26 +1,40 @@
 import crypto from "crypto";
-import { authenticator } from "otplib";
 
 const APP_NAME = "XanaScript";
 
-export function generateSecret(username) {
-  const secret = authenticator.generateSecret();
-  const otpauth = authenticator.keyuri(username, APP_NAME, secret);
+let _otplib = null;
+async function getOtplib() {
+  if (!_otplib) _otplib = await import("otplib/functional");
+  return _otplib;
+}
+
+export async function generateSecret(username) {
+  const { generateSecret: gs, generateURI } = await getOtplib();
+  const secret = gs();
+  const otpauth = generateURI({ issuer: APP_NAME, label: username, secret });
   return { secret, otpauth };
 }
 
-export function verifyToken(secret, token) {
+export async function verifyToken(secret, token) {
   try {
-    return authenticator.verify({ token, secret });
+    const { verify } = await getOtplib();
+    const result = await verify({ token, secret });
+    return result.valid;
   } catch {
     return false;
   }
 }
 
+export async function generateToken(secret) {
+  const { generate } = await getOtplib();
+  return generate({ secret });
+}
+
 export function generateBackupCodes(count = 8) {
   const codes = [];
   for (let i = 0; i < count; i++) {
-    const code = crypto.randomBytes(5).toString("hex").toUpperCase().match(/.{5}/g).join("-");
+    const raw = crypto.randomBytes(5).toString("hex").toUpperCase();
+    const code = raw.match(/.{5}/g).join("-");
     codes.push(code);
   }
   return codes;

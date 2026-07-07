@@ -3,19 +3,28 @@
 
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen flex items-center justify-center">
   <div class="w-full max-w-sm">
-    <h1 class="text-3xl font-black text-center mb-8">Registrarse</h1>
+    <h1 class="text-3xl font-black text-center mb-8 uppercase tracking-wider">REGISTRARSE</h1>
     <form id="signupForm" class="space-y-4">
       <input name="username" type="text" placeholder="Usuario (3-32 caracteres)" pattern="^[a-z0-9_-]{3,32}$" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-pinky-400">
-      <input name="email" type="email" placeholder="Correo electrónico" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-pinky-400">
-      <input name="password" type="password" placeholder="Contraseña (mín. 8 caracteres)" minlength="8" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-pinky-400">
-      <label class="flex items-start gap-2 text-xs text-gray-500">
-        <input type="checkbox" name="privacyConsent" required class="mt-0.5 accent-pinky-400">
-        Acepto la <a href="/<%= lang === 'en' ? '' : lang %>/privacy" class="text-pinky-400 hover:underline">Política de Privacidad</a> y consiento el tratamiento de mis datos personales según la LGPD.
-      </label>
+      <input name="email" type="email" placeholder="Correo electronico" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-pinky-400">
+      <input name="password" type="password" placeholder="Contrasena (min. 8 caracteres)" minlength="8" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-pinky-400">
+
+      <div class="bg-pinky-50 border border-pinky-200 rounded-xl p-4 space-y-3">
+        <label class="flex items-start gap-3 cursor-pointer">
+          <input type="checkbox" name="privacyConsent" required class="mt-0.5 accent-pinky-400 w-4 h-4 shrink-0">
+          <span class="text-xs text-gray-600 leading-relaxed">
+            Acepto la <a href="/<%= lang %>/privacy" class="text-pinky-500 hover:underline font-semibold">Politica de Privacidad</a> y consiento el tratamiento de mis datos personales segun la <strong class="text-gray-700">LGPD</strong>.
+          </span>
+        </label>
+        <p class="text-2xs text-gray-400 ml-7 leading-relaxed">
+          Tus datos se usan solo para autenticacion y gestion de paquetes. Puedes solicitar exportacion o eliminacion de datos en cualquier momento.
+        </p>
+      </div>
+
       <div id="signupError" class="text-red-500 text-sm hidden"></div>
-      <button type="submit" class="w-full bg-pinky-400 hover:bg-pinky-500 text-white font-semibold py-3 rounded-xl transition-all">Crear cuenta</button>
+      <button type="submit" class="w-full bg-pinky-400 hover:bg-pinky-500 text-white font-semibold py-3 rounded-xl transition-all">CREAR CUENTA</button>
     </form>
-    <p class="text-center text-sm text-gray-400 mt-4">¿Ya estás registrado? <a href="/<%= lang === 'en' ? '' : lang %>/login" class="text-pinky-400 hover:underline">Iniciar sesión</a></p>
+    <p class="text-center text-sm text-gray-400 mt-4">Ya estas registrado? <a href="/<%= lang %>/login" class="text-pinky-400 hover:underline">Iniciar sesion</a></p>
   </div>
 </section>
 
@@ -35,7 +44,7 @@ document.getElementById('signupForm').onsubmit = async (e) => {
     if (!data.ok) { errEl.textContent = data.error; errEl.classList.remove('hidden'); return; }
     localStorage.setItem('xs_token', data.token);
     localStorage.setItem('xs_user', JSON.stringify(data.user));
-    window.location.href = '/<%= lang === 'en' ? '' : lang %>/packages/dashboard';
+    window.location.href = '/<%= lang %>/packages/dashboard';
   } catch (e) { errEl.textContent = 'Error de red'; errEl.classList.remove('hidden'); }
 };
 </script>
