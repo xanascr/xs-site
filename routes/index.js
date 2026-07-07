@@ -69,6 +69,42 @@ const examples = [
     code: `CRIA fetch = ASSINCRONO (url) => {\n  TENTA {\n    CRIA res = AGORA VAI(url)\n    CRIA data = PARSEIA(res)\n    VOLTA data\n  } PEGA (err) {\n    SOLTA O GRITO("Error: " + err)\n    VOLTA null\n  }\n}\n\nCRIA run = ASSINCRONO () => {\n  CRIA users = ESPERA AI fetch("https://jsonplaceholder.typicode.com/users/1")\n  SE LIGA SO (users != null) {\n    SOLTA O GRITO("Name: " + users.name)\n    SOLTA O GRITO("Email: " + users.email)\n  }\n}\n\nESPERA AI run()`,
     desc: "Async/await with HTTP GET, JSON parsing, and try/catch error handling."
   },
+  {
+    title: "Bitwise Operators",
+    lang: "xs",
+    code: `CRIA a = 0b1100\nCRIA b = 0b1010\n\nSOLTA O GRITO("a & b =", a & b)   // 8 (1000)\nSOLTA O GRITO("a | b =", a | b)   // 14 (1110)\nSOLTA O GRITO("a ^ b =", a ^ b)   // 6 (0110)\nSOLTA O GRITO("~a    =", ~a)      // -13\nSOLTA O GRITO("1 << 3 =", 1 << 3) // 8\nSOLTA O GRITO("16 >> 2 =", 16 >> 2) // 4\n\n// Compound assignment\nCRIA x = 5\nx |= 2  // x = 5 | 2 = 7\nx &= 3  // x = 7 & 3 = 3\nSOLTA O GRITO("x =", x)`,
+    desc: "Bitwise operations (| & ^ ~ << >>) with compound assignment, ideal for flags and binary protocols."
+  },
+  {
+    title: "Base64 Encoding",
+    lang: "xs",
+    code: `IMPORTA "base64" AS b64\n\nCRIA original = "Hello World!"\nCRIA encoded = b64.encode(original)\nCRIA decoded = b64.decode(encoded)\n\nSOLTA O GRITO("Original:", original)\nSOLTA O GRITO("Encoded:", encoded)\nSOLTA O GRITO("Decoded:", decoded)\n\n// URL-safe variant\nCRIA urlSafe = b64.encodeURL("https://example.com")\nSOLTA O GRITO("URL-safe:", urlSafe)\n\n// File/bytes support\nCRIA bytes = [72, 101, 108, 108, 111]\nCRIA fileB64 = b64.encodeFile(bytes)\nSOLTA O GRITO("File B64:", fileB64)\n\n// Validation\nSOLTA O GRITO("Valid?", b64.isValid(encoded))`,
+    desc: "Base64 encode/decode for strings, bytes, and URLs using native bitwise operators."
+  },
+  {
+    title: "Macros (Compile-time)",
+    lang: "xs",
+    code: `MACRO measure(name, expr) {\n  VOLTA [\n    'CRIA __start = AGORA()',\n    expr[0],\n    'SOLTA O GRITO("' + name + ': " + (AGORA() - __start) + "ms")'\n  ]\n}\n\nmeasure("loop", REPETE NA MORAL (CRIA i = 0; i < 1000; i += 1) {\n  CRIA _ = i * i\n})\n\nMACRO assert(cond) {\n  CRIA code = TEXTO(cond)\n  VOLTA [\n    "SE LIGA SO (!(" + code + ")) { SOLTA O GRITO('FAIL: " + code + "') }"\n  ]\n}\n\nassert(2 + 2 == 4)\nassert(3 * 3 == 9)`,
+    desc: "Compile-time macros that receive AST nodes and generate code, useful for metaprogramming."
+  },
+  {
+    title: "Classes & OOP",
+    lang: "xs",
+    code: `CLASSE Animal {\n  CONSTRUTOR(nome) {\n    ISTO.nome = nome\n  }\n  METODO speak() {\n    SOLTA O GRITO(ISTO.nome + " makes a sound")\n  }\n}\n\nCLASSE Dog HERDA Animal {\n  METODO speak() {\n    SOLTA O GRITO(ISTO.nome + " says: Woof!")\n  }\n}\n\nCRIA a = NOVA Animal("Generic")\nCRIA d = NOVA Dog("Rex")\na.speak()\nd.speak()\n\nSOLTA O GRITO("d is Dog?", d instanceof Dog)\nSOLTA O GRITO("d is Animal?", d instanceof Animal)`,
+    desc: "Class-based OOP with inheritance, constructor, methods, and instanceof operator."
+  },
+  {
+    title: "Error Handling",
+    lang: "xs",
+    code: `CHAMA ESSE CARA divideSafe(a, b) {\n  TENTA {\n    SE LIGA SO (b == 0) {\n      SOLTA O GRITO("Cannot divide by zero!")\n      VOLTA null\n    }\n    VOLTA a / b\n  } PEGA (err) {\n    SOLTA O GRITO("Error: " + err)\n    VOLTA null\n  }\n}\n\nSOLTA O GRITO("10 / 2 =", divideSafe(10, 2))\nSOLTA O GRITO("10 / 0 =", divideSafe(10, 0))\n\nCHAMA ESSE CARA parseJSON(texto) {\n  TENTA {\n    CRIA data = PARSEIA(texto)\n    SOLTA O GRITO("Parsed:", data)\n  } PEGA (err) {\n    SOLTA O GRITO("Invalid JSON: " + err)\n  }\n}\n\nparseJSON('{"name": "XS", "version": 2}')\nparseJSON("not valid json")`,
+    desc: "Try/catch error handling with safe division and JSON parsing examples."
+  },
+  {
+    title: "Tasks & Scheduling",
+    lang: "xs",
+    code: `TAREFA "backup" {\n  SOLTA O GRITO("Running backup...")\n  ESPERA AI(1000)\n  SOLTA O GRITO("Backup complete!")\n}\n\nTAREFA "sendReport" {\n  SOLTA O GRITO("Sending report...")\n  ESPERA AI(500)\n  SOLTA O GRITO("Report sent!")\n}\n\nSOLTA O GRITO("Starting tasks...")\nESPERA AI(100)\nSOLTA O GRITO("Main program continues...")`,
+    desc: "Named async tasks for background operations like backups, reports, and scheduled jobs."
+  },
 ];
 
 router.get("/", (req, res) => {

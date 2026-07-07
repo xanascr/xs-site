@@ -1,6 +1,7 @@
 <%- include('../partials/head', { lang, t, alternates }) %>
 <%- include('../partials/navbar', { lang, t }) %>
 
+<div id="adminRoot" class="hidden">
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
   <div class="max-w-5xl mx-auto">
     <div id="adminHeader">
@@ -14,17 +15,34 @@
         <button class="tab-btn text-sm px-4 py-2 rounded-lg font-semibold bg-gray-100 text-gray-500 hover:bg-gray-200" data-status="approved">Aprovados</button>
         <button class="tab-btn text-sm px-4 py-2 rounded-lg font-semibold bg-gray-100 text-gray-500 hover:bg-gray-200" data-status="rejected">Rejeitados</button>
       </div>
-      <div id="adminList" class="space-y-4"></div>
+      <div id="adminList" class="space-y-4 mb-12"></div>
+    </div>
+
+    <div id="apiKeysSection" class="hidden">
+      <h2 class="text-xl font-black mb-4">Chaves de API</h2>
+      <p class="text-sm text-gray-500 mb-4">Tokens de acesso pessoal para operacoes automatizadas (CLI publish, CI/CD).</p>
+
+      <div class="flex gap-2 mb-4">
+        <input id="newKeyName" type="text" placeholder="ex: meu-ci-cd" maxlength="64" class="flex-1 px-4 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-pinky-400">
+        <button id="createKeyBtn" class="bg-pinky-400 hover:bg-pinky-500 text-white font-semibold px-4 py-2 rounded-xl text-sm transition-all">Gerar</button>
+      </div>
+
+      <div id="newKeyResult" class="hidden bg-amber-50 border border-amber-200 rounded-xl p-4 mb-4">
+        <p class="text-sm font-semibold text-amber-800 mb-1">Salve este token — ele nao sera mostrado novamente!</p>
+        <code id="newKeyValue" class="block bg-white border border-amber-200 rounded-lg px-3 py-2 text-sm font-mono select-all"></code>
+      </div>
+
+      <div id="keysList" class="space-y-3"></div>
     </div>
   </div>
 </section>
+</div>
 
 <script>
 (function() {
   var token = localStorage.getItem('xs_token');
-  var user = JSON.parse(localStorage.getItem('xs_user') || 'null');
 
-  if (!token || !user) {
+  if (!token) {
     window.location.href = '/<%= lang %>/login';
     return;
   }
@@ -36,6 +54,7 @@
         window.location.href = '/<%= lang %>/packages/dashboard';
         return;
       }
+      document.getElementById('adminRoot').classList.remove('hidden');
       initAdmin(token);
     })
     .catch(function() {
@@ -76,7 +95,7 @@
             btn.onclick = function() {
               var reason = prompt('Motivo da rejeicao:');
               if (reason === null) return;
-              fetch('/api/admin/packages/' + this.dataset.name + '/reject', { method: 'POST', headers: { 'Authorization': 'Bearer ' + tkn, 'Content-Type': 'application/json' }, body: JSON.stringify({ reason: reason || 'Nenhum motivo informado' }) })
+              fetch('/api/admin/packages/' + this.dataset.name + '/reject', { method: 'POST', headers: { 'Authorization': 'Bearer ' + tkn, 'Content-Type': 'application/json' }, body: JSON.stringify({ reason: reason || 'Nenhum motivo' }) })
                 .then(function(r) { return r.json(); })
                 .then(function(d) { if (d.ok) loadPackages(currentStatus); });
             };
@@ -94,6 +113,58 @@
     });
 
     loadPackages('pending');
+    loadKeys();
+
+    function loadKeys() {
+      fetch('/api/auth/api-keys', { headers: { 'Authorization': 'Bearer ' + tkn } })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          var list = document.getElementById('keysList');
+          list.innerHTML = '';
+          if (!data.ok || !data.keys || data.keys.length === 0) {
+            list.innerHTML = '<p class="text-center text-gray-400 text-sm py-6">Nenhuma chave de API. Gere uma acima.</p>';
+            return;
+          }
+          data.keys.forEach(function(k) {
+            var div = document.createElement('div');
+            div.className = 'bg-white rounded-xl border border-gray-200 p-4 flex items-center justify-between';
+            div.innerHTML = '<div><div class="font-semibold text-sm text-gray-800">' + escapeHtml(k.name) + '</div><div class="text-xs text-gray-400 mt-0.5"><code>' + escapeHtml(k.prefix) + '...</code> &middot; Criada ' + new Date(k.createdAt).toLocaleDateString() + (k.lastUsedAt ? ' &middot; Usada ' + new Date(k.lastUsedAt).toLocaleDateString() : ' &middot; Nunca usada') + '</div></div><button class="revoke-key text-xs text-red-500 hover:text-red-700 hover:bg-red-50 px-3 py-1 rounded-lg transition-colors" data-id="' + k.id + '">Revogar</button></div>';
+            list.appendChild(div);
+          });
+          document.querySelectorAll('.revoke-key').forEach(function(btn) {
+            btn.onclick = function() {
+              if (!confirm('Revogar esta chave de API? Qualquer servico usando-a perdera acesso.')) return;
+              fetch('/api/auth/api-keys/' + this.dataset.id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + tkn } })
+                .then(function(r) { return r.json(); })
+                .then(function(d) { if (d.ok) loadKeys(); });
+            };
+          });
+        });
+    }
+
+    document.getElementById('createKeyBtn').onclick = function() {
+      var name = document.getElementById('newKeyName').value.trim();
+      if (!name) { alert('Digite um nome para esta chave.'); return; }
+      fetch('/api/auth/api-keys', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + tkn, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name }),
+      })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (!data.ok) { alert(data.error); return; }
+          document.getElementById('newKeyName').value = '';
+          document.getElementById('newKeyValue').textContent = data.key.token;
+          document.getElementById('newKeyResult').classList.remove('hidden');
+          loadKeys();
+        });
+    };
+  }
+
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
   }
 })();
 </script>
