@@ -1,4 +1,5 @@
 import Bull from "bull";
+import { sendMail } from "./email.js";
 
 const MAX_RETRIES = 3;
 const MAX_QUEUE_SIZE = 1000;
@@ -23,7 +24,7 @@ try {
     emailQueue.on("completed", (job) => console.log("[email-queue] Job completed:", job.data.to));
     emailQueue.process(async (job) => {
       console.log("[email-queue] Processing email to", job.data.to);
-      await job.data.sendMailFn(job.data);
+      await sendMail(job.data);
     });
   }
 } catch (e) {
@@ -38,7 +39,7 @@ async function processFallback() {
     const job = fallbackQueue.shift();
     for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
       try {
-        await job.sendMailFn(job);
+        await sendMail(job);
         break;
       } catch (e) {
         console.warn(`[email-queue] Attempt ${attempt}/${MAX_RETRIES} failed:`, e.message);
@@ -55,7 +56,7 @@ async function processFallback() {
 
 export function enqueue(sendMailFn, job) {
   if (emailQueue) {
-    emailQueue.add({ sendMailFn, ...job });
+    emailQueue.add(job);
   } else {
     if (fallbackQueue.length >= MAX_QUEUE_SIZE) {
       console.warn("[email-queue] Fallback queue full, dropping oldest email");

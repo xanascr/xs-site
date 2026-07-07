@@ -30,7 +30,7 @@ function renderTemplate(templateName, data) {
   });
 }
 
-async function sendMail(options) {
+export async function sendMail(options) {
   try {
     await transporter.sendMail({ from: FROM, ...options });
     console.log("[email] Sent to", options.to);
