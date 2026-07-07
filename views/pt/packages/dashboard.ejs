@@ -24,12 +24,12 @@
 (function() {
   var token = localStorage.getItem('xs_token');
   var user = JSON.parse(localStorage.getItem('xs_user') || 'null');
-  if (!token || !user) { window.location.href = '/<%= lang === 'en' ? '' : lang %>/login'; return; }
+  if (!token || !user) { window.location.href = '<%= lang === 'en' ? '' : '/' + lang %>/login'; return; }
   document.getElementById('userInfo').textContent = 'Logado como ' + user.username + ' (' + user.role + ')';
   document.getElementById('logoutBtn').onclick = function() {
     localStorage.removeItem('xs_token');
     localStorage.removeItem('xs_user');
-    window.location.href = '/<%= lang === 'en' ? '' : lang %>/';
+    window.location.href = '<%= lang === 'en' ? '' : '/' + lang %>/';
   };
   fetch('/api/packages/mine', { headers: { 'Authorization': 'Bearer ' + token } })
     .then(function(r) { return r.json(); })
