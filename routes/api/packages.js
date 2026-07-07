@@ -274,13 +274,12 @@ router.post("/:name/download", async (req, res) => {
 
     await Package.updateOne({ _id: pkg._id }, { $inc: { downloads: 1 } });
 
-    if (pkg.s3Key) {
-      const data = await downloadFromSeaweedFS(req, pkg.s3Key);
-      if (data) {
-        res.set("Content-Type", "application/gzip");
-        res.set("Content-Disposition", `attachment; filename="${pkg.name}-${pkg.version}.tar.gz"`);
-        return res.send(data);
-      }
+    const key = pkg.s3Key || `${pkg.name}-${pkg.version}.tar.gz`;
+    const data = await downloadFromSeaweedFS(req, key);
+    if (data) {
+      res.set("Content-Type", "application/gzip");
+      res.set("Content-Disposition", `attachment; filename="${pkg.name}-${pkg.version}.tar.gz"`);
+      return res.send(data);
     }
 
     res.json({
