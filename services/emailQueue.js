@@ -20,8 +20,7 @@ try {
     });
     emailQueue.on("error", (err) => console.warn("[email-queue] Bull error:", err.message));
     emailQueue.process(async (job) => {
-      const html = await job.data.htmlPromise;
-      await job.data.sendMailFn({ ...job.data, html });
+      await job.data.sendMailFn(job.data);
     });
   }
 } catch (e) {
@@ -36,8 +35,7 @@ async function processFallback() {
     const job = fallbackQueue.shift();
     for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
       try {
-        const html = await job.htmlPromise;
-        await job.sendMailFn({ ...job, html });
+        await job.sendMailFn(job);
         break;
       } catch (e) {
         console.warn(`[email-queue] Attempt ${attempt}/${MAX_RETRIES} failed:`, e.message);

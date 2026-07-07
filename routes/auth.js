@@ -53,7 +53,7 @@ router.post("/signup", async (req, res) => {
     await user.save();
 
     // Don't block signup — queue verification email
-    sendVerificationEmail(user.email, user.username, token);
+    await sendVerificationEmail(user.email, user.username, token);
 
     const jwtToken = signToken(user);
     res.status(201).json({
@@ -204,8 +204,8 @@ router.post("/2fa/confirm", auth, async (req, res) => {
     user.twoFactorEnabled = true;
     await user.save();
 
-    send2FAEnabled(user.email, user.username);
-    send2FABackupCodes(user.email, user.username, backupCodes);
+    await send2FAEnabled(user.email, user.username);
+    await send2FABackupCodes(user.email, user.username, backupCodes);
 
     res.json({ ok: true, message: "Two-factor authentication enabled", backupCodes });
   } catch (e) {
@@ -267,7 +267,7 @@ router.post("/2fa/backup-codes", auth, async (req, res) => {
     user.twoFactorBackupCodes = hashBackupCodes(codes);
     await user.save();
 
-    send2FABackupCodes(user.email, user.username, codes);
+    await send2FABackupCodes(user.email, user.username, codes);
 
     res.json({ ok: true, backupCodes: codes });
   } catch (e) {
@@ -378,7 +378,7 @@ router.post("/resend-verification", auth, async (req, res) => {
 
     const token = user.generateVerificationToken();
     await user.save();
-    sendVerificationEmail(user.email, user.username, token);
+    await sendVerificationEmail(user.email, user.username, token);
     res.json({ ok: true, message: "Verification email sent" });
   } catch (e) {
     res.status(500).json({ ok: false, error: "Internal server error" });
@@ -437,7 +437,7 @@ router.post("/forgot-password", async (req, res) => {
     if (user) {
       const token = user.generateResetToken();
       await user.save();
-      sendPasswordResetEmail(user.email, user.username, token);
+      await sendPasswordResetEmail(user.email, user.username, token);
     }
 
     res.json({ ok: true, message: "If the email exists, a reset link was sent" });

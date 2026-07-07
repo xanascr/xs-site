@@ -34,73 +34,48 @@ async function sendMail(options) {
   await transporter.sendMail({ from: FROM, ...options });
 }
 
-export function sendVerificationEmail(email, username, token) {
-  enqueue(sendMail, {
-    to: email,
-    subject: "Verify your XanaScript account",
-    htmlPromise: renderTemplate("verify-email", {
-      username,
-      link: `${SITE_URL}/api/auth/verify-email/${token}`,
-    }),
+export async function sendVerificationEmail(email, username, token) {
+  const html = await renderTemplate("verify-email", {
+    username,
+    link: `${SITE_URL}/api/auth/verify-email/${token}`,
   });
+  enqueue(sendMail, { to: email, subject: "Verify your XanaScript account", html });
 }
 
-export function sendPasswordResetEmail(email, username, token) {
-  enqueue(sendMail, {
-    to: email,
-    subject: "Reset your XanaScript password",
-    htmlPromise: renderTemplate("reset-password", {
-      username,
-      link: `${SITE_URL}/reset-password?token=${token}`,
-    }),
+export async function sendPasswordResetEmail(email, username, token) {
+  const html = await renderTemplate("reset-password", {
+    username,
+    link: `${SITE_URL}/reset-password?token=${token}`,
   });
+  enqueue(sendMail, { to: email, subject: "Reset your XanaScript password", html });
 }
 
-export function sendPackageApproved(email, username, pkgName, pkgVersion) {
-  enqueue(sendMail, {
-    to: email,
-    subject: `"${pkgName}" approved on XanaScript registry`,
-    htmlPromise: renderTemplate("package-approved", {
-      username,
-      packageName: pkgName,
-      packageVersion: pkgVersion,
-      link: `${SITE_URL}/packages/${pkgName}`,
-    }),
+export async function sendPackageApproved(email, username, pkgName, pkgVersion) {
+  const html = await renderTemplate("package-approved", {
+    username, packageName: pkgName, packageVersion: pkgVersion,
+    link: `${SITE_URL}/packages/${pkgName}`,
   });
+  enqueue(sendMail, { to: email, subject: `"${pkgName}" approved on XanaScript registry`, html });
 }
 
-export function sendPackageRejected(email, username, pkgName, reason) {
-  enqueue(sendMail, {
-    to: email,
-    subject: `"${pkgName}" was not approved`,
-    htmlPromise: renderTemplate("package-rejected", {
-      username,
-      packageName: pkgName,
-      reason: reason || null,
-      dashboardLink: `${SITE_URL}/packages/dashboard`,
-    }),
+export async function sendPackageRejected(email, username, pkgName, reason) {
+  const html = await renderTemplate("package-rejected", {
+    username, packageName: pkgName, reason: reason || null,
+    dashboardLink: `${SITE_URL}/packages/dashboard`,
   });
+  enqueue(sendMail, { to: email, subject: `"${pkgName}" was not approved`, html });
 }
 
-export function send2FAEnabled(email, username) {
-  enqueue(sendMail, {
-    to: email,
-    subject: "Two-factor authentication enabled on your XanaScript account",
-    htmlPromise: renderTemplate("2fa-enabled", {
-      username,
-      resetLink: `${SITE_URL}/forgot-password`,
-    }),
+export async function send2FAEnabled(email, username) {
+  const html = await renderTemplate("2fa-enabled", {
+    username, resetLink: `${SITE_URL}/forgot-password`,
   });
+  enqueue(sendMail, { to: email, subject: "Two-factor authentication enabled on your XanaScript account", html });
 }
 
-export function send2FABackupCodes(email, username, codes) {
-  enqueue(sendMail, {
-    to: email,
-    subject: "Your XanaScript 2FA backup codes",
-    htmlPromise: renderTemplate("2fa-backup-codes", {
-      username,
-      codes,
-      resetLink: `${SITE_URL}/forgot-password`,
-    }),
+export async function send2FABackupCodes(email, username, codes) {
+  const html = await renderTemplate("2fa-backup-codes", {
+    username, codes, resetLink: `${SITE_URL}/forgot-password`,
   });
+  enqueue(sendMail, { to: email, subject: "Your XanaScript 2FA backup codes", html });
 }
