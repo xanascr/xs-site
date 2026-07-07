@@ -303,12 +303,13 @@ async function uploadToSeaweedFS(req, filename, buffer) {
     const auth = Buffer.from(
       `${process.env.SEAWEEDFS_USERNAME || ""}:${process.env.SEAWEEDFS_PASSWORD || ""}`
     ).toString("base64");
+    const bucket = process.env.SEAWEEDFS_BUCKET ? `${process.env.SEAWEEDFS_BUCKET}/` : "";
 
     return await new Promise((resolve, reject) => {
       const options = {
         hostname,
         port: port || 8080,
-        path: `/${filename}`,
+        path: `/${bucket}${filename}`,
         method: "PUT",
         headers: {
           "Content-Type": "application/gzip",
@@ -341,12 +342,13 @@ async function downloadFromSeaweedFS(req, key) {
     const auth = Buffer.from(
       `${process.env.SEAWEEDFS_USERNAME || ""}:${process.env.SEAWEEDFS_PASSWORD || ""}`
     ).toString("base64");
+    const bucket = process.env.SEAWEEDFS_BUCKET ? `${process.env.SEAWEEDFS_BUCKET}/` : "";
 
     return await new Promise((resolve, reject) => {
       const options = {
         hostname,
         port: port || 8080,
-        path: `/${key}`,
+        path: `/${bucket}${key}`,
         method: "GET",
         headers: { Authorization: `Basic ${auth}` },
       };
