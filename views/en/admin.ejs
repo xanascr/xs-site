@@ -185,14 +185,14 @@
           document.querySelector('.review-approve')?.addEventListener('click', function() {
             fetch('/api/admin/packages/' + this.dataset.name + '/approve', { method: 'POST', headers: { 'Authorization': 'Bearer ' + tkn } })
               .then(function(r) { return r.json(); })
-              .then(function(d) { if (d.ok) { showReview(tkn, name); } });
+              .then(function(d) { if (d.ok) { backToDashboard(); } });
           });
           document.querySelector('.review-reject')?.addEventListener('click', function() {
             var reason = prompt('Rejection reason:');
             if (reason === null) return;
             fetch('/api/admin/packages/' + this.dataset.name + '/reject', { method: 'POST', headers: { 'Authorization': 'Bearer ' + tkn, 'Content-Type': 'application/json' }, body: JSON.stringify({ reason: reason || 'No reason given' }) })
               .then(function(r) { return r.json(); })
-              .then(function(d) { if (d.ok) { showReview(tkn, name); } });
+              .then(function(d) { if (d.ok) { backToDashboard(); } });
           });
 
           loadSourceFiles(name);
@@ -225,10 +225,12 @@
         });
     }
 
-    document.getElementById('backToList').onclick = function() {
+    function backToDashboard() {
       document.getElementById('packageReview').classList.add('hidden');
       document.getElementById('adminContent').classList.remove('hidden');
-    };
+      loadPackages(currentStatus);
+    }
+    document.getElementById('backToList').onclick = backToDashboard;
 
     loadPackages('pending');
     loadKeys();
