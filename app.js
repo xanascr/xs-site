@@ -13,6 +13,7 @@ import indexRouter from "./routes/index.js";
 import apiPackagesRouter from "./routes/api/packages.js";
 import authRouter from "./routes/auth.js";
 import adminRouter from "./routes/admin.js";
+import multer from "multer";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -92,8 +93,6 @@ app.use((req, res) => {
   const fallbackLang = req.lang || "en";
   res.status(404).render(`${fallbackLang}/404`, { lang: fallbackLang });
 });
-
-import multer from "multer";
 
 app.use((err, req, res, next) => {
   if (err instanceof SyntaxError && err.status === 400 && "body" in err) {
