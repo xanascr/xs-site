@@ -68,14 +68,25 @@ async function start() {
     console.warn("MongoDB unavailable:", e.message);
   }
 
-  try {
-    const redis = createClient({ url: process.env.REDIS_URL });
-    redis.on("error", (err) => console.warn("Redis connection error:", err.message));
-    await redis.connect();
-    app.locals.redis = redis;
-    console.log("Redis connected");
-  } catch (e) {
-    console.warn("Redis unavailable, cache disabled:", e.message);
+  const redisUrl = process.env.REDIS_URL || "";
+  if (redisUrl) {
+    try {
+      const parsed = new URL(redisUrl);
+      const redis = createClient({
+        socket: {
+          host: parsed.hostname,
+          port: parseInt(parsed.port || "6379"),
+          reconnectStrategy: false,
+        },
+        password: parsed.password ? decodeURIComponent(parsed.password) : undefined,
+      });
+      redis.on("error", () => {});
+      await redis.connect();
+      app.locals.redis = redis;
+      console.log("Redis connected");
+    } catch (e) {
+      console.warn("Redis unavailable, cache disabled:", e.message);
+    }
   }
 
   app.listen(process.env.PORT || 3010, () => {
