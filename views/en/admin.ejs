@@ -18,6 +18,11 @@
       <div id="adminList" class="space-y-4 mb-12"></div>
     </div>
 
+    <div id="packageReview" class="hidden">
+      <button id="backToList" class="text-sm text-gray-400 hover:text-pinky-400 no-underline mb-4">&larr; Back to list</button>
+      <div id="reviewContent"></div>
+    </div>
+
     <div id="apiKeysSection" class="hidden">
       <h2 class="text-xl font-black mb-4">API Keys</h2>
       <p class="text-sm text-gray-500 mb-4">Personal access tokens for automated operations (CLI publish, CI/CD).</p>
@@ -76,23 +81,29 @@
           }
           data.packages.forEach(function(pkg) {
             var div = document.createElement('div');
-            div.className = 'bg-white rounded-2xl border border-gray-200 p-5';
+            div.className = 'bg-white rounded-2xl border border-gray-200 p-5 cursor-pointer hover:border-pinky-200 hover:shadow-sm transition-all';
             var actions = status === 'pending'
               ? '<div class="flex gap-2 mt-3"><button class="approve-btn text-xs bg-green-100 text-green-700 px-3 py-1.5 rounded-lg font-semibold hover:bg-green-200 transition-colors" data-name="' + pkg.name + '">Approve</button><button class="reject-btn text-xs bg-red-100 text-red-600 px-3 py-1.5 rounded-lg font-semibold hover:bg-red-200 transition-colors" data-name="' + pkg.name + '">Reject</button></div>'
               : '';
-            var notes = pkg.reviewNotes ? '<div class="mt-2 text-sm text-gray-500 bg-gray-50 rounded-lg px-3 py-2">Notes: ' + pkg.reviewNotes + '</div>' : '';
-            div.innerHTML = '<div class="flex items-start justify-between"><div><h3 class="font-bold text-gray-800">' + pkg.name + '</h3><p class="text-sm text-gray-500 mt-1">' + (pkg.description || '') + '</p><p class="text-xs text-gray-400 mt-1">by ' + (pkg.authorId?.username || pkg.author || 'unknown') + ' | v' + pkg.version + ' | ' + (pkg.license || 'N/A') + '</p></div></div>' + actions + notes + '<div class="mt-2 text-xs text-gray-400">Submitted ' + new Date(pkg.createdAt).toLocaleDateString() + ' | ' + (pkg.downloads || 0) + ' dl</div></div>';
+            var notes = pkg.reviewNotes ? '<div class="mt-2 text-sm text-gray-500 bg-gray-50 rounded-lg px-3 py-2">Notes: ' + escapeHtml(pkg.reviewNotes) + '</div>' : '';
+            div.innerHTML = '<div class="flex items-start justify-between"><div><h3 class="font-bold text-gray-800">' + escapeHtml(pkg.name) + '</h3><p class="text-sm text-gray-500 mt-1">' + escapeHtml(pkg.description || '') + '</p><p class="text-xs text-gray-400 mt-1">by ' + escapeHtml(pkg.authorId?.username || pkg.author || 'unknown') + ' | v' + pkg.version + ' | ' + (pkg.license || 'N/A') + '</p></div></div>' + actions + notes + '<div class="mt-2 text-xs text-gray-400">Submitted ' + new Date(pkg.createdAt).toLocaleDateString() + ' | ' + (pkg.downloads || 0) + ' dl</div></div>';
+            div.onclick = function(e) {
+              if (e.target.closest('button')) return;
+              showReview(tkn, pkg.name);
+            };
             list.appendChild(div);
           });
           document.querySelectorAll('.approve-btn').forEach(function(btn) {
-            btn.onclick = function() {
+            btn.onclick = function(e) {
+              e.stopPropagation();
               fetch('/api/admin/packages/' + this.dataset.name + '/approve', { method: 'POST', headers: { 'Authorization': 'Bearer ' + tkn } })
                 .then(function(r) { return r.json(); })
                 .then(function(d) { if (d.ok) loadPackages(currentStatus); });
             };
           });
           document.querySelectorAll('.reject-btn').forEach(function(btn) {
-            btn.onclick = function() {
+            btn.onclick = function(e) {
+              e.stopPropagation();
               var reason = prompt('Rejection reason:');
               if (reason === null) return;
               fetch('/api/admin/packages/' + this.dataset.name + '/reject', { method: 'POST', headers: { 'Authorization': 'Bearer ' + tkn, 'Content-Type': 'application/json' }, body: JSON.stringify({ reason: reason || 'No reason given' }) })
@@ -111,6 +122,113 @@
         loadPackages(currentStatus);
       };
     });
+
+    function showReview(tkn, name) {
+      document.getElementById('adminContent').classList.add('hidden');
+      document.getElementById('packageReview').classList.remove('hidden');
+      var container = document.getElementById('reviewContent');
+      container.innerHTML = '<p class="text-gray-400 text-sm">Loading...</p>';
+
+      fetch('/api/admin/packages/' + name, { headers: { 'Authorization': 'Bearer ' + tkn } })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (!data.ok || !data.package) {
+            container.innerHTML = '<p class="text-gray-500">Package not found.</p>';
+            return;
+          }
+          var pkg = data.package;
+          var html = '<div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">';
+          html += '<div class="p-6">';
+          html += '<div class="flex items-start justify-between gap-4 flex-wrap">';
+          html += '<div class="min-w-0"><h2 class="text-2xl font-black text-gray-800 break-all">' + escapeHtml(pkg.name) + '</h2>';
+          html += '<p class="text-gray-500 mt-1">' + escapeHtml(pkg.description || '') + '</p></div>';
+          html += '<div class="text-right shrink-0"><div class="text-xl font-black text-gray-800">v' + pkg.version + '</div>';
+          html += '<div class="text-sm text-gray-400 mt-1">Status: <span class="font-semibold ' + (pkg.status === 'approved' ? 'text-green-600' : pkg.status === 'rejected' ? 'text-red-500' : 'text-amber-500') + '">' + pkg.status + '</span></div></div></div>';
+
+          html += '<div class="flex flex-wrap gap-2 mt-4 text-sm">';
+          if (pkg.license) html += '<span class="text-xs bg-gray-100 text-gray-500 px-2.5 py-1 rounded font-medium">License: ' + escapeHtml(pkg.license) + '</span>';
+          if (pkg.author) html += '<span class="text-xs text-gray-400">by <span class="font-medium text-gray-600">' + escapeHtml(pkg.author) + '</span></span>';
+          html += '<span class="text-xs text-gray-400">' + (pkg.downloads || 0) + ' downloads</span>';
+          html += '<span class="text-xs text-gray-400">Submitted ' + new Date(pkg.createdAt).toLocaleDateString() + '</span>';
+          if (pkg.authorId) html += '<span class="text-xs text-gray-400">Author ID: ' + pkg.authorId.username + ' (' + pkg.authorId.email + ')</span>';
+          html += '</div>';
+
+          if (pkg.keywords && pkg.keywords.length > 0) {
+            html += '<div class="flex flex-wrap gap-1.5 mt-3">';
+            pkg.keywords.forEach(function(kw) {
+              html += '<span class="text-xs bg-pinky-50 text-pinky-500 px-2 py-0.5 rounded">' + escapeHtml(kw) + '</span>';
+            });
+            html += '</div>';
+          }
+
+          if (pkg.repository) {
+            html += '<div class="mt-3"><a href="' + escapeHtml(pkg.repository) + '" target="_blank" class="text-sm text-pinky-400 hover:underline">' + escapeHtml(pkg.repository) + '</a></div>';
+          }
+
+          if (pkg.status === 'pending') {
+            html += '<div class="mt-4 flex gap-2">';
+            html += '<button class="review-approve bg-green-100 text-green-700 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-green-200 transition-colors" data-name="' + pkg.name + '">Approve</button>';
+            html += '<button class="review-reject bg-red-100 text-red-600 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-red-200 transition-colors" data-name="' + pkg.name + '">Reject</button>';
+            html += '</div>';
+          }
+          html += '</div>';
+
+          if (pkg.readme) {
+            html += '<div class="border-t border-gray-100 px-6 py-4"><h3 class="font-bold text-gray-800 mb-3">README</h3><div class="prose prose-sm max-w-none text-gray-600">' + pkg.readme + '</div></div>';
+          }
+
+          html += '<div class="border-t border-gray-100 px-6 py-4"><h3 class="font-bold text-gray-800 mb-3">Source Files</h3><div id="reviewSourceFiles"><p class="text-gray-400 text-sm">Loading source files...</p></div></div>';
+          html += '</div>';
+
+          container.innerHTML = html;
+
+          document.querySelector('.review-approve')?.addEventListener('click', function() {
+            fetch('/api/admin/packages/' + this.dataset.name + '/approve', { method: 'POST', headers: { 'Authorization': 'Bearer ' + tkn } })
+              .then(function(r) { return r.json(); })
+              .then(function(d) { if (d.ok) { showReview(tkn, name); } });
+          });
+          document.querySelector('.review-reject')?.addEventListener('click', function() {
+            var reason = prompt('Rejection reason:');
+            if (reason === null) return;
+            fetch('/api/admin/packages/' + this.dataset.name + '/reject', { method: 'POST', headers: { 'Authorization': 'Bearer ' + tkn, 'Content-Type': 'application/json' }, body: JSON.stringify({ reason: reason || 'No reason given' }) })
+              .then(function(r) { return r.json(); })
+              .then(function(d) { if (d.ok) { showReview(tkn, name); } });
+          });
+
+          loadSourceFiles(name);
+        });
+    }
+
+    function loadSourceFiles(name) {
+      fetch('/api/packages/' + name + '/source')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          var container = document.getElementById('reviewSourceFiles');
+          if (!data.ok || !data.files || data.files.length === 0) {
+            container.innerHTML = '<p class="text-gray-400 text-sm">No source files available.</p>';
+            return;
+          }
+          container.innerHTML = '';
+          data.files.forEach(function(file) {
+            var div = document.createElement('div');
+            div.className = 'mb-3 border border-gray-200 rounded-xl overflow-hidden';
+            div.innerHTML = '<div class="flex items-center justify-between px-4 py-2 bg-gray-50 border-b border-gray-200">'
+              + '<span class="text-xs font-mono text-gray-500 truncate">' + escapeHtml(file.path) + '</span>'
+              + '<span class="text-xs text-gray-400">' + formatSize(file.content.length) + '</span>'
+              + '</div>'
+              + '<pre class="p-4 text-xs leading-relaxed font-mono text-gray-700 bg-white overflow-x-auto max-h-80 scrollbar-thin"><code>' + escapeHtml(file.content) + '</code></pre>';
+            container.appendChild(div);
+          });
+        })
+        .catch(function() {
+          document.getElementById('reviewSourceFiles').innerHTML = '<p class="text-gray-400 text-sm">Failed to load source files.</p>';
+        });
+    }
+
+    document.getElementById('backToList').onclick = function() {
+      document.getElementById('packageReview').classList.add('hidden');
+      document.getElementById('adminContent').classList.remove('hidden');
+    };
 
     loadPackages('pending');
     loadKeys();
@@ -162,9 +280,16 @@
   }
 
   function escapeHtml(str) {
+    if (!str) return '';
     var div = document.createElement('div');
     div.textContent = str;
     return div.innerHTML;
+  }
+
+  function formatSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / 1048576).toFixed(1) + ' MB';
   }
 })();
 </script>

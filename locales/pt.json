@@ -40,6 +40,8 @@
   "packages.updated": "Atualizado",
   "packages.publish": "Publicar Pacote",
   "packages.noResults": "Nenhum pacote encontrado.",
+  "packages.sourceFiles": "Arquivos Fonte",
+  "packages.loadingFiles": "Carregando arquivos fonte...",
   "donate.title": "Ajude o XanaScript",
   "donate.subtitle": "Mantenha o projeto vivo com uma doacao.",
   "donate.pix": "PIX (Brasil)",

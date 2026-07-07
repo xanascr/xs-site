@@ -23,6 +23,18 @@ router.get("/packages", async (req, res) => {
   }
 });
 
+router.get("/packages/:name", async (req, res) => {
+  try {
+    const pkg = await Package.findOne({ name: req.params.name })
+      .populate("authorId", "username email role createdAt")
+      .lean();
+    if (!pkg) return res.status(404).json({ ok: false, error: "Package not found" });
+    res.json({ ok: true, package: pkg });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
+
 router.post("/packages/:name/approve", async (req, res) => {
   try {
     const pkg = await Package.findOneAndUpdate(

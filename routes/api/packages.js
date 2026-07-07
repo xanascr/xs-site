@@ -1,6 +1,9 @@
 import { Router } from "express";
 import multer from "multer";
 import semver from "semver";
+import fs from "fs";
+import path from "path";
+import { execSync } from "child_process";
 import Package from "../../models/Package.js";
 import { auth, optionalAuth } from "../../middleware/auth.js";
 import { cacheMiddleware } from "../../middleware/cache.js";
@@ -222,6 +225,46 @@ router.post("/batch", auth, async (req, res) => {
     });
   } catch (e) {
     console.error("Batch publish error:", e);
+    res.status(500).json({ ok: false, error: "Internal server error" });
+  }
+});
+
+router.get("/:name/source", async (req, res) => {
+  try {
+    const pkg = await Package.findOne({ name: req.params.name }).select("name s3Key status").lean();
+    if (!pkg || !pkg.s3Key) return res.status(404).json({ ok: false, error: "Source not available" });
+
+    const data = await downloadFromSeaweedFS(req, pkg.s3Key);
+    if (!data) return res.status(404).json({ ok: false, error: "Source not available" });
+
+    const os = await import("os");
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "xs-pkg-"));
+    try {
+      const tgzPath = path.join(tmpDir, "pkg.tar.gz");
+      fs.writeFileSync(tgzPath, data);
+      execSync(`tar -xzf "${tgzPath}" -C "${tmpDir}"`, { stdio: "pipe" });
+
+      const files = [];
+      function walk(dir) {
+        for (const f of fs.readdirSync(dir)) {
+          const full = path.join(dir, f);
+          if (fs.statSync(full).isDirectory()) {
+            walk(full);
+          } else {
+            const rel = path.relative(tmpDir, full);
+            const content = fs.readFileSync(full, "utf-8");
+            files.push({ path: rel, content });
+          }
+        }
+      }
+      walk(tmpDir);
+
+      res.json({ ok: true, files });
+    } finally {
+      fs.rmSync(tmpDir, { recursive: true, force: true });
+    }
+  } catch (e) {
+    console.error("Source error:", e);
     res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
