@@ -6,15 +6,36 @@ import { auth, optionalAuth } from "../../middleware/auth.js";
 import { cacheMiddleware } from "../../middleware/cache.js";
 
 const router = Router();
+const MAX_TARBALL_SIZE = 5 * 1024 * 1024; // 5MB source-only limit
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 10 * 1024 * 1024 },
+  limits: { fileSize: MAX_TARBALL_SIZE },
 });
 const BATCH_MAX = 10;
 
+function sanitizeSearch(q) {
+  return (q || "").replace(/[(){}\[\]"'~*?\\-]/g, " ").trim().slice(0, 100);
+}
+
+function validateKeywords(kw) {
+  if (!kw) return [];
+  const parsed = typeof kw === "string" ? safeJsonParse(kw, []) : kw;
+  if (!Array.isArray(parsed)) return [];
+  return parsed.slice(0, 20).map(k => String(k).slice(0, 50));
+}
+
+function safeJsonParse(str, fallback) {
+  try {
+    const v = JSON.parse(str);
+    return v;
+  } catch {
+    return fallback;
+  }
+}
+
 router.get("/", cacheMiddleware(60), async (req, res) => {
   try {
-    const q = req.query.q || "";
+    const q = sanitizeSearch(req.query.q);
     const filter = { status: "approved" };
     if (q) filter.$text = { $search: q };
     const packages = await Package.find(filter)
@@ -24,7 +45,7 @@ router.get("/", cacheMiddleware(60), async (req, res) => {
       .lean();
     res.json({ ok: true, packages });
   } catch (e) {
-    res.status(500).json({ ok: false, error: e.message });
+    res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
 
@@ -35,17 +56,17 @@ router.get("/mine", auth, async (req, res) => {
       .lean();
     res.json({ ok: true, packages });
   } catch (e) {
-    res.status(500).json({ ok: false, error: e.message });
+    res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
 
 router.get("/:name", cacheMiddleware(60), async (req, res) => {
   try {
-    const pkg = await Package.findOne({ name: req.params.name }).lean();
+    const pkg = await Package.findOne({ name: req.params.name, status: "approved" }).lean();
     if (!pkg) return res.status(404).json({ ok: false, error: "not found" });
     res.json({ ok: true, package: pkg });
   } catch (e) {
-    res.status(500).json({ ok: false, error: e.message });
+    res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
 
@@ -65,7 +86,11 @@ router.post("/", auth, upload.single("file"), async (req, res) => {
 
     if (req.file) {
       fileSize = req.file.buffer.length;
-      s3Key = await uploadToSeaweedFS(req, `${name}-${version || "1.0.0"}.tar.gz`, req.file.buffer);
+      if (fileSize > MAX_TARBALL_SIZE) {
+        return res.status(400).json({ ok: false, error: `Package tarball exceeds ${MAX_TARBALL_SIZE / 1024 / 1024}MB limit` });
+      }
+      const safeVersion = semver.valid(version) || "1.0.0";
+      s3Key = await uploadToSeaweedFS(req, `${name}-${safeVersion}.tar.gz`, req.file.buffer);
     }
 
     const existing = await Package.findOne({ name });
@@ -78,7 +103,7 @@ router.post("/", auth, upload.single("file"), async (req, res) => {
         description: description ?? existing.description,
         license: license ?? existing.license,
         repository: repository ?? existing.repository,
-        keywords: keywords ? (typeof keywords === "string" ? JSON.parse(keywords) : keywords) : existing.keywords,
+        keywords: validateKeywords(keywords).length > 0 ? validateKeywords(keywords) : existing.keywords,
         readme: readme ?? existing.readme,
         s3Key: s3Key || existing.s3Key,
         fileSize: fileSize || existing.fileSize,
@@ -90,7 +115,6 @@ router.post("/", auth, upload.single("file"), async (req, res) => {
       });
       await existing.save();
     } else {
-      const kw = keywords ? (typeof keywords === "string" ? JSON.parse(keywords) : keywords) : [];
       await Package.create({
         name,
         version: version || "1.0.0",
@@ -98,7 +122,7 @@ router.post("/", auth, upload.single("file"), async (req, res) => {
         license: license || "MIT",
         author: req.user.username,
         repository: repository || "",
-        keywords: kw,
+        keywords: validateKeywords(keywords),
         readme: readme || "",
         s3Key,
         fileSize,
@@ -118,7 +142,7 @@ router.post("/", auth, upload.single("file"), async (req, res) => {
       message: "Package submitted for review. An admin will review it shortly.",
     });
   } catch (e) {
-    res.status(500).json({ ok: false, error: e.message });
+    res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
 
@@ -159,7 +183,7 @@ router.post("/batch", auth, async (req, res) => {
             description: description ?? existing.description,
             license: license ?? existing.license,
             repository: repository ?? existing.repository,
-            keywords: Array.isArray(keywords) ? keywords : existing.keywords,
+            keywords: Array.isArray(keywords) ? keywords.slice(0, 20).map(k => String(k).slice(0, 50)) : existing.keywords,
             authorId: existing.authorId || req.user.id,
             status: "pending",
             reviewNotes: "",
@@ -175,14 +199,14 @@ router.post("/batch", auth, async (req, res) => {
             license: license || "MIT",
             author: req.user.username,
             repository: repository || "",
-            keywords: Array.isArray(keywords) ? keywords : [],
+            keywords: Array.isArray(keywords) ? keywords.slice(0, 20).map(k => String(k).slice(0, 50)) : [],
             authorId: req.user.id,
             status: "pending",
           });
         }
         results.push({ name, ok: true });
       } catch (e) {
-        results.push({ name, ok: false, error: e.message });
+        results.push({ name, ok: false, error: "Internal server error" });
       }
     }
 
@@ -196,7 +220,7 @@ router.post("/batch", auth, async (req, res) => {
       results,
     });
   } catch (e) {
-    res.status(500).json({ ok: false, error: e.message });
+    res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
 
@@ -223,7 +247,7 @@ router.post("/:name/download", async (req, res) => {
       downloads: pkg.downloads + 1,
     });
   } catch (e) {
-    res.status(500).json({ ok: false, error: e.message });
+    res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
 
@@ -246,7 +270,6 @@ async function uploadToSeaweedFS(req, filename, buffer) {
           "Content-Length": buffer.length,
           Authorization: `Basic ${auth}`,
         },
-        rejectUnauthorized: false,
       };
       const httpreq = https.request(options, (res) => {
         let body = "";
@@ -281,7 +304,6 @@ async function downloadFromSeaweedFS(req, key) {
         path: `/${key}`,
         method: "GET",
         headers: { Authorization: `Basic ${auth}` },
-        rejectUnauthorized: false,
       };
       const httpreq = https.request(options, (res) => {
         const chunks = [];

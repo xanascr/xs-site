@@ -1,9 +1,17 @@
 import jwt from "jsonwebtoken";
+import User from "../models/User.js";
+import { hashToken } from "../services/apiKey.js";
 
-const SECRET = process.env.JWT_SECRET || "dev-secret-change-in-prod";
+const SECRET = process.env.JWT_SECRET;
+
+export { SECRET };
 
 export function signToken(user) {
-  return jwt.sign({ id: user._id, username: user.username, role: user.role }, SECRET, { expiresIn: "7d" });
+  return jwt.sign(
+    { id: user._id, username: user.username, role: user.role, tokenVersion: user.tokenVersion },
+    SECRET,
+    { expiresIn: "7d" }
+  );
 }
 
 export function auth(req, res, next) {
@@ -12,8 +20,16 @@ export function auth(req, res, next) {
     return res.status(401).json({ ok: false, error: "Missing token" });
   }
   try {
-    req.user = jwt.verify(header.slice(7), SECRET);
-    next();
+    const payload = jwt.verify(header.slice(7), SECRET);
+    User.findById(payload.id).select("tokenVersion").then(user => {
+      if (!user || (user.tokenVersion ?? 0) !== (payload.tokenVersion ?? 0)) {
+        return res.status(401).json({ ok: false, error: "Token revoked" });
+      }
+      req.user = payload;
+      next();
+    }).catch(() => {
+      res.status(500).json({ ok: false, error: "Internal server error" });
+    });
   } catch {
     return res.status(401).json({ ok: false, error: "Invalid or expired token" });
   }
@@ -24,7 +40,9 @@ export function optionalAuth(req, res, next) {
   if (header && header.startsWith("Bearer ")) {
     try {
       req.user = jwt.verify(header.slice(7), SECRET);
-    } catch { /* ignore */ }
+    } catch {
+      req.user = undefined;
+    }
   }
   next();
 }
@@ -35,22 +53,32 @@ export function adminAuth(req, res, next) {
     return res.status(401).json({ ok: false, error: "Missing token" });
   }
   try {
-    const user = jwt.verify(header.slice(7), SECRET);
-    if (user.role !== "admin") {
+    const payload = jwt.verify(header.slice(7), SECRET);
+    if (payload.role !== "admin") {
       return res.status(403).json({ ok: false, error: "Admin only" });
     }
-    req.user = user;
+    req.user = payload;
     next();
   } catch {
     return res.status(401).json({ ok: false, error: "Invalid token" });
   }
 }
 
-export function adminOrApiKey(req, res, next) {
+export async function adminOrApiKey(req, res, next) {
   const apiKey = req.headers["x-api-key"];
-  if (apiKey && apiKey === process.env.ADMIN_API_KEY) {
-    req.user = { role: "admin", username: "api-key" };
-    return next();
+  if (apiKey) {
+    try {
+      const hash = hashToken(apiKey);
+      const user = await User.findOne({ "apiKeys.token": hash }).select("username email role");
+      if (user) {
+        await User.updateOne(
+          { _id: user._id, "apiKeys.token": hash },
+          { $set: { "apiKeys.$.lastUsedAt": new Date() } }
+        );
+        req.user = { id: user._id, username: user.username, role: user.role };
+        return next();
+      }
+    } catch { /* fall through */ }
   }
   return adminAuth(req, res, next);
 }

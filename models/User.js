@@ -5,9 +5,10 @@ import crypto from "crypto";
 const userSchema = new mongoose.Schema(
   {
     username: { type: String, required: true, unique: true, lowercase: true, match: /^[a-z0-9_-]{3,32}$/ },
-    email: { type: String, required: true, unique: true, lowercase: true },
+    email: { type: String, required: true, unique: true, lowercase: true, match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
     password: { type: String, required: true },
     role: { type: String, enum: ["user", "admin"], default: "user" },
+    tokenVersion: { type: Number, default: 0 },
 
     // Email verification
     emailVerified: { type: Boolean, default: false },
@@ -22,6 +23,15 @@ const userSchema = new mongoose.Schema(
     twoFactorSecret: { type: String, default: null },
     twoFactorEnabled: { type: Boolean, default: false },
     twoFactorBackupCodes: [String],
+
+    // Personal access tokens (admin API keys)
+    apiKeys: [{
+      token: { type: String, required: true },
+      name: { type: String, required: true },
+      prefix: { type: String, required: true },
+      createdAt: { type: Date, default: Date.now },
+      lastUsedAt: { type: Date, default: null },
+    }],
 
     // LGPD / privacy
     privacyConsent: { type: Boolean, default: false },

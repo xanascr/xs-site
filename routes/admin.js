@@ -4,13 +4,15 @@ import User from "../models/User.js";
 import { adminOrApiKey } from "../middleware/auth.js";
 import { sendPackageApproved, sendPackageRejected } from "../services/email.js";
 
+const VALID_STATUSES = ["pending", "approved", "rejected"];
+
 const router = Router();
 
 router.use(adminOrApiKey);
 
 router.get("/packages", async (req, res) => {
   try {
-    const status = req.query.status || "pending";
+    const status = VALID_STATUSES.includes(req.query.status) ? req.query.status : "pending";
     const packages = await Package.find({ status })
       .populate("authorId", "username email")
       .sort({ createdAt: -1 })

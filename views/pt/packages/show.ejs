@@ -33,9 +33,9 @@
         <button onclick="navigator.clipboard.writeText('xs install <%= pkg.name %>')" class="bg-pinky-400 hover:bg-pinky-500 text-white px-5 py-2 rounded-lg font-semibold text-sm transition-all"><%= t('packages.install') %> <%= pkg.name %></button>
       </div>
 
-      <% if (pkg.readme) { %>
+      <% if (pkg.readmeSanitized) { %>
       <div class="mt-8 prose prose-sm max-w-none text-gray-600">
-        <%- pkg.readme %>
+        <%- pkg.readmeSanitized %>
       </div>
       <% } %>
     </div>

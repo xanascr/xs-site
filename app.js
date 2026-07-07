@@ -4,11 +4,12 @@ import mongoose from "mongoose";
 import { createClient } from "redis";
 import path from "path";
 import { fileURLToPath } from "url";
+import helmet from "helmet";
+import morgan from "morgan";
 import axios from "axios";
 
 import { i18n } from "./middleware/i18n.js";
 import indexRouter from "./routes/index.js";
-import packagesRouter from "./routes/packages.js";
 import apiPackagesRouter from "./routes/api/packages.js";
 import authRouter from "./routes/auth.js";
 import adminRouter from "./routes/admin.js";
@@ -18,9 +19,21 @@ const app = express();
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+app.use(helmet());
+app.use(morgan("short"));
 app.use(express.static(path.join(__dirname, "public")));
-app.use(express.json({ limit: "50mb" }));
+app.use(express.json({ limit: "1mb" }));
 app.use(i18n);
+
+const sensitivePaths = ["/signup", "/login", "/2fa/verify", "/forgot-password", "/reset-password"];
+const loginLimiter = (await import("express-rate-limit")).default({
+  windowMs: 60 * 1000,
+  max: 10,
+  validate: { xForwardedForHeader: false },
+  skip: req => !sensitivePaths.some(p => req.path === `/api/auth${p}`),
+});
+
+app.use(loginLimiter);
 
 app.locals.site = {
   name: "XanaScript",
@@ -72,20 +85,41 @@ app.get("/api/health", async (req, res) => {
 
 app.use("/", indexRouter);
 app.use("/api/auth", authRouter);
-app.use("/packages", packagesRouter);
 app.use("/api/packages", apiPackagesRouter);
 app.use("/api/admin", adminRouter);
 
 app.use((req, res) => {
-  res.status(404).render("en/404", { lang: "en" });
+  const fallbackLang = req.lang || "en";
+  res.status(404).render(`${fallbackLang}/404`, { lang: fallbackLang });
+});
+
+app.use((err, req, res, next) => {
+  console.error("Unhandled error:", err);
+  if (req.accepts("html")) {
+    const fallbackLang = req.lang || "en";
+    return res.status(500).render(`${fallbackLang}/404`, { lang: fallbackLang });
+  }
+  res.status(500).json({ ok: false, error: "Internal server error" });
 });
 
 async function start() {
+  if (!process.env.JWT_SECRET) {
+    console.error("FATAL: JWT_SECRET environment variable is required");
+    process.exit(1);
+  }
+
   try {
-    await mongoose.connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 5000 });
+    await mongoose.connect(process.env.MONGODB_URI, {
+      serverSelectionTimeoutMS: 5000,
+      minPoolSize: 2,
+      maxPoolSize: 20,
+      maxIdleTimeMS: 30000,
+      socketTimeoutMS: 45000,
+    });
     console.log("MongoDB connected");
   } catch (e) {
-    console.warn("MongoDB unavailable:", e.message);
+    console.error("FATAL: MongoDB unavailable:", e.message);
+    process.exit(1);
   }
 
   const redisUrl = process.env.REDIS_URL || "";

@@ -2,6 +2,8 @@ import { Router } from "express";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import Package from "../models/Package.js";
+import { sanitizeHtml } from "../services/sanitize.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const router = Router();
@@ -139,11 +141,14 @@ router.get("/:lang(en|pt|es)?/reset-password", (req, res) => {
 });
 
 // ── Packages (lang-prefixed) ────────────────────────────────────────────
+function sanitizeSearch(q) {
+  return (q || "").replace(/[(){}\[\]"'~*?\\-]/g, " ").trim().slice(0, 100);
+}
+
 router.get("/:lang(en|pt|es)?/packages", async (req, res) => {
   const lang = req.params.lang || "en";
   try {
-    const { default: Package } = await import("../models/Package.js");
-    const q = req.query.q || "";
+    const q = sanitizeSearch(req.query.q);
     const filter = { status: "approved" };
     if (q) filter.$text = { $search: q };
     const packages = await Package.find(filter).sort({ downloads: -1 }).limit(50).lean();
@@ -161,12 +166,12 @@ router.get("/:lang(en|pt|es)?/packages/dashboard", (req, res) => {
 router.get("/:lang(en|pt|es)?/packages/:name", async (req, res) => {
   const lang = req.params.lang || "en";
   try {
-    const { default: Package } = await import("../models/Package.js");
     const pkg = await Package.findOne({ name: req.params.name, status: "approved" }).lean();
-    if (!pkg) return res.status(404).render("en/404", { lang });
+    if (!pkg) return res.status(404).render(`${lang}/404`, { lang });
+    if (pkg.readme) pkg.readmeSanitized = sanitizeHtml(pkg.readme);
     res.render(`${lang}/packages/show`, { lang, pkg, page: "packages" });
   } catch {
-    res.status(404).render("en/404", { lang });
+    res.status(404).render(`${lang}/404`, { lang });
   }
 });
 

@@ -2,7 +2,8 @@ import { Router } from "express";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
-import { signToken, auth } from "../middleware/auth.js";
+import { signToken, auth, adminAuth, SECRET } from "../middleware/auth.js";
+import { generateApiKey, hashToken } from "../services/apiKey.js";
 import {
   sendVerificationEmail,
   sendPasswordResetEmail,
@@ -18,7 +19,6 @@ import {
 } from "../services/twoFactor.js";
 
 const router = Router();
-const SECRET = process.env.JWT_SECRET || "dev-secret-change-in-prod";
 
 // ── Signup ────────────────────────────────────────────────────────────
 
@@ -33,6 +33,9 @@ router.post("/signup", async (req, res) => {
     }
     if (!privacyConsent) {
       return res.status(400).json({ ok: false, error: "You must agree to the privacy policy" });
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ ok: false, error: "Invalid email format" });
     }
     const existing = await User.findOne({ $or: [{ username }, { email }] });
     if (existing) {
@@ -52,15 +55,15 @@ router.post("/signup", async (req, res) => {
     // Don't block signup — queue verification email
     sendVerificationEmail(user.email, user.username, token);
 
-    const jwt = signToken(user);
+    const jwtToken = signToken(user);
     res.status(201).json({
       ok: true,
-      token: jwt,
+      token: jwtToken,
       user: user.toPublic(),
       emailVerificationRequired: true,
     });
   } catch (e) {
-    res.status(500).json({ ok: false, error: e.message });
+    res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
 
@@ -100,10 +103,10 @@ router.post("/login", async (req, res) => {
       });
     }
 
-    const token = signToken(user);
-    res.json({ ok: true, token, user: user.toPublic() });
+    const jwtToken = signToken(user);
+    res.json({ ok: true, token: jwtToken, user: user.toPublic() });
   } catch (e) {
-    res.status(500).json({ ok: false, error: e.message });
+    res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
 
@@ -133,8 +136,8 @@ router.post("/2fa/verify", async (req, res) => {
 
     // Try TOTP code first
     if (await verifyToken(user.twoFactorSecret, code)) {
-      const token = signToken(user);
-      return res.json({ ok: true, token, user: user.toPublic() });
+      const jwtToken = signToken(user);
+      return res.json({ ok: true, token: jwtToken, user: user.toPublic() });
     }
 
     // Try backup codes
@@ -142,13 +145,13 @@ router.post("/2fa/verify", async (req, res) => {
     if (usedCodeHash) {
       user.twoFactorBackupCodes = user.twoFactorBackupCodes.filter(h => h !== usedCodeHash);
       await user.save();
-      const token = signToken(user);
-      return res.json({ ok: true, token, user: user.toPublic(), usedBackupCode: true });
+      const jwtToken = signToken(user);
+      return res.json({ ok: true, token: jwtToken, user: user.toPublic(), usedBackupCode: true });
     }
 
     return res.status(401).json({ ok: false, error: "Invalid 2FA code" });
   } catch (e) {
-    res.status(500).json({ ok: false, error: e.message });
+    res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
 
@@ -172,7 +175,7 @@ router.post("/2fa/setup", auth, async (req, res) => {
       otpauth,
     });
   } catch (e) {
-    res.status(500).json({ ok: false, error: e.message });
+    res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
 
@@ -206,7 +209,7 @@ router.post("/2fa/confirm", auth, async (req, res) => {
 
     res.json({ ok: true, message: "Two-factor authentication enabled", backupCodes });
   } catch (e) {
-    res.status(500).json({ ok: false, error: e.message });
+    res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
 
@@ -236,11 +239,12 @@ router.post("/2fa/disable", auth, async (req, res) => {
     user.twoFactorSecret = null;
     user.twoFactorEnabled = false;
     user.twoFactorBackupCodes = [];
+    user.tokenVersion += 1;
     await user.save();
 
     res.json({ ok: true, message: "Two-factor authentication disabled" });
   } catch (e) {
-    res.status(500).json({ ok: false, error: e.message });
+    res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
 
@@ -267,7 +271,7 @@ router.post("/2fa/backup-codes", auth, async (req, res) => {
 
     res.json({ ok: true, backupCodes: codes });
   } catch (e) {
-    res.status(500).json({ ok: false, error: e.message });
+    res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
 
@@ -284,7 +288,71 @@ router.get("/2fa/status", auth, async (req, res) => {
       hasBackupCodes: user.twoFactorBackupCodes.length > 0,
     });
   } catch (e) {
-    res.status(500).json({ ok: false, error: e.message });
+    res.status(500).json({ ok: false, error: "Internal server error" });
+  }
+});
+
+// ── Personal access tokens (admin API keys) ──────────────────────────
+
+router.post("/api-keys", auth, adminAuth, async (req, res) => {
+  try {
+    const { name } = req.body;
+    if (!name || typeof name !== "string" || name.length < 1 || name.length > 64) {
+      return res.status(400).json({ ok: false, error: "Name required (1-64 chars)" });
+    }
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ ok: false, error: "User not found" });
+    if (user.apiKeys.length >= 10) {
+      return res.status(400).json({ ok: false, error: "Maximum 10 API keys per account" });
+    }
+
+    const { token, prefix, hash } = generateApiKey(name);
+    user.apiKeys.push({ token: hash, name, prefix });
+    await user.save();
+
+    res.status(201).json({
+      ok: true,
+      key: {
+        token,
+        name,
+        prefix,
+        createdAt: new Date(),
+      },
+      message: "Save this token — it will not be shown again.",
+    });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: "Internal server error" });
+  }
+});
+
+router.get("/api-keys", auth, adminAuth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ ok: false, error: "User not found" });
+    const keys = user.apiKeys.map(k => ({
+      id: k._id,
+      name: k.name,
+      prefix: k.prefix,
+      createdAt: k.createdAt,
+      lastUsedAt: k.lastUsedAt,
+    }));
+    res.json({ ok: true, keys });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: "Internal server error" });
+  }
+});
+
+router.delete("/api-keys/:id", auth, adminAuth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ ok: false, error: "User not found" });
+    const idx = user.apiKeys.findIndex(k => k._id.toString() === req.params.id);
+    if (idx === -1) return res.status(404).json({ ok: false, error: "Key not found" });
+    user.apiKeys.splice(idx, 1);
+    await user.save();
+    res.json({ ok: true, message: "API key revoked" });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
 
@@ -292,11 +360,11 @@ router.get("/2fa/status", auth, async (req, res) => {
 
 router.get("/me", auth, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ ok: false, error: "User not found" });
     res.json({ ok: true, user: user.toPublic() });
   } catch (e) {
-    res.status(500).json({ ok: false, error: e.message });
+    res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
 
@@ -313,7 +381,7 @@ router.post("/resend-verification", auth, async (req, res) => {
     sendVerificationEmail(user.email, user.username, token);
     res.json({ ok: true, message: "Verification email sent" });
   } catch (e) {
-    res.status(500).json({ ok: false, error: e.message });
+    res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
 
@@ -335,7 +403,7 @@ router.post("/verify-email", async (req, res) => {
 
     res.json({ ok: true, message: "Email verified successfully" });
   } catch (e) {
-    res.status(500).json({ ok: false, error: e.message });
+    res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
 
@@ -346,15 +414,15 @@ router.get("/verify-email/:token", async (req, res) => {
       emailVerificationExpires: { $gt: new Date() },
     });
     if (!user) {
-      return res.redirect("/en/login?error=invalid-or-expired-verification-link");
+      return res.redirect("/login?error=invalid-or-expired-verification-link");
     }
     user.emailVerified = true;
     user.emailVerificationToken = null;
     user.emailVerificationExpires = null;
     await user.save();
-    res.redirect("/en/login?verified=1");
+    res.redirect("/login?verified=1");
   } catch {
-    res.redirect("/en/login?error=verification-failed");
+    res.redirect("/login?error=verification-failed");
   }
 });
 
@@ -366,15 +434,15 @@ router.post("/forgot-password", async (req, res) => {
     if (!email) return res.status(400).json({ ok: false, error: "Email required" });
 
     const user = await User.findOne({ email });
-    if (!user) return res.json({ ok: true, message: "If the email exists, a reset link was sent" });
-
-    const token = user.generateResetToken();
-    await user.save();
-    sendPasswordResetEmail(user.email, user.username, token);
+    if (user) {
+      const token = user.generateResetToken();
+      await user.save();
+      sendPasswordResetEmail(user.email, user.username, token);
+    }
 
     res.json({ ok: true, message: "If the email exists, a reset link was sent" });
   } catch (e) {
-    res.status(500).json({ ok: false, error: e.message });
+    res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
 
@@ -393,11 +461,12 @@ router.post("/reset-password", async (req, res) => {
     user.password = password;
     user.resetPasswordToken = null;
     user.resetPasswordExpires = null;
+    user.tokenVersion += 1;
     await user.save();
 
     res.json({ ok: true, message: "Password reset successful" });
   } catch (e) {
-    res.status(500).json({ ok: false, error: e.message });
+    res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
 
@@ -405,7 +474,7 @@ router.post("/reset-password", async (req, res) => {
 
 router.get("/export-data", auth, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ ok: false, error: "User not found" });
 
     const data = {
@@ -419,7 +488,7 @@ router.get("/export-data", auth, async (req, res) => {
     };
     res.json({ ok: true, data });
   } catch (e) {
-    res.status(500).json({ ok: false, error: e.message });
+    res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
 
@@ -434,17 +503,16 @@ router.delete("/delete-account", auth, async (req, res) => {
     }
 
     user.deletionScheduledAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
-    await user.save();
-
     user.username = `deleted_${user._id}`;
     user.email = `deleted_${user._id}@disabled.local`;
-    user.password = crypto.createHash("sha256").update(user.password).digest("hex");
+    user.password = crypto.randomBytes(32).toString("hex");
     user.privacyConsent = false;
+    user.tokenVersion += 1;
     await user.save();
 
     res.json({ ok: true, message: "Account scheduled for deletion. Data anonymized immediately." });
   } catch (e) {
-    res.status(500).json({ ok: false, error: e.message });
+    res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
 

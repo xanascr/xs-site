@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import request from "supertest";
 import jwt from "jsonwebtoken";
+import { hashToken } from "../services/apiKey.js";
 
 // ─── Environment setup (vi.hoisted runs before imports in ESM) ───
 vi.hoisted(() => {
   process.env.JWT_SECRET = "test-jwt-secret";
-  process.env.ADMIN_API_KEY = "test-admin-api-key";
   process.env.NODE_ENV = "test";
   process.env.SEAWEEDFS_VOLUME = "http://localhost:1";
 });
@@ -60,6 +60,7 @@ vi.mock("../models/User.js", () => ({
     findOne: vi.fn(),
     findById: vi.fn(),
     create: vi.fn(),
+    updateOne: vi.fn(),
   },
 }));
 
@@ -326,16 +327,16 @@ describe("GET /api/auth/me", () => {
     expect(res.body.error).toMatch(/invalid|expired/i);
   });
 
-  it("returns 404 when the user no longer exists", async () => {
+  it("returns 401 when the user no longer exists (token revoked)", async () => {
     User.findById.mockReturnValue(makeQuery(null));
 
     const res = await request(app)
       .get("/api/auth/me")
       .set("Authorization", `Bearer ${regularToken()}`);
 
-    expect(res.status).toBe(404);
+    expect(res.status).toBe(401);
     expect(res.body.ok).toBe(false);
-    expect(res.body.error).toMatch(/not found/i);
+    expect(res.body.error).toMatch(/revoked/i);
   });
 });
 
@@ -344,6 +345,10 @@ describe("GET /api/auth/me", () => {
 // ═══════════════════════════════════════════════════════
 
 describe("POST /api/packages", () => {
+  beforeEach(() => {
+    User.findById.mockReturnValue(makeQuery(makeUser()));
+  });
+
   it("submits a new package (authenticated)", async () => {
     Package.findOne.mockResolvedValue(null);
     Package.create.mockResolvedValue(makePackage({ name: "my-pkg" }));
@@ -734,6 +739,14 @@ describe("Edge cases", () => {
 
   it("admin API key header grants access to admin endpoints", async () => {
     Package.find.mockReturnValue(makeQuery([]));
+    User.findOne.mockReturnValue({
+      select: () => Promise.resolve({
+        _id: "admin1",
+        username: "admin",
+        email: "admin@test.com",
+        role: "admin",
+      }),
+    });
 
     const res = await request(app)
       .get("/api/admin/packages")
@@ -744,6 +757,8 @@ describe("Edge cases", () => {
   });
 
   it("invalid admin API key is rejected", async () => {
+    User.findOne.mockResolvedValue(null);
+
     const res = await request(app)
       .get("/api/admin/packages")
       .set("x-api-key", "wrong-key");

@@ -40,7 +40,7 @@ export function sendVerificationEmail(email, username, token) {
     subject: "Verify your XanaScript account",
     htmlPromise: renderTemplate("verify-email", {
       username,
-      link: `${SITE_URL}/en/verify-email?token=${token}`,
+      link: `${SITE_URL}/api/auth/verify-email/${token}`,
     }),
   });
 }
@@ -51,7 +51,7 @@ export function sendPasswordResetEmail(email, username, token) {
     subject: "Reset your XanaScript password",
     htmlPromise: renderTemplate("reset-password", {
       username,
-      link: `${SITE_URL}/en/reset-password?token=${token}`,
+      link: `${SITE_URL}/reset-password?token=${token}`,
     }),
   });
 }
@@ -64,7 +64,7 @@ export function sendPackageApproved(email, username, pkgName, pkgVersion) {
       username,
       packageName: pkgName,
       packageVersion: pkgVersion,
-      link: `${SITE_URL}/en/packages/${pkgName}`,
+      link: `${SITE_URL}/packages/${pkgName}`,
     }),
   });
 }
@@ -77,7 +77,7 @@ export function sendPackageRejected(email, username, pkgName, reason) {
       username,
       packageName: pkgName,
       reason: reason || null,
-      dashboardLink: `${SITE_URL}/en/packages/dashboard`,
+      dashboardLink: `${SITE_URL}/packages/dashboard`,
     }),
   });
 }
@@ -88,7 +88,7 @@ export function send2FAEnabled(email, username) {
     subject: "Two-factor authentication enabled on your XanaScript account",
     htmlPromise: renderTemplate("2fa-enabled", {
       username,
-      resetLink: `${SITE_URL}/en/forgot-password`,
+      resetLink: `${SITE_URL}/forgot-password`,
     }),
   });
 }
@@ -100,7 +100,7 @@ export function send2FABackupCodes(email, username, codes) {
     htmlPromise: renderTemplate("2fa-backup-codes", {
       username,
       codes,
-      resetLink: `${SITE_URL}/en/forgot-password`,
+      resetLink: `${SITE_URL}/forgot-password`,
     }),
   });
 }
