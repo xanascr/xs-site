@@ -1,12 +1,4 @@
-<%- include('layout', {
-  body: `
-    <p>Hi <strong><%= username %></strong>,</p>
-    <p>Thanks for signing up! Please verify your email address to activate your account.</p>
-    <p style="text-align:center">
-      <a class="btn" href="<%= link %>">Verify Email</a>
-    </p>
-    <p style="font-size:13px;color:#9ca3af">Or copy this link:<br><%= link %></p>
-    <hr class="hr">
-    <p style="font-size:13px;color:#6b7280">This link expires in <strong>24 hours</strong>. If you didn't create an account, ignore this email.</p>
-  `
-}) %>
+<%
+var body = include('_verify-body', { username, link });
+%>
+<%- include('layout', { body }) %>

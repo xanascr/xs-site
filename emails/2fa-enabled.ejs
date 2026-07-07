@@ -1,9 +1,4 @@
-<%- include('layout', {
-  body: `
-    <p>Hi <strong><%= username %></strong>,</p>
-    <p>Two-factor authentication (2FA) has been <span style="color:#059669;font-weight:700">enabled</span> on your account.</p>
-    <p>From now on, you will need a one-time code from your authenticator app to log in.</p>
-    <hr class="hr">
-    <p style="font-size:13px;color:#6b7280"><strong>Didn't do this?</strong> If you did not enable 2FA, <a href="<%= resetLink %>" style="color:#f58b8e">reset your password immediately</a> and contact support.</p>
-  `
-}) %>
+<%
+var body = include('_2fa-enabled-body', { username, resetLink });
+%>
+<%- include('layout', { body }) %>
