@@ -7,7 +7,8 @@ import { execSync } from "child_process";
 import Package from "../../models/Package.js";
 import { auth, optionalAuth } from "../../middleware/auth.js";
 import { cacheMiddleware } from "../../middleware/cache.js";
-import { sign } from "aws4";
+import pkg from "aws4";
+const { sign } = pkg;
 
 const router = Router();
 const MAX_TARBALL_SIZE = 5 * 1024 * 1024; // 5MB source-only limit
