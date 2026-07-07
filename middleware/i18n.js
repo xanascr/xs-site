@@ -15,11 +15,15 @@ const SUPPORTED = ["en", "pt", "es"];
 
 export function i18n(req, res, next) {
   let lang = "en";
-  const accept = req.headers["accept-language"];
-  if (accept) {
-    for (const s of accept.split(",")) {
-      const code = s.trim().slice(0, 2);
-      if (SUPPORTED.includes(code)) { lang = code; break; }
+  const urlLang = req.path.match(/^\/(en|pt|es)(\/|$)/)?.[1];
+  if (SUPPORTED.includes(urlLang)) lang = urlLang;
+  if (!urlLang) {
+    const accept = req.headers["accept-language"];
+    if (accept) {
+      for (const s of accept.split(",")) {
+        const code = s.trim().slice(0, 2);
+        if (SUPPORTED.includes(code)) { lang = code; break; }
+      }
     }
   }
   if (SUPPORTED.includes(req.query.lang)) lang = req.query.lang;
@@ -31,9 +35,10 @@ export function i18n(req, res, next) {
     args.forEach((a, i) => { v = v.replace(`{${i}}`, a); });
     return v;
   };
+  const pathWithoutLang = req.path.replace(/^\/(en|pt|es)(\/|$)/, "/");
   res.locals.alternates = SUPPORTED.map(l => ({
     lang: l,
-    href: `/${l === "en" ? "" : l}${req.path}`,
+    href: `/${l === "en" ? "" : l}${pathWithoutLang}`,
   }));
 
   next();
