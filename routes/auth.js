@@ -110,6 +110,20 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// ── Logout ──────────────────────────────────────────────────────────
+
+router.post("/logout", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ ok: false, error: "User not found" });
+    user.tokenVersion += 1;
+    await user.save();
+    res.json({ ok: true, message: "Logged out" });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: "Internal server error" });
+  }
+});
+
 // ── 2FA: Complete login with TOTP code ───────────────────────────────
 
 router.post("/2fa/verify", async (req, res) => {

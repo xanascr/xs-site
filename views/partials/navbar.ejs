@@ -38,8 +38,9 @@
     signup.classList.add('hidden');
     dashboard.classList.remove('hidden');
     logout.classList.remove('hidden');
-    logout.onclick = function(e) {
+    logout.onclick = async function(e) {
       e.preventDefault();
+      try { await fetch('/api/auth/logout', { method:'POST', headers:{'Authorization':'Bearer '+token} }); } catch(_) {}
       localStorage.removeItem('xs_token');
       localStorage.removeItem('xs_user');
       window.location.href = '/<%= lang %>/';

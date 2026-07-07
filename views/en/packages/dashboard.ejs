@@ -26,7 +26,8 @@
   var user = JSON.parse(localStorage.getItem('xs_user') || 'null');
   if (!token || !user) { window.location.href = '<%= lang === 'en' ? '' : '/' + lang %>/login'; return; }
   document.getElementById('userInfo').textContent = 'Logged in as ' + user.username + ' (' + user.role + ')';
-  document.getElementById('logoutBtn').onclick = function() {
+  document.getElementById('logoutBtn').onclick = async function() {
+    try { await fetch('/api/auth/logout', { method:'POST', headers:{'Authorization':'Bearer '+token} }); } catch(_) {}
     localStorage.removeItem('xs_token');
     localStorage.removeItem('xs_user');
     window.location.href = '<%= lang === 'en' ? '' : '/' + lang %>/';
