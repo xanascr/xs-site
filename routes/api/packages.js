@@ -113,10 +113,6 @@ router.post("/", auth, upload.single("file"), async (req, res) => {
         s3Key: s3Key || existing.s3Key,
         fileSize: fileSize || existing.fileSize,
         authorId: existing.authorId || req.user.id,
-        status: "pending",
-        reviewNotes: "",
-        reviewedBy: null,
-        reviewedAt: null,
       });
       await existing.save();
     } else {

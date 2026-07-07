@@ -29,7 +29,7 @@
     <% } else { %>
     <div class="space-y-3">
       <% packages.forEach(function(pkg) { %>
-      <a href="<%= lang === 'en' ? '' : '/' + lang %>/packages/<%= pkg.name %>" class="block bg-white rounded-xl border border-gray-200 p-5 no-underline hover:border-pinky-300 hover:shadow-md transition-all group">
+      <a href="/<%= lang %>/packages/<%= pkg.name %>" class="block bg-white rounded-xl border border-gray-200 p-5 no-underline hover:border-pinky-300 hover:shadow-md transition-all group">
         <div class="flex items-start justify-between gap-4">
           <div class="min-w-0 flex-1">
             <div class="flex items-center gap-2">
