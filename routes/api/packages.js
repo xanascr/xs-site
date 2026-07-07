@@ -305,7 +305,6 @@ async function s3Request(method, key, buffer) {
 
   const opts = {
     host: url.hostname,
-    port: url.port || (url.protocol === "https:" ? 443 : 80),
     path,
     method,
     service: "s3",
