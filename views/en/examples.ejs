@@ -6,17 +6,17 @@
     <h1 class="text-3xl md:text-5xl font-black text-center mb-4"><%= t('examples.title') %></h1>
     <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg font-light"><%= t('examples.subtitle') %></p>
 
-    <div class="grid gap-8">
+    <div class="grid gap-6 grid-cols-1 md:grid-cols-2">
       <% examples.forEach(function(ex) { %>
-      <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+      <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 flex flex-col">
         <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-          <h3 class="font-bold text-lg text-gray-800"><%= ex.title %></h3>
-          <span class="text-xs font-mono text-gray-400 bg-gray-100 px-2 py-1 rounded"><%= ex.lang %></span>
+          <h3 class="font-bold text-lg text-gray-800 truncate"><%= ex.title %></h3>
+          <span class="text-xs font-mono text-gray-400 bg-gray-100 px-2 py-1 rounded shrink-0 ml-2"><%= ex.lang %></span>
         </div>
-        <div class="p-6">
-          <p class="text-gray-500 text-sm mb-4"><%= ex.desc %></p>
-          <div class="code-block bg-gray-50 rounded-xl border border-gray-200 overflow-hidden">
-            <pre class="p-4 text-sm"><%= ex.code %></pre>
+        <div class="p-6 flex flex-col gap-4 flex-1">
+          <p class="text-gray-500 text-sm leading-relaxed"><%= ex.desc %></p>
+          <div class="code-block bg-gray-50 rounded-xl border border-gray-200 overflow-hidden mt-auto">
+            <pre class="p-4 text-sm overflow-x-auto scrollbar-thin"><%= ex.code %></pre>
           </div>
         </div>
       </div>

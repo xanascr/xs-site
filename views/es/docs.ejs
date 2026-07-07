@@ -2,112 +2,441 @@
 <%- include('../partials/navbar', { lang, t }) %>
 
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
-  <div class="max-w-5xl mx-auto">
-    <h1 class="text-3xl md:text-5xl font-black text-center mb-4"><%= t('docs.title') %></h1>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg font-light"><%= t('docs.subtitle') %></p>
+  <div class="max-w-6xl mx-auto">
+    <h1 class="text-4xl md:text-5xl font-black text-center mb-3">Documentación</h1>
+    <p class="text-center text-gray-400 max-w-xl mx-auto mb-12 text-lg font-light">Todo lo que necesitas para crear con XanaScript.</p>
 
-    <div class="grid md:grid-cols-3 gap-6">
-      <div class="md:col-span-1">
-        <nav class="sticky top-24 space-y-1 text-sm">
-          <a href="#getting-started" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-pinky-50 hover:text-pinky-600 no-underline">Primeros pasos</a>
-          <a href="#syntax" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-pinky-50 hover:text-pinky-600 no-underline">Referencia de sintaxis</a>
-          <a href="#keywords" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-pinky-50 hover:text-pinky-600 no-underline">Palabras clave</a>
-          <a href="#builtins" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-pinky-50 hover:text-pinky-600 no-underline">Funciones integradas</a>
-          <a href="#stdlib" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-pinky-50 hover:text-pinky-600 no-underline">Librería estándar</a>
-          <a href="#orm" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-pinky-50 hover:text-pinky-600 no-underline">Referencia ORM</a>
-          <a href="#cli" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-pinky-50 hover:text-pinky-600 no-underline">Comandos CLI</a>
-          <a href="#errors" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-pinky-50 hover:text-pinky-600 no-underline">Códigos de error</a>
-        </nav>
-      </div>
-      <div class="md:col-span-2 prose prose-sm max-w-none text-gray-600">
-        <h2 id="getting-started" class="text-2xl font-black text-gray-800 mt-0">Primeros pasos</h2>
-        <p>XanaScript es un lenguaje de programación con sintaxis en portugués. Compila a JavaScript y WebAssembly.</p>
-        <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto">npm install -g xanascript
-xs run app.xs</pre>
+    <div class="grid md:grid-cols-4 gap-8">
+      <nav class="md:col-span-1 sticky top-24 space-y-0.5 text-sm max-h-[calc(100vh-8rem)] overflow-y-auto pr-2">
+        <div class="font-bold text-gray-400 uppercase tracking-wider text-xs mb-2">Primeros Pasos</div>
+        <a href="#install" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Instalación</a>
+        <a href="#hello-world" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Hola Mundo</a>
+        <a href="#cli-usage" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Uso de la CLI</a>
 
-        <h2 id="syntax" class="text-2xl font-black text-gray-800 mt-8">Referencia de sintaxis</h2>
-        <p>La documentación completa de la sintaxis del lenguaje está disponible en el <a href="https://github.com/xanascr/xs/tree/main/docs" class="text-pinky-400 hover:underline">repositorio xs</a>.</p>
+        <div class="font-bold text-gray-400 uppercase tracking-wider text-xs mb-2 mt-5">Guía del Lenguaje</div>
+        <a href="#variables" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Variables</a>
+        <a href="#types" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Tipos</a>
+        <a href="#control-flow" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Flujo de Control</a>
+        <a href="#functions" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Funciones</a>
+        <a href="#classes" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Clases y POO</a>
+        <a href="#pattern-matching" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Coincidencia de Patrones</a>
+        <a href="#async" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Async / Await</a>
+        <a href="#error-handling" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Manejo de Errores</a>
 
-        <h2 id="keywords" class="text-2xl font-black text-gray-800 mt-8">Palabras clave</h2>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border border-gray-200 rounded-xl">
-            <thead><tr><th class="text-left p-3 bg-gray-50 font-semibold">Palabra clave</th><th class="text-left p-3 bg-gray-50 font-semibold">Significado</th></tr></thead>
-            <tbody>
-              <tr><td class="p-3 border-t"><code>CRIA</code></td><td class="p-3 border-t">let / const</td></tr>
-              <tr><td class="p-3 border-t"><code>CHAMA ESSE CARA</code></td><td class="p-3 border-t">function</td></tr>
-              <tr><td class="p-3 border-t"><code>VOLTA</code></td><td class="p-3 border-t">return</td></tr>
-              <tr><td class="p-3 border-t"><code>SE LIGA SO</code></td><td class="p-3 border-t">if</td></tr>
-              <tr><td class="p-3 border-t"><code>SENAO</code></td><td class="p-3 border-t">else</td></tr>
-              <tr><td class="p-3 border-t"><code>REPETE NA MORAL</code></td><td class="p-3 border-t">for</td></tr>
-              <tr><td class="p-3 border-t"><code>REPETE AI</code></td><td class="p-3 border-t">while</td></tr>
-              <tr><td class="p-3 border-t"><code>SOLTA O GRITO</code></td><td class="p-3 border-t">console.log</td></tr>
-              <tr><td class="p-3 border-t"><code>CLASSE</code></td><td class="p-3 border-t">class</td></tr>
-              <tr><td class="p-3 border-t"><code>HERDA</code></td><td class="p-3 border-t">extends</td></tr>
-              <tr><td class="p-3 border-t"><code>ISTO</code></td><td class="p-3 border-t">this</td></tr>
-              <tr><td class="p-3 border-t"><code>NOVA</code></td><td class="p-3 border-t">new</td></tr>
-              <tr><td class="p-3 border-t"><code>TENTA</code></td><td class="p-3 border-t">try</td></tr>
-              <tr><td class="p-3 border-t"><code>PEGA</code></td><td class="p-3 border-t">catch</td></tr>
-              <tr><td class="p-3 border-t"><code>COMBINA</code></td><td class="p-3 border-t">match</td></tr>
-              <tr><td class="p-3 border-t"><code>MACRO</code></td><td class="p-3 border-t">macro</td></tr>
-              <tr><td class="p-3 border-t"><code>TABELA</code></td><td class="p-3 border-t">table (ORM)</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="font-bold text-gray-400 uppercase tracking-wider text-xs mb-2 mt-5">Avanzado</div>
+        <a href="#orm" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">ORM (TABELA)</a>
+        <a href="#macros" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Macros</a>
+        <a href="#wasm" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">WebAssembly</a>
+        <a href="#http-server" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Servidor HTTP</a>
 
-        <h2 id="builtins" class="text-2xl font-black text-gray-800 mt-8">Funciones integradas</h2>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border border-gray-200 rounded-xl">
-            <thead><tr><th class="text-left p-3 bg-gray-50 font-semibold">Función</th><th class="text-left p-3 bg-gray-50 font-semibold">Descripción</th></tr></thead>
-            <tbody>
-              <tr><td class="p-3 border-t"><code>SOLTA O GRITO(x)</code></td><td class="p-3 border-t">Imprimir en consola</td></tr>
-              <tr><td class="p-3 border-t"><code>AGORA VAI(url)</code></td><td class="p-3 border-t">Petición HTTP GET</td></tr>
-              <tr><td class="p-3 border-t"><code>ESPERA AI(ms)</code></td><td class="p-3 border-t">Dormir / esperar</td></tr>
-              <tr><td class="p-3 border-t"><code>SORTEIA(a, b)</code></td><td class="p-3 border-t">Número aleatorio</td></tr>
-              <tr><td class="p-3 border-t"><code>PARSEIA(json)</code></td><td class="p-3 border-t">JSON.parse</td></tr>
-              <tr><td class="p-3 border-t"><code>TAMANHO(x)</code></td><td class="p-3 border-t">Longitud de array/string</td></tr>
-              <tr><td class="p-3 border-t"><code>TIPO(x)</code></td><td class="p-3 border-t">Tipo del valor</td></tr>
-              <tr><td class="p-3 border-t"><code>OUVE_AQUI(k)</code></td><td class="p-3 border-t">Variable de entorno</td></tr>
-              <tr><td class="p-3 border-t"><code>OUVE_TUDO()</code></td><td class="p-3 border-t">Array de argumentos CLI</td></tr>
-              <tr><td class="p-3 border-t"><code>CRIA SERVIDOR(p, h)</code></td><td class="p-3 border-t">Servidor HTTP</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="font-bold text-gray-400 uppercase tracking-wider text-xs mb-2 mt-5">Referencia</div>
+        <a href="#builtins" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Funciones Incorporadas</a>
+        <a href="#keywords" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Palabras Clave</a>
+        <a href="#errors" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Códigos de Error</a>
+        <a href="#lsp" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Protocolo LSP</a>
+        <a href="#package-manager" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Gestor de Paquetes</a>
+      </nav>
 
-        <h2 id="cli" class="text-2xl font-black text-gray-800 mt-8">Comandos CLI</h2>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border border-gray-200 rounded-xl">
-            <thead><tr><th class="text-left p-3 bg-gray-50 font-semibold">Comando</th><th class="text-left p-3 bg-gray-50 font-semibold">Descripción</th></tr></thead>
-            <tbody>
-              <tr><td class="p-3 border-t"><code>xs run file.xs</code></td><td class="p-3 border-t">Ejecutar archivo</td></tr>
-              <tr><td class="p-3 border-t"><code>xs build file.xs</code></td><td class="p-3 border-t">Compilar a JS</td></tr>
-              <tr><td class="p-3 border-t"><code>xs build --wasm file.xs</code></td><td class="p-3 border-t">Compilar a Wasm</td></tr>
-              <tr><td class="p-3 border-t"><code>xs test .</code></td><td class="p-3 border-t">Ejecutar pruebas</td></tr>
-              <tr><td class="p-3 border-t"><code>xs fmt file.xs</code></td><td class="p-3 border-t">Formatear código</td></tr>
-              <tr><td class="p-3 border-t"><code>xs repl</code></td><td class="p-3 border-t">Iniciar REPL</td></tr>
-              <tr><td class="p-3 border-t"><code>xs lsp</code></td><td class="p-3 border-t">Iniciar servidor LSP</td></tr>
-              <tr><td class="p-3 border-t"><code>xs init</code></td><td class="p-3 border-t">Crear nuevo proyecto</td></tr>
-              <tr><td class="p-3 border-t"><code>xs install pkg</code></td><td class="p-3 border-t">Instalar paquete</td></tr>
-              <tr><td class="p-3 border-t"><code>xs publish</code></td><td class="p-3 border-t">Publicar paquete</td></tr>
-              <tr><td class="p-3 border-t"><code>xs watch file.xs</code></td><td class="p-3 border-t">Vigilar + recarga en caliente</td></tr>
-              <tr><td class="p-3 border-t"><code>xs docs</code></td><td class="p-3 border-t">Generar documentación</td></tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="md:col-span-3 space-y-10 text-gray-600 leading-relaxed text-[15px]">
+        <!-- Primeros Pasos -->
+        <section id="install">
+          <h2 class="text-2xl font-black text-gray-800 mb-3">Instalación</h2>
+          <p class="mb-3">Instala globalmente a través de npm:</p>
+          <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-4">npm install -g xanascript</pre>
+          <p class="mb-3">Verifica la instalación:</p>
+          <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-4">xs --help</pre>
+          <p>Deberías ver una lista de todos los comandos disponibles.</p>
+        </section>
 
-        <h2 id="errors" class="text-2xl font-black text-gray-800 mt-8">Códigos de error</h2>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm border border-gray-200 rounded-xl">
-            <thead><tr><th class="text-left p-3 bg-gray-50 font-semibold">Código</th><th class="text-left p-3 bg-gray-50 font-semibold">Significado</th></tr></thead>
-            <tbody>
-              <tr><td class="p-3 border-t"><code>E001</code></td><td class="p-3 border-t">Token inesperado</td></tr>
-              <tr><td class="p-3 border-t"><code>E002</code></td><td class="p-3 border-t">Variable no definida</td></tr>
-              <tr><td class="p-3 border-t"><code>E003</code></td><td class="p-3 border-t">No es una función</td></tr>
-              <tr><td class="p-3 border-t"><code>E004</code></td><td class="p-3 border-t">Tipo incompatible</td></tr>
-              <tr><td class="p-3 border-t"><code>E005</code></td><td class="p-3 border-t">Sintaxis inválida</td></tr>
-              <tr><td class="p-3 border-t"><code>E100</code></td><td class="p-3 border-t">Fallo HTTP</td></tr>
-              <tr><td class="p-3 border-t"><code>E999</code></td><td class="p-3 border-t">Error interno</td></tr>
-            </tbody>
-          </table>
+        <section id="hello-world">
+          <h2 class="text-2xl font-black text-gray-800 mb-3">Hola Mundo</h2>
+          <p class="mb-3">Crea un archivo llamado <code>hello.xs</code>:</p>
+          <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-3"><span class="text-gray-400">// hello.xs</span>
+<span class="text-gray-400">// Hola Mundo en XanaScript</span>
+<span class="kw">PARTIU</span>()
+<span class="kw">SOLTA O GRITO</span>(<span class="str">"Hello, World!"</span>)
+<span class="kw">ACABOU</span>()</pre>
+          <p class="mb-3">Ejecútalo:</p>
+          <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-4">xs run hello.xs</pre>
+          <div class="bg-green-50 border border-green-200 rounded-xl px-4 py-3 text-sm text-green-700">
+            <strong>Salida:</strong> <code>Hello, World!</code>
+          </div>
+        </section>
+
+        <section id="cli-usage">
+          <h2 class="text-2xl font-black text-gray-800 mb-3">Uso de la CLI</h2>
+          <p class="mb-3">XanaScript proporciona una CLI completa con comandos para ejecutar, compilar, probar y empaquetar:</p>
+          <div class="overflow-x-auto mb-4">
+            <table class="w-full text-sm border border-gray-200 rounded-xl">
+              <thead><tr><th class="text-left p-3 bg-gray-50 font-semibold">Comando</th><th class="text-left p-3 bg-gray-50 font-semibold">Descripción</th></tr></thead>
+              <tbody>
+                <tr><td class="p-3 border-t"><code>xs run file.xs</code></td><td class="p-3 border-t">Ejecutar un script (intérprete AST)</td></tr>
+                <tr><td class="p-3 border-t"><code>xs vm file.xs</code></td><td class="p-3 border-t">Ejecutar a través de la máquina virtual de bytecode</td></tr>
+                <tr><td class="p-3 border-t"><code>xs build file.xs</code></td><td class="p-3 border-t">Compilar a JavaScript</td></tr>
+                <tr><td class="p-3 border-t"><code>xs build --opt file.xs</code></td><td class="p-3 border-t">Compilar con optimización completa</td></tr>
+                <tr><td class="p-3 border-t"><code>xs build --wasm file.xs</code></td><td class="p-3 border-t">Compilar a binario WebAssembly</td></tr>
+                <tr><td class="p-3 border-t"><code>xs build --standalone file.xs</code></td><td class="p-3 border-t">Generar archivo .js autónomo</td></tr>
+                <tr><td class="p-3 border-t"><code>xs test [dir]</code></td><td class="p-3 border-t">Ejecutar archivos de prueba (*test*.xs)</td></tr>
+                <tr><td class="p-3 border-t"><code>xs fmt file.xs</code></td><td class="p-3 border-t">Formatear código fuente</td></tr>
+                <tr><td class="p-3 border-t"><code>xs check file.xs</code></td><td class="p-3 border-t">Solo verificar sintaxis</td></tr>
+                <tr><td class="p-3 border-t"><code>xs repl</code></td><td class="p-3 border-t">Iniciar REPL interactivo</td></tr>
+                <tr><td class="p-3 border-t"><code>xs dev [file]</code></td><td class="p-3 border-t">Modo observador con recarga en caliente</td></tr>
+                <tr><td class="p-3 border-t"><code>xs lsp</code></td><td class="p-3 border-t">Iniciar servidor LSP (stdin/stdout)</td></tr>
+                <tr><td class="p-3 border-t"><code>xs init [dir]</code></td><td class="p-3 border-t">Andamiar un nuevo proyecto</td></tr>
+                <tr><td class="p-3 border-t"><code>xs install [pkg]</code></td><td class="p-3 border-t">Instalar un paquete</td></tr>
+                <tr><td class="p-3 border-t"><code>xs publish</code></td><td class="p-3 border-t">Publicar en el registro</td></tr>
+                <tr><td class="p-3 border-t"><code>xs search &lt;term&gt;</code></td><td class="p-3 border-t">Buscar paquetes</td></tr>
+                <tr><td class="p-3 border-t"><code>xs login</code></td><td class="p-3 border-t">Autenticarse en el registro</td></tr>
+                <tr><td class="p-3 border-t"><code>xs whoami</code></td><td class="p-3 border-t">Mostrar usuario actual</td></tr>
+                <tr><td class="p-3 border-t"><code>xs logout</code></td><td class="p-3 border-t">Cerrar sesión del registro</td></tr>
+                <tr><td class="p-3 border-t"><code>xs docs [src] [out]</code></td><td class="p-3 border-t">Generar documentación HTML</td></tr>
+                <tr><td class="p-3 border-t"><code>xs bench</code></td><td class="p-3 border-t">Ejecutar pruebas de rendimiento</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Guía del Lenguaje -->
+        <section id="variables">
+          <h2 class="text-2xl font-black text-gray-800 mb-3">Variables</h2>
+          <p class="mb-3">Usa <code>CRIA</code> para declarar variables. Los tipos se infieren del valor:</p>
+          <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-4"><span class="kw">CRIA</span> nome = <span class="str">"XanaScript"</span>
+<span class="kw">CRIA</span> ano = <span class="num">2026</span>
+<span class="kw">CRIA</span> ativo = <span class="at">VERDADEIRO</span>
+<span class="kw">CRIA</span> nada = <span class="at">NULO</span>
+
+<span class="kw">CRIA</span> nums = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]
+<span class="kw">CRIA</span> config = { nome: <span class="str">"server"</span>, porta: <span class="num">3000</span> }</pre>
+          <p>Reasigna usando <code>=</code>:</p>
+          <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto">nome = <span class="str">"XS"</span></pre>
+        </section>
+
+        <section id="types">
+          <h2 class="text-2xl font-black text-gray-800 mb-3">Tipos</h2>
+          <p class="mb-3">XanaScript tiene tipado dinámico con los siguientes primitivos:</p>
+          <div class="overflow-x-auto mb-4">
+            <table class="w-full text-sm border border-gray-200 rounded-xl">
+              <thead><tr><th class="text-left p-3 bg-gray-50 font-semibold">Tipo</th><th class="text-left p-3 bg-gray-50 font-semibold">Ejemplo</th><th class="text-left p-3 bg-gray-50 font-semibold">Notas</th></tr></thead>
+              <tbody>
+                <tr><td class="p-3 border-t"><code>NUMERO</code></td><td class="p-3 border-t"><code>42</code>, <code>3.14</code></td><td class="p-3 border-t">Doble IEEE 754 (número JS)</td></tr>
+                <tr><td class="p-3 border-t"><code>TEXTO</code></td><td class="p-3 border-t"><code>"hello"</code>, <code>`template ${x}`</code></td><td class="p-3 border-t">Plantillas de texto con backticks</td></tr>
+                <tr><td class="p-3 border-t"><code>BOOLEANO</code></td><td class="p-3 border-t"><code>VERDADEIRO</code>, <code>FALSO</code></td><td class="p-3 border-t">Literales booleanos en portugués</td></tr>
+                <tr><td class="p-3 border-t"><code>NULO</code></td><td class="p-3 border-t"><code>NULO</code></td><td class="p-3 border-t">Valor nulo</td></tr>
+                <tr><td class="p-3 border-t"><code>Array</code></td><td class="p-3 border-t"><code>[1, 2, 3]</code></td><td class="p-3 border-t">Arreglos dinámicos, tipos mixtos permitidos</td></tr>
+                <tr><td class="p-3 border-t"><code>Object</code></td><td class="p-3 border-t"><code>{ a: 1 }</code></td><td class="p-3 border-t">Pares clave-valor</td></tr>
+                <tr><td class="p-3 border-t"><code>FUNCAO</code></td><td class="p-3 border-t"><code>(x) => x * 2</code></td><td class="p-3 border-t">Funciones de primera clase</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Verifica tipos en tiempo de ejecución:</p>
+          <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto"><span class="kw">SOLTA O GRITO</span>(<span class="fn">TIPO</span>(<span class="num">42</span>))   <span class="cm">// "number"</span>
+<span class="kw">SOLTA O GRITO</span>(<span class="fn">TIPO</span>(<span class="str">"xs"</span>)) <span class="cm">// "string"</span></pre>
+        </section>
+
+        <section id="control-flow">
+          <h2 class="text-2xl font-black text-gray-800 mb-3">Flujo de Control</h2>
+          <p class="mb-3">Los condicionales usan palabras clave en portugués:</p>
+          <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-4"><span class="kw">SE LIGA SO</span> (x > <span class="num">10</span>) {
+  <span class="kw">SOLTA O GRITO</span>(<span class="str">"Greater than 10"</span>)
+} <span class="kw">SENAO SE</span> (x > <span class="num">5</span>) {
+  <span class="kw">SOLTA O GRITO</span>(<span class="str">"Greater than 5"</span>)
+} <span class="kw">SENAO</span> {
+  <span class="kw">SOLTA O GRITO</span>(<span class="str">"5 or less"</span>)
+}</pre>
+          <p class="mb-3">Bucles:</p>
+          <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-4"><span class="cm">// Bucle for</span>
+<span class="kw">REPETE NA MORAL</span> (<span class="kw">CRIA</span> i = <span class="num">0</span>; i < <span class="num">5</span>; i += <span class="num">1</span>) {
+  <span class="kw">SOLTA O GRITO</span>(i)
+}
+
+<span class="cm">// Bucle while</span>
+<span class="kw">CRIA</span> x = <span class="num">0</span>
+<span class="kw">REPETE AI</span> (x < <span class="num">5</span>) {
+  <span class="kw">SOLTA O GRITO</span>(x)
+  x += <span class="num">1</span>
+}
+
+<span class="cm">// Ternario</span>
+<span class="kw">CRIA</span> resultado = (x > <span class="num">0</span>) ? <span class="str">"positive"</span> : <span class="str">"negative"</span></pre>
+        </section>
+
+        <section id="functions">
+          <h2 class="text-2xl font-black text-gray-800 mb-3">Funciones</h2>
+          <p class="mb-3">Funciones nombradas y anónimas:</p>
+          <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-4"><span class="cm">// Función nombrada</span>
+<span class="kw">CHAMA ESSE CARA</span> soma(a, b) {
+  <span class="kw">VOLTA</span> a + b
+}
+
+<span class="cm">// Función flecha</span>
+<span class="kw">CRIA</span> dobro = (x) => x * <span class="num">2</span>
+
+<span class="cm">// Flecha multilínea</span>
+<span class="kw">CRIA</span> saudacao = (nome) => {
+  <span class="kw">VOLTA</span> <span class="str">"Hello, "</span> + nome + <span class="str">"!"</span>
+}
+
+<span class="kw">SOLTA O GRITO</span>(<span class="fn">soma</span>(<span class="num">3</span>, <span class="num">4</span>))
+<span class="kw">SOLTA O GRITO</span>(<span class="fn">dobro</span>(<span class="num">5</span>))
+<span class="kw">SOLTA O GRITO</span>(<span class="fn">saudacao</span>(<span class="str">"XS"</span>))</pre>
+          <p>Se admiten parámetros por defecto y parámetros rest.</p>
+        </section>
+
+        <section id="classes">
+          <h2 class="text-2xl font-black text-gray-800 mb-3">Clases y POO</h2>
+          <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-4"><span class="kw">CLASSE</span> Animal {
+  <span class="kw">CONSTRUTOR</span>(nome) {
+    <span class="kw">CRIA</span> <span class="kw">ISTO</span>.nome = nome
+  }
+  <span class="kw">METODO</span> falar() {
+    <span class="kw">SOLTA O GRITO</span>(<span class="kw">ISTO</span>.nome + <span class="str">" makes a sound"</span>)
+  }
+}
+
+<span class="kw">CLASSE</span> Cachorro <span class="kw">HERDA</span> Animal {
+  <span class="kw">METODO</span> falar() {
+    <span class="kw">SOLTA O GRITO</span>(<span class="kw">ISTO</span>.nome + <span class="str">" says: Woof!"</span>)
+  }
+}
+
+<span class="kw">CRIA</span> rex = <span class="kw">NOVA</span> Cachorro(<span class="str">"Rex"</span>)
+<span class="fn">rex.falar</span>()</pre>
+        </section>
+
+        <section id="pattern-matching">
+          <h2 class="text-2xl font-black text-gray-800 mb-3">Coincidencia de Patrones</h2>
+          <p class="mb-3">Usa <code>COMBINA</code> para una coincidencia de patrones expresiva con desestructuración:</p>
+          <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-4"><span class="cm">// Coincidir por valor</span>
+<span class="kw">CRIA</span> descrever = (val) => <span class="kw">COMBINA</span> (val) {
+  <span class="kw">CASO</span> <span class="num">0</span> => <span class="str">"zero"</span>
+  <span class="kw">CASO</span> <span class="num">1</span> => <span class="str">"one"</span>
+  <span class="kw">CASO</span> _ => <span class="str">"many"</span>
+}
+
+<span class="cm">// Coincidir con arreglos usando desestructuración</span>
+<span class="kw">CRIA</span> checkList = (items) => <span class="kw">COMBINA</span> (items) {
+  <span class="kw">CASO</span> [] => <span class="str">"empty"</span>
+  <span class="kw">CASO</span> [x] => <span class="str">"one item: "</span> + x
+  <span class="kw">CASO</span> [x, y] => <span class="str">"two items"</span>
+  <span class="kw">CASO</span> _ => <span class="str">"many items"</span>
+}</pre>
+          <p>El comodín <code>_</code> coincide con cualquier cosa. Los patrones de arreglo admiten desestructuración.</p>
+        </section>
+
+        <section id="async">
+          <h2 class="text-2xl font-black text-gray-800 mb-3">Async / Await</h2>
+          <p class="mb-3">Async/await nativo con <code>ASSINCRONO</code> y <code>ESPERA AI</code>:</p>
+          <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-4"><span class="kw">CRIA</span> fetch = <span class="kw">ASSINCRONO</span> (url) => {
+  <span class="kw">CRIA</span> res = <span class="kw">ESPERA AI</span> <span class="fn">AGORA VAI</span>(url)
+  <span class="kw">CRIA</span> data = <span class="fn">PARSEIA</span>(res)
+  <span class="kw">VOLTA</span> data
+}
+
+<span class="kw">CRIA</span> run = <span class="kw">ASSINCRONO</span> () => {
+  <span class="kw">CRIA</span> users = <span class="kw">ESPERA AI</span> <span class="fn">fetch</span>(<span class="str">"https://api.example.com/users/1"</span>)
+  <span class="kw">SOLTA O GRITO</span>(<span class="str">"Name: "</span> + users.nome)
+}
+
+<span class="kw">ESPERA AI</span> <span class="fn">run</span>()</pre>
+          <p>También admite <code>ESPERA AI(ms)</code> para retardos basados en tiempo.</p>
+        </section>
+
+        <section id="error-handling">
+          <h2 class="text-2xl font-black text-gray-800 mb-3">Manejo de Errores</h2>
+          <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto"><span class="kw">TENTA</span> {
+  <span class="kw">CRIA</span> data = <span class="fn">PARSEIA</span>(<span class="str">"{ invalid json }"</span>)
+} <span class="kw">PEGA</span> (err) {
+  <span class="kw">SOLTA O GRITO</span>(<span class="str">"Error: "</span> + err)
+}</pre>
+        </section>
+
+        <hr class="border-gray-200">
+
+        <!-- Avanzado -->
+        <section id="orm" class="scroll-mt-24">
+          <h2 class="text-2xl font-black text-gray-800 mb-3">ORM (TABELA)</h2>
+          <p class="mb-3">XanaScript incluye un ORM integrado usando la palabra clave <code>TABELA</code>. Define un esquema y obtén operaciones CRUD automáticas:</p>
+          <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-4"><span class="kw">TABELA</span> Product {
+  nome: <span class="typ">TEXTO</span>,
+  preco: <span class="typ">NUMERO</span>,
+  estoque: <span class="typ">NUMERO</span>
+}
+
+<span class="kw">CRIA</span> repo = Product
+
+<span class="cm">// Crear</span>
+<span class="fn">repo.create</span>({ nome: <span class="str">"Keyboard"</span>, preco: <span class="num">250</span>, estoque: <span class="num">10</span> })
+
+<span class="cm">// Leer todos</span>
+<span class="kw">SOLTA O GRITO</span>(<span class="fn">repo.list</span>())
+
+<span class="cm">// Buscar por ID</span>
+<span class="kw">SOLTA O GRITO</span>(<span class="fn">repo.find</span>(<span class="num">1</span>))
+
+<span class="cm">// Filtrar con operadores</span>
+<span class="kw">CRIA</span> caros = <span class="fn">repo.findWhere</span>({ preco: { $gte: <span class="num">200</span> } })
+
+<span class="cm">// Actualizar</span>
+<span class="fn">repo.update</span>(<span class="num">1</span>, { preco: <span class="num">200</span> })
+
+<span class="cm">// Eliminar</span>
+<span class="fn">repo.delete</span>(<span class="num">2</span>)</pre>
+          <p>Operadores de filtro: <code>$gte</code>, <code>$gt</code>, <code>$lt</code>, <code>$lte</code>, <code>$eq</code>, <code>$ne</code>, <code>$in</code>, <code>$nin</code>.</p>
+        </section>
+
+        <section id="macros">
+          <h2 class="text-2xl font-black text-gray-800 mb-3">Macros</h2>
+          <p class="mb-3">Generación de código en tiempo de compilación con <code>MACRO</code>:</p>
+          <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-4"><span class="kw">MACRO</span> <span class="fn">assert</span>(expr) {
+  <span class="kw">CRIA</span> cond = expr[<span class="num">1</span>]
+  <span class="kw">CRIA</span> code = <span class="fn">TEXTO</span>(cond)
+  <span class="kw">VOLTA</span> [
+    <span class="str">"SE LIGA SO (!"</span> + code + <span class="str">") { SOLTA O GRITO('Assertion failed: "</span> + code + <span class="str">"') }"</span>
+  ]
+}
+
+<span class="fn">assert</span>(x > <span class="num">0</span>)  <span class="cm">// Se expande en tiempo de compilación</span></pre>
+          <p>Las macros reciben el nodo AST de su argumento y devuelven código transformado.</p>
+        </section>
+
+        <section id="wasm">
+          <h2 class="text-2xl font-black text-gray-800 mb-3">WebAssembly</h2>
+          <p class="mb-3">Compila XanaScript directamente a binario WebAssembly:</p>
+          <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-4">xs build --wasm app.xs</pre>
+          <p>Esto genera un archivo <code>.wasm</code> que puede ejecutarse en cualquier runtime de WebAssembly (navegadores, WasmEdge, Wasmtime). El compilador utiliza un emisor binario que genera módulos Wasm válidos a partir del AST optimizado de XS.</p>
+        </section>
+
+        <section id="http-server">
+          <h2 class="text-2xl font-black text-gray-800 mb-3">Servidor HTTP</h2>
+          <p class="mb-3">Servidor HTTP integrado con enrutamiento:</p>
+          <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-4"><span class="kw">CHAMA ESSE CARA</span> handler(req, res) {
+  <span class="kw">SE LIGA SO</span> (req.url == <span class="str">"/"</span>) {
+    <span class="fn">res.json</span>({ mensagem: <span class="str">"Hello from XanaScript!"</span> })
+  } <span class="kw">SENAO SE</span> (req.url == <span class="str">"/api/data"</span>) {
+    <span class="fn">res.json</span>({ items: [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>], total: <span class="num">3</span> })
+  } <span class="kw">SENAO</span> {
+    <span class="fn">res.status</span>(<span class="num">404</span>).json({ erro: <span class="str">"Not found"</span> })
+  }
+}
+
+<span class="kw">CRIA SERVIDOR</span>(<span class="num">3000</span>, handler)
+<span class="kw">SOLTA O GRITO</span>(<span class="str">"Server running on :3000"</span>)</pre>
+        </section>
+
+        <hr class="border-gray-200">
+
+        <!-- Referencia -->
+        <section id="builtins">
+          <h2 class="text-2xl font-black text-gray-800 mb-3">Funciones Incorporadas</h2>
+          <div class="overflow-x-auto mb-4">
+            <table class="w-full text-sm border border-gray-200 rounded-xl">
+              <thead><tr><th class="text-left p-3 bg-gray-50 font-semibold">Función</th><th class="text-left p-3 bg-gray-50 font-semibold">Descripción</th></tr></thead>
+              <tbody>
+                <tr><td class="p-3 border-t"><code>SOLTA O GRITO(x)</code></td><td class="p-3 border-t">Imprimir en consola</td></tr>
+                <tr><td class="p-3 border-t"><code>AGORA VAI(url)</code></td><td class="p-3 border-t">Solicitud HTTP GET (asíncrona)</td></tr>
+                <tr><td class="p-3 border-t"><code>ESPERA AI(ms)</code></td><td class="p-3 border-t">Dormir / retardo (asíncrono)</td></tr>
+                <tr><td class="p-3 border-t"><code>SORTEIA(a, b)</code></td><td class="p-3 border-t">Entero aleatorio entre a y b</td></tr>
+                <tr><td class="p-3 border-t"><code>PARSEIA(json)</code></td><td class="p-3 border-t">Analizar cadena JSON</td></tr>
+                <tr><td class="p-3 border-t"><code>TAMANHO(x)</code></td><td class="p-3 border-t">Longitud de arreglo o cadena</td></tr>
+                <tr><td class="p-3 border-t"><code>TIPO(x)</code></td><td class="p-3 border-t">Nombre del tipo de un valor</td></tr>
+                <tr><td class="p-3 border-t"><code>OUVE_AQUI(k)</code></td><td class="p-3 border-t">Leer variable de entorno</td></tr>
+                <tr><td class="p-3 border-t"><code>OUVE_TUDO()</code></td><td class="p-3 border-t">Arreglo de argumentos de CLI</td></tr>
+                <tr><td class="p-3 border-t"><code>CRIA SERVIDOR(p, h)</code></td><td class="p-3 border-t">Iniciar servidor HTTP en el puerto p</td></tr>
+                <tr><td class="p-3 border-t"><code>TEXTO(x)</code></td><td class="p-3 border-t">Convertir a cadena</td></tr>
+                <tr><td class="p-3 border-t"><code>NUMERO(x)</code></td><td class="p-3 border-t">Convertir a número</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="keywords">
+          <h2 class="text-2xl font-black text-gray-800 mb-3">Palabras Clave</h2>
+          <div class="overflow-x-auto mb-4">
+            <table class="w-full text-sm border border-gray-200 rounded-xl">
+              <thead><tr><th class="text-left p-3 bg-gray-50 font-semibold">Palabra Clave</th><th class="text-left p-3 bg-gray-50 font-semibold">Significado</th></tr></thead>
+              <tbody>
+                <tr><td class="p-3 border-t"><code>CRIA</code></td><td class="p-3 border-t">Declaración de variable (let/const)</td></tr>
+                <tr><td class="p-3 border-t"><code>CHAMA ESSE CARA</code></td><td class="p-3 border-t">Declaración de función</td></tr>
+                <tr><td class="p-3 border-t"><code>VOLTA</code></td><td class="p-3 border-t">Devolver un valor</td></tr>
+                <tr><td class="p-3 border-t"><code>SE LIGA SO</code></td><td class="p-3 border-t">Condicional if</td></tr>
+                <tr><td class="p-3 border-t"><code>SENAO</code></td><td class="p-3 border-t">Else (también SENAO SE para else if)</td></tr>
+                <tr><td class="p-3 border-t"><code>REPETE NA MORAL</code></td><td class="p-3 border-t">Bucle for</td></tr>
+                <tr><td class="p-3 border-t"><code>REPETE AI</code></td><td class="p-3 border-t">Bucle while</td></tr>
+                <tr><td class="p-3 border-t"><code>VOA</code></td><td class="p-3 border-t">Salir del bucle</td></tr>
+                <tr><td class="p-3 border-t"><code>CONTINUA</code></td><td class="p-3 border-t">Continuar a la siguiente iteración</td></tr>
+                <tr><td class="p-3 border-t"><code>SOLTA O GRITO</code></td><td class="p-3 border-t">Salida de consola</td></tr>
+                <tr><td class="p-3 border-t"><code>CLASSE</code></td><td class="p-3 border-t">Declaración de clase</td></tr>
+                <tr><td class="p-3 border-t"><code>HERDA</code></td><td class="p-3 border-t">Extiende (herencia)</td></tr>
+                <tr><td class="p-3 border-t"><code>ISTO</code></td><td class="p-3 border-t">Referencia this</td></tr>
+                <tr><td class="p-3 border-t"><code>NOVA</code></td><td class="p-3 border-t">Instanciar una clase</td></tr>
+                <tr><td class="p-3 border-t"><code>CONSTRUTOR</code></td><td class="p-3 border-t">Constructor de clase</td></tr>
+                <tr><td class="p-3 border-t"><code>METODO</code></td><td class="p-3 border-t">Método de clase</td></tr>
+                <tr><td class="p-3 border-t"><code>TENTA</code></td><td class="p-3 border-t">Bloque try</td></tr>
+                <tr><td class="p-3 border-t"><code>PEGA</code></td><td class="p-3 border-t">Bloque catch</td></tr>
+                <tr><td class="p-3 border-t"><code>COMBINA</code></td><td class="p-3 border-t">Coincidencia de patrones (match)</td></tr>
+                <tr><td class="p-3 border-t"><code>CASO</code></td><td class="p-3 border-t">Rama case en match</td></tr>
+                <tr><td class="p-3 border-t"><code>MACRO</code></td><td class="p-3 border-t">Macro en tiempo de compilación</td></tr>
+                <tr><td class="p-3 border-t"><code>TABELA</code></td><td class="p-3 border-t">Declaración de tabla ORM</td></tr>
+                <tr><td class="p-3 border-t"><code>IMPORTA</code></td><td class="p-3 border-t">Importar módulo</td></tr>
+                <tr><td class="p-3 border-t"><code>EXPORTA</code></td><td class="p-3 border-t">Exportar símbolo</td></tr>
+                <tr><td class="p-3 border-t"><code>PARTIU</code></td><td class="p-3 border-t">Punto de entrada del programa</td></tr>
+                <tr><td class="p-3 border-t"><code>ACABOU</code></td><td class="p-3 border-t">Fin del programa</td></tr>
+                <tr><td class="p-3 border-t"><code>ASSINCRONO</code></td><td class="p-3 border-t">Función asíncrona</td></tr>
+                <tr><td class="p-3 border-t"><code>VERDADEIRO</code></td><td class="p-3 border-t">Booleano verdadero</td></tr>
+                <tr><td class="p-3 border-t"><code>FALSO</code></td><td class="p-3 border-t">Booleano falso</td></tr>
+                <tr><td class="p-3 border-t"><code>NULO</code></td><td class="p-3 border-t">Valor nulo</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="errors">
+          <h2 class="text-2xl font-black text-gray-800 mb-3">Códigos de Error</h2>
+          <div class="overflow-x-auto mb-4">
+            <table class="w-full text-sm border border-gray-200 rounded-xl">
+              <thead><tr><th class="text-left p-3 bg-gray-50 font-semibold">Código</th><th class="text-left p-3 bg-gray-50 font-semibold">Significado</th><th class="text-left p-3 bg-gray-50 font-semibold">Causa</th></tr></thead>
+              <tbody>
+                <tr><td class="p-3 border-t"><code>E001</code></td><td class="p-3 border-t">Token inesperado</td><td class="p-3 border-t">Error de sintaxis — el lexer encontró un carácter que no puede tokenizar</td></tr>
+                <tr><td class="p-3 border-t"><code>E002</code></td><td class="p-3 border-t">Variable no definida</td><td class="p-3 border-t">Referenciar una variable que no ha sido declarada</td></tr>
+                <tr><td class="p-3 border-t"><code>E003</code></td><td class="p-3 border-t">No es una función</td><td class="p-3 border-t">Llamar a un valor que no es una función</td></tr>
+                <tr><td class="p-3 border-t"><code>E004</code></td><td class="p-3 border-t">Tipo incompatible</td><td class="p-3 border-t">Discrepancia de tipos en una operación (ej., cadena + número)</td></tr>
+                <tr><td class="p-3 border-t"><code>E005</code></td><td class="p-3 border-t">Sintaxis inválida</td><td class="p-3 border-t">Error del analizador — estructura gramatical inválida</td></tr>
+                <tr><td class="p-3 border-t"><code>E006</code></td><td class="p-3 border-t">División por cero</td><td class="p-3 border-t">División o módulo por cero en tiempo de ejecución</td></tr>
+                <tr><td class="p-3 border-t"><code>E007</code></td><td class="p-3 border-t">Índice fuera de rango</td><td class="p-3 border-t">Índice de arreglo más allá de la longitud</td></tr>
+                <tr><td class="p-3 border-t"><code>E100</code></td><td class="p-3 border-t">Fallo HTTP</td><td class="p-3 border-t">Error de red en AGORA VAI()</td></tr>
+                <tr><td class="p-3 border-t"><code>E999</code></td><td class="p-3 border-t">Error interno</td><td class="p-3 border-t">Error interno inesperado del compilador/runtime</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="lsp">
+          <h2 class="text-2xl font-black text-gray-800 mb-3">Protocolo LSP</h2>
+          <p class="mb-3">XanaScript incluye una implementación del Protocolo de Servidor de Lenguaje para integración con IDE:</p>
+          <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-3">xs lsp</pre>
+          <p>Funcionalidades: errores de sintaxis, autocompletado, información al pasar el cursor, ir a definición, símbolos del documento. Compatible con VS Code, Neovim y cualquier cliente LSP.</p>
+          <p class="mt-3">La extensión de VS Code está disponible en el <a href="https://marketplace.visualstudio.com/items?itemName=xanascr.xanascript" class="text-pinky-400 hover:underline">VS Code Marketplace</a>.</p>
+        </section>
+
+        <section id="package-manager">
+          <h2 class="text-2xl font-black text-gray-800 mb-3">Gestor de Paquetes</h2>
+          <p class="mb-3">XanaScript tiene un gestor de paquetes integrado con un registro público en <a href="https://xanascript.xyz/packages" class="text-pinky-400 hover:underline">xanascript.xyz/packages</a>:</p>
+          <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-4"><span class="cm"># Iniciar sesión en el registro</span>
+xs login
+
+<span class="cm"># Buscar paquetes</span>
+xs search &lt;term&gt;
+
+<span class="cm"># Instalar un paquete</span>
+xs install &lt;package-name&gt;
+
+<span class="cm"># Publicar tu paquete (después de crear xspack.json con xs init)</span>
+xs publish</pre>
+          <p>Los paquetes pasan por un proceso de aprobación antes de ser publicados. Tu paquete debe tener un archivo <code>xspack.json</code> y un directorio <code>src/</code>.</p>
+        </section>
+
+        <div class="pt-6 pb-2 text-center text-sm text-gray-400 border-t border-gray-200">
+          <p>¿Falta algo? <a href="https://github.com/xanascr/xs/issues" class="text-pinky-400 hover:underline">Abre un issue</a> o contribuye en <a href="https://github.com/xanascr/xs/tree/main/docs" class="text-pinky-400 hover:underline">GitHub</a>.</p>
         </div>
       </div>
     </div>

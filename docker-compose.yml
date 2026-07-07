@@ -10,5 +10,11 @@ services:
       - .env
     environment:
       - NODE_ENV=production
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3010/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     restart: unless-stopped
     # MongoDB and Redis are external — set MONGODB_URI and REDIS_URL in .env

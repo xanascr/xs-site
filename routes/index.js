@@ -70,7 +70,11 @@ const examples = [
 ];
 
 router.get("/", (req, res) => {
-  res.redirect(`/${req.lang === "en" ? "" : req.lang}/`);
+  const lang = req.lang || "en";
+  if (lang !== "en") {
+    return res.redirect(`/${lang}/`);
+  }
+  res.render("en/index", { lang: "en", examples, changelog, benchmarks, page: "home" });
 });
 
 router.get("/:lang(en|pt|es)?", (req, res) => {

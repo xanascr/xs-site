@@ -50,6 +50,26 @@ app.use(async (req, res, next) => {
   next();
 });
 
+// ── Health check for Coolify / Docker ──────────────────────────────────
+app.get("/api/health", async (req, res) => {
+  const checks = {
+    app: true,
+    mongo: false,
+    redis: false,
+  };
+  try {
+    if (mongoose.connection.readyState === 1) checks.mongo = true;
+  } catch {}
+  if (app.locals.redis) {
+    try {
+      await app.locals.redis.ping();
+      checks.redis = true;
+    } catch {}
+  }
+  const ok = checks.app && checks.mongo;
+  res.status(ok ? 200 : 503).json({ ok, timestamp: new Date().toISOString(), checks });
+});
+
 app.use("/", indexRouter);
 app.use("/api/auth", authRouter);
 app.use("/packages", packagesRouter);

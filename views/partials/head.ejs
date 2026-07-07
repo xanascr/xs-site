@@ -3,16 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><%= t('nav.title') || 'XanaScript' %> — XanaScript</title>
-<meta name="description" content="<%= t('hero.subtitle').replace(/<[^>]*>/g, '') %>">
+<title><%= typeof pageTitle !== 'undefined' ? pageTitle + ' — XanaScript' : (t('nav.title') || 'XanaScript') + ' — XanaScript' %></title>
+<meta name="description" content="<%= typeof pageDesc !== 'undefined' ? pageDesc : t('hero.subtitle').replace(/<[^>]*>/g, '') %>">
 <meta name="author" content="flazo0">
+<meta name="theme-color" content="#f58b8e">
 <link rel="canonical" href="https://xanascript.xyz/<%= lang === 'en' ? '' : lang + '/' %>">
 <% alternates.forEach(a => { %>
 <link rel="alternate" hreflang="<%= a.lang %>" href="https://xanascript.xyz<%= a.href %>">
 <% }) %>
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="XanaScript">
+<meta property="og:title" content="<%= typeof pageTitle !== 'undefined' ? pageTitle : 'XanaScript' %>">
+<meta property="og:description" content="<%= typeof pageDesc !== 'undefined' ? pageDesc : 'XanaScript is a programming language with Portuguese syntax, optimizing compiler, built-in ORM, and WebAssembly support.' %>">
+<meta property="og:url" content="https://xanascript.xyz/<%= lang === 'en' ? '' : lang + '/' %><%= typeof page !== 'undefined' && page !== 'home' ? page : '' %>">
+<meta property="og:locale" content="<%= lang === 'en' ? 'en_US' : lang === 'pt' ? 'pt_BR' : 'es_ES' %>">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="<%= typeof pageTitle !== 'undefined' ? pageTitle : 'XanaScript' %>">
+<meta name="twitter:description" content="<%= typeof pageDesc !== 'undefined' ? pageDesc : 'A programming language with Portuguese syntax, built-in ORM, and Wasm support.' %>">
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "XanaScript",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Windows, macOS, Linux",
+  "description": "<%= (typeof pageDesc !== 'undefined' ? pageDesc : 'A programming language with Portuguese syntax, optimizing compiler, built-in ORM, and WebAssembly support.').replace(/"/g, '\\"') %>",
+  "author": { "@type": "Person", "name": "flazo0" },
+  "license": "Apache-2.0",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 font-family=%22Montserrat,sans-serif%22 font-weight=%22900%22 fill=%22%23f58b8e%22>XS</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://cdn.tailwindcss.com">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
 <script>
@@ -35,11 +66,11 @@ tailwind.config = {
 }
 </script>
 <style>
-html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; -webkit-text-size-adjust: 100%; }
 h1, h2, h3 { letter-spacing: -0.02em; }
 .font-black { letter-spacing: -0.03em; }
 .font-light { letter-spacing: 0.01em; }
-body { font-family: 'Montserrat', system-ui, sans-serif; }
+body { font-family: 'Montserrat', system-ui, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 .code-block pre { font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6; overflow-x: auto; }
 .code-block .kw { color: #e86a6e; font-weight: 600; }
 .code-block .str { color: #d97706; }
@@ -79,10 +110,10 @@ p code, li code, td code { background: #fde8e8; color: #d44a4f; padding: 2px 8px
 #cookieConsent.hidden { transform: translateY(100%); opacity: 0; pointer-events: none; }
 </style>
 </head>
-<body class="bg-white text-gray-900">
+<body class="bg-white text-gray-900 antialiased">
 
-<div id="cookieConsent" class="fixed bottom-0 left-0 right-0 z-50 bg-gray-900 text-white px-4 py-4 text-sm flex flex-col sm:flex-row items-center justify-between gap-3">
-  <p class="text-gray-300 text-center sm:text-left">We use only essential cookies for authentication. No tracking. <a href="/<%= lang === 'en' ? '' : lang %>/privacy" class="text-pinky-400 hover:underline">Learn more</a></p>
+<div id="cookieConsent" class="fixed bottom-0 left-0 right-0 z-50 bg-gray-900 text-white px-4 py-4 text-sm flex flex-col sm:flex-row items-center justify-between gap-3 shadow-2xl">
+  <p class="text-gray-300 text-center sm:text-left text-xs sm:text-sm">We use only essential cookies for authentication. No tracking. <a href="/<%= lang === 'en' ? '' : lang %>/privacy" class="text-pinky-400 hover:underline">Learn more</a></p>
   <button onclick="document.getElementById('cookieConsent').classList.add('hidden'); localStorage.setItem('xs_cookie_consent','1')" class="bg-pinky-400 hover:bg-pinky-500 text-white font-semibold px-5 py-2 rounded-lg text-sm whitespace-nowrap transition-all">Got it</button>
 </div>
 <script>if (localStorage.getItem('xs_cookie_consent')) document.getElementById('cookieConsent').classList.add('hidden');</script>

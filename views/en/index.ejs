@@ -3,27 +3,29 @@
 <%- include('../partials/navbar', { lang, t }) %>
 
 <!-- Hero + Playground -->
-<section class="min-h-[100dvh] pt-20 sm:pt-24 pb-10 sm:pb-16 px-4 sm:px-6 bg-gradient-to-b from-pinky-50 to-white relative overflow-hidden">
+<section class="min-h-[100dvh] lg:min-h-0 pt-20 sm:pt-24 pb-10 sm:pb-16 px-4 sm:px-6 bg-gradient-to-b from-pinky-50 to-white relative overflow-hidden">
   <div class="max-w-6xl mx-auto">
     <div class="text-center mb-6 sm:mb-8 animate-fade-in">
-      <h1 class="text-3xl sm:text-5xl md:text-7xl font-black leading-tight mb-3 sm:mb-4">
+      <h1 class="text-2xl sm:text-5xl md:text-7xl font-black leading-tight mb-3 sm:mb-4">
         XanaScript <span class="text-pinky-400">Playground</span>
       </h1>
-      <p class="text-base sm:text-lg md:text-xl text-gray-500 max-w-2xl mx-auto px-2 font-light"><%= t('hero.subtitle') %></p>
+      <p class="text-sm sm:text-lg md:text-xl text-gray-500 max-w-2xl mx-auto px-2 font-light"><%= t('hero.subtitle') %></p>
     </div>
 
-    <div class="flex flex-col lg:flex-row gap-4 sm:gap-6 animate-slide-up" style="height: min(calc(100dvh - 18rem), 640px); min-height: 300px;">
-      <div class="flex-1 min-h-[200px] lg:min-h-0 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-white flex flex-col">
+    <div class="flex flex-col lg:flex-row gap-4 sm:gap-6 animate-slide-up min-h-[calc(100dvh-16rem)] lg:min-h-0" style="height: auto;">
+      <div class="flex-1 min-h-[40vh] lg:min-h-0 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-white flex flex-col">
         <div class="flex items-center gap-1.5 px-3 sm:px-4 py-2.5 sm:py-3 bg-gray-100 border-b border-gray-200">
           <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400"></div>
           <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
           <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
           <span class="text-gray-500 text-xs sm:text-sm ml-2 sm:ml-3 font-medium">app.xs</span>
           <div class="ml-auto flex gap-1 sm:gap-2">
-            <button id="runBtn" class="bg-pinky-400 hover:bg-pinky-500 text-white px-4 sm:px-5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all shadow-md shadow-pinky-200 active:scale-95"><%= t('playground.run') %></button>
+            <button id="runBtn" class="bg-pinky-400 hover:bg-pinky-500 text-white px-4 sm:px-5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all shadow-md shadow-pinky-200 active:scale-95 w-full sm:w-auto"><%= t('playground.run') %></button>
           </div>
         </div>
-        <div id="examplesBar" class="flex items-center gap-1.5 px-3 sm:px-4 py-1.5 bg-gray-50 border-b border-gray-200 overflow-x-auto"></div>
+        <div id="examplesBar" class="flex items-center gap-1.5 px-3 sm:px-4 py-1.5 bg-gray-50 border-b border-gray-200 overflow-x-auto touch-pan-x snap-x snap-mandatory scrollbar-thin">
+          <div class="snap-start shrink-0"></div>
+        </div>
         <textarea id="codeEditor" name="codeEditor" spellcheck="false">CRIA nome = "XanaScript"
 CRIA idade = 25
 
@@ -42,7 +44,7 @@ SOLTA O GRITO("Soma de 1 a 10: " + soma)</textarea>
         <div id="editorContainer"></div>
       </div>
 
-      <div class="flex-1 min-h-[200px] lg:min-h-0 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-white flex flex-col">
+      <div class="flex-1 min-h-[40vh] lg:min-h-0 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-white flex flex-col">
         <div class="flex items-center gap-1.5 px-3 sm:px-4 py-2.5 sm:py-3 bg-gray-100 border-b border-gray-200">
           <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400"></div>
           <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
@@ -61,27 +63,27 @@ SOLTA O GRITO("Soma de 1 a 10: " + soma)</textarea>
 </section>
 
 <!-- Installation -->
-<section id="install" class="py-14 sm:py-20 px-4 sm:px-6">
+<section id="install" class="py-16 sm:py-20 px-4 sm:px-6">
   <div class="max-w-5xl mx-auto">
     <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4"><%= t('install.title') %></h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-base sm:text-lg font-light"><%= t('install.subtitle') %></p>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light"><%= t('install.subtitle') %></p>
     <div class="grid md:grid-cols-2 gap-6">
-      <div class="bg-pinky-50 rounded-2xl p-8 border border-pinky-100">
-        <h3 class="text-xl font-bold mb-3"><%= t('install.npm.title') %></h3>
+      <div class="bg-pinky-50 rounded-2xl p-6 sm:p-8 border border-pinky-100">
+        <h3 class="text-lg sm:text-xl font-bold mb-3"><%= t('install.npm.title') %></h3>
         <p class="text-gray-500 text-sm mb-4"><%= t('install.npm.desc') %></p>
         <div class="code-block bg-white rounded-xl border border-gray-200 overflow-hidden">
           <div class="px-4 py-2 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">Bash</div>
-          <pre class="p-4">npm install -g xanascript</pre>
+          <pre class="p-4 text-sm">npm install -g xanascript</pre>
         </div>
       </div>
-      <div class="bg-pinky-50 rounded-2xl p-8 border border-pinky-100">
-        <h3 class="text-xl font-bold mb-3"><%= t('install.binary.title') %></h3>
+      <div class="bg-pinky-50 rounded-2xl p-6 sm:p-8 border border-pinky-100">
+        <h3 class="text-lg sm:text-xl font-bold mb-3"><%= t('install.binary.title') %></h3>
         <p class="text-gray-500 text-sm mb-4"><%= t('install.binary.desc') %></p>
-        <div onclick="copyCmd(this)" class="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-4 py-2.5 font-mono text-sm text-gray-500 cursor-pointer transition-all hover:border-pinky-400 select-none">
+        <div onclick="copyCmd(this)" class="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-4 py-2.5 font-mono text-sm text-gray-500 cursor-pointer transition-all hover:border-pinky-400 hover:shadow-sm select-none">
           <span class="text-pinky-400">$</span>
           <span class="text-gray-800">curl -fsSL https://xanascript.xyz/install.sh | bash</span>
         </div>
-        <div onclick="copyCmd(this)" class="mt-2 inline-flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-4 py-2.5 font-mono text-sm text-gray-500 cursor-pointer transition-all hover:border-pinky-400 select-none">
+        <div onclick="copyCmd(this)" class="mt-2 inline-flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-4 py-2.5 font-mono text-sm text-gray-500 cursor-pointer transition-all hover:border-pinky-400 hover:shadow-sm select-none">
           <span class="text-pinky-400">$</span>
           <span class="text-gray-800">xs --version</span>
         </div>
@@ -96,16 +98,16 @@ SOLTA O GRITO("Soma de 1 a 10: " + soma)</textarea>
 </section>
 
 <!-- Syntax -->
-<section id="syntax" class="py-20 px-6 bg-pinky-50/50">
+<section id="syntax" class="py-16 sm:py-20 px-4 sm:px-6 bg-pinky-50/50">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-black text-center mb-4">Complete Syntax</h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg font-light">Every keyword is clear Portuguese. The code explains itself.</p>
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Complete Syntax</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Every keyword is clear Portuguese. The code explains itself.</p>
     <div class="grid md:grid-cols-2 gap-6">
       <div>
-        <h4 class="font-semibold mb-3 text-gray-700">Variables & Functions</h4>
+        <h4 class="font-semibold mb-3 text-gray-700 text-sm sm:text-base">Variables &amp; Functions</h4>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
           <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
-          <pre class="p-4"><span class="kw">CRIA</span> nome = <span class="str">"XanaScript"</span>
+          <pre class="p-4 text-xs sm:text-sm overflow-x-auto"><span class="kw">CRIA</span> nome = <span class="str">"XanaScript"</span>
 <span class="kw">CRIA</span> idade = <span class="num">5</span>
 
 <span class="kw">CHAMA ESSE CARA</span> <span class="fn">saudacao</span>(nome, idade) {
@@ -113,10 +115,10 @@ SOLTA O GRITO("Soma de 1 a 10: " + soma)</textarea>
 }</pre>
         </div>
 
-        <h4 class="font-semibold mb-3 mt-6 text-gray-700">Conditionals & Loops</h4>
+        <h4 class="font-semibold mb-3 mt-6 text-gray-700 text-sm sm:text-base">Conditionals &amp; Loops</h4>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
           <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
-          <pre class="p-4"><span class="kw">SE LIGA SO</span> (idade >= <span class="num">18</span>) {
+          <pre class="p-4 text-xs sm:text-sm overflow-x-auto"><span class="kw">SE LIGA SO</span> (idade >= <span class="num">18</span>) {
   <span class="kw">SOLTA O GRITO</span>(<span class="str">"Maior de idade"</span>)
 } <span class="kw">SENAO</span> {
   <span class="kw">SOLTA O GRITO</span>(<span class="str">"Menor de idade"</span>)
@@ -132,10 +134,10 @@ SOLTA O GRITO("Soma de 1 a 10: " + soma)</textarea>
         </div>
       </div>
       <div>
-        <h4 class="font-semibold mb-3 text-gray-700">Classes & OOP</h4>
+        <h4 class="font-semibold mb-3 text-gray-700 text-sm sm:text-base">Classes &amp; OOP</h4>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
           <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
-          <pre class="p-4"><span class="kw">CLASSE</span> <span class="fn">Animal</span> {
+          <pre class="p-4 text-xs sm:text-sm overflow-x-auto"><span class="kw">CLASSE</span> <span class="fn">Animal</span> {
   <span class="kw">CONSTRUTOR</span>(nome) {
     <span class="kw">CRIA ISTO</span>.nome = nome
   }
@@ -154,10 +156,10 @@ SOLTA O GRITO("Soma de 1 a 10: " + soma)</textarea>
 rex.falar()</pre>
         </div>
 
-        <h4 class="font-semibold mb-3 mt-6 text-gray-700">Pattern Matching & More</h4>
+        <h4 class="font-semibold mb-3 mt-6 text-gray-700 text-sm sm:text-base">Pattern Matching &amp; More</h4>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
           <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
-          <pre class="p-4"><span class="kw">CRIA</span> resultado = <span class="kw">COMBINA</span> (valor) {
+          <pre class="p-4 text-xs sm:text-sm overflow-x-auto"><span class="kw">CRIA</span> resultado = <span class="kw">COMBINA</span> (valor) {
   <span class="kw">CASO</span> <span class="num">0</span> =&gt; <span class="str">"zero"</span>
   <span class="kw">CASO</span> <span class="num">1</span> =&gt; <span class="str">"um"</span>
   <span class="kw">CASO</span> _ =&gt; <span class="str">"outro"</span>
@@ -181,94 +183,106 @@ rex.falar()</pre>
 </section>
 
 <!-- Features -->
-<section id="features" class="py-20 px-6">
+<section id="features" class="py-16 sm:py-20 px-4 sm:px-6">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-black text-center mb-4">Why XanaScript?</h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg font-light">A language designed from the ground up with a full compiler toolchain, not a transpiler or wrapper.</p>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
-        <h3 class="font-bold text-lg mb-2">Portuguese Syntax</h3>
-        <p class="text-gray-500 text-sm">Multi-word keywords (<code>SE LIGA SO</code>, <code>CHAMA ESSE CARA</code>, <code>REPETE NA MORAL</code>) are lexed as atomic tokens via lookahead DFA. No translation layer — the grammar itself is Portuguese.</p>
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Why XanaScript?</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">A language designed from the ground up with a full compiler toolchain, not a transpiler or wrapper.</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
+        <div class="text-2xl mb-3">🚀</div>
+        <h3 class="font-bold text-base sm:text-lg mb-2">Portuguese Syntax</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">Multi-word keywords (<code>SE LIGA SO</code>, <code>CHAMA ESSE CARA</code>, <code>REPETE NA MORAL</code>) are lexed as atomic tokens via lookahead DFA. No translation layer — the grammar itself is Portuguese.</p>
       </div>
-      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
-        <h3 class="font-bold text-lg mb-2">Optimizing JS Codegen</h3>
-        <p class="text-gray-500 text-sm">Multi-pass optimizer: constant folding, loop unrolling (up to 8 iterations), integer type inference for automatic <code>Int32Array</code>/<code>Float64Array</code> usage, and function inlining.</p>
+      <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
+        <div class="text-2xl mb-3">⚡</div>
+        <h3 class="font-bold text-base sm:text-lg mb-2">Optimizing JS Codegen</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">Multi-pass optimizer: constant folding, loop unrolling (up to 8 iterations), integer type inference for automatic <code>Int32Array</code>/<code>Float64Array</code> usage, and function inlining.</p>
       </div>
-      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
-        <h3 class="font-bold text-lg mb-2">Native WebAssembly</h3>
-        <p class="text-gray-500 text-sm">Direct <code>.wasm</code> binary emission — no Emscripten, no wabt.js, no LLVM. Implements Section Type/Function/Code/Export/Data manually with a bundled linker that resolves function indices and label offsets.</p>
+      <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
+        <div class="text-2xl mb-3">🛡️</div>
+        <h3 class="font-bold text-base sm:text-lg mb-2">Native WebAssembly</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">Direct <code>.wasm</code> binary emission — no Emscripten, no wabt.js, no LLVM. Implements Section Type/Function/Code/Export/Data manually with a bundled linker that resolves function indices and label offsets.</p>
       </div>
-      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
-        <h3 class="font-bold text-lg mb-2">Built-in ORM</h3>
-        <p class="text-gray-500 text-sm"><code>TABELA</code> is a first-class syntax construct parsed into AST nodes. The codegen emits complete CRUD functions (<code>inserir</code>, <code>buscar</code>, <code>atualizar</code>, <code>remover</code>) with filter support (<code>$gt</code>, <code>$lt</code>, <code>$eq</code>) and JSON persistence.</p>
+      <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
+        <div class="text-2xl mb-3">🎯</div>
+        <h3 class="font-bold text-base sm:text-lg mb-2">Built-in ORM</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1"><code>TABELA</code> is a first-class syntax construct parsed into AST nodes. The codegen emits complete CRUD functions (<code>inserir</code>, <code>buscar</code>, <code>atualizar</code>, <code>remover</code>) with filter support (<code>$gt</code>, <code>$lt</code>, <code>$eq</code>) and JSON persistence.</p>
       </div>
-      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
-        <h3 class="font-bold text-lg mb-2">Compile-Time Macros</h3>
-        <p class="text-gray-500 text-sm"><code>MACRO</code> definitions are stored in the symbol table and expanded during AST traversal before codegen. Supports recursive expansion with configurable depth limits. Zero runtime footprint.</p>
+      <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
+        <div class="text-2xl mb-3">📦</div>
+        <h3 class="font-bold text-base sm:text-lg mb-2">Compile-Time Macros</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1"><code>MACRO</code> definitions are stored in the symbol table and expanded during AST traversal before codegen. Supports recursive expansion with configurable depth limits. Zero runtime footprint.</p>
       </div>
-      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
-        <h3 class="font-bold text-lg mb-2">Native Test Runner</h3>
-        <p class="text-gray-500 text-sm"><code>TESTE</code> and <code>AFIRMA</code> are parsed as AST statements and executed by the interpreter. Auto-discovers test files, outputs TAP-compatible results, and exits with CI-ready codes.</p>
+      <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
+        <div class="text-2xl mb-3">🧩</div>
+        <h3 class="font-bold text-base sm:text-lg mb-2">Native Test Runner</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1"><code>TESTE</code> and <code>AFIRMA</code> are parsed as AST statements and executed by the interpreter. Auto-discovers test files, outputs TAP-compatible results, and exits with CI-ready codes.</p>
       </div>
-      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
-        <h3 class="font-bold text-lg mb-2">LSP Server</h3>
-        <p class="text-gray-500 text-sm">Language Server Protocol over stdio. Stateless architecture: each request re-parses the document from scratch. Supports completions, hover docs, go-to-definition, real-time diagnostics, and formatting.</p>
+      <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
+        <div class="text-2xl mb-3">🔧</div>
+        <h3 class="font-bold text-base sm:text-lg mb-2">LSP Server</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">Language Server Protocol over stdio. Stateless architecture: each request re-parses the document from scratch. Supports completions, hover docs, go-to-definition, real-time diagnostics, and formatting.</p>
       </div>
-      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
-        <h3 class="font-bold text-lg mb-2">Package Manager</h3>
-        <p class="text-gray-500 text-sm"><code>xs install</code> resolves packages from GitHub repositories with semver compatibility. <code>xs publish</code> creates a registry entry. npm fallback for JS interop.</p>
+      <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
+        <div class="text-2xl mb-3">📦</div>
+        <h3 class="font-bold text-base sm:text-lg mb-2">Package Manager</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1"><code>xs install</code> resolves packages from GitHub repositories with semver compatibility. <code>xs publish</code> creates a registry entry. npm fallback for JS interop.</p>
       </div>
-      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
-        <h3 class="font-bold text-lg mb-2">Rust-Style Errors</h3>
-        <p class="text-gray-500 text-sm">Each error includes a unique code, exact source location with arrow annotation, and structured hint/help messages. The parser implements panic-mode error recovery to report multiple errors per run.</p>
+      <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
+        <div class="text-2xl mb-3">⚠️</div>
+        <h3 class="font-bold text-base sm:text-lg mb-2">Rust-Style Errors</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">Each error includes a unique code, exact source location with arrow annotation, and structured hint/help messages. The parser implements panic-mode error recovery to report multiple errors per run.</p>
       </div>
-      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
-        <h3 class="font-bold text-lg mb-2">VS Code Extension</h3>
-        <p class="text-gray-500 text-sm">Uses <code>vscode-xs</code> with TextMate grammars for syntax highlighting, 18 code snippets, and LSP client integration. Commands for run, build, test, and format.</p>
+      <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
+        <div class="text-2xl mb-3">💻</div>
+        <h3 class="font-bold text-base sm:text-lg mb-2">VS Code Extension</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">Uses <code>vscode-xs</code> with TextMate grammars for syntax highlighting, 18 code snippets, and LSP client integration. Commands for run, build, test, and format.</p>
       </div>
-      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
-        <h3 class="font-bold text-lg mb-2">Complete CLI</h3>
-        <p class="text-gray-500 text-sm">20+ subcommands: <code>run</code>, <code>build</code> (JS/Wasm), <code>test</code>, <code>repl</code>, <code>format</code>, <code>docs</code>, <code>lsp</code>, <code>init</code>, <code>install</code>, <code>publish</code>, <code>watch</code>, <code>benchmark</code>. Single binary via <code>bun --compile</code>, zero runtime deps.</p>
+      <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
+        <div class="text-2xl mb-3">🖥️</div>
+        <h3 class="font-bold text-base sm:text-lg mb-2">Complete CLI</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">20+ subcommands: <code>run</code>, <code>build</code> (JS/Wasm), <code>test</code>, <code>repl</code>, <code>format</code>, <code>docs</code>, <code>lsp</code>, <code>init</code>, <code>install</code>, <code>publish</code>, <code>watch</code>, <code>benchmark</code>. Single binary via <code>bun --compile</code>, zero runtime deps.</p>
       </div>
-      <div class="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-7 shadow-sm hover:shadow-md transition-all hover:border-pinky-400 hover:-translate-y-1 hover:shadow-lg">
-        <h3 class="font-bold text-lg mb-2">Task Runner</h3>
-        <p class="text-gray-500 text-sm"><code>TAREFA</code> declarations in <code>tarefas.xs</code> define named tasks parsed into AST. Executed via <code>xs &lt;taskname&gt;</code> with dependency resolution.</p>
+      <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
+        <div class="text-2xl mb-3">📋</div>
+        <h3 class="font-bold text-base sm:text-lg mb-2">Task Runner</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1"><code>TAREFA</code> declarations in <code>tarefas.xs</code> define named tasks parsed into AST. Executed via <code>xs &lt;taskname&gt;</code> with dependency resolution.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- Wasm -->
-<section id="wasm" class="py-20 px-6 bg-pinky-50/50">
+<section id="wasm" class="py-16 sm:py-20 px-4 sm:px-6 bg-pinky-50/50">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-black text-center mb-4">Native WebAssembly</h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg font-light">Direct <code>.wasm</code> emission — no Emscripten, no wabt.js, no LLVM toolchain.</p>
-    <div class="grid md:grid-cols-2 gap-8">
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Native WebAssembly</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Direct <code>.wasm</code> emission — no Emscripten, no wabt.js, no LLVM toolchain.</p>
+    <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
       <div>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
           <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
-          <pre class="p-4"><span class="kw">CHAMA ESSE CARA</span> <span class="fn">sum</span>(a, b) {
+          <pre class="p-4 text-xs sm:text-sm overflow-x-auto"><span class="kw">CHAMA ESSE CARA</span> <span class="fn">sum</span>(a, b) {
   <span class="kw">VOLTA</span> a + b
 }
 <span class="kw">CHAMA ESSE CARA</span> <span class="fn">main</span>() {
   <span class="kw">VOLTA</span> sum(<span class="num">10</span>, <span class="num">20</span>)
 }</pre>
         </div>
-        <div onclick="copyCmd(this)" class="mt-3 inline-flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 font-mono text-sm text-gray-500 cursor-pointer transition-all hover:border-pinky-400 select-none">
+        <div onclick="copyCmd(this)" class="mt-3 inline-flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 font-mono text-sm text-gray-500 cursor-pointer transition-all hover:border-pinky-400 hover:shadow-sm select-none">
           <span class="text-pinky-400">$</span>
           <span class="text-gray-800">xs build --wasm math.xs</span>
         </div>
       </div>
       <div>
-        <p class="text-gray-600 mb-4"><strong class="text-gray-800">wasm_binary.js</strong> implements the Wasm binary format specification from scratch:</p>
-        <ul class="list-disc list-inside text-gray-600 space-y-1.5 mb-4">
+        <p class="text-gray-600 text-sm sm:text-base mb-4"><strong class="text-gray-800">wasm_binary.js</strong> implements the Wasm binary format specification from scratch:</p>
+        <ul class="list-disc list-inside text-gray-600 text-sm space-y-1.5 mb-4">
           <li>Magic number (<code>00 61 73 6d</code>) + version (<code>01 00 00 00</code>)</li>
           <li>Section encoding: Type Section (function signatures), Function Section (type index mapping), Code Section (function bodies with local declarations), Export Section (named exports), Data Section (initial memory contents)</li>
           <li>All integers encoded via LEB128 (unsigned and signed variants)</li>
           <li>Two-value type system: <code>i32</code> and <code>f64</code> — all XS arithmetic operations map to the appropriate opcode</li>
         </ul>
-        <p class="text-gray-600 mb-4">The internal <strong class="text-gray-800">linker</strong> resolves function indices between sections during a second pass. After codegen, it patches label offsets for branch instructions (<code>br</code>, <code>br_if</code>, <code>block</code>, <code>loop</code>). The linker also handles export name string table encoding.</p>
-        <p class="text-gray-600 mb-4">Memory allocation uses a bundled bump allocator — <code>CRIA VETOR</code> with compile-time known sizes emits <code>memory.grow</code> + pointer arithmetic. Strings are stored as (length, data) pairs at the allocated offset.</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-4">The internal <strong class="text-gray-800">linker</strong> resolves function indices between sections during a second pass. After codegen, it patches label offsets for branch instructions (<code>br</code>, <code>br_if</code>, <code>block</code>, <code>loop</code>). The linker also handles export name string table encoding.</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-4">Memory allocation uses a bundled bump allocator — <code>CRIA VETOR</code> with compile-time known sizes emits <code>memory.grow</code> + pointer arithmetic. Strings are stored as (length, data) pairs at the allocated offset.</p>
         <div class="grid grid-cols-2 gap-2">
           <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">i32 / f64</code><span class="text-gray-400 text-xs">Value types</span></div>
           <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">block / loop</code><span class="text-gray-400 text-xs">Control flow</span></div>
@@ -281,14 +295,14 @@ rex.falar()</pre>
 </section>
 
 <!-- ORM -->
-<section id="orm" class="py-20 px-6">
+<section id="orm" class="py-16 sm:py-20 px-4 sm:px-6">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-black text-center mb-4">Built-in ORM</h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg font-light">Tables as a first-class AST node — parsed, type-checked, and codegen'd in the compiler pipeline.</p>
-    <div class="grid md:grid-cols-2 gap-8">
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Built-in ORM</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Tables as a first-class AST node — parsed, type-checked, and codegen'd in the compiler pipeline.</p>
+    <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
       <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
         <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
-        <pre class="p-4"><span class="kw">TABELA</span> <span class="fn">Product</span> {
+        <pre class="p-4 text-xs sm:text-sm overflow-x-auto"><span class="kw">TABELA</span> <span class="fn">Product</span> {
   name: <span class="typ">TEXTO</span>,
   price: <span class="typ">NUMERO</span>,
   stock: <span class="typ">NUMERO</span>
@@ -304,9 +318,9 @@ repo.update(<span class="num">1</span>, { name: <span class="str">"RGB Keyboard"
 repo.delete(<span class="num">2</span>)</pre>
       </div>
       <div>
-        <p class="text-gray-600 mb-4"><code>TABELA</code> is parsed as a <code>TableDef</code> AST node containing a name and typed field list. The parser validates that field types are one of the five supported: <code>TEXTO</code>, <code>NUMERO</code>, <code>BOOLEANO</code>, <code>DATA</code>, <code>QUALQUER</code>. Invalid types produce a compile-time error with source annotation.</p>
-        <p class="text-gray-600 mb-4">On the codegen side, <code>TableDef</code> emits a constructor function that returns an object with the CRUD methods. The runtime stores data as JSON files on disk (Node/Bun) or in-memory (browser). Each record gets an auto-incrementing <code>_id</code> field plus <code>_criado</code> and <code>_atualizado</code> timestamps.</p>
-        <p class="text-gray-600 mb-4">The <code>findWhere</code> method supports filter operators passed as keys prefixed with <code>$</code>: <code>$eq</code>, <code>$gt</code>, <code>$lt</code>, <code>$gte</code>, <code>$lte</code>, <code>$ne</code>, and <code>$in</code> (array match). Compound filters use implicit AND semantics.</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-4"><code>TABELA</code> is parsed as a <code>TableDef</code> AST node containing a name and typed field list. The parser validates that field types are one of the five supported: <code>TEXTO</code>, <code>NUMERO</code>, <code>BOOLEANO</code>, <code>DATA</code>, <code>QUALQUER</code>. Invalid types produce a compile-time error with source annotation.</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-4">On the codegen side, <code>TableDef</code> emits a constructor function that returns an object with the CRUD methods. The runtime stores data as JSON files on disk (Node/Bun) or in-memory (browser). Each record gets an auto-incrementing <code>_id</code> field plus <code>_criado</code> and <code>_atualizado</code> timestamps.</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-4">The <code>findWhere</code> method supports filter operators passed as keys prefixed with <code>$</code>: <code>$eq</code>, <code>$gt</code>, <code>$lt</code>, <code>$gte</code>, <code>$lte</code>, <code>$ne</code>, and <code>$in</code> (array match). Compound filters use implicit AND semantics.</p>
         <div class="grid grid-cols-2 gap-2">
           <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">TEXTO</code><span class="text-gray-400 text-xs">string</span></div>
           <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">NUMERO</code><span class="text-gray-400 text-xs">number</span></div>
@@ -320,14 +334,14 @@ repo.delete(<span class="num">2</span>)</pre>
 </section>
 
 <!-- Macros -->
-<section id="macros" class="py-20 px-6 bg-pinky-50/50">
+<section id="macros" class="py-16 sm:py-20 px-4 sm:px-6 bg-pinky-50/50">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-black text-center mb-4">Compile-Time Macros</h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg font-light">AST-level substitution — expanded during the optimization phase, erased before codegen.</p>
-    <div class="grid md:grid-cols-2 gap-8">
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Compile-Time Macros</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">AST-level substitution — expanded during the optimization phase, erased before codegen.</p>
+    <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
       <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
         <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
-        <pre class="p-4"><span class="kw">MACRO</span> <span class="fn">square</span>(x) { x * x }
+        <pre class="p-4 text-xs sm:text-sm overflow-x-auto"><span class="kw">MACRO</span> <span class="fn">square</span>(x) { x * x }
 <span class="kw">MACRO</span> <span class="fn">cube</span>(x) { x * square(x) }
 <span class="kw">MACRO</span> <span class="fn">max</span>(a, b) {
   <span class="kw">SE LIGA SO</span> (a > b) { a } <span class="kw">SENAO</span> { b }
@@ -338,24 +352,24 @@ repo.delete(<span class="num">2</span>)</pre>
 <span class="kw">CRIA</span> r4 = max(square(<span class="num">4</span>), cube(<span class="num">2</span>))</pre>
       </div>
       <div>
-        <p class="text-gray-600 mb-4">Macros are parsed into <code>MacroDef</code> AST nodes with a parameter list and body. During the optimization phase, the macro expander walks the AST and replaces each <code>CallExpr</code> matching a macro name with the macro's body AST, substituting parameter identifiers with the argument expressions via a shallow copy.</p>
-        <p class="text-gray-600 mb-4">Expansion is <strong>recursive</strong>: if a macro body contains calls to other macros, those are expanded in a post-substitution pass. The expander tracks a depth counter (default limit: 64) to prevent infinite recursion from circular macro references. After full expansion, all <code>MacroDef</code> nodes are removed from the AST.</p>
-        <p class="text-gray-600 mb-4">Because expansion operates on the AST rather than text (unlike C preprocessor <code>#define</code>), there is no risk of operator-precedence bugs or unintended token pasting. The resulting AST is then fed through the optimizer and codegen as if the macro bodies were written inline.</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-4">Macros are parsed into <code>MacroDef</code> AST nodes with a parameter list and body. During the optimization phase, the macro expander walks the AST and replaces each <code>CallExpr</code> matching a macro name with the macro's body AST, substituting parameter identifiers with the argument expressions via a shallow copy.</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-4">Expansion is <strong>recursive</strong>: if a macro body contains calls to other macros, those are expanded in a post-substitution pass. The expander tracks a depth counter (default limit: 64) to prevent infinite recursion from circular macro references. After full expansion, all <code>MacroDef</code> nodes are removed from the AST.</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-4">Because expansion operates on the AST rather than text (unlike C preprocessor <code>#define</code>), there is no risk of operator-precedence bugs or unintended token pasting. The resulting AST is then fed through the optimizer and codegen as if the macro bodies were written inline.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- Tests -->
-<section id="tests" class="py-20 px-6">
+<section id="tests" class="py-16 sm:py-20 px-4 sm:px-6">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-black text-center mb-4">Test Runner</h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg font-light">First-class <code>TESTE</code> and <code>AFIRMA</code> AST nodes — parsed, interpreted, and reported by the compiler itself.</p>
-    <div class="grid md:grid-cols-2 gap-8">
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Test Runner</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">First-class <code>TESTE</code> and <code>AFIRMA</code> AST nodes — parsed, interpreted, and reported by the compiler itself.</p>
+    <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
       <div>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
           <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
-          <pre class="p-4"><span class="kw">TESTE</span> <span class="str">"sum of two numbers"</span> {
+          <pre class="p-4 text-xs sm:text-sm overflow-x-auto"><span class="kw">TESTE</span> <span class="str">"sum of two numbers"</span> {
   <span class="kw">CRIA</span> r = <span class="num">2</span> + <span class="num">3</span>
   <span class="kw">AFIRMA</span>(r == <span class="num">5</span>)
   <span class="kw">ASSUNTO</span>(r, <span class="num">5</span>)
@@ -365,18 +379,18 @@ repo.delete(<span class="num">2</span>)</pre>
   <span class="kw">ASSUNTO</span>(r, <span class="num">12</span>)
 }</pre>
         </div>
-        <div onclick="copyCmd(this)" class="mt-3 inline-flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 font-mono text-sm text-gray-500 cursor-pointer transition-all hover:border-pinky-400 select-none">
+        <div onclick="copyCmd(this)" class="mt-3 inline-flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 font-mono text-sm text-gray-500 cursor-pointer transition-all hover:border-pinky-400 hover:shadow-sm select-none">
           <span class="text-pinky-400">$</span>
           <span class="text-gray-800">xs test .</span>
         </div>
       </div>
       <div>
-        <p class="text-gray-600 mb-4"><code>TESTE</code> blocks are parsed into <code>TestStmt</code> AST nodes containing an expression (the description) and a statement block. <code>AFIRMA</code> and <code>ASSUNTO</code> are parsed as <code>AssertStmt</code> nodes — the former takes a single boolean expression, the latter takes an actual/expected pair with structural comparison.</p>
-        <p class="text-gray-600 mb-4">The test runner discovers files by glob pattern (<code>**/*.test.xs</code>) and executes them through the AST interpreter. Each <code>TestStmt</code> is wrapped in a try-catch: assertion failures throw structured <code>AssertionError</code> objects with file/line/diff info. The runner aggregates results and outputs TAP-compatible format with colored pass/fail indicators, execution time per test, and a summary line.</p>
-        <p class="text-gray-600 mb-4">Exit code 1 on any failure — CI/CD ready. The <code>xs test --watch</code> flag re-runs on file changes using the built-in file watcher.</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-4"><code>TESTE</code> blocks are parsed into <code>TestStmt</code> AST nodes containing an expression (the description) and a statement block. <code>AFIRMA</code> and <code>ASSUNTO</code> are parsed as <code>AssertStmt</code> nodes — the former takes a single boolean expression, the latter takes an actual/expected pair with structural comparison.</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-4">The test runner discovers files by glob pattern (<code>**/*.test.xs</code>) and executes them through the AST interpreter. Each <code>TestStmt</code> is wrapped in a try-catch: assertion failures throw structured <code>AssertionError</code> objects with file/line/diff info. The runner aggregates results and outputs TAP-compatible format with colored pass/fail indicators, execution time per test, and a summary line.</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-4">Exit code 1 on any failure — CI/CD ready. The <code>xs test --watch</code> flag re-runs on file changes using the built-in file watcher.</p>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
           <div class="px-4 py-2 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">Output</div>
-          <pre class="p-4 text-green-600">  PASS  sum of two numbers (2ms)
+          <pre class="p-4 text-green-600 text-xs sm:text-sm">  PASS  sum of two numbers (2ms)
   PASS  multiplication (1ms)
 
   Tests: 2 passed, 2 total</pre>
@@ -387,20 +401,20 @@ repo.delete(<span class="num">2</span>)</pre>
 </section>
 
 <!-- LSP -->
-<section id="lsp" class="py-20 px-6 bg-pinky-50/50">
+<section id="lsp" class="py-16 sm:py-20 px-4 sm:px-6 bg-pinky-50/50">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-black text-center mb-4">LSP — Language Server Protocol</h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg font-light">Stateless LSP server over stdin/stdout JSON-RPC — one-shot parse per request, no persistent state.</p>
-    <div class="grid md:grid-cols-2 gap-8">
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">LSP — Language Server Protocol</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Stateless LSP server over stdin/stdout JSON-RPC — one-shot parse per request, no persistent state.</p>
+    <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
       <div>
-        <p class="text-gray-600 mb-3">Start the server with <code class="bg-pinky-50">xs lsp</code>. Implements <code>textDocument/completion</code> (keyword/builtin/identifier completion items with kind and detail), <code>textDocument/hover</code> (Markdown docs for built-in functions with signature), <code>textDocument/definition</code> (resolves variable/function declarations to their source location), and <code>textDocument/diagnostic</code> (full compiler error output mapped to Range, including error code and severity).</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-3">Start the server with <code class="bg-pinky-50">xs lsp</code>. Implements <code>textDocument/completion</code> (keyword/builtin/identifier completion items with kind and detail), <code>textDocument/hover</code> (Markdown docs for built-in functions with signature), <code>textDocument/definition</code> (resolves variable/function declarations to their source location), and <code>textDocument/diagnostic</code> (full compiler error output mapped to Range, including error code and severity).</p>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden mb-6">
           <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">Bash</div>
-          <pre class="p-4">xs lsp</pre>
+          <pre class="p-4 text-xs sm:text-sm">xs lsp</pre>
         </div>
-        <h4 class="font-semibold mb-3 text-gray-700">Neovim</h4>
+        <h4 class="font-semibold mb-3 text-gray-700 text-sm sm:text-base">Neovim</h4>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
-          <pre class="p-4">vim.api.nvim_create_autocmd(<span class="str">"FileType"</span>, {
+          <pre class="p-4 text-xs sm:text-sm overflow-x-auto">vim.api.nvim_create_autocmd(<span class="str">"FileType"</span>, {
   pattern = <span class="str">"xs"</span>,
   callback = <span class="kw">function</span>()
     vim.lsp.start({
@@ -418,28 +432,28 @@ repo.delete(<span class="num">2</span>)</pre>
           <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm">Hover with Markdown docs from built-in registry</div>
           <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm">Go-to-definition resolves AST node locations</div>
         </div>
-        <h4 class="font-semibold mb-3 text-gray-700">VS Code</h4>
-        <p class="text-gray-600 mb-4">The <code class="bg-pinky-50">vscode-xs/</code> extension integrates LSP automatically on <code class="bg-pinky-50">.xs</code> files. Registers <code>documentFormattingProvider</code> using the built-in formatter and <code>CodeActionProvider</code> with quick-fix suggestions.</p>
+        <h4 class="font-semibold mb-3 text-gray-700 text-sm sm:text-base">VS Code</h4>
+        <p class="text-gray-600 text-sm sm:text-base">The <code class="bg-pinky-50">vscode-xs/</code> extension integrates LSP automatically on <code class="bg-pinky-50">.xs</code> files. Registers <code>documentFormattingProvider</code> using the built-in formatter and <code>CodeActionProvider</code> with quick-fix suggestions.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- Errors -->
-<section id="errors" class="py-20 px-6">
+<section id="errors" class="py-16 sm:py-20 px-4 sm:px-6">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-black text-center mb-4">Rust-Style Errors</h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg font-light">Structured error objects with code, source location, annotated line, hint, and help — output to stderr.</p>
-    <div class="grid md:grid-cols-2 gap-8">
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Rust-Style Errors</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Structured error objects with code, source location, annotated line, hint, and help — output to stderr.</p>
+    <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
       <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
         <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
-        <pre class="p-4"><span class="kw">CRIA</span> x = <span class="num">10</span>
+        <pre class="p-4 text-xs sm:text-sm overflow-x-auto"><span class="kw">CRIA</span> x = <span class="num">10</span>
 <span class="kw">CRIA</span> y = z</pre>
       </div>
       <div>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
           <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-red-500 uppercase tracking-wider font-semibold">Error</div>
-          <pre class="p-4 text-red-500">ERROR: Variable `z` was not defined
+          <pre class="p-4 text-red-500 text-xs sm:text-sm overflow-x-auto">ERROR: Variable `z` was not defined
 Code: E002
 
  --> input.xs:2:11
@@ -457,29 +471,29 @@ Help: Add `CRIA z = value` before using it</pre>
 </section>
 
 <!-- Comparison -->
-<section id="comparison" class="py-20 px-6 bg-pinky-50/50">
+<section id="comparison" class="py-16 sm:py-20 px-4 sm:px-6 bg-pinky-50/50">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-black text-center mb-4">XanaScript vs JavaScript / TypeScript</h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg font-light">A language that delivers what JS/TS promise — and much more.</p>
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">XanaScript vs JavaScript / TypeScript</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">A language that delivers what JS/TS promise — and much more.</p>
     <div class="overflow-x-auto border border-gray-200 rounded-2xl">
-      <table class="w-full text-sm">
-        <thead><tr><th class="text-left font-semibold text-gray-500 p-4 bg-gray-50">Feature</th><th class="text-left font-semibold text-gray-500 p-4 bg-gray-50">XanaScript</th><th class="text-left font-semibold text-gray-500 p-4 bg-gray-50">JavaScript</th><th class="text-left font-semibold text-gray-500 p-4 bg-gray-50">TypeScript</th></tr></thead>
+      <table class="w-full text-xs sm:text-sm">
+        <thead><tr><th class="text-left font-semibold text-gray-500 p-3 sm:p-4 bg-gray-50">Feature</th><th class="text-left font-semibold text-gray-500 p-3 sm:p-4 bg-gray-50">XanaScript</th><th class="text-left font-semibold text-gray-500 p-3 sm:p-4 bg-gray-50">JavaScript</th><th class="text-left font-semibold text-gray-500 p-3 sm:p-4 bg-gray-50">TypeScript</th></tr></thead>
         <tbody class="text-gray-600">
-          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">PT-BR Syntax</td><td class="p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-red-400">No</td></tr>
-          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Direct Wasm</td><td class="p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-4 border-t border-gray-100 text-amber-500">Emscripten</td><td class="p-4 border-t border-gray-100 text-amber-500">AssemblyScript</td></tr>
-          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Built-in ORM</td><td class="p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-red-400">No</td></tr>
-          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Compile Macros</td><td class="p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-red-400">No</td></tr>
-          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Pattern Match</td><td class="p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-red-400">No</td></tr>
-          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Loop Unrolling</td><td class="p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-red-400">No</td></tr>
-          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">TypedArrays</td><td class="p-4 border-t border-gray-100 text-green-600">Auto</td><td class="p-4 border-t border-gray-100 text-amber-500">Manual</td><td class="p-4 border-t border-gray-100 text-amber-500">Manual</td></tr>
-          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Const Folding</td><td class="p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-red-400">No</td></tr>
-          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Rust Errors</td><td class="p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-red-400">No</td></tr>
-          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">LSP</td><td class="p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-green-600">Yes</td></tr>
-          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Test Runner</td><td class="p-4 border-t border-gray-100 text-green-600">Native</td><td class="p-4 border-t border-gray-100 text-amber-500">Jest/Mocha</td><td class="p-4 border-t border-gray-100 text-amber-500">Jest/Mocha</td></tr>
-          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Task Runner</td><td class="p-4 border-t border-gray-100 text-green-600">Native</td><td class="p-4 border-t border-gray-100 text-amber-500">Makefile</td><td class="p-4 border-t border-gray-100 text-amber-500">Makefile</td></tr>
-          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Wasm Binary</td><td class="p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-red-400">No</td></tr>
-          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Single Binary</td><td class="p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-4 border-t border-gray-100 text-amber-500">pkg/bun</td><td class="p-4 border-t border-gray-100 text-amber-500">pkg/bun</td></tr>
-          <tr><td class="p-4 border-t border-gray-100 font-semibold text-gray-800">Bytecode VM</td><td class="p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-4 border-t border-gray-100 text-red-400">No</td><td class="p-4 border-t border-gray-100 text-red-400">No</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">PT-BR Syntax</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Direct Wasm</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">Emscripten</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">AssemblyScript</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Built-in ORM</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Compile Macros</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Pattern Match</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Loop Unrolling</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">TypedArrays</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Auto</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">Manual</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">Manual</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Const Folding</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Rust Errors</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">LSP</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Test Runner</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Native</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">Jest/Mocha</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">Jest/Mocha</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Task Runner</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Native</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">Makefile</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">Makefile</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Wasm Binary</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Single Binary</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">pkg/bun</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">pkg/bun</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Bytecode VM</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td></tr>
         </tbody>
       </table>
     </div>
@@ -487,20 +501,20 @@ Help: Add `CRIA z = value` before using it</pre>
 </section>
 
 <!-- Architecture -->
-<section id="architecture" class="py-20 px-6 bg-white">
+<section id="architecture" class="py-16 sm:py-20 px-4 sm:px-6 bg-white">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-black text-center mb-4">Architecture</h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg font-light">Multi-stage pipeline from Portuguese source to optimized bytecode, JavaScript, or WebAssembly.</p>
-    <div class="flex flex-wrap items-center justify-center gap-3 text-sm mb-6">
-      <div class="bg-pinky-50 border border-pinky-200 rounded-xl px-5 py-3 font-semibold text-pinky-600 shadow-sm">Source (.xs)</div>
-      <div class="text-gray-300 text-2xl">&#8594;</div>
-      <div class="bg-gray-50 border border-gray-200 rounded-xl px-5 py-3 text-gray-700 shadow-sm"><span class="font-semibold">Lexer</span><br><span class="text-xs text-gray-400">lexer.js</span></div>
-      <div class="text-gray-300 text-2xl">&#8594;</div>
-      <div class="bg-gray-50 border border-gray-200 rounded-xl px-5 py-3 text-gray-700 shadow-sm"><span class="font-semibold">Parser</span><br><span class="text-xs text-gray-400">parser.js</span></div>
-      <div class="text-gray-300 text-2xl">&#8594;</div>
-      <div class="bg-gray-50 border border-gray-200 rounded-xl px-5 py-3 text-gray-700 shadow-sm"><span class="font-semibold">Optimizer</span><br><span class="text-xs text-gray-400">opt.js</span></div>
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Architecture</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Multi-stage pipeline from Portuguese source to optimized bytecode, JavaScript, or WebAssembly.</p>
+    <div class="flex flex-wrap items-center justify-center gap-3 text-xs sm:text-sm mb-6">
+      <div class="bg-pinky-50 border border-pinky-200 rounded-xl px-4 sm:px-5 py-3 font-semibold text-pinky-600 shadow-sm">Source (.xs)</div>
+      <div class="text-gray-300 text-xl sm:text-2xl">&#8594;</div>
+      <div class="bg-gray-50 border border-gray-200 rounded-xl px-4 sm:px-5 py-3 text-gray-700 shadow-sm"><span class="font-semibold">Lexer</span><br><span class="text-2xs sm:text-xs text-gray-400">lexer.js</span></div>
+      <div class="text-gray-300 text-xl sm:text-2xl">&#8594;</div>
+      <div class="bg-gray-50 border border-gray-200 rounded-xl px-4 sm:px-5 py-3 text-gray-700 shadow-sm"><span class="font-semibold">Parser</span><br><span class="text-2xs sm:text-xs text-gray-400">parser.js</span></div>
+      <div class="text-gray-300 text-xl sm:text-2xl">&#8594;</div>
+      <div class="bg-gray-50 border border-gray-200 rounded-xl px-4 sm:px-5 py-3 text-gray-700 shadow-sm"><span class="font-semibold">Optimizer</span><br><span class="text-2xs sm:text-xs text-gray-400">opt.js</span></div>
     </div>
-    <div class="grid sm:grid-cols-2 gap-6 text-sm text-gray-600 mb-8">
+    <div class="grid sm:grid-cols-2 gap-4 sm:gap-6 text-xs sm:text-sm text-gray-600 mb-8">
       <div class="bg-gray-50 rounded-xl border border-gray-200 p-5">
         <h4 class="font-bold text-gray-800 mb-2">Lexer - DFA-Based Tokenization</h4>
         <p>The lexer operates as a deterministic finite automaton scanning left-to-right with one-token lookahead. Multi-word keywords (e.g., <code>SE LIGA SO</code>) are matched by consuming consecutive WORD tokens from the stream and checking a keyword dictionary. Unicode support through full <code>String.codePointAt</code> iteration.</p>
@@ -522,43 +536,121 @@ Help: Add `CRIA z = value` before using it</pre>
 </section>
 
 <!-- Roadmap -->
-<section id="roadmap" class="py-20 px-6 bg-pinky-50/50">
+<section id="roadmap" class="py-16 sm:py-20 px-4 sm:px-6 bg-pinky-50/50">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-black text-center mb-4">Roadmap</h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg font-light">What we have implemented and what is coming next.</p>
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Roadmap</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">What we have implemented and what is coming next.</p>
     <div class="grid md:grid-cols-2 gap-8">
       <div>
-        <h3 class="font-bold text-xl mb-4 text-green-700">Implemented</h3>
-        <div class="space-y-2">
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Lexer + Parser + AST</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Rust-style errors</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Compile-time macros</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Built-in ORM</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">LSP</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Test + Task runners</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Direct Wasm emitter</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">VS Code Extension</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Standalone CLI binary</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Classes/OOP + ISTO</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Pattern Matching</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Template Strings + Try/Catch</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">HTTP server built-in</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Bytecode VM (26 opcodes)</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-green-200 px-3 py-2.5 text-sm text-gray-700">Package manager</div>
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-3 h-3 rounded-full bg-green-500 shadow-sm shadow-green-200"></div>
+          <h3 class="font-bold text-lg sm:text-xl text-green-700">Implemented</h3>
+        </div>
+        <div class="relative ml-1.5 pl-6 border-l-2 border-green-200 space-y-3">
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
+            Lexer + Parser + AST
+          </div>
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
+            Rust-style errors
+          </div>
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
+            Compile-time macros
+          </div>
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
+            Built-in ORM
+          </div>
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
+            LSP
+          </div>
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
+            Test + Task runners
+          </div>
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
+            Direct Wasm emitter
+          </div>
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
+            VS Code Extension
+          </div>
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
+            Standalone CLI binary
+          </div>
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
+            Classes/OOP + ISTO
+          </div>
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
+            Pattern Matching
+          </div>
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
+            Template Strings + Try/Catch
+          </div>
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
+            HTTP server built-in
+          </div>
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
+            Bytecode VM (26 opcodes)
+          </div>
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
+            Package manager
+          </div>
         </div>
       </div>
       <div>
-        <h3 class="font-bold text-xl mb-4 text-amber-600">Coming Soon</h3>
-        <div class="space-y-2">
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-amber-200 px-3 py-2.5 text-sm text-gray-500">Source maps (VLQ)</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-amber-200 px-3 py-2.5 text-sm text-gray-500">super() in classes</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-amber-200 px-3 py-2.5 text-sm text-gray-500">Pattern guards (CASO x if x > 0)</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-amber-200 px-3 py-2.5 text-sm text-gray-500">Hygienic macros</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-amber-200 px-3 py-2.5 text-sm text-gray-500">VS Code Marketplace publish</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-amber-200 px-3 py-2.5 text-sm text-gray-500">Debugger (breakpoints)</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-amber-200 px-3 py-2.5 text-sm text-gray-500">LLVM IR codegen</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-amber-200 px-3 py-2.5 text-sm text-gray-500">Builtins: DATA, TEMPO, MATEMATICA</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-amber-200 px-3 py-2.5 text-sm text-gray-500">Package registry</div>
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-3 h-3 rounded-full bg-amber-400 shadow-sm shadow-amber-200"></div>
+          <h3 class="font-bold text-lg sm:text-xl text-amber-600">Coming Soon</h3>
+        </div>
+        <div class="relative ml-1.5 pl-6 border-l-2 border-amber-200 space-y-3">
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-amber-200 px-4 py-3 text-sm text-gray-500 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-amber-400 border-2 border-white shadow-sm"></div>
+            Source maps (VLQ)
+          </div>
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-amber-200 px-4 py-3 text-sm text-gray-500 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-amber-400 border-2 border-white shadow-sm"></div>
+            super() in classes
+          </div>
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-amber-200 px-4 py-3 text-sm text-gray-500 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-amber-400 border-2 border-white shadow-sm"></div>
+            Pattern guards (CASO x if x > 0)
+          </div>
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-amber-200 px-4 py-3 text-sm text-gray-500 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-amber-400 border-2 border-white shadow-sm"></div>
+            Hygienic macros
+          </div>
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-amber-200 px-4 py-3 text-sm text-gray-500 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-amber-400 border-2 border-white shadow-sm"></div>
+            VS Code Marketplace publish
+          </div>
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-amber-200 px-4 py-3 text-sm text-gray-500 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-amber-400 border-2 border-white shadow-sm"></div>
+            Debugger (breakpoints)
+          </div>
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-amber-200 px-4 py-3 text-sm text-gray-500 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-amber-400 border-2 border-white shadow-sm"></div>
+            LLVM IR codegen
+          </div>
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-amber-200 px-4 py-3 text-sm text-gray-500 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-amber-400 border-2 border-white shadow-sm"></div>
+            Builtins: DATA, TEMPO, MATEMATICA
+          </div>
+          <div class="relative flex items-center gap-3 bg-white rounded-lg border border-amber-200 px-4 py-3 text-sm text-gray-500 shadow-sm">
+            <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-amber-400 border-2 border-white shadow-sm"></div>
+            Package registry
+          </div>
         </div>
       </div>
     </div>
