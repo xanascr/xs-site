@@ -7,6 +7,7 @@ import { execSync } from "child_process";
 import Package from "../../models/Package.js";
 import { auth, optionalAuth } from "../../middleware/auth.js";
 import { cacheMiddleware } from "../../middleware/cache.js";
+import { sign } from "aws4";
 
 const router = Router();
 const MAX_TARBALL_SIZE = 5 * 1024 * 1024; // 5MB source-only limit
@@ -296,39 +297,55 @@ router.post("/:name/download", async (req, res) => {
   }
 });
 
+async function s3Request(method, key, buffer) {
+  const endpoint = process.env.SEAWEEDFS_VOLUME || "http://localhost:8080";
+  const accessKey = process.env.SEAWEEDFS_USERNAME || "";
+  const secretKey = process.env.SEAWEEDFS_PASSWORD || "";
+  const bucket = process.env.SEAWEEDFS_BUCKET || "";
+  if (!accessKey || !secretKey) throw new Error("SeaweedFS credentials not configured");
+
+  const url = new URL(endpoint);
+  const path = bucket ? `/${bucket}/${key}` : `/${key}`;
+
+  const opts = {
+    host: url.hostname,
+    port: url.port || (url.protocol === "https:" ? 443 : 80),
+    path,
+    method,
+    service: "s3",
+    region: "us-east-1",
+    headers: {},
+  };
+
+  if (buffer) {
+    opts.headers["Content-Type"] = "application/gzip";
+    opts.headers["Content-Length"] = buffer.length;
+    opts.body = buffer;
+  }
+
+  const signed = sign(opts, { accessKeyId: accessKey, secretAccessKey: secretKey });
+  const mod = url.protocol === "https:" ? await import("https") : await import("http");
+
+  return await new Promise((resolve, reject) => {
+    const httpreq = mod.request(signed, (res) => {
+      const chunks = [];
+      res.on("data", (c) => chunks.push(c));
+      res.on("end", () => {
+        const body = Buffer.concat(chunks);
+        if (res.statusCode < 300) resolve(body);
+        else reject(new Error(`S3 request failed: ${res.statusCode} ${body.toString().slice(0, 500)}`));
+      });
+    });
+    httpreq.on("error", reject);
+    if (buffer) httpreq.write(buffer);
+    httpreq.end();
+  });
+}
+
 async function uploadToSeaweedFS(req, filename, buffer) {
   try {
-    const https = await import("https");
-    const { hostname, port } = new URL(process.env.SEAWEEDFS_VOLUME || "http://localhost:8080");
-    const auth = Buffer.from(
-      `${process.env.SEAWEEDFS_USERNAME || ""}:${process.env.SEAWEEDFS_PASSWORD || ""}`
-    ).toString("base64");
-    const bucket = process.env.SEAWEEDFS_BUCKET ? `${process.env.SEAWEEDFS_BUCKET}/` : "";
-
-    return await new Promise((resolve, reject) => {
-      const options = {
-        hostname,
-        port: port || 8080,
-        path: `/${bucket}${filename}`,
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/gzip",
-          "Content-Length": buffer.length,
-          Authorization: `Basic ${auth}`,
-        },
-      };
-      const httpreq = https.request(options, (res) => {
-        let body = "";
-        res.on("data", (c) => (body += c));
-        res.on("end", () => {
-          if (res.statusCode < 300) resolve(filename);
-          else reject(new Error(`SeaweedFS upload failed: ${res.statusCode} ${body}`));
-        });
-      });
-      httpreq.on("error", reject);
-      httpreq.write(buffer);
-      httpreq.end();
-    });
+    await s3Request("PUT", filename, buffer);
+    return filename;
   } catch (e) {
     console.warn("SeaweedFS upload failed:", e.message);
     return null;
@@ -337,32 +354,7 @@ async function uploadToSeaweedFS(req, filename, buffer) {
 
 async function downloadFromSeaweedFS(req, key) {
   try {
-    const https = await import("https");
-    const { hostname, port } = new URL(process.env.SEAWEEDFS_VOLUME || "http://localhost:8080");
-    const auth = Buffer.from(
-      `${process.env.SEAWEEDFS_USERNAME || ""}:${process.env.SEAWEEDFS_PASSWORD || ""}`
-    ).toString("base64");
-    const bucket = process.env.SEAWEEDFS_BUCKET ? `${process.env.SEAWEEDFS_BUCKET}/` : "";
-
-    return await new Promise((resolve, reject) => {
-      const options = {
-        hostname,
-        port: port || 8080,
-        path: `/${bucket}${key}`,
-        method: "GET",
-        headers: { Authorization: `Basic ${auth}` },
-      };
-      const httpreq = https.request(options, (res) => {
-        const chunks = [];
-        res.on("data", (c) => chunks.push(c));
-        res.on("end", () => {
-          if (res.statusCode < 300) resolve(Buffer.concat(chunks));
-          else reject(new Error(`SeaweedFS download failed: ${res.statusCode}`));
-        });
-      });
-      httpreq.on("error", reject);
-      httpreq.end();
-    });
+    return await s3Request("GET", key);
   } catch (e) {
     console.warn("SeaweedFS download failed:", e.message);
     return null;
