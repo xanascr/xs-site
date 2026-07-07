@@ -125,6 +125,11 @@ router.get("/:lang(en|pt|es)?/admin", (req, res) => {
   res.render(`${lang}/admin`, { lang, page: "admin" });
 });
 
+router.get("/:lang(en|pt|es)?/donate", (req, res) => {
+  const lang = req.params.lang || "en";
+  res.render(`${lang}/donate`, { lang, page: "donate" });
+});
+
 router.get("/:lang(en|pt|es)?/privacy", (req, res) => {
   const lang = req.params.lang || "en";
   res.render(`${lang}/privacy`, { lang, page: "privacy" });

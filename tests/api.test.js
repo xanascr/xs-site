@@ -35,6 +35,15 @@ vi.mock("https", () => {
   };
 });
 
+vi.mock("../services/twoFactor.js", () => ({
+  generateSecret: vi.fn(() => ({ secret: "TESTBASE32SECRET", otpauth: "otpauth://totp/test" })),
+  verifyToken: vi.fn(),
+  generateBackupCodes: vi.fn(() => ["CODE1-AAAA", "CODE2-BBBB", "CODE3-CCCC"]),
+  verifyBackupCode: vi.fn(),
+  hashBackupCodes: vi.fn(codes => codes.map(c => `hashed_${c}`)),
+  generateToken: vi.fn(() => "123456"),
+}));
+
 vi.mock("../services/email.js", () => ({
   sendVerificationEmail: vi.fn().mockResolvedValue(),
   sendPasswordResetEmail: vi.fn().mockResolvedValue(),
@@ -42,6 +51,10 @@ vi.mock("../services/email.js", () => ({
   sendPackageRejected: vi.fn().mockResolvedValue(),
   send2FAEnabled: vi.fn().mockResolvedValue(),
   send2FABackupCodes: vi.fn().mockResolvedValue(),
+}));
+
+vi.mock("express-rate-limit", () => ({
+  default: () => (req, res, next) => next(),
 }));
 
 vi.mock("redis", () => ({
@@ -137,6 +150,7 @@ function makeUser(overrides = {}) {
       };
     },
     comparePassword: vi.fn(),
+    tokenVersion: 0,
     save: vi.fn(),
     ...overrides,
   };
@@ -292,6 +306,137 @@ describe("POST /api/auth/login", () => {
     expect(res.body.ok).toBe(false);
     expect(res.body.error).toMatch(/required/i);
   });
+
+  it("returns 403 when email is not verified", async () => {
+    const user = makeUser({ emailVerified: false });
+    user.comparePassword.mockResolvedValue(true);
+    User.findOne.mockResolvedValue(user);
+
+    const res = await request(app)
+      .post("/api/auth/login")
+      .send({ username: "testuser", password: "password123" });
+
+    expect(res.status).toBe(403);
+    expect(res.body.ok).toBe(false);
+    expect(res.body.emailNotVerified).toBe(true);
+  });
+
+  it("returns require2fa when 2FA is enabled", async () => {
+    const user = makeUser({ twoFactorEnabled: true, twoFactorSecret: "secret" });
+    user.comparePassword.mockResolvedValue(true);
+    User.findOne.mockResolvedValue(user);
+
+    const res = await request(app)
+      .post("/api/auth/login")
+      .send({ username: "testuser", password: "password123" });
+
+    expect(res.status).toBe(200);
+    expect(res.body.require2fa).toBe(true);
+    expect(res.body.tempToken).toBeDefined();
+    expect(res.body.token).toBeUndefined();
+  });
+});
+
+// ═══════════════════════════════════════════════════════
+//  2FA Flow
+// ═══════════════════════════════════════════════════════
+
+import { verifyToken as mockVerifyToken } from "../services/twoFactor.js";
+
+describe("POST /api/auth/2fa/verify", () => {
+  it("completes login with a valid TOTP code", async () => {
+    const user = makeUser({ twoFactorEnabled: true, twoFactorSecret: "secret" });
+    User.findById.mockReturnValue(makeQuery(user));
+    mockVerifyToken.mockResolvedValue(true);
+
+    const tempToken = jwt.sign({ id: "user1", purpose: "2fa" }, JWT_SECRET, { expiresIn: "5m" });
+
+    const res = await request(app)
+      .post("/api/auth/2fa/verify")
+      .send({ tempToken, code: "123456" });
+
+    expect(res.status).toBe(200);
+    expect(res.body.ok).toBe(true);
+    expect(res.body.token).toBeDefined();
+  });
+
+  it("returns 401 with an invalid TOTP code", async () => {
+    const user = makeUser({ twoFactorEnabled: true, twoFactorSecret: "secret" });
+    User.findById.mockReturnValue(makeQuery(user));
+    mockVerifyToken.mockResolvedValue(false);
+
+    const tempToken = jwt.sign({ id: "user1", purpose: "2fa" }, JWT_SECRET, { expiresIn: "5m" });
+
+    const res = await request(app)
+      .post("/api/auth/2fa/verify")
+      .send({ tempToken, code: "000000" });
+
+    expect(res.status).toBe(401);
+    expect(res.body.error).toMatch(/invalid/i);
+  });
+
+  it("returns 400 when fields are missing", async () => {
+    const res = await request(app)
+      .post("/api/auth/2fa/verify")
+      .send({});
+
+    expect(res.status).toBe(400);
+    expect(res.body.error).toMatch(/required/i);
+  });
+});
+
+describe("POST /api/auth/2fa/setup", () => {
+  it("generates a 2FA secret for authenticated user", async () => {
+    const user = makeUser();
+    User.findById.mockReturnValue(makeQuery(user));
+
+    const res = await request(app)
+      .post("/api/auth/2fa/setup")
+      .set("Authorization", `Bearer ${regularToken()}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.ok).toBe(true);
+    expect(res.body.secret).toBeDefined();
+    expect(res.body.otpauth).toBeDefined();
+  });
+
+  it("returns 401 without auth", async () => {
+    const res = await request(app).post("/api/auth/2fa/setup");
+    expect(res.status).toBe(401);
+  });
+});
+
+describe("POST /api/auth/2fa/confirm", () => {
+  it("enables 2FA with valid code", async () => {
+    const user = makeUser({ twoFactorSecret: "secret" });
+    user.twoFactorEnabled = false;
+    user.save = vi.fn().mockResolvedValue();
+    User.findById.mockReturnValue(makeQuery(user));
+    mockVerifyToken.mockResolvedValue(true);
+
+    const res = await request(app)
+      .post("/api/auth/2fa/confirm")
+      .set("Authorization", `Bearer ${regularToken()}`)
+      .send({ code: "123456" });
+
+    expect(res.status).toBe(200);
+    expect(res.body.ok).toBe(true);
+    expect(res.body.backupCodes).toBeDefined();
+  });
+
+  it("returns 401 with invalid code", async () => {
+    const user = makeUser({ twoFactorSecret: "secret" });
+    user.twoFactorEnabled = false;
+    User.findById.mockReturnValue(makeQuery(user));
+    mockVerifyToken.mockResolvedValue(false);
+
+    const res = await request(app)
+      .post("/api/auth/2fa/confirm")
+      .set("Authorization", `Bearer ${regularToken()}`)
+      .send({ code: "000000" });
+
+    expect(res.status).toBe(401);
+  });
 });
 
 describe("GET /api/auth/me", () => {
@@ -337,6 +482,255 @@ describe("GET /api/auth/me", () => {
     expect(res.status).toBe(401);
     expect(res.body.ok).toBe(false);
     expect(res.body.error).toMatch(/revoked/i);
+  });
+});
+
+// ═══════════════════════════════════════════════════════
+//  Email Verification & Password Reset
+// ═══════════════════════════════════════════════════════
+
+describe("POST /api/auth/verify-email", () => {
+  it("verifies email with a valid token", async () => {
+    const user = makeUser({ emailVerified: false, emailVerificationToken: "valid-token", emailVerificationExpires: new Date(Date.now() + 3600000) });
+    User.findOne.mockResolvedValue(user);
+
+    const res = await request(app)
+      .post("/api/auth/verify-email")
+      .send({ token: "valid-token" });
+
+    expect(res.status).toBe(200);
+    expect(res.body.ok).toBe(true);
+    expect(user.emailVerified).toBe(true);
+    expect(user.save).toHaveBeenCalled();
+  });
+
+  it("returns 400 with an invalid token", async () => {
+    User.findOne.mockResolvedValue(null);
+
+    const res = await request(app)
+      .post("/api/auth/verify-email")
+      .send({ token: "bogus" });
+
+    expect(res.status).toBe(400);
+    expect(res.body.error).toMatch(/invalid|expired/i);
+  });
+
+  it("returns 400 without a token", async () => {
+    const res = await request(app)
+      .post("/api/auth/verify-email")
+      .send({});
+
+    expect(res.status).toBe(400);
+    expect(res.body.error).toMatch(/token required/i);
+  });
+});
+
+describe("POST /api/auth/forgot-password", () => {
+  it("returns success regardless of whether email exists", async () => {
+    User.findOne.mockResolvedValue(null);
+
+    const res = await request(app)
+      .post("/api/auth/forgot-password")
+      .send({ email: "nonexistent@test.com" });
+
+    expect(res.status).toBe(200);
+    expect(res.body.ok).toBe(true);
+  });
+
+  it("generates reset token when user exists", async () => {
+    const user = makeUser();
+    user.generateResetToken = vi.fn().mockReturnValue("reset-token");
+    user.save = vi.fn().mockResolvedValue();
+    User.findOne.mockResolvedValue(user);
+
+    const res = await request(app)
+      .post("/api/auth/forgot-password")
+      .send({ email: "test@example.com" });
+
+    expect(res.status).toBe(200);
+    expect(res.body.ok).toBe(true);
+    expect(user.generateResetToken).toHaveBeenCalled();
+    expect(user.save).toHaveBeenCalled();
+  });
+
+  it("returns 400 without email", async () => {
+    const res = await request(app)
+      .post("/api/auth/forgot-password")
+      .send({});
+
+    expect(res.status).toBe(400);
+    expect(res.body.error).toMatch(/email required/i);
+  });
+});
+
+describe("POST /api/auth/reset-password", () => {
+  it("resets password with valid token", async () => {
+    const user = makeUser({ resetPasswordToken: "valid-reset-token", resetPasswordExpires: new Date(Date.now() + 3600000) });
+    user.password = "oldhash";
+    user.save = vi.fn().mockResolvedValue();
+    User.findOne.mockResolvedValue(user);
+
+    const res = await request(app)
+      .post("/api/auth/reset-password")
+      .send({ token: "valid-reset-token", password: "newpassword123" });
+
+    expect(res.status).toBe(200);
+    expect(res.body.ok).toBe(true);
+    expect(user.password).toBe("newpassword123");
+    expect(user.resetPasswordToken).toBeNull();
+    expect(user.resetPasswordExpires).toBeNull();
+    expect(user.tokenVersion).toBe(1);
+  });
+
+  it("returns 400 with expired token", async () => {
+    User.findOne.mockResolvedValue(null);
+
+    const res = await request(app)
+      .post("/api/auth/reset-password")
+      .send({ token: "expired-token", password: "newpassword123" });
+
+    expect(res.status).toBe(400);
+    expect(res.body.error).toMatch(/invalid|expired/i);
+  });
+
+  it("returns 400 with short password", async () => {
+    const res = await request(app)
+      .post("/api/auth/reset-password")
+      .send({ token: "some-token", password: "short" });
+
+    expect(res.status).toBe(400);
+    expect(res.body.error).toMatch(/at least 8/i);
+  });
+});
+
+// ═══════════════════════════════════════════════════════
+//  API Key Management
+// ═══════════════════════════════════════════════════════
+
+describe("POST /api/auth/api-keys", () => {
+  beforeEach(() => {
+    User.findById.mockReturnValue(makeQuery(makeUser()));
+  });
+
+  it("creates an API key for admin user", async () => {
+    const user = makeUser({ role: "admin", apiKeys: [] });
+    user.save = vi.fn().mockResolvedValue();
+    User.findById.mockReturnValue(makeQuery(user));
+
+    const res = await request(app)
+      .post("/api/auth/api-keys")
+      .set("Authorization", `Bearer ${adminToken()}`)
+      .send({ name: "My Test Key" });
+
+    expect(res.status).toBe(201);
+    expect(res.body.ok).toBe(true);
+    expect(res.body.key.token).toMatch(/^xs_/);
+    expect(res.body.key.name).toBe("My Test Key");
+  });
+
+  it("returns 400 when name is too long", async () => {
+    const res = await request(app)
+      .post("/api/auth/api-keys")
+      .set("Authorization", `Bearer ${adminToken()}`)
+      .send({ name: "x".repeat(65) });
+
+    expect(res.status).toBe(400);
+    expect(res.body.error).toMatch(/1-64 chars/i);
+  });
+
+  it("returns 403 for non-admin users", async () => {
+    const res = await request(app)
+      .post("/api/auth/api-keys")
+      .set("Authorization", `Bearer ${regularToken()}`)
+      .send({ name: "my key" });
+
+    expect(res.status).toBe(403);
+  });
+});
+
+describe("GET /api/auth/api-keys", () => {
+  it("lists API keys for admin user", async () => {
+    const user = makeUser({
+      role: "admin",
+      apiKeys: [
+        { _id: "key1", name: "CI/CD", prefix: "xs_abc123", createdAt: new Date(), lastUsedAt: null },
+      ],
+    });
+    User.findById.mockReturnValue(makeQuery(user));
+
+    const res = await request(app)
+      .get("/api/auth/api-keys")
+      .set("Authorization", `Bearer ${adminToken()}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.ok).toBe(true);
+    expect(res.body.keys).toHaveLength(1);
+    expect(res.body.keys[0].name).toBe("CI/CD");
+  });
+});
+
+describe("DELETE /api/auth/api-keys/:id", () => {
+  it("revokes an API key", async () => {
+    const user = makeUser({
+      role: "admin",
+      apiKeys: [
+        { _id: "key1", name: "CI/CD", prefix: "xs_abc123", createdAt: new Date() },
+      ],
+    });
+    user.save = vi.fn().mockResolvedValue();
+    User.findById.mockReturnValue(makeQuery(user));
+
+    const res = await request(app)
+      .delete("/api/auth/api-keys/key1")
+      .set("Authorization", `Bearer ${adminToken()}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.ok).toBe(true);
+    expect(user.apiKeys).toHaveLength(0);
+  });
+});
+
+// ═══════════════════════════════════════════════════════
+//  tokenVersion Revocation
+// ═══════════════════════════════════════════════════════
+
+describe("tokenVersion revocation", () => {
+  it("returns 401 after tokenVersion is incremented (password change)", async () => {
+    // Token was issued when tokenVersion was 0
+    const user = makeUser({ tokenVersion: 1 }); // Now tokenVersion is 1 (different from JWT)
+    User.findById.mockReturnValue(makeQuery(user));
+
+    const res = await request(app)
+      .get("/api/auth/me")
+      .set("Authorization", `Bearer ${regularToken()}`);
+
+    expect(res.status).toBe(401);
+    expect(res.body.error).toMatch(/revoked/i);
+  });
+});
+
+// ═══════════════════════════════════════════════════════
+//  Tarball Size Limit
+// ═══════════════════════════════════════════════════════
+
+describe("POST /api/packages size limit", () => {
+  beforeEach(() => {
+    User.findById.mockReturnValue(makeQuery(makeUser()));
+  });
+
+  it("rejects tarball larger than 5MB", async () => {
+    Package.findOne.mockResolvedValue(null);
+    const oversized = Buffer.alloc(6 * 1024 * 1024); // 6MB (over multer limit)
+
+    const res = await request(app)
+      .post("/api/packages")
+      .set("Authorization", `Bearer ${regularToken()}`)
+      .field("name", "oversized-pkg")
+      .field("version", "1.0.0")
+      .attach("file", oversized, "oversized-pkg-1.0.0.tar.gz");
+
+    expect(res.status).toBe(500); // multer rejects before handler
+    expect(Package.create).not.toHaveBeenCalled();
   });
 });
 
