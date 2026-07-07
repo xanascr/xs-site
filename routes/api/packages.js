@@ -142,7 +142,8 @@ router.post("/", auth, upload.single("file"), async (req, res) => {
       message: "Package submitted for review. An admin will review it shortly.",
     });
   } catch (e) {
-    res.status(500).json({ ok: false, error: "Internal server error" });
+    console.error("Publish error:", e);
+    res.status(500).json({ ok: false, error: e.message || "Internal server error" });
   }
 });
 
@@ -220,7 +221,8 @@ router.post("/batch", auth, async (req, res) => {
       results,
     });
   } catch (e) {
-    res.status(500).json({ ok: false, error: "Internal server error" });
+    console.error("Batch publish error:", e);
+    res.status(500).json({ ok: false, error: e.message || "Internal server error" });
   }
 });
 
