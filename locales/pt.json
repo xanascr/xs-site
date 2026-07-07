@@ -41,5 +41,9 @@
   "packages.publish": "Publicar Pacote",
   "packages.noResults": "Nenhum pacote encontrado.",
   "docs.title": "Documentacao",
-  "docs.subtitle": "Referencia completa da API da linguagem XanaScript."
+  "docs.subtitle": "Referencia completa da API da linguagem XanaScript.",
+  "nav.login": "Entrar",
+  "nav.signup": "Cadastrar",
+  "nav.dashboard": "Painel",
+  "nav.logout": "Sair"
 }

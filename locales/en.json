@@ -41,5 +41,9 @@
   "packages.publish": "Publish Package",
   "packages.noResults": "No packages found.",
   "docs.title": "Documentation",
-  "docs.subtitle": "Complete API reference for the XanaScript language."
+  "docs.subtitle": "Complete API reference for the XanaScript language.",
+  "nav.login": "Login",
+  "nav.signup": "Sign Up",
+  "nav.dashboard": "Dashboard",
+  "nav.logout": "Logout"
 }

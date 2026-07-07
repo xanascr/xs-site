@@ -138,4 +138,36 @@ router.get("/:lang(en|pt|es)?/reset-password", (req, res) => {
   res.render(`${lang}/reset-password`, { lang, page: "reset-password", token: req.query.token || "" });
 });
 
+// ── Packages (lang-prefixed) ────────────────────────────────────────────
+router.get("/:lang(en|pt|es)?/packages", async (req, res) => {
+  const lang = req.params.lang || "en";
+  try {
+    const { default: Package } = await import("../models/Package.js");
+    const q = req.query.q || "";
+    const filter = { status: "approved" };
+    if (q) filter.$text = { $search: q };
+    const packages = await Package.find(filter).sort({ downloads: -1 }).limit(50).lean();
+    res.render(`${lang}/packages/index`, { lang, packages, query: q, page: "packages" });
+  } catch {
+    res.render(`${lang}/packages/index`, { lang, packages: [], query: "", page: "packages" });
+  }
+});
+
+router.get("/:lang(en|pt|es)?/packages/dashboard", (req, res) => {
+  const lang = req.params.lang || "en";
+  res.render(`${lang}/packages/dashboard`, { lang, page: "packages" });
+});
+
+router.get("/:lang(en|pt|es)?/packages/:name", async (req, res) => {
+  const lang = req.params.lang || "en";
+  try {
+    const { default: Package } = await import("../models/Package.js");
+    const pkg = await Package.findOne({ name: req.params.name, status: "approved" }).lean();
+    if (!pkg) return res.status(404).render("en/404", { lang });
+    res.render(`${lang}/packages/show`, { lang, pkg, page: "packages" });
+  } catch {
+    res.status(404).render("en/404", { lang });
+  }
+});
+
 export default router;

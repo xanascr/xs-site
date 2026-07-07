@@ -2,12 +2,11 @@
   <a href="/<%= lang %>/" class="flex items-center gap-3 no-underline">
     <span class="text-lg font-black text-pinky-500">XanaScript</span>
   </a>
-  <button id="menuBtn" class="lg:hidden p-2 text-gray-500 hover:text-gray-900" onclick="document.getElementById('navLinks').classList.toggle('hidden')">
+  <button id="menuBtn" class="lg:hidden p-2 text-gray-500 hover:text-gray-900" onclick="document.getElementById('navLinks').classList.toggle('hidden')" aria-label="Toggle menu">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
   </button>
-  <div id="navLinks" class="hidden lg:flex absolute lg:static top-16 left-0 right-0 bg-white/95 lg:bg-transparent backdrop-blur-sm lg:backdrop-blur-none border-b lg:border-b-0 border-gray-200 px-4 lg:px-0 pb-4 lg:pb-0 flex-col lg:flex-row items-start lg:items-center gap-3 lg:gap-6 text-sm shadow-lg lg:shadow-none">
+  <div id="navLinks" class="hidden lg:flex absolute lg:static top-16 left-0 right-0 bg-white/95 lg:bg-transparent backdrop-blur-sm lg:backdrop-blur-none border-b lg:border-b-0 border-gray-200 px-4 lg:px-0 pb-4 lg:pb-0 flex-col lg:flex-row items-start lg:items-center gap-3 lg:gap-5 text-sm shadow-lg lg:shadow-none">
     <a href="/<%= lang %>/#install" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0"><%= t('nav.install') %></a>
-    <a href="/<%= lang %>/#syntax" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0"><%= t('nav.syntax') %></a>
     <a href="/<%= lang %>/#features" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0"><%= t('nav.features') %></a>
     <a href="/<%= lang %>/docs" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0"><%= t('nav.docs') %></a>
     <a href="/<%= lang %>/examples" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0"><%= t('nav.examples') %></a>
@@ -15,11 +14,38 @@
     <a href="/<%= lang %>/changelog" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0"><%= t('nav.changelog') %></a>
     <a href="/<%= lang %>/packages" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0"><%= t('nav.packages') %></a>
     <a href="https://github.com/xanascr/xs" target="_blank" class="block w-full lg:w-auto text-gray-500 hover:text-gray-900 no-underline transition-colors py-2 lg:py-0"><%= t('nav.github') %></a>
-    <div class="flex items-center gap-1.5 w-full lg:w-auto py-2 lg:py-0 border-t lg:border-t-0 border-gray-100 pt-3 lg:pt-0 mt-2 lg:mt-0">
-      <a href="/en/" class="text-xs font-semibold px-2 py-1 rounded no-underline transition-colors <%= lang === 'en' ? 'text-white bg-pinky-400' : 'text-gray-400 hover:text-gray-700 hover:bg-gray-100' %>">EN</a>
-      <a href="/pt/" class="text-xs font-semibold px-2 py-1 rounded no-underline transition-colors <%= lang === 'pt' ? 'text-white bg-pinky-400' : 'text-gray-400 hover:text-gray-700 hover:bg-gray-100' %>">PT</a>
-      <a href="/es/" class="text-xs font-semibold px-2 py-1 rounded no-underline transition-colors <%= lang === 'es' ? 'text-white bg-pinky-400' : 'text-gray-400 hover:text-gray-700 hover:bg-gray-100' %>">ES</a>
+    <div class="flex items-center gap-2 w-full lg:w-auto py-2 lg:py-0 border-t lg:border-t-0 border-gray-100 pt-3 lg:pt-0 mt-2 lg:mt-0 lg:ml-2">
+      <a href="/<%= lang %>/login" id="navLogin" class="text-xs font-semibold px-3 py-1.5 rounded-lg no-underline text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors"><%= t('nav.login') %></a>
+      <a href="/<%= lang %>/signup" id="navSignup" class="text-xs font-semibold px-3 py-1.5 rounded-lg no-underline text-white bg-pinky-400 hover:bg-pinky-500 transition-colors"><%= t('nav.signup') %></a>
+      <a href="/<%= lang %>/packages/dashboard" id="navDashboard" class="text-xs font-semibold px-3 py-1.5 rounded-lg no-underline text-pinky-600 bg-pinky-50 hover:bg-pinky-100 transition-colors hidden"><%= t('nav.dashboard') %></a>
+      <a href="#" id="navLogout" class="text-xs font-semibold px-3 py-1.5 rounded-lg no-underline text-gray-400 hover:text-red-500 transition-colors hidden"><%= t('nav.logout') %></a>
+      <div class="flex items-center gap-1 ml-1 pl-2 border-l border-gray-200">
+        <a href="/en/" class="text-xs font-semibold px-1.5 py-1 rounded no-underline transition-colors <%= lang === 'en' ? 'text-white bg-pinky-400' : 'text-gray-400 hover:text-gray-700' %>">EN</a>
+        <a href="/pt/" class="text-xs font-semibold px-1.5 py-1 rounded no-underline transition-colors <%= lang === 'pt' ? 'text-white bg-pinky-400' : 'text-gray-400 hover:text-gray-700' %>">PT</a>
+        <a href="/es/" class="text-xs font-semibold px-1.5 py-1 rounded no-underline transition-colors <%= lang === 'es' ? 'text-white bg-pinky-400' : 'text-gray-400 hover:text-gray-700' %>">ES</a>
+      </div>
     </div>
-    <a href="/<%= lang %>/#install" class="block w-full lg:w-auto text-center bg-pinky-400 hover:bg-pinky-500 text-white px-5 py-2 rounded-lg font-semibold no-underline transition-all text-sm"><%= t('nav.getStarted') %></a>
   </div>
 </nav>
+
+<script>
+(function() {
+  var token = localStorage.getItem('xs_token');
+  var login = document.getElementById('navLogin');
+  var signup = document.getElementById('navSignup');
+  var dashboard = document.getElementById('navDashboard');
+  var logout = document.getElementById('navLogout');
+  if (token) {
+    login.classList.add('hidden');
+    signup.classList.add('hidden');
+    dashboard.classList.remove('hidden');
+    logout.classList.remove('hidden');
+    logout.onclick = function(e) {
+      e.preventDefault();
+      localStorage.removeItem('xs_token');
+      localStorage.removeItem('xs_user');
+      window.location.href = '/<%= lang %>/';
+    };
+  }
+})();
+</script>
