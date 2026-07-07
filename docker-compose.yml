@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    container_name: xanascript-site
+    ports:
+      - "3010:3010"
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    # MongoDB and Redis are external — set MONGODB_URI and REDIS_URL in .env

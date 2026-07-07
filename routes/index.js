@@ -104,4 +104,19 @@ router.get("/:lang(en|pt|es)?/changelog", (req, res) => {
   res.render(`${lang}/changelog`, { lang, changelog, page: "changelog" });
 });
 
+router.get("/:lang(en|pt|es)?/login", (req, res) => {
+  const lang = req.params.lang || "en";
+  res.render(`${lang}/login`, { lang, page: "login" });
+});
+
+router.get("/:lang(en|pt|es)?/signup", (req, res) => {
+  const lang = req.params.lang || "en";
+  res.render(`${lang}/signup`, { lang, page: "signup" });
+});
+
+router.get("/:lang(en|pt|es)?/admin", (req, res) => {
+  const lang = req.params.lang || "en";
+  res.render(`${lang}/admin`, { lang, page: "admin" });
+});
+
 export default router;
