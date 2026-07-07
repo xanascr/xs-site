@@ -143,7 +143,7 @@ router.post("/", auth, upload.single("file"), async (req, res) => {
     });
   } catch (e) {
     console.error("Publish error:", e);
-    res.status(500).json({ ok: false, error: e.message || "Internal server error" });
+    res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
 
@@ -222,7 +222,7 @@ router.post("/batch", auth, async (req, res) => {
     });
   } catch (e) {
     console.error("Batch publish error:", e);
-    res.status(500).json({ ok: false, error: e.message || "Internal server error" });
+    res.status(500).json({ ok: false, error: "Internal server error" });
   }
 });
 
@@ -261,7 +261,7 @@ async function uploadToSeaweedFS(req, filename, buffer) {
       `${process.env.SEAWEEDFS_USERNAME || ""}:${process.env.SEAWEEDFS_PASSWORD || ""}`
     ).toString("base64");
 
-    return new Promise((resolve, reject) => {
+    return await new Promise((resolve, reject) => {
       const options = {
         hostname,
         port: port || 8080,
@@ -299,7 +299,7 @@ async function downloadFromSeaweedFS(req, key) {
       `${process.env.SEAWEEDFS_USERNAME || ""}:${process.env.SEAWEEDFS_PASSWORD || ""}`
     ).toString("base64");
 
-    return new Promise((resolve, reject) => {
+    return await new Promise((resolve, reject) => {
       const options = {
         hostname,
         port: port || 8080,
