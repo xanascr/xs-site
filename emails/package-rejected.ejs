@@ -1,0 +1,14 @@
+<%- include('layout', {
+  body: `
+    <p>Hi <strong><%= username %></strong>,</p>
+    <p>Your package <strong><%= packageName %></strong> was <span style="color:#dc2626;font-weight:700">not approved</span>.</p>
+    <% if (reason) { %>
+    <p><strong>Reason:</strong></p>
+    <div class="code-block"><%= reason %></div>
+    <% } %>
+    <p>You can fix the issues and resubmit it from your dashboard.</p>
+    <p style="text-align:center">
+      <a class="btn" href="<%= dashboardLink %>">Dashboard</a>
+    </p>
+  `
+}) %>

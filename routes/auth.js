@@ -1,10 +1,26 @@
 import { Router } from "express";
 import crypto from "crypto";
+import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import { signToken, auth } from "../middleware/auth.js";
-import { sendVerificationEmail, sendPasswordResetEmail } from "../services/email.js";
+import {
+  sendVerificationEmail,
+  sendPasswordResetEmail,
+  send2FAEnabled,
+  send2FABackupCodes,
+} from "../services/email.js";
+import {
+  generateSecret,
+  verifyToken,
+  generateBackupCodes,
+  verifyBackupCode,
+  hashBackupCodes,
+} from "../services/twoFactor.js";
 
 const router = Router();
+const SECRET = process.env.JWT_SECRET || "dev-secret-change-in-prod";
+
+// ── Signup ────────────────────────────────────────────────────────────
 
 router.post("/signup", async (req, res) => {
   try {
@@ -30,21 +46,25 @@ router.post("/signup", async (req, res) => {
       privacyConsentAt: new Date(),
     });
 
-    // Generate verification token and send email
     const token = user.generateVerificationToken();
     await user.save();
-    try {
-      await sendVerificationEmail(user.email, user.username, token);
-    } catch (e) {
-      console.warn("Failed to send verification email:", e.message);
-    }
+
+    // Don't block signup — queue verification email
+    sendVerificationEmail(user.email, user.username, token);
 
     const jwt = signToken(user);
-    res.status(201).json({ ok: true, token: jwt, user: user.toPublic() });
+    res.status(201).json({
+      ok: true,
+      token: jwt,
+      user: user.toPublic(),
+      emailVerificationRequired: true,
+    });
   } catch (e) {
     res.status(500).json({ ok: false, error: e.message });
   }
 });
+
+// ── Login (with 2FA support) ──────────────────────────────────────────
 
 router.post("/login", async (req, res) => {
   try {
@@ -56,12 +76,219 @@ router.post("/login", async (req, res) => {
     if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({ ok: false, error: "Invalid credentials" });
     }
+
+    // Enforce email verification — allow login but warn
+    if (!user.emailVerified) {
+      return res.status(403).json({
+        ok: false,
+        error: "Please verify your email before logging in. Check your inbox or request a new verification link.",
+        emailNotVerified: true,
+      });
+    }
+
+    // If 2FA enabled, require second factor
+    if (user.twoFactorEnabled) {
+      const tempToken = jwt.sign(
+        { id: user._id, purpose: "2fa" },
+        SECRET,
+        { expiresIn: "5m" }
+      );
+      return res.json({
+        ok: true,
+        require2fa: true,
+        tempToken,
+      });
+    }
+
     const token = signToken(user);
     res.json({ ok: true, token, user: user.toPublic() });
   } catch (e) {
     res.status(500).json({ ok: false, error: e.message });
   }
 });
+
+// ── 2FA: Complete login with TOTP code ───────────────────────────────
+
+router.post("/2fa/verify", async (req, res) => {
+  try {
+    const { tempToken, code } = req.body;
+    if (!tempToken || !code) {
+      return res.status(400).json({ ok: false, error: "tempToken and code required" });
+    }
+
+    let payload;
+    try {
+      payload = jwt.verify(tempToken, SECRET);
+    } catch {
+      return res.status(401).json({ ok: false, error: "Invalid or expired tempToken" });
+    }
+    if (payload.purpose !== "2fa") {
+      return res.status(401).json({ ok: false, error: "Invalid token purpose" });
+    }
+
+    const user = await User.findById(payload.id);
+    if (!user || !user.twoFactorEnabled) {
+      return res.status(401).json({ ok: false, error: "2FA not enabled for this account" });
+    }
+
+    // Try TOTP code first
+    if (verifyToken(user.twoFactorSecret, code)) {
+      const token = signToken(user);
+      return res.json({ ok: true, token, user: user.toPublic() });
+    }
+
+    // Try backup codes
+    const usedCodeHash = verifyBackupCode(code, user.twoFactorBackupCodes);
+    if (usedCodeHash) {
+      user.twoFactorBackupCodes = user.twoFactorBackupCodes.filter(h => h !== usedCodeHash);
+      await user.save();
+      const token = signToken(user);
+      return res.json({ ok: true, token, user: user.toPublic(), usedBackupCode: true });
+    }
+
+    return res.status(401).json({ ok: false, error: "Invalid 2FA code" });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
+
+// ── 2FA: Setup (generate secret) ──────────────────────────────────────
+
+router.post("/2fa/setup", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ ok: false, error: "User not found" });
+    if (user.twoFactorEnabled) {
+      return res.status(400).json({ ok: false, error: "2FA already enabled. Disable it first to reconfigure." });
+    }
+
+    const { secret, otpauth } = generateSecret(user.username);
+    user.twoFactorSecret = secret;
+    await user.save();
+
+    res.json({
+      ok: true,
+      secret,
+      otpauth,
+    });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
+
+// ── 2FA: Confirm (enable) ─────────────────────────────────────────────
+
+router.post("/2fa/confirm", auth, async (req, res) => {
+  try {
+    const { code } = req.body;
+    if (!code) return res.status(400).json({ ok: false, error: "Verification code required" });
+
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ ok: false, error: "User not found" });
+    if (!user.twoFactorSecret) {
+      return res.status(400).json({ ok: false, error: "Run /2fa/setup first" });
+    }
+    if (user.twoFactorEnabled) {
+      return res.status(400).json({ ok: false, error: "2FA already enabled" });
+    }
+
+    if (!verifyToken(user.twoFactorSecret, code)) {
+      return res.status(401).json({ ok: false, error: "Invalid code. Make sure your authenticator app is synced." });
+    }
+
+    const backupCodes = generateBackupCodes();
+    user.twoFactorBackupCodes = hashBackupCodes(backupCodes);
+    user.twoFactorEnabled = true;
+    await user.save();
+
+    send2FAEnabled(user.email, user.username);
+    send2FABackupCodes(user.email, user.username, backupCodes);
+
+    res.json({ ok: true, message: "Two-factor authentication enabled", backupCodes });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
+
+// ── 2FA: Disable ──────────────────────────────────────────────────────
+
+router.post("/2fa/disable", auth, async (req, res) => {
+  try {
+    const { password, code } = req.body;
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ ok: false, error: "User not found" });
+
+    if (!password || !(await user.comparePassword(password))) {
+      return res.status(401).json({ ok: false, error: "Password required to disable 2FA" });
+    }
+
+    // Verify TOTP or backup code if provided
+    if (code && user.twoFactorEnabled) {
+      const validTotp = verifyToken(user.twoFactorSecret, code);
+      const validBackup = verifyBackupCode(code, user.twoFactorBackupCodes);
+      if (!validTotp && !validBackup) {
+        return res.status(401).json({ ok: false, error: "Invalid 2FA code" });
+      }
+    } else if (user.twoFactorEnabled) {
+      return res.status(400).json({ ok: false, error: "2FA code required to disable 2FA" });
+    }
+
+    user.twoFactorSecret = null;
+    user.twoFactorEnabled = false;
+    user.twoFactorBackupCodes = [];
+    await user.save();
+
+    res.json({ ok: true, message: "Two-factor authentication disabled" });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
+
+// ── 2FA: Regenerate backup codes ──────────────────────────────────────
+
+router.post("/2fa/backup-codes", auth, async (req, res) => {
+  try {
+    const { password } = req.body;
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ ok: false, error: "User not found" });
+    if (!user.twoFactorEnabled) {
+      return res.status(400).json({ ok: false, error: "2FA not enabled" });
+    }
+
+    if (!password || !(await user.comparePassword(password))) {
+      return res.status(401).json({ ok: false, error: "Password required" });
+    }
+
+    const codes = generateBackupCodes();
+    user.twoFactorBackupCodes = hashBackupCodes(codes);
+    await user.save();
+
+    send2FABackupCodes(user.email, user.username, codes);
+
+    res.json({ ok: true, backupCodes: codes });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
+
+// ── 2FA: Status ───────────────────────────────────────────────────────
+
+router.get("/2fa/status", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ ok: false, error: "User not found" });
+
+    res.json({
+      ok: true,
+      twoFactorEnabled: user.twoFactorEnabled,
+      hasBackupCodes: user.twoFactorBackupCodes.length > 0,
+    });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
+
+// ── Session ───────────────────────────────────────────────────────────
 
 router.get("/me", auth, async (req, res) => {
   try {
@@ -73,7 +300,7 @@ router.get("/me", auth, async (req, res) => {
   }
 });
 
-// ── Email verification ───────────────────────────────────────────────
+// ── Email verification ────────────────────────────────────────────────
 
 router.post("/resend-verification", auth, async (req, res) => {
   try {
@@ -83,7 +310,7 @@ router.post("/resend-verification", auth, async (req, res) => {
 
     const token = user.generateVerificationToken();
     await user.save();
-    await sendVerificationEmail(user.email, user.username, token);
+    sendVerificationEmail(user.email, user.username, token);
     res.json({ ok: true, message: "Verification email sent" });
   } catch (e) {
     res.status(500).json({ ok: false, error: e.message });
@@ -131,7 +358,7 @@ router.get("/verify-email/:token", async (req, res) => {
   }
 });
 
-// ── Password reset ───────────────────────────────────────────────────
+// ── Password reset ────────────────────────────────────────────────────
 
 router.post("/forgot-password", async (req, res) => {
   try {
@@ -139,12 +366,11 @@ router.post("/forgot-password", async (req, res) => {
     if (!email) return res.status(400).json({ ok: false, error: "Email required" });
 
     const user = await User.findOne({ email });
-    // Always return ok to prevent email enumeration
     if (!user) return res.json({ ok: true, message: "If the email exists, a reset link was sent" });
 
     const token = user.generateResetToken();
     await user.save();
-    await sendPasswordResetEmail(user.email, user.username, token);
+    sendPasswordResetEmail(user.email, user.username, token);
 
     res.json({ ok: true, message: "If the email exists, a reset link was sent" });
   } catch (e) {
@@ -175,7 +401,7 @@ router.post("/reset-password", async (req, res) => {
   }
 });
 
-// ── LGPD: data export & deletion ─────────────────────────────────────
+// ── LGPD: data export & deletion ──────────────────────────────────────
 
 router.get("/export-data", auth, async (req, res) => {
   try {
@@ -189,6 +415,7 @@ router.get("/export-data", auth, async (req, res) => {
       lastUpdated: user.updatedAt,
       privacyConsentAt: user.privacyConsentAt,
       emailVerified: user.emailVerified,
+      twoFactorEnabled: user.twoFactorEnabled,
     };
     res.json({ ok: true, data });
   } catch (e) {
@@ -206,11 +433,9 @@ router.delete("/delete-account", auth, async (req, res) => {
       return res.status(401).json({ ok: false, error: "Password required to delete account" });
     }
 
-    // Schedule deletion in 30 days (LGPD Art. 15)
     user.deletionScheduledAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
     await user.save();
 
-    // Anonymize immediately
     user.username = `deleted_${user._id}`;
     user.email = `deleted_${user._id}@disabled.local`;
     user.password = crypto.createHash("sha256").update(user.password).digest("hex");

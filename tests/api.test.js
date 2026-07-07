@@ -40,6 +40,8 @@ vi.mock("../services/email.js", () => ({
   sendPasswordResetEmail: vi.fn().mockResolvedValue(),
   sendPackageApproved: vi.fn().mockResolvedValue(),
   sendPackageRejected: vi.fn().mockResolvedValue(),
+  send2FAEnabled: vi.fn().mockResolvedValue(),
+  send2FABackupCodes: vi.fn().mockResolvedValue(),
 }));
 
 vi.mock("redis", () => ({
@@ -119,12 +121,18 @@ function makeUser(overrides = {}) {
     email: "test@example.com",
     password: "$2a$12$fakehash",
     role: "user",
+    emailVerified: true,
+    twoFactorEnabled: false,
+    twoFactorSecret: null,
+    twoFactorBackupCodes: [],
     toPublic() {
       return {
         id: this._id,
         username: this.username,
         email: this.email,
         role: this.role,
+        emailVerified: this.emailVerified,
+        twoFactorEnabled: this.twoFactorEnabled,
       };
     },
     comparePassword: vi.fn(),

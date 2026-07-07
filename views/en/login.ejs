@@ -4,35 +4,91 @@
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen flex items-center justify-center">
   <div class="w-full max-w-sm">
     <h1 class="text-3xl font-black text-center mb-8">Login</h1>
+
+    <!-- Step 1: credentials -->
     <form id="loginForm" class="space-y-4">
       <input name="username" type="text" placeholder="Username or email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-pinky-400">
       <input name="password" type="password" placeholder="Password" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-pinky-400">
       <div id="loginError" class="text-red-500 text-sm hidden"></div>
       <button type="submit" class="w-full bg-pinky-400 hover:bg-pinky-500 text-white font-semibold py-3 rounded-xl transition-all">Login</button>
     </form>
+
+    <!-- Step 2: 2FA code (hidden) -->
+    <form id="twofaForm" class="space-y-4 hidden">
+      <p class="text-sm text-gray-500 text-center">Enter the 6-digit code from your authenticator app or a backup code.</p>
+      <input name="code" type="text" placeholder="000000" inputmode="numeric" autocomplete="one-time-code" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-center text-2xl tracking-widest focus:outline-none focus:border-pinky-400">
+      <div id="twofaError" class="text-red-500 text-sm hidden"></div>
+      <button type="submit" class="w-full bg-pinky-400 hover:bg-pinky-500 text-white font-semibold py-3 rounded-xl transition-all">Verify</button>
+    </form>
+
     <p class="text-center text-sm text-gray-400 mt-4">No account? <a href="/<%= lang === 'en' ? '' : lang %>/signup" class="text-pinky-400 hover:underline">Sign up</a></p>
   </div>
 </section>
 
 <script>
-document.getElementById('loginForm').onsubmit = async (e) => {
-  e.preventDefault();
-  const fd = new FormData(e.target);
-  const errEl = document.getElementById('loginError');
-  errEl.classList.add('hidden');
-  try {
-    const res = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: fd.get('username'), password: fd.get('password') }),
-    });
-    const data = await res.json();
-    if (!data.ok) { errEl.textContent = data.error; errEl.classList.remove('hidden'); return; }
-    localStorage.setItem('xs_token', data.token);
-    localStorage.setItem('xs_user', JSON.stringify(data.user));
-    window.location.href = '/<%= lang === 'en' ? '' : lang %>/packages/dashboard';
-  } catch (e) { errEl.textContent = 'Network error'; errEl.classList.remove('hidden'); }
-};
+(function() {
+  var loginForm = document.getElementById('loginForm');
+  var twofaForm = document.getElementById('twofaForm');
+  var loginError = document.getElementById('loginError');
+  var twofaError = document.getElementById('twofaError');
+  var tempToken = null;
+
+  loginForm.onsubmit = async function(e) {
+    e.preventDefault();
+    var fd = new FormData(loginForm);
+    loginError.classList.add('hidden');
+    try {
+      var res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: fd.get('username'), password: fd.get('password') }),
+      });
+      var data = await res.json();
+      if (!data.ok) {
+        loginError.textContent = data.error;
+        loginError.classList.remove('hidden');
+        return;
+      }
+      if (data.require2fa) {
+        tempToken = data.tempToken;
+        loginForm.classList.add('hidden');
+        twofaForm.classList.remove('hidden');
+        return;
+      }
+      localStorage.setItem('xs_token', data.token);
+      localStorage.setItem('xs_user', JSON.stringify(data.user));
+      window.location.href = '/<%= lang === 'en' ? '' : lang %>/packages/dashboard';
+    } catch (e) {
+      loginError.textContent = 'Network error';
+      loginError.classList.remove('hidden');
+    }
+  };
+
+  twofaForm.onsubmit = async function(e) {
+    e.preventDefault();
+    var fd = new FormData(twofaForm);
+    twofaError.classList.add('hidden');
+    try {
+      var res = await fetch('/api/auth/2fa/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tempToken: tempToken, code: fd.get('code') }),
+      });
+      var data = await res.json();
+      if (!data.ok) {
+        twofaError.textContent = data.error;
+        twofaError.classList.remove('hidden');
+        return;
+      }
+      localStorage.setItem('xs_token', data.token);
+      localStorage.setItem('xs_user', JSON.stringify(data.user));
+      window.location.href = '/<%= lang === 'en' ? '' : lang %>/packages/dashboard';
+    } catch (e) {
+      twofaError.textContent = 'Network error';
+      twofaError.classList.remove('hidden');
+    }
+  };
+})();
 </script>
 
 <%- include('../partials/footer', { lang, t }) %>

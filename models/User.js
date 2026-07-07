@@ -18,6 +18,11 @@ const userSchema = new mongoose.Schema(
     resetPasswordToken: { type: String, default: null },
     resetPasswordExpires: { type: Date, default: null },
 
+    // Two-factor authentication
+    twoFactorSecret: { type: String, default: null },
+    twoFactorEnabled: { type: Boolean, default: false },
+    twoFactorBackupCodes: [String],
+
     // LGPD / privacy
     privacyConsent: { type: Boolean, default: false },
     privacyConsentAt: { type: Date, default: null },
@@ -43,6 +48,7 @@ userSchema.methods.toPublic = function () {
     email: this.email,
     role: this.role,
     emailVerified: this.emailVerified,
+    twoFactorEnabled: this.twoFactorEnabled,
     privacyConsent: this.privacyConsent,
     createdAt: this.createdAt,
   };

@@ -10,6 +10,7 @@ const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 10 * 1024 * 1024 },
 });
+const BATCH_MAX = 10;
 
 router.get("/", cacheMiddleware(60), async (req, res) => {
   try {
@@ -115,6 +116,84 @@ router.post("/", auth, upload.single("file"), async (req, res) => {
     res.json({
       ok: true,
       message: "Package submitted for review. An admin will review it shortly.",
+    });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
+
+// ── Batch package upload ──────────────────────────────────────────────
+router.post("/batch", auth, async (req, res) => {
+  try {
+    const { packages } = req.body;
+    if (!Array.isArray(packages) || packages.length === 0) {
+      return res.status(400).json({ ok: false, error: "packages array required" });
+    }
+    if (packages.length > BATCH_MAX) {
+      return res.status(400).json({ ok: false, error: `Maximum ${BATCH_MAX} packages per batch` });
+    }
+
+    const results = [];
+
+    for (const pkg of packages) {
+      const { name, version, description, license, repository, keywords } = pkg;
+      const errors = [];
+
+      if (!name || !/^[a-z0-9_-]+$/.test(name)) errors.push("Invalid package name");
+      if (version && !semver.valid(version)) errors.push("Invalid semver version");
+
+      if (errors.length > 0) {
+        results.push({ name, ok: false, errors });
+        continue;
+      }
+
+      try {
+        const existing = await Package.findOne({ name });
+        if (existing) {
+          if (existing.authorId && existing.authorId.toString() !== req.user.id) {
+            results.push({ name, ok: false, error: "You do not own this package" });
+            continue;
+          }
+          Object.assign(existing, {
+            version: version || existing.version,
+            description: description ?? existing.description,
+            license: license ?? existing.license,
+            repository: repository ?? existing.repository,
+            keywords: Array.isArray(keywords) ? keywords : existing.keywords,
+            authorId: existing.authorId || req.user.id,
+            status: "pending",
+            reviewNotes: "",
+            reviewedBy: null,
+            reviewedAt: null,
+          });
+          await existing.save();
+        } else {
+          await Package.create({
+            name,
+            version: version || "1.0.0",
+            description: description || "",
+            license: license || "MIT",
+            author: req.user.username,
+            repository: repository || "",
+            keywords: Array.isArray(keywords) ? keywords : [],
+            authorId: req.user.id,
+            status: "pending",
+          });
+        }
+        results.push({ name, ok: true });
+      } catch (e) {
+        results.push({ name, ok: false, error: e.message });
+      }
+    }
+
+    const redis = req.app.locals.redis;
+    if (redis) await redis.del("cache:/api/packages");
+
+    const succeeded = results.filter(r => r.ok).length;
+    res.json({
+      ok: true,
+      message: `${succeeded}/${packages.length} packages submitted for review`,
+      results,
     });
   } catch (e) {
     res.status(500).json({ ok: false, error: e.message });
