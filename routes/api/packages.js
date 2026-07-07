@@ -311,6 +311,7 @@ async function s3Request(method, key, buffer) {
     region: "us-east-1",
     headers: {},
   };
+  if (url.port) opts.port = parseInt(url.port);
 
   if (buffer) {
     opts.headers["Content-Type"] = "application/gzip";
