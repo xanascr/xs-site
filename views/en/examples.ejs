@@ -16,7 +16,7 @@
         <div class="p-6 flex flex-col gap-4 flex-1">
           <p class="text-gray-500 text-sm leading-relaxed"><%= ex.desc %></p>
           <div class="code-block bg-gray-900 rounded-xl border border-gray-700 overflow-hidden mt-auto">
-            <pre class="p-4 text-xs sm:text-sm overflow-x-auto scrollbar-thin text-gray-100 leading-relaxed highlight-xs"><%= ex.code %></pre>
+            <pre class="p-4 text-xs sm:text-sm overflow-x-auto scrollbar-thin text-gray-100 leading-relaxed"><%= ex.code %></pre>
           </div>
         </div>
       </div>
@@ -24,31 +24,5 @@
     </div>
   </div>
 </section>
-
-<script>
-(function() {
-  function highlightXsCode() {
-    var blocks = document.querySelectorAll('.highlight-xs');
-    blocks.forEach(function(block) {
-      var html = block.innerHTML;
-      html = html.replace(/(CRIA\b|CHAMA ESSE CARA\b|SE LIGA SO\b|SENAO\b|REPETE NA MORAL\b|REPETE AI\b|ENQUANTO\b|PARE\b|VOLTA\b|SOLTA O GRITO\b|FUNCAO\b|CLASSE\b|HERDA\b|CONSTRUTOR\b|METODO\b|NOVA\b|ISTO\b|COMBINA\b|CASO\b|TABELA\b|ESPERA AI\b|AGORA VAI\b|TAREFA\b|TESTE\b|AFIRMA\b|MACRO\b|PARTIU\b|ACABOU\b|VERDADEIRO\b|FALSO\b|NULO\b)/g, '<span class="xs-kw">$1</span>');
-      html = html.replace(/("(?:[^"\\]|\\.)*")/g, '<span class="xs-str">$1</span>');
-      html = html.replace(/('(?:[^'\\]|\\.)*')/g, '<span class="xs-str">$1</span>');
-      html = html.replace(/(`(?:[^`\\]|\\.)*`)/g, '<span class="xs-str">$1</span>');
-      html = html.replace(/\b(\d+(?:\.\d+)?)\b/g, '<span class="xs-num">$1</span>');
-      html = html.replace(/\/\/.*/g, '<span class="xs-cm">$&</span>');
-      block.innerHTML = html;
-    });
-  }
-  highlightXsCode();
-})();
-</script>
-
-<style>
-.xs-kw { color: #f58b8e; font-weight: 600; }
-.xs-str { color: #34d399; }
-.xs-num { color: #60a5fa; }
-.xs-cm { color: #6b7280; font-style: italic; }
-</style>
 
 <%- include('../partials/footer', { lang, t }) %>
