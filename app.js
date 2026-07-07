@@ -93,11 +93,19 @@ app.use((req, res) => {
   res.status(404).render(`${fallbackLang}/404`, { lang: fallbackLang });
 });
 
+import multer from "multer";
+
 app.use((err, req, res, next) => {
   if (err instanceof SyntaxError && err.status === 400 && "body" in err) {
     return res.status(400).json({ ok: false, error: "Invalid JSON in request body" });
   }
-  console.error("Unhandled error:", err);
+  if (err instanceof multer.MulterError) {
+    console.error("Multer error:", err.code, err.field, err.message);
+    return res.status(400).json({ ok: false, error: `Upload error: ${err.message}` });
+  }
+  if (err) {
+    console.error("Unhandled error:", err);
+  }
   if (req.accepts("html")) {
     const fallbackLang = req.lang || "en";
     return res.status(500).render(`${fallbackLang}/404`, { lang: fallbackLang });
