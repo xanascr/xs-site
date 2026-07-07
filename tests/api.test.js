@@ -35,6 +35,13 @@ vi.mock("https", () => {
   };
 });
 
+vi.mock("../services/email.js", () => ({
+  sendVerificationEmail: vi.fn().mockResolvedValue(),
+  sendPasswordResetEmail: vi.fn().mockResolvedValue(),
+  sendPackageApproved: vi.fn().mockResolvedValue(),
+  sendPackageRejected: vi.fn().mockResolvedValue(),
+}));
+
 vi.mock("redis", () => ({
   createClient: vi.fn(() => ({
     connect: vi.fn().mockResolvedValue(),
@@ -163,13 +170,16 @@ beforeEach(() => {
 describe("POST /api/auth/signup", () => {
   it("creates a user and returns a token", async () => {
     User.findOne.mockResolvedValue(null);
-    User.create.mockImplementation((data) =>
-      Promise.resolve(makeUser({ username: data.username, email: data.email }))
-    );
+    User.create.mockImplementation((data) => {
+      const user = makeUser({ username: data.username, email: data.email });
+      user.generateVerificationToken = vi.fn().mockReturnValue("test-verification-token");
+      user.save = vi.fn().mockResolvedValue();
+      return Promise.resolve(user);
+    });
 
     const res = await request(app)
       .post("/api/auth/signup")
-      .send({ username: "newuser", email: "new@example.com", password: "password123" });
+      .send({ username: "newuser", email: "new@example.com", password: "password123", privacyConsent: true });
 
     expect(res.status).toBe(201);
     expect(res.body.ok).toBe(true);
@@ -183,6 +193,8 @@ describe("POST /api/auth/signup", () => {
       username: "newuser",
       email: "new@example.com",
       password: "password123",
+      privacyConsent: true,
+      privacyConsentAt: expect.any(Date),
     });
   });
 
@@ -191,7 +203,7 @@ describe("POST /api/auth/signup", () => {
 
     const res = await request(app)
       .post("/api/auth/signup")
-      .send({ username: "testuser", email: "test@example.com", password: "password123" });
+      .send({ username: "testuser", email: "test@example.com", password: "password123", privacyConsent: true });
 
     expect(res.status).toBe(409);
     expect(res.body.ok).toBe(false);
@@ -563,14 +575,22 @@ describe("GET /api/admin/packages", () => {
   });
 });
 
+function mockFindOneAndUpdate(result) {
+  const populate = vi.fn().mockResolvedValue(result);
+  const query = { populate };
+  Package.findOneAndUpdate.mockReturnValue(query);
+  return query;
+}
+
 describe("POST /api/admin/packages/:name/approve", () => {
   it("approves a pending package", async () => {
     const approved = makePackage({
       name: "pending-pkg",
       status: "approved",
       reviewedBy: "admin1",
+      authorId: { _id: "user1", username: "testuser", email: "test@example.com" },
     });
-    Package.findOneAndUpdate.mockResolvedValue(approved);
+    mockFindOneAndUpdate(approved);
 
     const res = await request(app)
       .post("/api/admin/packages/pending-pkg/approve")
@@ -595,7 +615,7 @@ describe("POST /api/admin/packages/:name/approve", () => {
   });
 
   it("returns 404 when pending package not found", async () => {
-    Package.findOneAndUpdate.mockResolvedValue(null);
+    mockFindOneAndUpdate(null);
 
     const res = await request(app)
       .post("/api/admin/packages/missing/approve")
@@ -613,8 +633,9 @@ describe("POST /api/admin/packages/:name/reject", () => {
       status: "rejected",
       reviewNotes: "Violates guidelines",
       reviewedBy: "admin1",
+      authorId: { _id: "user1", username: "testuser", email: "test@example.com" },
     });
-    Package.findOneAndUpdate.mockResolvedValue(rejected);
+    mockFindOneAndUpdate(rejected);
 
     const res = await request(app)
       .post("/api/admin/packages/bad-pkg/reject")
@@ -633,8 +654,9 @@ describe("POST /api/admin/packages/:name/reject", () => {
       status: "rejected",
       reviewNotes: "",
       reviewedBy: "admin1",
+      authorId: { _id: "user1", username: "testuser", email: "test@example.com" },
     });
-    Package.findOneAndUpdate.mockResolvedValue(rejected);
+    mockFindOneAndUpdate(rejected);
 
     const res = await request(app)
       .post("/api/admin/packages/no-reason-pkg/reject")

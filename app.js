@@ -70,6 +70,7 @@ async function start() {
 
   try {
     const redis = createClient({ url: process.env.REDIS_URL });
+    redis.on("error", (err) => console.warn("Redis connection error:", err.message));
     await redis.connect();
     app.locals.redis = redis;
     console.log("Redis connected");

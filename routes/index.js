@@ -119,4 +119,19 @@ router.get("/:lang(en|pt|es)?/admin", (req, res) => {
   res.render(`${lang}/admin`, { lang, page: "admin" });
 });
 
+router.get("/:lang(en|pt|es)?/privacy", (req, res) => {
+  const lang = req.params.lang || "en";
+  res.render(`${lang}/privacy`, { lang, page: "privacy" });
+});
+
+router.get("/:lang(en|pt|es)?/forgot-password", (req, res) => {
+  const lang = req.params.lang || "en";
+  res.render(`${lang}/forgot-password`, { lang, page: "forgot-password", sent: req.query.sent, error: req.query.error });
+});
+
+router.get("/:lang(en|pt|es)?/reset-password", (req, res) => {
+  const lang = req.params.lang || "en";
+  res.render(`${lang}/reset-password`, { lang, page: "reset-password", token: req.query.token || "" });
+});
+
 export default router;
