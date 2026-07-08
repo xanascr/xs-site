@@ -43,7 +43,7 @@
         <% } %>
 
         <div class="mt-6 flex gap-3 flex-wrap">
-          <button onclick="navigator.clipboard.writeText('xs install <%= pkg.name %>')" class="bg-pinky-400 hover:bg-pinky-500 text-white px-5 py-2.5 rounded-lg font-semibold text-sm transition-all inline-flex items-center gap-2">
+          <button id="installCopyBtn" class="xs-btn xs-btn-primary text-sm">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
             xs install <%= pkg.name %>
           </button>
@@ -70,6 +70,16 @@
 </section>
 
 <script>
+var pkgName = '<%= pkg.name %>';
+document.getElementById('installCopyBtn').addEventListener('click', function() {
+  navigator.clipboard.writeText('xs install ' + pkgName).then(function() {
+    var btn = document.getElementById('installCopyBtn');
+    btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Copied!';
+    setTimeout(function() {
+      btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg> xs install ' + pkgName;
+    }, 2000);
+  });
+});
 (async function() {
   try {
     const res = await fetch('/api/packages/<%= pkg.name %>/source');
@@ -89,17 +99,25 @@
           + '<pre class="p-4 text-xs leading-relaxed font-mono text-gray-700 bg-white overflow-x-auto max-h-96 scrollbar-thin"><code class="' + langClass + '">' + escapeHtml(file.content) + '</code></pre>';
         container.appendChild(div);
       });
+      if (typeof hljs !== 'undefined') {
+        document.querySelectorAll('#sourceFiles pre code').forEach(function(block) {
+          hljs.highlightElement(block);
+        });
+      }
     }
   } catch (e) {
     document.getElementById('sourceFiles').innerHTML = '<p class="text-gray-400 text-sm">Source files unavailable.</p>';
   }
-
+  if (typeof hljs !== 'undefined') {
+    document.querySelectorAll('.markdown-body pre code').forEach(function(block) {
+      hljs.highlightElement(block);
+    });
+  }
   function escapeHtml(str) {
     var div = document.createElement('div');
     div.textContent = str;
     return div.innerHTML;
   }
-
   function formatSize(bytes) {
     if (bytes < 1024) return bytes + ' B';
     if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';

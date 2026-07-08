@@ -2,21 +2,22 @@
 <%- include('../partials/navbar', { lang, t }) %>
 
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
-  <div class="max-w-2xl mx-auto text-center">
-    <h1 class="text-3xl md:text-5xl font-black mb-2"><%= t('donate.title') %></h1>
-    <p class="text-gray-500 text-sm mb-12"><%= t('donate.subtitle') %></p>
+  <div class="max-w-2xl mx-auto text-center animate-fade-in">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pinky-50 border border-pinky-100 text-pinky-500 text-xs font-semibold mb-6"><%= t('donate.title') %></div>
+    <h1 class="text-3xl md:text-5xl font-black mb-3"><%= t('donate.title') %></h1>
+    <p class="text-gray-500 text-sm mb-12 max-w-md mx-auto"><%= t('donate.subtitle') %></p>
 
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 mb-8">
-      <h2 class="text-xl font-bold text-gray-800 mb-2"><%= t('donate.pix') %></h2>
+    <div class="xs-card p-8 mb-8">
+      <h2 class="text-lg font-bold text-gray-800 mb-4"><%= t('donate.pix') %></h2>
       <div class="flex items-center justify-center gap-3 my-4">
-        <code class="text-lg font-mono bg-gray-50 px-4 py-2 rounded-lg border border-gray-200 select-all"><%= t('donate.pixKey') %></code>
-        <button onclick="navigator.clipboard.writeText('<%= t('donate.pixKey') %>');this.textContent='Copiado!';setTimeout(()=>this.textContent='Copiar',2000)" class="text-xs font-semibold px-3 py-2 rounded-lg bg-pinky-400 text-white hover:bg-pinky-500 transition-colors">Copiar</button>
+        <code class="text-base font-mono bg-gray-50 px-4 py-2 rounded-lg border border-gray-200 select-all"><%= t('donate.pixKey') %></code>
+        <button data-copy="<%= t('donate.pixKey') %>" class="xs-btn xs-btn-primary text-xs copy-btn">Copiar</button>
       </div>
       <p class="text-gray-400 text-xs"><%= t('donate.pixHint') %></p>
     </div>
 
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-      <h2 class="text-xl font-bold text-gray-800 mb-4"><%= t('donate.why') %></h2>
+    <div class="xs-card p-8">
+      <h2 class="text-lg font-bold text-gray-800 mb-4"><%= t('donate.why') %></h2>
       <ul class="text-left text-gray-600 space-y-3 max-w-md mx-auto">
         <li class="flex items-start gap-2"><%= t('donate.why1') %></li>
         <li class="flex items-start gap-2"><%= t('donate.why2') %></li>
@@ -27,5 +28,18 @@
     <p class="text-gray-500 text-sm mt-8">&#10084; <%= t('donate.thanks') %></p>
   </div>
 </section>
+
+<script>
+document.querySelectorAll('.copy-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var text = this.getAttribute('data-copy');
+    navigator.clipboard.writeText(text).then(function() {
+      var orig = btn.textContent;
+      btn.textContent = 'Copiado!';
+      setTimeout(function() { btn.textContent = orig; }, 2000);
+    });
+  });
+});
+</script>
 
 <%- include('../partials/footer', { lang, t }) %>

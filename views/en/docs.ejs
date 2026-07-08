@@ -2,18 +2,21 @@
 <%- include('../partials/navbar', { lang, t }) %>
 
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
-  <div class="max-w-6xl mx-auto">
-    <h1 class="text-4xl md:text-5xl font-black text-center mb-3">Documentation</h1>
-    <p class="text-center text-gray-400 max-w-xl mx-auto mb-12 text-lg font-light">Everything you need to build with XanaScript.</p>
+  <div class="max-w-6xl mx-auto animate-fade-in">
+    <div class="text-center mb-12">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pinky-50 border border-pinky-100 text-pinky-500 text-xs font-semibold mb-4">Guide</div>
+      <h1 class="text-4xl md:text-5xl font-black mb-2">Documentation</h1>
+      <p class="text-gray-400 max-w-xl mx-auto">Everything you need to build with XanaScript.</p>
+    </div>
 
     <div class="grid md:grid-cols-4 gap-8">
       <nav class="md:col-span-1 sticky top-24 space-y-0.5 text-sm max-h-[calc(100vh-8rem)] overflow-y-auto pr-2">
-        <div class="font-bold text-gray-400 uppercase tracking-wider text-xs mb-2">Getting Started</div>
+        <div class="xs-label">Getting Started</div>
         <a href="#install" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Installation</a>
         <a href="#hello-world" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Hello World</a>
         <a href="#cli-usage" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">CLI Usage</a>
 
-        <div class="font-bold text-gray-400 uppercase tracking-wider text-xs mb-2 mt-5">Language Guide</div>
+        <div class="xs-label mt-5">Language Guide</div>
         <a href="#variables" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Variables</a>
         <a href="#types" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Types</a>
         <a href="#control-flow" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Control Flow</a>
@@ -23,13 +26,13 @@
         <a href="#async" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Async / Await</a>
         <a href="#error-handling" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Error Handling</a>
 
-        <div class="font-bold text-gray-400 uppercase tracking-wider text-xs mb-2 mt-5">Advanced</div>
+        <div class="xs-label mt-5">Advanced</div>
         <a href="#orm" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">ORM (TABELA)</a>
         <a href="#macros" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Macros</a>
         <a href="#wasm" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">WebAssembly</a>
         <a href="#http-server" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">HTTP Server</a>
 
-        <div class="font-bold text-gray-400 uppercase tracking-wider text-xs mb-2 mt-5">Reference</div>
+        <div class="xs-label mt-5">Reference</div>
         <a href="#builtins" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Built-ins</a>
         <a href="#keywords" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Keywords</a>
         <a href="#errors" class="block px-3 py-1.5 rounded-lg text-gray-500 hover:bg-pinky-50 hover:text-pinky-600 no-underline transition-colors">Error Codes</a>
@@ -38,7 +41,6 @@
       </nav>
 
       <div class="md:col-span-3 space-y-10 text-gray-600 leading-relaxed text-[15px]">
-        <!-- Getting Started -->
         <section id="install">
           <h2 class="text-2xl font-black text-gray-800 mb-3">Installation</h2>
           <p class="mb-3">Install globally via npm:</p>
@@ -96,7 +98,6 @@
           </div>
         </section>
 
-        <!-- Language Guide -->
         <section id="variables">
           <h2 class="text-2xl font-black text-gray-800 mb-3">Variables</h2>
           <p class="mb-3">Use <code>CRIA</code> to declare variables. Types are inferred from the value:</p>
@@ -104,7 +105,6 @@
 <span class="kw">CRIA</span> ano = <span class="num">2026</span>
 <span class="kw">CRIA</span> ativo = <span class="at">VERDADEIRO</span>
 <span class="kw">CRIA</span> nada = <span class="at">NULO</span>
-
 <span class="kw">CRIA</span> nums = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]
 <span class="kw">CRIA</span> config = { nome: <span class="str">"server"</span>, porta: <span class="num">3000</span> }</pre>
           <p>Reassign using <code>=</code>:</p>
@@ -128,9 +128,6 @@
               </tbody>
             </table>
           </div>
-          <p>Check types at runtime:</p>
-          <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto"><span class="kw">SOLTA O GRITO</span>(<span class="fn">TIPO</span>(<span class="num">42</span>))   <span class="cm">// "number"</span>
-<span class="kw">SOLTA O GRITO</span>(<span class="fn">TIPO</span>(<span class="str">"xs"</span>)) <span class="cm">// "string"</span></pre>
         </section>
 
         <section id="control-flow">
@@ -148,16 +145,12 @@
 <span class="kw">REPETE NA MORAL</span> (<span class="kw">CRIA</span> i = <span class="num">0</span>; i < <span class="num">5</span>; i += <span class="num">1</span>) {
   <span class="kw">SOLTA O GRITO</span>(i)
 }
-
 <span class="cm">// While loop</span>
 <span class="kw">CRIA</span> x = <span class="num">0</span>
 <span class="kw">REPETE AI</span> (x < <span class="num">5</span>) {
   <span class="kw">SOLTA O GRITO</span>(x)
   x += <span class="num">1</span>
-}
-
-<span class="cm">// Ternary</span>
-<span class="kw">CRIA</span> resultado = (x > <span class="num">0</span>) ? <span class="str">"positive"</span> : <span class="str">"negative"</span></pre>
+}</pre>
         </section>
 
         <section id="functions">
@@ -167,19 +160,10 @@
 <span class="kw">CHAMA ESSE CARA</span> soma(a, b) {
   <span class="kw">VOLTA</span> a + b
 }
-
 <span class="cm">// Arrow function</span>
 <span class="kw">CRIA</span> dobro = (x) => x * <span class="num">2</span>
-
-<span class="cm">// Multi-line arrow</span>
-<span class="kw">CRIA</span> saudacao = (nome) => {
-  <span class="kw">VOLTA</span> <span class="str">"Hello, "</span> + nome + <span class="str">"!"</span>
-}
-
 <span class="kw">SOLTA O GRITO</span>(<span class="fn">soma</span>(<span class="num">3</span>, <span class="num">4</span>))
-<span class="kw">SOLTA O GRITO</span>(<span class="fn">dobro</span>(<span class="num">5</span>))
-<span class="kw">SOLTA O GRITO</span>(<span class="fn">saudacao</span>(<span class="str">"XS"</span>))</pre>
-          <p>Default parameters and rest parameters are supported.</p>
+<span class="kw">SOLTA O GRITO</span>(<span class="fn">dobro</span>(<span class="num">5</span>))</pre>
         </section>
 
         <section id="classes">
@@ -192,13 +176,11 @@
     <span class="kw">SOLTA O GRITO</span>(<span class="kw">ISTO</span>.nome + <span class="str">" makes a sound"</span>)
   }
 }
-
 <span class="kw">CLASSE</span> Cachorro <span class="kw">HERDA</span> Animal {
   <span class="kw">METODO</span> falar() {
     <span class="kw">SOLTA O GRITO</span>(<span class="kw">ISTO</span>.nome + <span class="str">" says: Woof!"</span>)
   }
 }
-
 <span class="kw">CRIA</span> rex = <span class="kw">NOVA</span> Cachorro(<span class="str">"Rex"</span>)
 <span class="fn">rex.falar</span>()</pre>
         </section>
@@ -212,7 +194,6 @@
   <span class="kw">CASO</span> <span class="num">1</span> => <span class="str">"one"</span>
   <span class="kw">CASO</span> _ => <span class="str">"many"</span>
 }
-
 <span class="cm">// Match on arrays with destructuring</span>
 <span class="kw">CRIA</span> checkList = (items) => <span class="kw">COMBINA</span> (items) {
   <span class="kw">CASO</span> [] => <span class="str">"empty"</span>
@@ -220,7 +201,6 @@
   <span class="kw">CASO</span> [x, y] => <span class="str">"two items"</span>
   <span class="kw">CASO</span> _ => <span class="str">"many items"</span>
 }</pre>
-          <p>The wildcard <code>_</code> matches anything. Array patterns support destructuring.</p>
         </section>
 
         <section id="async">
@@ -231,14 +211,11 @@
   <span class="kw">CRIA</span> data = <span class="fn">PARSEIA</span>(res)
   <span class="kw">VOLTA</span> data
 }
-
 <span class="kw">CRIA</span> run = <span class="kw">ASSINCRONO</span> () => {
   <span class="kw">CRIA</span> users = <span class="kw">ESPERA AI</span> <span class="fn">fetch</span>(<span class="str">"https://api.example.com/users/1"</span>)
   <span class="kw">SOLTA O GRITO</span>(<span class="str">"Name: "</span> + users.nome)
 }
-
 <span class="kw">ESPERA AI</span> <span class="fn">run</span>()</pre>
-          <p>Also supports <code>ESPERA AI(ms)</code> for time-based delays.</p>
         </section>
 
         <section id="error-handling">
@@ -252,7 +229,6 @@
 
         <hr class="border-gray-200">
 
-        <!-- Advanced -->
         <section id="orm" class="scroll-mt-24">
           <h2 class="text-2xl font-black text-gray-800 mb-3">ORM (TABELA)</h2>
           <p class="mb-3">XanaScript includes a built-in ORM using the <code>TABELA</code> keyword. Define a schema and get automatic CRUD operations:</p>
@@ -261,27 +237,12 @@
   preco: <span class="typ">NUMERO</span>,
   estoque: <span class="typ">NUMERO</span>
 }
-
 <span class="kw">CRIA</span> repo = Product
-
-<span class="cm">// Create</span>
 <span class="fn">repo.create</span>({ nome: <span class="str">"Keyboard"</span>, preco: <span class="num">250</span>, estoque: <span class="num">10</span> })
-
-<span class="cm">// Read all</span>
 <span class="kw">SOLTA O GRITO</span>(<span class="fn">repo.list</span>())
-
-<span class="cm">// Find by ID</span>
-<span class="kw">SOLTA O GRITO</span>(<span class="fn">repo.find</span>(<span class="num">1</span>))
-
-<span class="cm">// Filter with operators</span>
 <span class="kw">CRIA</span> caros = <span class="fn">repo.findWhere</span>({ preco: { $gte: <span class="num">200</span> } })
-
-<span class="cm">// Update</span>
 <span class="fn">repo.update</span>(<span class="num">1</span>, { preco: <span class="num">200</span> })
-
-<span class="cm">// Delete</span>
 <span class="fn">repo.delete</span>(<span class="num">2</span>)</pre>
-          <p>Filter operators: <code>$gte</code>, <code>$gt</code>, <code>$lt</code>, <code>$lte</code>, <code>$eq</code>, <code>$ne</code>, <code>$in</code>, <code>$nin</code>.</p>
         </section>
 
         <section id="macros">
@@ -290,20 +251,15 @@
           <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-4"><span class="kw">MACRO</span> <span class="fn">assert</span>(expr) {
   <span class="kw">CRIA</span> cond = expr[<span class="num">1</span>]
   <span class="kw">CRIA</span> code = <span class="fn">TEXTO</span>(cond)
-  <span class="kw">VOLTA</span> [
-    <span class="str">"SE LIGA SO (!"</span> + code + <span class="str">") { SOLTA O GRITO('Assertion failed: "</span> + code + <span class="str">"') }"</span>
-  ]
+  <span class="kw">VOLTA</span> [<span class="str">"SE LIGA SO (!"</span> + code + <span class="str">") { SOLTA O GRITO('Assertion failed: "</span> + code + <span class="str">"') }"</span>]
 }
-
-<span class="fn">assert</span>(x > <span class="num">0</span>)  <span class="cm">// Expands at compile time</span></pre>
-          <p>Macros receive the AST node of their argument and return transformed code.</p>
+<span class="fn">assert</span>(x > <span class="num">0</span>)</pre>
         </section>
 
         <section id="wasm">
           <h2 class="text-2xl font-black text-gray-800 mb-3">WebAssembly</h2>
           <p class="mb-3">Compile XanaScript directly to WebAssembly binary:</p>
           <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-4">xs build --wasm app.xs</pre>
-          <p>This generates a <code>.wasm</code> file that can run in any WebAssembly runtime (browsers, WasmEdge, Wasmtime). The compiler uses a binary emitter that generates valid Wasm modules from optimized XS AST.</p>
         </section>
 
         <section id="http-server">
@@ -312,20 +268,16 @@
           <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-4"><span class="kw">CHAMA ESSE CARA</span> handler(req, res) {
   <span class="kw">SE LIGA SO</span> (req.url == <span class="str">"/"</span>) {
     <span class="fn">res.json</span>({ mensagem: <span class="str">"Hello from XanaScript!"</span> })
-  } <span class="kw">SENAO SE</span> (req.url == <span class="str">"/api/data"</span>) {
-    <span class="fn">res.json</span>({ items: [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>], total: <span class="num">3</span> })
   } <span class="kw">SENAO</span> {
     <span class="fn">res.status</span>(<span class="num">404</span>).json({ erro: <span class="str">"Not found"</span> })
   }
 }
-
 <span class="kw">CRIA SERVIDOR</span>(<span class="num">3000</span>, handler)
 <span class="kw">SOLTA O GRITO</span>(<span class="str">"Server running on :3000"</span>)</pre>
         </section>
 
         <hr class="border-gray-200">
 
-        <!-- Reference -->
         <section id="builtins">
           <h2 class="text-2xl font-black text-gray-800 mb-3">Built-in Functions</h2>
           <div class="overflow-x-auto mb-4">
@@ -355,11 +307,11 @@
             <table class="w-full text-sm border border-gray-200 rounded-xl">
               <thead><tr><th class="text-left p-3 bg-gray-50 font-semibold">Keyword</th><th class="text-left p-3 bg-gray-50 font-semibold">Meaning</th></tr></thead>
               <tbody>
-                <tr><td class="p-3 border-t"><code>CRIA</code></td><td class="p-3 border-t">Variable declaration (let/const)</td></tr>
+                <tr><td class="p-3 border-t"><code>CRIA</code></td><td class="p-3 border-t">Variable declaration</td></tr>
                 <tr><td class="p-3 border-t"><code>CHAMA ESSE CARA</code></td><td class="p-3 border-t">Function declaration</td></tr>
                 <tr><td class="p-3 border-t"><code>VOLTA</code></td><td class="p-3 border-t">Return a value</td></tr>
                 <tr><td class="p-3 border-t"><code>SE LIGA SO</code></td><td class="p-3 border-t">If conditional</td></tr>
-                <tr><td class="p-3 border-t"><code>SENAO</code></td><td class="p-3 border-t">Else (also SENAO SE for else if)</td></tr>
+                <tr><td class="p-3 border-t"><code>SENAO</code></td><td class="p-3 border-t">Else</td></tr>
                 <tr><td class="p-3 border-t"><code>REPETE NA MORAL</code></td><td class="p-3 border-t">For loop</td></tr>
                 <tr><td class="p-3 border-t"><code>REPETE AI</code></td><td class="p-3 border-t">While loop</td></tr>
                 <tr><td class="p-3 border-t"><code>VOA</code></td><td class="p-3 border-t">Break from loop</td></tr>
@@ -373,7 +325,7 @@
                 <tr><td class="p-3 border-t"><code>METODO</code></td><td class="p-3 border-t">Class method</td></tr>
                 <tr><td class="p-3 border-t"><code>TENTA</code></td><td class="p-3 border-t">Try block</td></tr>
                 <tr><td class="p-3 border-t"><code>PEGA</code></td><td class="p-3 border-t">Catch block</td></tr>
-                <tr><td class="p-3 border-t"><code>COMBINA</code></td><td class="p-3 border-t">Pattern matching (match)</td></tr>
+                <tr><td class="p-3 border-t"><code>COMBINA</code></td><td class="p-3 border-t">Pattern matching</td></tr>
                 <tr><td class="p-3 border-t"><code>CASO</code></td><td class="p-3 border-t">Case arm in match</td></tr>
                 <tr><td class="p-3 border-t"><code>MACRO</code></td><td class="p-3 border-t">Compile-time macro</td></tr>
                 <tr><td class="p-3 border-t"><code>TABELA</code></td><td class="p-3 border-t">ORM table declaration</td></tr>
@@ -396,15 +348,15 @@
             <table class="w-full text-sm border border-gray-200 rounded-xl">
               <thead><tr><th class="text-left p-3 bg-gray-50 font-semibold">Code</th><th class="text-left p-3 bg-gray-50 font-semibold">Meaning</th><th class="text-left p-3 bg-gray-50 font-semibold">Cause</th></tr></thead>
               <tbody>
-                <tr><td class="p-3 border-t"><code>E001</code></td><td class="p-3 border-t">Unexpected token</td><td class="p-3 border-t">Syntax error — the lexer found a character it can't tokenize</td></tr>
-                <tr><td class="p-3 border-t"><code>E002</code></td><td class="p-3 border-t">Variable not defined</td><td class="p-3 border-t">Referencing a variable that hasn't been declared</td></tr>
+                <tr><td class="p-3 border-t"><code>E001</code></td><td class="p-3 border-t">Unexpected token</td><td class="p-3 border-t">Syntax error</td></tr>
+                <tr><td class="p-3 border-t"><code>E002</code></td><td class="p-3 border-t">Variable not defined</td><td class="p-3 border-t">Referencing undeclared variable</td></tr>
                 <tr><td class="p-3 border-t"><code>E003</code></td><td class="p-3 border-t">Not a function</td><td class="p-3 border-t">Calling a non-function value</td></tr>
-                <tr><td class="p-3 border-t"><code>E004</code></td><td class="p-3 border-t">Incompatible type</td><td class="p-3 border-t">Type mismatch in operation (e.g., string + number)</td></tr>
-                <tr><td class="p-3 border-t"><code>E005</code></td><td class="p-3 border-t">Invalid syntax</td><td class="p-3 border-t">Parser error — invalid grammar structure</td></tr>
+                <tr><td class="p-3 border-t"><code>E004</code></td><td class="p-3 border-t">Incompatible type</td><td class="p-3 border-t">Type mismatch in operation</td></tr>
+                <tr><td class="p-3 border-t"><code>E005</code></td><td class="p-3 border-t">Invalid syntax</td><td class="p-3 border-t">Parser error</td></tr>
                 <tr><td class="p-3 border-t"><code>E006</code></td><td class="p-3 border-t">Division by zero</td><td class="p-3 border-t">Runtime division or modulo by zero</td></tr>
                 <tr><td class="p-3 border-t"><code>E007</code></td><td class="p-3 border-t">Index out of bounds</td><td class="p-3 border-t">Array index beyond length</td></tr>
                 <tr><td class="p-3 border-t"><code>E100</code></td><td class="p-3 border-t">HTTP failure</td><td class="p-3 border-t">Network error in AGORA VAI()</td></tr>
-                <tr><td class="p-3 border-t"><code>E999</code></td><td class="p-3 border-t">Internal error</td><td class="p-3 border-t">Unexpected internal compiler/runtime error</td></tr>
+                <tr><td class="p-3 border-t"><code>E999</code></td><td class="p-3 border-t">Internal error</td><td class="p-3 border-t">Unexpected internal error</td></tr>
               </tbody>
             </table>
           </div>
@@ -415,28 +367,19 @@
           <p class="mb-3">XanaScript includes a Language Server Protocol implementation for IDE integration:</p>
           <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-3">xs lsp</pre>
           <p>Features: syntax errors, completion, hover info, go-to-definition, document symbols. Compatible with VS Code, Neovim, and any LSP client.</p>
-          <p class="mt-3">The VS Code extension is available on the <a href="https://marketplace.visualstudio.com/items?itemName=xanascr.xanascript" class="text-pinky-400 hover:underline">VS Code Marketplace</a>.</p>
         </section>
 
         <section id="package-manager">
           <h2 class="text-2xl font-black text-gray-800 mb-3">Package Manager</h2>
           <p class="mb-3">XanaScript has a built-in package manager with a public registry at <a href="https://xanascript.xyz/packages" class="text-pinky-400 hover:underline">xanascript.xyz/packages</a>:</p>
-          <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-4"><span class="cm"># Login to the registry</span>
-xs login
-
-<span class="cm"># Search for packages</span>
+          <pre class="bg-gray-50 rounded-xl p-4 text-sm overflow-x-auto mb-4">xs login
 xs search &lt;term&gt;
-
-<span class="cm"># Install a package</span>
 xs install &lt;package-name&gt;
-
-<span class="cm"># Publish your package (after creating xspack.json with xs init)</span>
 xs publish</pre>
-          <p>Packages go through an approval process before being published. Your package must have a <code>xspack.json</code> file and a <code>src/</code> directory.</p>
         </section>
 
         <div class="pt-6 pb-2 text-center text-sm text-gray-400 border-t border-gray-200">
-          <p>Something missing? <a href="https://github.com/xanascr/xs/issues" class="text-pinky-400 hover:underline">Open an issue</a> or contribute on <a href="https://github.com/xanascr/xs/tree/main/docs" class="text-pinky-400 hover:underline">GitHub</a>.</p>
+          <p>Something missing? <a href="https://github.com/xanascr/xs/issues" class="text-pinky-400 hover:underline">Open an issue</a> or contribute on <a href="https://github.com/xanascr/xs" class="text-pinky-400 hover:underline">GitHub</a>.</p>
         </div>
       </div>
     </div>

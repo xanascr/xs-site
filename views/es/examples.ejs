@@ -2,15 +2,18 @@
 <%- include('../partials/navbar', { lang, t }) %>
 
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
-  <div class="max-w-6xl mx-auto">
-    <h1 class="text-4xl md:text-5xl font-black text-center mb-3"><%= t('examples.title') %></h1>
-    <p class="text-center text-gray-400 max-w-xl mx-auto mb-12 text-lg font-light"><%= t('examples.subtitle') %></p>
+  <div class="max-w-6xl mx-auto animate-fade-in">
+    <div class="text-center mb-12">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pinky-50 border border-pinky-100 text-pinky-500 text-xs font-semibold mb-4">Ejemplos</div>
+      <h1 class="text-4xl md:text-5xl font-black mb-2"><%= t('examples.title') %></h1>
+      <p class="text-gray-400 max-w-xl mx-auto"><%= t('examples.subtitle') %></p>
+    </div>
 
     <div class="grid gap-6 grid-cols-1 md:grid-cols-2">
       <% examples.forEach(function(ex) { %>
-      <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 flex flex-col">
+      <div class="xs-card overflow-hidden flex flex-col">
         <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-          <h3 class="font-bold text-lg text-gray-800 truncate"><%= ex.title %></h3>
+          <h3 class="font-bold text-gray-800 truncate"><%= ex.title %></h3>
           <span class="text-xs font-mono text-white bg-pinky-400 px-2.5 py-1 rounded shrink-0 ml-2"><%= ex.lang %></span>
         </div>
         <div class="p-6 flex flex-col gap-4 flex-1">

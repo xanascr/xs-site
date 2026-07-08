@@ -12,20 +12,16 @@
 <link rel="alternate" hreflang="<%= a.lang %>" href="https://xanascript.xyz<%= a.href %>">
 <% }) %>
 
-<!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="XanaScript">
 <meta property="og:title" content="<%= typeof pageTitle !== 'undefined' ? pageTitle : 'XanaScript' %>">
 <meta property="og:description" content="<%= typeof pageDesc !== 'undefined' ? pageDesc : 'XanaScript is a programming language with Portuguese syntax, optimizing compiler, built-in ORM, and WebAssembly support.' %>">
 <meta property="og:url" content="https://xanascript.xyz/<%= lang === 'en' ? '' : lang + '/' %><%= typeof page !== 'undefined' && page !== 'home' ? page : '' %>">
 <meta property="og:locale" content="<%= lang === 'en' ? 'en_US' : lang === 'pt' ? 'pt_BR' : 'es_ES' %>">
-
-<!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="<%= typeof pageTitle !== 'undefined' ? pageTitle : 'XanaScript' %>">
 <meta name="twitter:description" content="<%= typeof pageDesc !== 'undefined' ? pageDesc : 'A programming language with Portuguese syntax, built-in ORM, and Wasm support.' %>">
 
-<!-- JSON-LD Structured Data -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -45,12 +41,127 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/tailwind.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="manifest" href="/manifest.json">
+<script>if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/sw.js'); }</script>
+
 <style>
+:root {
+  --pinky-50: #fef6f6;
+  --pinky-100: #fde8e8;
+  --pinky-200: #fbd5d5;
+  --pinky-300: #f8b4b4;
+  --pinky-400: #f58b8e;
+  --pinky-500: #e86a6e;
+  --pinky-600: #d44a4f;
+  --pinky-700: #b23a3e;
+  --pinky-800: #933337;
+  --pinky-900: #7a2d31;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+  --radius-card: 1rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-card-hover: 0 4px 16px rgba(232,106,110,0.12), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg: 0 10px 40px rgba(0,0,0,0.08);
+  --transition: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 html { scroll-behavior: smooth; scroll-padding-top: 72px; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: 'Montserrat', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 h1, h2, h3 { letter-spacing: -0.02em; }
 .font-black { letter-spacing: -0.03em; }
-.font-light { letter-spacing: 0.01em; }
-body { font-family: 'Montserrat', system-ui, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+/* ── Cards ── */
+.xs-card {
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  transition: all var(--transition);
+}
+.xs-card:hover {
+  border-color: var(--pinky-200);
+  box-shadow: var(--shadow-card-hover);
+}
+.xs-card-glass {
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(229,231,235,0.5);
+  border-radius: var(--radius-card);
+}
+.xs-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all var(--transition);
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+}
+.xs-btn-primary {
+  background: var(--pinky-400);
+  color: #fff;
+}
+.xs-btn-primary:hover {
+  background: var(--pinky-500);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(232,106,110,0.3);
+}
+.xs-btn-ghost {
+  background: transparent;
+  color: var(--gray-600);
+  border: 1px solid var(--gray-200);
+}
+.xs-btn-ghost:hover {
+  border-color: var(--pinky-300);
+  color: var(--pinky-500);
+  background: var(--pinky-50);
+}
+.xs-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  margin-bottom: 0.375rem;
+}
+.xs-input {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  transition: border-color var(--transition);
+  outline: none;
+  font-family: inherit;
+}
+.xs-input:focus {
+  border-color: var(--pinky-400);
+  box-shadow: 0 0 0 3px rgba(245,139,142,0.1);
+}
+
+/* ── Code blocks ── */
 .code-block pre { font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6; overflow-x: auto; }
 .code-block .kw { color: #e86a6e; font-weight: 600; }
 .code-block .str { color: #d97706; }
@@ -59,13 +170,29 @@ body { font-family: 'Montserrat', system-ui, sans-serif; -webkit-font-smoothing:
 .code-block .cm { color: #9ca3af; font-style: italic; }
 .code-block .typ { color: #8b5cf6; }
 p code, li code, td code { background: #fde8e8; color: #d44a4f; padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: .85em; }
+
+/* ── Animations ── */
 @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
 .animate-in { animation: fadeIn 0.5s ease-out both; }
 .animate-fade-in { animation: fadeIn 0.7s ease-out both; }
 .animate-slide-up { animation: fadeIn 0.7s ease-out 0.2s both; }
-#output::-webkit-scrollbar { width: 6px; }
-#output::-webkit-scrollbar-track { background: transparent; }
-#output::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+.animate-up { animation: fadeInUp 0.6s cubic-bezier(0.16,1,0.3,1) both; }
+.animate-up-1 { animation: fadeInUp 0.6s cubic-bezier(0.16,1,0.3,1) 0.1s both; }
+.animate-up-2 { animation: fadeInUp 0.6s cubic-bezier(0.16,1,0.3,1) 0.2s both; }
+.animate-up-3 { animation: fadeInUp 0.6s cubic-bezier(0.16,1,0.3,1) 0.3s both; }
+
+/* ── Scrollbar ── */
+#output::-webkit-scrollbar,
+pre::-webkit-scrollbar { width: 6px; height: 6px; }
+#output::-webkit-scrollbar-track,
+pre::-webkit-scrollbar-track { background: transparent; }
+#output::-webkit-scrollbar-thumb,
+pre::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+#output::-webkit-scrollbar-thumb:hover,
+pre::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+/* ── CodeMirror ── */
 .CodeMirror { height: 100% !important; font-family: 'JetBrains Mono', monospace; font-size: 13px; background: #fff; color: #374151; }
 .CodeMirror-gutters { background: #f9fafb; border-right: 1px solid #e5e7eb; }
 .CodeMirror-linenumber { color: #9ca3af; }
@@ -82,14 +209,12 @@ p code, li code, td code { background: #fde8e8; color: #d44a4f; padding: 2px 8px
 .cm-s-default .cm-atom { color: #059669; }
 .CodeMirror-activeline-background { background: #f3f4f6 !important; }
 .error-line-bg { background: rgba(245, 139, 142, 0.12) !important; }
-</style>
-<link rel="manifest" href="/manifest.json">
-<script>if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/sw.js'); }</script>
-<style>
+
+/* ── Cookie Consent ── */
 #cookieConsent { transition: transform 0.3s ease-out, opacity 0.3s ease-out; }
 #cookieConsent.hidden { transform: translateY(100%); opacity: 0; pointer-events: none; }
 
-/* ── Markdown / README Content Styles (GitHub-style) ───────────────────── */
+/* ── Markdown / README ── */
 .markdown-body { font-size: 15px; line-height: 1.7; word-wrap: break-word; color: #24292f; }
 .markdown-body h1 { font-size: 2em !important; font-weight: 700 !important; margin: 0.67em 0 0.3em !important; padding-bottom: 0.3em; border-bottom: 1px solid #d0d7de; letter-spacing: -0.02em; color: #1f2328 !important; line-height: 1.25 !important; }
 .markdown-body h2 { font-size: 1.5em !important; font-weight: 700 !important; margin: 1em 0 0.3em !important; padding-bottom: 0.25em; border-bottom: 1px solid #d0d7de; letter-spacing: -0.02em; color: #1f2328 !important; line-height: 1.25 !important; }
@@ -115,12 +240,9 @@ p code, li code, td code { background: #fde8e8; color: #d44a4f; padding: 2px 8px
 .markdown-body ol ol ol { list-style-type: lower-roman; }
 .markdown-body li { margin: 0.25em 0; }
 .markdown-body li > p { margin: 0 0 8px; }
-.markdown-body li.task-list-item { list-style: none; margin-left: -1.5em; }
-.markdown-body li.task-list-item input[type="checkbox"] { margin-right: 0.5em; }
 .markdown-body pre { margin: 0 0 16px; padding: 16px; background: #f6f8fa; border-radius: 8px; border: 1px solid #d0d7de; overflow-x: auto; font-size: 13px; line-height: 1.5; }
 .markdown-body pre code { background: none !important; padding: 0 !important; font-size: inherit !important; border-radius: 0 !important; color: #24292f !important; }
 .markdown-body code { background: #fde8e8; color: #d44a4f; padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.875em; }
-/* hl.js integration — let hljs classes take priority in pre blocks */
 .markdown-body pre code .hljs-keyword { color: #cf222e; font-weight: 600; }
 .markdown-body pre code .hljs-string { color: #0a3069; }
 .markdown-body pre code .hljs-number { color: #0550ae; }
@@ -157,12 +279,24 @@ p code, li code, td code { background: #fde8e8; color: #d44a4f; padding: 2px 8px
 
 <div id="cookieConsent" class="fixed bottom-0 left-0 right-0 z-50 bg-gray-900 text-white px-4 py-4 text-sm flex flex-col sm:flex-row items-center justify-between gap-3 shadow-2xl">
   <p class="text-gray-300 text-center sm:text-left text-xs sm:text-sm">We use only essential cookies for authentication. No tracking. <a href="<%= lang === 'en' ? '' : '/' + lang %>/privacy" class="text-pinky-400 hover:underline">Learn more</a></p>
-  <button id="cookieConsentBtn" class="bg-pinky-400 hover:bg-pinky-500 text-white font-semibold px-5 py-2 rounded-lg text-sm whitespace-nowrap transition-all">Got it</button>
+  <button id="cookieConsentBtn" class="xs-btn xs-btn-primary">Got it</button>
 </div>
 <script>
 if (localStorage.getItem('xs_cookie_consent')) document.getElementById('cookieConsent').classList.add('hidden');
 document.getElementById('cookieConsentBtn').addEventListener('click', function() {
   document.getElementById('cookieConsent').classList.add('hidden');
   localStorage.setItem('xs_cookie_consent','1');
+});
+document.addEventListener('click', function(e) {
+  var el = e.target.closest('[data-cmd]');
+  if (!el) { el = e.target.closest('.xs-cmd'); }
+  if (el) {
+    var text = el.getAttribute('data-cmd') || el.innerText.replace(/^\$\s*/, '').trim();
+    navigator.clipboard.writeText(text).then(function() {
+      var orig = el.innerHTML;
+      el.innerHTML = '<span class="text-green-500 text-xs font-semibold">Copied!</span>';
+      setTimeout(function() { el.innerHTML = orig; }, 1500);
+    }).catch(function() {});
+  }
 });
 </script>

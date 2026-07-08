@@ -2,29 +2,36 @@
 <%- include('../partials/navbar', { lang, t }) %>
 
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen flex items-center justify-center">
-  <div class="w-full max-w-sm">
-    <h1 class="text-3xl font-black text-center mb-8 uppercase tracking-wider">LOGIN</h1>
+  <div class="w-full max-w-sm animate-fade-in">
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pinky-50 border border-pinky-100 text-pinky-500 text-xs font-semibold mb-4">Welcome back</div>
+      <h1 class="text-3xl font-black">Login</h1>
+    </div>
 
-    <form id="loginForm" class="space-y-4">
-      <input name="username" type="text" placeholder="Username or email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-pinky-400">
-      <input name="password" type="password" placeholder="Password" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-pinky-400">
-      <div id="loginError" class="text-red-500 text-sm hidden"></div>
-      <button type="submit" class="w-full bg-pinky-400 hover:bg-pinky-500 text-white font-semibold py-3 rounded-xl transition-all">LOGIN</button>
-      <div id="resendVerify" class="text-center hidden">
-        <button id="resendBtn" class="text-pinky-400 hover:underline text-sm">Resend verification email</button>
-        <p id="resendMsg" class="text-green-500 text-xs hidden"></p>
-      </div>
-      <p class="text-center text-sm"><a href="<%= lang === 'en' ? '' : '/' + lang %>/forgot-password" class="text-pinky-400 hover:underline">Forgot password?</a></p>
-    </form>
+    <div class="xs-card p-6">
+      <form id="loginForm" class="space-y-4">
+        <input name="username" type="text" placeholder="Username or email" required class="xs-input">
+        <input name="password" type="password" placeholder="Password" required class="xs-input">
+        <div id="loginError" class="text-red-500 text-sm hidden"></div>
+        <button type="submit" class="xs-btn xs-btn-primary w-full justify-center">Login</button>
+        <div id="resendVerify" class="text-center hidden">
+          <button id="resendBtn" class="text-pinky-400 hover:underline text-sm">Resend verification email</button>
+          <p id="resendMsg" class="text-green-500 text-xs hidden"></p>
+        </div>
+        <p class="text-center text-sm"><a href="<%= lang === 'en' ? '' : '/' + lang %>/forgot-password" class="text-pinky-400 hover:underline">Forgot password?</a></p>
+      </form>
+    </div>
 
-    <form id="twofaForm" class="space-y-4 hidden">
-      <p class="text-sm text-gray-500 text-center">Enter the 6-digit code from your authenticator app or a backup code.</p>
-      <input name="code" type="text" placeholder="000000" inputmode="numeric" autocomplete="one-time-code" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-center text-2xl tracking-widest focus:outline-none focus:border-pinky-400">
-      <div id="twofaError" class="text-red-500 text-sm hidden"></div>
-      <button type="submit" class="w-full bg-pinky-400 hover:bg-pinky-500 text-white font-semibold py-3 rounded-xl transition-all">VERIFY</button>
-    </form>
+    <div class="xs-card p-6 mt-4 hidden" id="twofaCard">
+      <form id="twofaForm" class="space-y-4">
+        <p class="text-sm text-gray-500 text-center">Enter the 6-digit code from your authenticator app or a backup code.</p>
+        <input name="code" type="text" placeholder="000000" inputmode="numeric" autocomplete="one-time-code" required class="xs-input text-center text-2xl tracking-widest">
+        <div id="twofaError" class="text-red-500 text-sm hidden"></div>
+        <button type="submit" class="xs-btn xs-btn-primary w-full justify-center">Verify</button>
+      </form>
+    </div>
 
-    <p class="text-center text-sm text-gray-400 mt-4">No account? <a href="/<%= lang %>/signup" class="text-pinky-400 hover:underline">Sign up</a></p>
+    <p class="text-center text-sm text-gray-400 mt-6">No account? <a href="/<%= lang %>/signup" class="text-pinky-400 hover:underline font-semibold">Sign up</a></p>
   </div>
 </section>
 
@@ -36,7 +43,7 @@
   var twofaError = document.getElementById('twofaError');
   var tempToken = null;
 
-  loginForm.onsubmit = async function(e) {
+  loginForm.addEventListener('submit', async function(e) {
     e.preventDefault();
     var fd = new FormData(loginForm);
     loginError.classList.add('hidden');
@@ -57,8 +64,8 @@
       }
       if (data.require2fa) {
         tempToken = data.tempToken;
-        loginForm.classList.add('hidden');
-        twofaForm.classList.remove('hidden');
+        loginForm.closest('.xs-card').classList.add('hidden');
+        document.getElementById('twofaCard').classList.remove('hidden');
         return;
       }
       localStorage.setItem('xs_token', data.token);
@@ -68,9 +75,9 @@
       loginError.textContent = 'Network error';
       loginError.classList.remove('hidden');
     }
-  };
+  });
 
-  document.getElementById('resendBtn').onclick = async function() {
+  document.getElementById('resendBtn').addEventListener('click', async function() {
     var fd = new FormData(loginForm);
     var btn = document.getElementById('resendBtn');
     var msg = document.getElementById('resendMsg');
@@ -102,9 +109,9 @@
       btn.disabled = false;
       btn.textContent = 'Resend verification email';
     }
-  };
+  });
 
-  twofaForm.onsubmit = async function(e) {
+  twofaForm.addEventListener('submit', async function(e) {
     e.preventDefault();
     var fd = new FormData(twofaForm);
     twofaError.classList.add('hidden');
@@ -127,7 +134,7 @@
       twofaError.textContent = 'Network error';
       twofaError.classList.remove('hidden');
     }
-  };
+  });
 })();
 </script>
 

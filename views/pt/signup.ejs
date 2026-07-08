@@ -2,34 +2,40 @@
 <%- include('../partials/navbar', { lang, t }) %>
 
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen flex items-center justify-center">
-  <div class="w-full max-w-sm">
-    <h1 class="text-3xl font-black text-center mb-8 uppercase tracking-wider">CRIAR CONTA</h1>
-    <form id="signupForm" class="space-y-4">
-      <input name="username" type="text" placeholder="Usuario (3-32 caracteres)" pattern="^[a-z0-9_-]{3,32}$" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-pinky-400">
-      <input name="email" type="email" placeholder="Email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-pinky-400">
-      <input name="password" type="password" placeholder="Senha (min. 8 caracteres)" minlength="8" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-pinky-400">
+  <div class="w-full max-w-sm animate-fade-in">
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pinky-50 border border-pinky-100 text-pinky-500 text-xs font-semibold mb-4">Comece aqui</div>
+      <h1 class="text-3xl font-black">Criar Conta</h1>
+    </div>
 
-      <div class="bg-pinky-50 border border-pinky-200 rounded-xl p-4 space-y-3">
-        <label class="flex items-start gap-3 cursor-pointer">
-          <input type="checkbox" name="privacyConsent" required class="mt-0.5 accent-pinky-400 w-4 h-4 shrink-0">
-          <span class="text-xs text-gray-600 leading-relaxed">
-            Aceito a <a href="/<%= lang %>/privacy" class="text-pinky-500 hover:underline font-semibold">Politica de Privacidade</a> e autorizo o tratamento dos meus dados pessoais conforme a <strong class="text-gray-700">LGPD</strong>.
-          </span>
-        </label>
-        <p class="text-2xs text-gray-400 ml-7 leading-relaxed">
-          Seus dados sao usados apenas para autenticacao e gerenciamento de pacotes. Voce pode solicitar exportacao ou exclusao dos dados a qualquer momento.
-        </p>
-      </div>
+    <div class="xs-card p-6">
+      <form id="signupForm" class="space-y-4">
+        <input name="username" type="text" placeholder="Usuário (3-32 caracteres)" pattern="^[a-z0-9_-]{3,32}$" required class="xs-input">
+        <input name="email" type="email" placeholder="Email" required class="xs-input">
+        <input name="password" type="password" placeholder="Senha (mín. 8 caracteres)" minlength="8" required class="xs-input">
 
-      <div id="signupError" class="text-red-500 text-sm hidden"></div>
-      <button type="submit" class="w-full bg-pinky-400 hover:bg-pinky-500 text-white font-semibold py-3 rounded-xl transition-all">CRIAR CONTA</button>
-    </form>
-    <p class="text-center text-sm text-gray-400 mt-4">Ja tem conta? <a href="/<%= lang %>/login" class="text-pinky-400 hover:underline">Entrar</a></p>
+        <div class="bg-pinky-50 border border-pinky-200 rounded-xl p-4 space-y-3">
+          <label class="flex items-start gap-3 cursor-pointer">
+            <input type="checkbox" name="privacyConsent" required class="mt-0.5 accent-pinky-400 w-4 h-4 shrink-0">
+            <span class="text-xs text-gray-600 leading-relaxed">
+              Aceito a <a href="/<%= lang %>/privacy" class="text-pinky-500 hover:underline font-semibold">Política de Privacidade</a> e autorizo o tratamento dos meus dados pessoais conforme a <strong class="text-gray-700">LGPD</strong> (Lei Brasileira de Proteção de Dados).
+            </span>
+          </label>
+          <p class="text-xs text-gray-400 ml-7 leading-relaxed">
+            Seus dados são usados apenas para autenticação e gerenciamento de pacotes. Você pode solicitar exportação ou exclusão dos dados a qualquer momento.
+          </p>
+        </div>
+
+        <div id="signupError" class="text-red-500 text-sm hidden"></div>
+        <button type="submit" class="xs-btn xs-btn-primary w-full justify-center">Criar Conta</button>
+      </form>
+    </div>
+    <p class="text-center text-sm text-gray-400 mt-6">Já tem conta? <a href="/<%= lang %>/login" class="text-pinky-400 hover:underline font-semibold">Entrar</a></p>
   </div>
 </section>
 
 <script>
-document.getElementById('signupForm').onsubmit = async (e) => {
+document.getElementById('signupForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const fd = new FormData(e.target);
   const errEl = document.getElementById('signupError');
@@ -46,7 +52,7 @@ document.getElementById('signupForm').onsubmit = async (e) => {
     localStorage.setItem('xs_user', JSON.stringify(data.user));
     window.location.href = '/<%= lang %>/packages/dashboard';
   } catch (e) { errEl.textContent = 'Erro de rede'; errEl.classList.remove('hidden'); }
-};
+});
 </script>
 
 <%- include('../partials/footer', { lang, t }) %>
