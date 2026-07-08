@@ -253,6 +253,43 @@ router.post("/", auth, upload.single("file"), async (req, res) => {
   }
 });
 
+// ── Edit package metadata (no new version) ──────────────────────────────────
+router.put("/:name", auth, async (req, res) => {
+  try {
+    const { description, license, repository, keywords, readme, dependencies } = req.body;
+
+    const pkg = await Package.findOne({ name: req.params.name });
+    if (!pkg) return res.status(404).json({ ok: false, error: "Package not found" });
+    if (pkg.authorId && pkg.authorId.toString() !== req.user.id) {
+      return res.status(403).json({ ok: false, error: "You do not own this package" });
+    }
+
+    if (description !== undefined) pkg.description = description;
+    if (license !== undefined) pkg.license = license;
+    if (repository !== undefined) pkg.repository = repository;
+    if (keywords !== undefined) pkg.keywords = validateKeywords(keywords);
+    if (dependencies !== undefined) {
+      pkg.dependencies = Array.isArray(dependencies) ? dependencies.slice(0, 20) : [];
+    }
+    if (readme !== undefined) {
+      pkg.readme = readme;
+      pkg.readmeSanitized = sanitizeHtml(readme);
+    }
+
+    await pkg.save();
+
+    const redis = req.app.locals.redis;
+    if (redis) {
+      await redis.del(`cache:/api/packages`);
+      await redis.del(`cache:/api/packages/${req.params.name}`);
+    }
+
+    res.json({ ok: true, message: "Package updated" });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: "Internal server error" });
+  }
+});
+
 // ── Batch package upload ──────────────────────────────────────────────────
 router.post("/batch", auth, async (req, res) => {
   try {

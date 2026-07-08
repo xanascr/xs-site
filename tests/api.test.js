@@ -1164,3 +1164,99 @@ describe("Edge cases", () => {
     expect(res.status).toBe(401);
   });
 });
+
+// ═══════════════════════════════════════════════════════
+//  Package Edit (PUT)
+// ═══════════════════════════════════════════════════════
+
+describe("PUT /api/packages/:name", () => {
+  beforeEach(() => {
+    User.findById.mockReturnValue(makeQuery(makeUser()));
+  });
+
+  it("updates package description", async () => {
+    const pkg = makePackage({ name: "my-pkg", authorId: "user1" });
+    Package.findOne.mockResolvedValue(pkg);
+
+    const res = await request(app)
+      .put("/api/packages/my-pkg")
+      .set("Authorization", `Bearer ${regularToken()}`)
+      .send({ description: "Updated description" });
+
+    expect(res.status).toBe(200);
+    expect(res.body.ok).toBe(true);
+    expect(pkg.description).toBe("Updated description");
+    expect(pkg.save).toHaveBeenCalled();
+  });
+
+  it("updates readme and re-sanitizes it", async () => {
+    const pkg = makePackage({ name: "readme-pkg", authorId: "user1" });
+    Package.findOne.mockResolvedValue(pkg);
+
+    const res = await request(app)
+      .put("/api/packages/readme-pkg")
+      .set("Authorization", `Bearer ${regularToken()}`)
+      .send({ readme: "# Hello\nThis is **bold** and `code`" });
+
+    expect(res.status).toBe(200);
+    expect(pkg.readme).toBe("# Hello\nThis is **bold** and `code`");
+    expect(pkg.readmeSanitized).toContain("<h1");
+    expect(pkg.readmeSanitized).toContain("<strong>");
+    expect(pkg.readmeSanitized).toContain("<code>");
+    expect(pkg.save).toHaveBeenCalled();
+  });
+
+  it("updates multiple fields at once", async () => {
+    const pkg = makePackage({ name: "multi-pkg", authorId: "user1" });
+    Package.findOne.mockResolvedValue(pkg);
+
+    const res = await request(app)
+      .put("/api/packages/multi-pkg")
+      .set("Authorization", `Bearer ${regularToken()}`)
+      .send({
+        license: "Apache-2.0",
+        repository: "https://github.com/user/repo",
+        keywords: ["a", "b", "c"],
+      });
+
+    expect(res.status).toBe(200);
+    expect(pkg.license).toBe("Apache-2.0");
+    expect(pkg.repository).toBe("https://github.com/user/repo");
+    expect(pkg.keywords).toEqual(["a", "b", "c"]);
+    expect(pkg.save).toHaveBeenCalled();
+  });
+
+  it("returns 403 when editing another user's package", async () => {
+    const pkg = makePackage({ name: "others-pkg", authorId: "user-owner" });
+    Package.findOne.mockResolvedValue(pkg);
+
+    const res = await request(app)
+      .put("/api/packages/others-pkg")
+      .set("Authorization", `Bearer ${regularToken()}`)
+      .send({ description: "hacked" });
+
+    expect(res.status).toBe(403);
+    expect(res.body.error).toMatch(/do not own/i);
+    expect(pkg.save).not.toHaveBeenCalled();
+  });
+
+  it("returns 404 for nonexistent package", async () => {
+    Package.findOne.mockResolvedValue(null);
+
+    const res = await request(app)
+      .put("/api/packages/ghost")
+      .set("Authorization", `Bearer ${regularToken()}`)
+      .send({ description: "nope" });
+
+    expect(res.status).toBe(404);
+    expect(res.body.error).toMatch(/not found/i);
+  });
+
+  it("returns 401 without auth", async () => {
+    const res = await request(app)
+      .put("/api/packages/any-pkg")
+      .send({ description: "test" });
+
+    expect(res.status).toBe(401);
+  });
+});
