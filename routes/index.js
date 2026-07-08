@@ -4,6 +4,9 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import Package from "../models/Package.js";
+import Course from "../models/Course.js";
+import Enrollment from "../models/Enrollment.js";
+import Certificate from "../models/Certificate.js";
 import { sanitizeHtml } from "../services/sanitize.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -150,6 +153,94 @@ router.get("/:lang(en|pt|es)?/changelog", (req, res) => {
 router.get("/:lang(en|pt|es)?/login", (req, res) => {
   const lang = req.params.lang || "en";
   res.render(`${lang}/login`, { lang, page: "login" });
+});
+
+// ── Courses ──────────────────────────────────────────────────────────────
+router.get("/:lang(en|pt|es)?/courses", async (req, res) => {
+  const lang = req.params.lang || "en";
+  try {
+    const courses = await Course.find({ published: true }).select("title slug description image category level duration totalPoints").sort({ createdAt: -1 }).lean();
+    res.render(`${lang}/courses/index`, { lang, courses, page: "courses" });
+  } catch {
+    res.render(`${lang}/courses/index`, { lang, courses: [], page: "courses" });
+  }
+});
+
+router.get("/:lang(en|pt|es)?/courses/:slug", async (req, res) => {
+  const lang = req.params.lang || "en";
+  try {
+    const course = await Course.findOne({ slug: req.params.slug, published: true }).lean();
+    if (!course) return res.status(404).render(`${lang}/404`, { lang });
+    // Try to get enrollment if logged in
+    let enrollment = null;
+    const token = req.headers.cookie?.match(/token=([^;]+)/)?.[1];
+    if (token) {
+      try {
+        const jwt = (await import("jsonwebtoken")).default;
+        const payload = jwt.verify(token, process.env.JWT_SECRET);
+        enrollment = await Enrollment.findOne({ userId: payload.id, courseId: course._id }).lean();
+      } catch {}
+    }
+    res.render(`${lang}/courses/show`, { lang, course, enrollment, page: "courses" });
+  } catch {
+    res.status(404).render(`${lang}/404`, { lang });
+  }
+});
+
+router.get("/:lang(en|pt|es)?/courses/:slug/lessons/:lessonSlug", async (req, res) => {
+  const lang = req.params.lang || "en";
+  try {
+    const course = await Course.findOne({ slug: req.params.slug, published: true }).lean();
+    if (!course) return res.status(404).render(`${lang}/404`, { lang });
+    const lesson = course.lessons.find(l => l.slug === req.params.lessonSlug);
+    if (!lesson) return res.status(404).render(`${lang}/404`, { lang });
+
+    let enrollment = null;
+    const token = req.headers.cookie?.match(/token=([^;]+)/)?.[1];
+    if (token) {
+      try {
+        const jwt = (await import("jsonwebtoken")).default;
+        const payload = jwt.verify(token, process.env.JWT_SECRET);
+        enrollment = await Enrollment.findOne({ userId: payload.id, courseId: course._id }).lean();
+      } catch {}
+    }
+    res.render(`${lang}/courses/lesson`, { lang, course, lesson, enrollment, page: "courses" });
+  } catch {
+    res.status(404).render(`${lang}/404`, { lang });
+  }
+});
+
+router.get("/:lang(en|pt|es)?/courses/:slug/certificate", async (req, res) => {
+  const lang = req.params.lang || "en";
+  try {
+    const course = await Course.findOne({ slug: req.params.slug, published: true }).lean();
+    if (!course) return res.status(404).render(`${lang}/404`, { lang });
+
+    let enrollment = null;
+    let certificate = null;
+    const token = req.headers.cookie?.match(/token=([^;]+)/)?.[1];
+    if (token) {
+      try {
+        const jwt = (await import("jsonwebtoken")).default;
+        const payload = jwt.verify(token, process.env.JWT_SECRET);
+        enrollment = await Enrollment.findOne({ userId: payload.id, courseId: course._id }).lean();
+        certificate = await Certificate.findOne({ userId: payload.id, courseId: course._id }).lean();
+      } catch {}
+    }
+    res.render(`${lang}/courses/certificate`, { lang, course, enrollment, certificate, page: "courses" });
+  } catch {
+    res.status(404).render(`${lang}/404`, { lang });
+  }
+});
+
+router.get("/:lang(en|pt|es)?/certificates/validate", (req, res) => {
+  const lang = req.params.lang || "en";
+  res.render(`${lang}/certificates/validate`, { lang, page: "certificates", result: null });
+});
+
+router.get("/:lang(en|pt|es)?/admin/certificates", (req, res) => {
+  const lang = req.params.lang || "en";
+  res.render(`${lang}/admin/certificates`, { lang, page: "admin" });
 });
 
 router.get("/:lang(en|pt|es)?/signup", (req, res) => {

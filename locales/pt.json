@@ -53,5 +53,11 @@
   "donate.why3": "Apoia a comunidade open-source",
   "donate.thanks": "Obrigado pelo seu apoio!",
   "docs.title": "Documentacao",
-  "docs.subtitle": "Referencia completa da API da linguagem XanaScript."
+  "docs.subtitle": "Referencia completa da API da linguagem XanaScript.",
+  "course.enroll": "Inscrever-se",
+  "course.lessons": "licoes",
+  "course.points": "pts",
+  "course.selfPaced": "Auto-ritmo",
+  "course.certificate": "Certificado",
+  "course.validate": "Validar Certificado"
 }

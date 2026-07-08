@@ -11,6 +11,7 @@ import axios from "axios";
 import { i18n } from "./middleware/i18n.js";
 import indexRouter from "./routes/index.js";
 import apiPackagesRouter from "./routes/api/packages.js";
+import apiCoursesRouter from "./routes/api/courses.js";
 import authRouter from "./routes/auth.js";
 import adminRouter from "./routes/admin.js";
 import multer from "multer";
@@ -102,6 +103,7 @@ app.get("/api/health", async (req, res) => {
 app.use("/", indexRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/packages", apiPackagesRouter);
+app.use("/api/courses", apiCoursesRouter);
 app.use("/api/admin", adminRouter);
 
 app.use((req, res) => {

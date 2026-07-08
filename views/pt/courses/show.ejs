@@ -1,0 +1,90 @@
+<%- include('../../partials/head', { lang, t, alternates }) %>
+<%- include('../../partials/navbar', { lang, t }) %>
+
+<section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
+  <div class="max-w-4xl mx-auto">
+    <a href="/<%= lang %>/courses" class="text-sm text-gray-400 hover:text-pinky-400 no-underline mb-4 inline-block">&larr; Voltar aos cursos</a>
+
+    <div class="xs-card xs-card-glass animate-fade-in">
+      <% if (course.image) { %>
+        <img src="<%= course.image %>" alt="<%= course.title %>" class="w-full h-48 sm:h-64 object-cover rounded-t-2xl">
+      <% } %>
+      <div class="p-6 sm:p-8">
+        <div class="flex flex-wrap items-center gap-2 mb-4">
+          <span class="xs-tag xs-tag-primary"><%= course.category || 'General' %></span>
+          <span class="xs-tag xs-tag-ghost"><%= course.level || 'Beginner' %></span>
+          <span class="xs-tag xs-tag-ghost"><%= course.lessons ? course.lessons.length : 0 %> lessons</span>
+          <span class="xs-tag xs-tag-ghost"><%= course.totalPoints || 0 %> pts</span>
+        </div>
+
+        <h1 class="text-2xl sm:text-3xl font-black mb-3"><%= course.title %></h1>
+        <p class="text-gray-500 text-sm sm:text-base mb-6"><%= course.description || '' %></p>
+
+        <div class="flex items-center gap-3 mb-8">
+          <% if (!enrollment) { %>
+            <button id="enrollBtn" class="xs-btn xs-btn-primary"><%= t('course.enroll') || 'Inscrever-se' %></button>
+          <% } else { %>
+            <span class="inline-flex items-center gap-1.5 text-sm text-green-600 font-semibold bg-green-50 px-3 py-1.5 rounded-lg">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              Inscrito
+            </span>
+            <span class="text-sm text-gray-500"><%= enrollment.points || 0 %> / <%= course.totalPoints || 0 %> pts</span>
+          <% } %>
+        </div>
+
+        <!-- Lessons -->
+        <h2 class="text-xl font-bold mb-4">Conteudo do Curso</h2>
+        <div class="space-y-3">
+          <% (course.lessons || []).forEach(function(lesson) { %>
+            <% var idx = course.lessons.indexOf(lesson) %>
+            <% var prog = enrollment ? (enrollment.progress || []).find(function(p) { return p.lessonSlug === lesson.slug }) : null %>
+            <% var done = prog && prog.Concluido %>
+            <a href="/<%= lang %>/courses/<%= course.slug %>/lessons/<%= lesson.slug %>" class="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 no-underline transition-all hover:border-pinky-400 hover:shadow-sm <%= done ? 'border-green-200 bg-green-50/30' : '' %>">
+              <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold <%= done ? 'bg-green-500 text-white' : 'bg-gray-100 text-gray-400' %>">
+                <%= done ? '✓' : (idx + 1) %>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="font-semibold text-sm text-gray-800 truncate"><%= lesson.title %></div>
+                <div class="text-xs text-gray-400"><%= lesson.points || 0 %> pts</div>
+              </div>
+              <svg class="w-4 h-4 text-gray-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
+          <% }) %>
+        </div>
+
+        <% if (enrollment && enrollment.certificateEligible) { %>
+          <div class="mt-8 bg-amber-50 border border-amber-200 rounded-xl p-5">
+            <h3 class="font-bold text-amber-800 mb-2">Parabens!</h3>
+            <p class="text-sm text-amber-700 mb-4">Voce completou todas as licoes. Solicite seu certificado agora.</p>
+            <a href="/<%= lang %>/courses/<%= course.slug %>/certificate" class="xs-btn xs-btn-primary">Solicitar Certificado</a>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  var token = localStorage.getItem('xs_token');
+  if (!token) return;
+
+  var enrollBtn = document.getElementById('enrollBtn');
+  if (enrollBtn) {
+    enrollBtn.addEventListener('click', function() {
+      fetch('/api/courses/<%= course.slug %>/enroll', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token }
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (d.ok) { window.location.reload(); }
+        else { alert(d.error || 'Enrollment failed'); }
+      })
+      .catch(function() { alert('Network error'); });
+    });
+  }
+})();
+</script>
+
+<%- include('../../partials/footer', { lang, t }) %>

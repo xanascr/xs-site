@@ -1,0 +1,137 @@
+<%- include('../../partials/head', { lang, t, alternates }) %>
+<%- include('../../partials/navbar', { lang, t }) %>
+
+<div id="adminRoot" class="hidden">
+<section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
+  <div class="max-w-5xl mx-auto">
+    <h1 class="text-3xl font-black mb-2 animate-fade-in">Gestion de Certificados</h1>
+    <p class="text-gray-500 text-sm mb-6">Revisa, emite y rastrea certificados de cursos.</p>
+
+    <div class="flex gap-2 mb-6">
+      <button class="cert-tab xs-btn xs-btn-primary" data-status="Pendientes">Pendientes</button>
+      <button class="cert-tab xs-btn xs-btn-ghost" data-status="Emitidos">Emitidos</button>
+    </div>
+
+    <div id="certList" class="space-y-4">
+      <p class="text-center text-gray-400 text-sm py-8">Loading...</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<script>
+(function() {
+  var token = localStorage.getItem('xs_token');
+
+  if (!token) {
+    window.location.href = '/<%= lang %>/login';
+    return;
+  }
+
+  fetch('/api/auth/me', { headers: { 'Authorization': 'Bearer ' + token } })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (!data.ok || data.user.role !== 'admin') {
+        window.location.href = '/<%= lang %>/packages/dashboard';
+        return;
+      }
+      document.getElementById('adminRoot').classList.remove('hidden');
+      initAdmin(token);
+    })
+    .catch(function() {
+      window.location.href = '/<%= lang %>/login';
+    });
+
+  function initAdmin(tkn) {
+    var currentStatus = 'Pendientes';
+
+    function loadCerts(status) {
+      var list = document.getElementById('certList');
+      list.innerHTML = '<p class="text-center text-gray-400 text-sm py-8">Loading...</p>';
+
+      fetch('/api/courses/admin/certificates?status=' + status, { headers: { 'Authorization': 'Bearer ' + tkn } })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          list.innerHTML = '';
+          if (!data.ok || !data.certificates || data.certificates.length === 0) {
+            list.innerHTML = '<p class="text-center text-gray-400 text-sm py-8">No ' + status + ' certificates.</p>';
+            return;
+          }
+          data.certificates.forEach(function(cert) {
+            var div = document.createElement('div');
+            div.className = 'bg-white rounded-2xl border border-gray-200 p-5 transition-all hover:shadow-sm';
+
+            var actions = '';
+            if (cert.status === 'Pendientes') {
+              actions = '<div class="flex gap-2 mt-3">'
+                + '<button class="Emitir-btn xs-btn xs-btn-primary text-xs" data-code="' + cert.code + '">Emitir</button>'
+                + '</div>';
+            } else if (cert.status === 'Emitidos' && !cert.emailedAt) {
+              actions = '<div class="flex gap-2 mt-3">'
+                + '<button class="emailed-btn xs-btn xs-btn-ghost text-xs" data-code="' + cert.code + '">Marcar como Enviado</button>'
+                + '</div>';
+            }
+
+            var emailed = cert.emailedAt ? '<span class="text-xs text-green-600 ml-2">Emailed ' + new Date(cert.emailedAt).toLocaleDateString() + '</span>' : '';
+
+            div.innerHTML = '<div class="flex items-start justify-between">'
+              + '<div class="min-w-0">'
+              + '<div class="font-semibold text-gray-800">' + escapeHtml(cert.userName) + '</div>'
+              + '<div class="text-sm text-gray-500">' + escapeHtml(cert.courseName) + '</div>'
+              + '<div class="text-xs text-gray-400 mt-1">Code: <code class="font-mono bg-gray-50 px-1.5 py-0.5 rounded">' + escapeHtml(cert.code) + '</code></div>'
+              + '<div class="text-xs text-gray-400">Email: ' + escapeHtml(cert.userEmail) + ' | Points: ' + (cert.points || 0) + ' | Requested: ' + new Date(cert.createdAt).toLocaleDateString() + ' ' + emailed + '</div>'
+              + '</div>'
+              + '<span class="text-xs font-medium px-2 py-1 rounded ' + (cert.status === 'Emitidos' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700') + '">' + cert.status + '</span>'
+              + '</div>'
+              + actions;
+            list.appendChild(div);
+          });
+
+          document.querySelectorAll('.Emitir-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+              if (!confirm('Emitir this certificate? The user will be able to Validar it.')) return;
+              fetch('/api/courses/admin/certificates/' + this.dataset.code + '/Emitir', { method: 'POST', headers: { 'Authorization': 'Bearer ' + tkn } })
+                .then(function(r) { return r.json(); })
+                .then(function(d) { if (d.ok) loadCerts(currentStatus); });
+            });
+          });
+
+          document.querySelectorAll('.emailed-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+              fetch('/api/courses/admin/certificates/' + this.dataset.code + '/emailed', { method: 'POST', headers: { 'Authorization': 'Bearer ' + tkn } })
+                .then(function(r) { return r.json(); })
+                .then(function(d) { if (d.ok) loadCerts(currentStatus); });
+            });
+          });
+        })
+        .catch(function() {
+          list.innerHTML = '<p class="text-center text-red-400 text-sm py-8">Failed to load certificates.</p>';
+        });
+    }
+
+    document.querySelectorAll('.cert-tab').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.cert-tab').forEach(function(b) {
+          b.classList.remove('xs-btn-primary');
+          b.classList.add('xs-btn-ghost');
+        });
+        this.classList.remove('xs-btn-ghost');
+        this.classList.add('xs-btn-primary');
+        currentStatus = this.dataset.status;
+        loadCerts(currentStatus);
+      });
+    });
+
+    loadCerts('Pendientes');
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+})();
+</script>
+
+<%- include('../../partials/footer', { lang, t }) %>

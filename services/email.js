@@ -83,3 +83,11 @@ export async function send2FABackupCodes(email, username, codes) {
   });
   enqueue(sendMail, { to: email, subject: "Your XanaScript 2FA backup codes", html });
 }
+
+export async function sendCertificateIssued(email, username, courseName, code, points) {
+  const html = await renderTemplate("certificate-issued", {
+    username, courseName, code, points,
+    validateLink: `${SITE_URL}/${lang || "en"}/certificates/validate`,
+  });
+  enqueue(sendMail, { to: email, subject: `Certificate issued: ${courseName}`, html });
+}
