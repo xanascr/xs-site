@@ -1,17 +1,66 @@
 import { JSDOM } from "jsdom";
 import DOMPurify from "dompurify";
 import { marked } from "marked";
+import { markedHighlight } from "marked-highlight";
 import hljs from "highlight.js";
 
-marked.setOptions({
-  highlight: function (code, lang) {
+// Register XanaScript language for highlight.js
+hljs.registerLanguage("xs", function(hljs) {
+  const KEYWORDS = [
+    "CRIA", "SOLTA", "O", "GRITO", "SE", "LIGA", "SO",
+    "SENAO", "REPETE", "AI", "NA", "MORAL", "ENQUANTO",
+    "CHAMA", "ESSE", "CARA", "VOLTA", "TENTA", "PEGA",
+    "CLASSE", "HERDA", "CONSTRUTOR", "METODO", "ISTO",
+    "NOVA", "TABELA", "IMPORTA", "COMO", "AS",
+    "COMBINA", "CASO", "ASSINCRONO", "AGORA", "VAI",
+    "ESPERA", "TAREFA", "MACRO", "MEDE",
+    "VERDADEIRO", "FALSO", "NULO",
+    "SE_LIGA_SO", "SOLTA_O_GRITO", "SOLTA_O_GRITO",
+  ];
+  const TYPES = [
+    "TEXTO", "NUMERO", "BOOLEANO", "LISTA", "DICIONARIO",
+  ];
+  const BUILTINS = [
+    "TAMANHO", "PARSEIA", "OUVE_TUDO",
+    "TEXTO", "NUMERO",
+  ];
+
+  return {
+    name: "XanaScript",
+    aliases: ["xanascript"],
+    keywords: {
+      keyword: KEYWORDS,
+      type: TYPES,
+      built_in: BUILTINS,
+      literal: ["VERDADEIRO", "FALSO", "NULO"],
+    },
+    contains: [
+      hljs.HASH_COMMENT_MODE,
+      hljs.QUOTE_STRING_MODE,
+      hljs.C_NUMBER_MODE,
+      {
+        className: "string",
+        begin: /"/,
+        end: /"/,
+        contains: [{ begin: /\\./ }],
+      },
+    ],
+  };
+});
+
+marked.use(markedHighlight({
+  langPrefix: "hljs language-",
+  highlight(code, lang) {
     if (lang && hljs.getLanguage(lang)) {
       try {
-        return hljs.highlight(code, { language: lang }).value;
+        return hljs.highlight(code, { language: lang, ignoreIllegals: true }).value;
       } catch { }
     }
     return code;
   },
+}));
+
+marked.setOptions({
   gfm: true,
   breaks: true,
 });
