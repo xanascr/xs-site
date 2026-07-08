@@ -89,7 +89,7 @@
     localStorage.removeItem('xs_token');
     localStorage.removeItem('xs_user');
     window.location.href = '<%= lang === 'en' ? '' : '/' + lang %>/';
-  };
+  });
 
   function loadPackages() {
     fetch('/api/packages/mine', { headers: { 'Authorization': 'Bearer ' + token } })
