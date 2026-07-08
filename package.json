@@ -7,6 +7,7 @@
     "build:css": "tailwindcss -i ./src/tailwind.css -o ./public/css/tailwind.css --minify",
     "start": "node app.js",
     "dev": "node --watch app.js",
+    "seed": "node scripts/seed-course.js",
     "test": "vitest run",
     "test:watch": "vitest"
   },
