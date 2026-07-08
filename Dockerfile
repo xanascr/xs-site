@@ -1,8 +1,10 @@
 FROM node:22-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci --only=production
+RUN npm ci
 COPY . .
+RUN npm run build:css
+RUN npm prune --omit=dev && rm -rf src tailwind.config.js postcss.config.js
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 USER appuser
 EXPOSE 3010
