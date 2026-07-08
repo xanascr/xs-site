@@ -20,9 +20,21 @@ const app = express();
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-app.use(helmet({ contentSecurityPolicy: false }));
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "https://cdn.tailwindcss.com", "https://cdnjs.cloudflare.com", "'unsafe-inline'"],
+      styleSrc: ["'self'", "https://cdn.tailwindcss.com", "https://cdnjs.cloudflare.com", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'"],
+      fontSrc: ["'self'", "https://cdnjs.cloudflare.com"],
+    },
+  },
+}));
 app.use(morgan("short"));
 app.use(express.static(path.join(__dirname, "public")));
+app.set("trust proxy", 1);
 app.use(express.json({ limit: "1mb" }));
 app.use(i18n);
 
@@ -30,7 +42,7 @@ const sensitivePaths = ["/signup", "/login", "/2fa/verify", "/forgot-password", 
 const loginLimiter = (await import("express-rate-limit")).default({
   windowMs: 60 * 1000,
   max: 10,
-  validate: { xForwardedForHeader: false },
+  validate: { xForwardedForHeader: true },
   skip: req => !sensitivePaths.some(p => req.path === `/api/auth${p}`),
 });
 
@@ -103,11 +115,11 @@ app.use((err, req, res, next) => {
     return res.status(400).json({ ok: false, error: `Upload error: ${err.message}` });
   }
   if (err) {
-    console.error("Unhandled error:", err);
+    console.error("Unhandled error:", err.stack || err.message);
   }
   if (req.accepts("html")) {
     const fallbackLang = req.lang || "en";
-    return res.status(500).render(`${fallbackLang}/404`, { lang: fallbackLang });
+    return res.status(500).render(`${fallbackLang}/500`, { lang: fallbackLang, error: process.env.NODE_ENV === "development" ? err.message : "Internal server error" });
   }
   res.status(500).json({ ok: false, error: "Internal server error" });
 });
@@ -144,7 +156,7 @@ async function start() {
         },
         password: parsed.password ? decodeURIComponent(parsed.password) : undefined,
       });
-      redis.on("error", () => {});
+      redis.on("error", (err) => console.warn("Redis error:", err.message));
       await redis.connect();
       app.locals.redis = redis;
       console.log("Redis connected");

@@ -49,7 +49,7 @@ export async function sendVerificationEmail(email, username, token) {
 export async function sendPasswordResetEmail(email, username, token) {
   const html = await renderTemplate("reset-password", {
     username,
-    link: `${SITE_URL}/reset-password?token=${token}`,
+    link: `${SITE_URL}/reset-password/${token}`,
   });
   enqueue(sendMail, { to: email, subject: "Reset your XanaScript password", html });
 }

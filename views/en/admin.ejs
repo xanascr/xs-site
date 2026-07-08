@@ -174,7 +174,7 @@
           html += '</div>';
 
           if (pkg.readme) {
-            html += '<div class="border-t border-gray-100 px-6 py-4"><h3 class="font-bold text-gray-800 mb-3">README</h3><div class="prose prose-sm max-w-none text-gray-600">' + pkg.readme + '</div></div>';
+            html += '<div class="border-t border-gray-100 px-6 py-4"><h3 class="font-bold text-gray-800 mb-3">README</h3><div class="prose prose-sm max-w-none text-gray-600">' + escapeHtml(pkg.readme) + '</div></div>';
           }
 
           html += '<div class="border-t border-gray-100 px-6 py-4"><h3 class="font-bold text-gray-800 mb-3">Source Files</h3><div id="reviewSourceFiles"><p class="text-gray-400 text-sm">Loading source files...</p></div></div>';

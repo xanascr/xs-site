@@ -28,6 +28,9 @@ router.post("/signup", async (req, res) => {
     if (!username || !email || !password) {
       return res.status(400).json({ ok: false, error: "username, email, password required" });
     }
+    if (!/^[a-z0-9_-]{3,32}$/.test(username)) {
+      return res.status(400).json({ ok: false, error: "Username must be 3-32 characters, only lowercase letters, numbers, hyphens, and underscores" });
+    }
     if (password.length < 8) {
       return res.status(400).json({ ok: false, error: "Password must be at least 8 characters" });
     }

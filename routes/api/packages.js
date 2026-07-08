@@ -3,10 +3,11 @@ import multer from "multer";
 import semver from "semver";
 import fs from "fs";
 import path from "path";
-import { execSync } from "child_process";
+import { execFileSync } from "child_process";
 import Package from "../../models/Package.js";
 import { auth, optionalAuth } from "../../middleware/auth.js";
 import { cacheMiddleware } from "../../middleware/cache.js";
+import { sanitizeHtml } from "../../services/sanitize.js";
 import pkg from "aws4";
 const { sign } = pkg;
 
@@ -110,6 +111,7 @@ router.post("/", auth, upload.single("file"), async (req, res) => {
         repository: repository ?? existing.repository,
         keywords: validateKeywords(keywords).length > 0 ? validateKeywords(keywords) : existing.keywords,
         readme: readme ?? existing.readme,
+        readmeSanitized: readme ? sanitizeHtml(readme) : existing.readmeSanitized,
         s3Key: s3Key || existing.s3Key,
         fileSize: fileSize || existing.fileSize,
         authorId: existing.authorId || req.user.id,
@@ -125,6 +127,7 @@ router.post("/", auth, upload.single("file"), async (req, res) => {
         repository: repository || "",
         keywords: validateKeywords(keywords),
         readme: readme || "",
+        readmeSanitized: readme ? sanitizeHtml(readme) : "",
         s3Key,
         fileSize,
         authorId: req.user.id,
@@ -227,39 +230,45 @@ router.post("/batch", auth, async (req, res) => {
   }
 });
 
-router.get("/:name/source", async (req, res) => {
+router.get("/:name/source", auth, async (req, res) => {
   try {
-    const pkg = await Package.findOne({ name: req.params.name }).select("name s3Key status").lean();
+    const pkg = await Package.findOne({ name: req.params.name }).select("name s3Key status authorId").lean();
     if (!pkg || !pkg.s3Key) return res.status(404).json({ ok: false, error: "Source not available" });
+    if (pkg.status !== "approved" && pkg.authorId?.toString() !== req.user.id && req.user.role !== "admin") {
+      return res.status(403).json({ ok: false, error: "Source not available for unreviewed packages" });
+    }
 
     const data = await downloadFromSeaweedFS(req, pkg.s3Key);
     if (!data) return res.status(404).json({ ok: false, error: "Source not available" });
 
     const os = await import("os");
     const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "xs-pkg-"));
+    const realTmpDir = fs.realpathSync(tmpDir);
     try {
-      const tgzPath = path.join(tmpDir, "pkg.tar.gz");
+      const tgzPath = path.join(realTmpDir, "pkg.tar.gz");
       fs.writeFileSync(tgzPath, data);
-      execSync(`tar -xzf "${tgzPath}" -C "${tmpDir}"`, { stdio: "pipe" });
+      execFileSync("tar", ["-xzf", tgzPath, "-C", realTmpDir], { stdio: "pipe" });
 
       const files = [];
       function walk(dir) {
         for (const f of fs.readdirSync(dir)) {
           const full = path.join(dir, f);
-          if (fs.statSync(full).isDirectory()) {
-            walk(full);
+          const realFull = fs.realpathSync(full);
+          if (!realFull.startsWith(realTmpDir)) continue;
+          if (fs.statSync(realFull).isDirectory()) {
+            walk(realFull);
           } else {
-            const rel = path.relative(tmpDir, full);
-            const content = fs.readFileSync(full, "utf-8");
+            const rel = path.relative(realTmpDir, realFull);
+            const content = fs.readFileSync(realFull, "utf-8");
             files.push({ path: rel, content });
           }
         }
       }
-      walk(tmpDir);
+      walk(realTmpDir);
 
       res.json({ ok: true, files });
     } finally {
-      fs.rmSync(tmpDir, { recursive: true, force: true });
+      fs.rmSync(realTmpDir, { recursive: true, force: true });
     }
   } catch (e) {
     console.error("Source error:", e);
@@ -272,22 +281,15 @@ router.post("/:name/download", async (req, res) => {
     const pkg = await Package.findOne({ name: req.params.name, status: "approved" });
     if (!pkg) return res.status(404).json({ ok: false, error: "Package not found or not yet approved" });
 
-    await Package.updateOne({ _id: pkg._id }, { $inc: { downloads: 1 } });
-
     const key = pkg.s3Key || `${pkg.name}-${pkg.version}.tar.gz`;
     const data = await downloadFromSeaweedFS(req, key);
-    if (data) {
-      res.set("Content-Type", "application/gzip");
-      res.set("Content-Disposition", `attachment; filename="${pkg.name}-${pkg.version}.tar.gz"`);
-      return res.send(data);
-    }
+    if (!data) return res.status(404).json({ ok: false, error: "Source file not available" });
 
-    res.json({
-      ok: true,
-      name: pkg.name,
-      version: pkg.version,
-      downloads: pkg.downloads + 1,
-    });
+    await Package.updateOne({ _id: pkg._id }, { $inc: { downloads: 1 } });
+
+    res.set("Content-Type", "application/gzip");
+    res.set("Content-Disposition", `attachment; filename="${pkg.name}-${pkg.version}.tar.gz"`);
+    res.send(data);
   } catch (e) {
     res.status(500).json({ ok: false, error: "Internal server error" });
   }

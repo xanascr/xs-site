@@ -181,6 +181,11 @@ router.get("/:lang(en|pt|es)?/reset-password", (req, res) => {
   res.render(`${lang}/reset-password`, { lang, page: "reset-password", token: req.query.token || "" });
 });
 
+router.get("/:lang(en|pt|es)?/reset-password/:token", (req, res) => {
+  const lang = req.params.lang || "en";
+  res.render(`${lang}/reset-password`, { lang, page: "reset-password", token: req.params.token });
+});
+
 // ── Packages (lang-prefixed) ────────────────────────────────────────────
 function sanitizeSearch(q) {
   return (q || "").replace(/[(){}\[\]"'~*?\\-]/g, " ").trim().slice(0, 100);

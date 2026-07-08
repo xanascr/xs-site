@@ -4,7 +4,13 @@ const APP_NAME = "XanaScript";
 
 let _otplib = null;
 async function getOtplib() {
-  if (!_otplib) _otplib = await import("otplib/functional");
+  if (!_otplib) {
+    try {
+      _otplib = await import("otplib/functional");
+    } catch {
+      throw new Error("otplib not available in this environment");
+    }
+  }
   return _otplib;
 }
 
