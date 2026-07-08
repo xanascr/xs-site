@@ -75,23 +75,46 @@
   var token = localStorage.getItem('xs_token');
   var user = JSON.parse(localStorage.getItem('xs_user') || 'null');
   if (!token || !user) { window.location.href = '<%= lang === 'en' ? '' : '/' + lang %>/login'; return; }
-  var el = document.getElementById('userInfo');
-  if (el) el.textContent = 'Logged in as ' + user.username + ' (' + user.role + ')';
-  el = document.getElementById('editModal');
-  if (el) el.addEventListener('click', function(e) { if (e.target === this) closeEdit(); });
-  el = document.getElementById('editCloseBtn');
-  if (el) el.addEventListener('click', closeEdit);
-  el = document.getElementById('editCancelBtn');
-  if (el) el.addEventListener('click', closeEdit);
-  el = document.getElementById('logoutBtn');
-  if (el) el.addEventListener('click', async function() {
+
+  var closeEdit, openEdit, loadPackages;
+
+  document.getElementById('userInfo').textContent = 'Logged in as ' + user.username + ' (' + user.role + ')';
+  document.getElementById('editModal').addEventListener('click', function(e) { if (e.target === this) closeEdit(); });
+  document.getElementById('editCloseBtn').addEventListener('click', function() { closeEdit(); });
+  document.getElementById('editCancelBtn').addEventListener('click', function() { closeEdit(); });
+  document.getElementById('logoutBtn').addEventListener('click', async function() {
     try { await fetch('/api/auth/logout', { method:'POST', headers:{'Authorization':'Bearer '+token} }); } catch(_) {}
     localStorage.removeItem('xs_token');
     localStorage.removeItem('xs_user');
     window.location.href = '<%= lang === 'en' ? '' : '/' + lang %>/';
   });
 
-  function loadPackages() {
+  closeEdit = function() {
+    document.getElementById('editModal').classList.add('hidden');
+    document.getElementById('editModal').classList.remove('flex');
+  };
+
+  openEdit = function(name) {
+    fetch('/api/packages/' + name, { headers: { 'Authorization': 'Bearer ' + token } })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (!data.ok || !data.package) { alert('Failed to load package data'); return; }
+        var pkg = data.package;
+        document.getElementById('editModalTitle').textContent = 'Edit ' + pkg.name;
+        document.getElementById('editPkgName').value = pkg.name;
+        document.getElementById('editDesc').value = pkg.description || '';
+        document.getElementById('editKeywords').value = (pkg.keywords || []).join(', ');
+        document.getElementById('editLicense').value = pkg.license || '';
+        document.getElementById('editRepo').value = pkg.repository || '';
+        document.getElementById('editReadme').value = pkg.readme || '';
+        document.getElementById('editDeps').value = (pkg.dependencies || []).join(', ');
+        document.getElementById('editModal').classList.remove('hidden');
+        document.getElementById('editModal').classList.add('flex');
+        document.getElementById('editReadmePreview').classList.add('hidden');
+      });
+  };
+
+  loadPackages = function() {
     fetch('/api/packages/mine', { headers: { 'Authorization': 'Bearer ' + token } })
       .then(function(r) { return r.json(); })
       .then(function(data) {
@@ -127,39 +150,14 @@
         });
 
         document.querySelectorAll('.edit-btn').forEach(function(btn) {
-          btn.onclick = function() {
+          btn.addEventListener('click', function() {
             openEdit(this.dataset.name);
-          };
+          });
         });
       });
-  }
-
-  window.openEdit = function(name) {
-    fetch('/api/packages/' + name, { headers: { 'Authorization': 'Bearer ' + token } })
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
-        if (!data.ok || !data.package) { alert('Failed to load package data'); return; }
-        var pkg = data.package;
-        document.getElementById('editModalTitle').textContent = 'Edit ' + pkg.name;
-        document.getElementById('editPkgName').value = pkg.name;
-        document.getElementById('editDesc').value = pkg.description || '';
-        document.getElementById('editKeywords').value = (pkg.keywords || []).join(', ');
-        document.getElementById('editLicense').value = pkg.license || '';
-        document.getElementById('editRepo').value = pkg.repository || '';
-        document.getElementById('editReadme').value = pkg.readme || '';
-        document.getElementById('editDeps').value = (pkg.dependencies || []).join(', ');
-        document.getElementById('editModal').classList.remove('hidden');
-        document.getElementById('editModal').classList.add('flex');
-        document.getElementById('editReadmePreview').classList.add('hidden');
-      });
   };
 
-  window.closeEdit = function() {
-    document.getElementById('editModal').classList.add('hidden');
-    document.getElementById('editModal').classList.remove('flex');
-  };
-
-  document.getElementById('editSaveBtn').onclick = function() {
+  document.getElementById('editSaveBtn').addEventListener('click', function() {
     var name = document.getElementById('editPkgName').value;
     var keywords = document.getElementById('editKeywords').value.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; });
     var deps = document.getElementById('editDeps').value.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; });
@@ -186,10 +184,9 @@
         loadPackages();
       })
       .catch(function() { alert('Network error'); btn.disabled = false; btn.textContent = 'Save'; });
-  };
+  });
 
-  // Live README preview
-  document.getElementById('editReadme').oninput = function() {
+  document.getElementById('editReadme').addEventListener('input', function() {
     var val = this.value.trim();
     var preview = document.getElementById('editReadmePreview');
     if (!val) { preview.classList.add('hidden'); return; }
@@ -213,7 +210,7 @@
           document.getElementById('editPreviewContent').innerHTML = '<div class="text-xs text-gray-400">Preview unavailable offline.</div>';
         });
     }, 500);
-  };
+  });
 
   function escapeHtml(str) {
     if (!str) return '';
