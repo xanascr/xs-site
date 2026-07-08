@@ -1,5 +1,5 @@
 const CACHE = "xanascript-v1";
-const ASSETS = ["/", "/en/", "/pt/", "/es/"];
+const ASSETS = ["/", "/en/", "/pt/", "/es/", "/manifest.json"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(
@@ -12,7 +12,10 @@ self.addEventListener("activate", (e) => {
 });
 
 self.addEventListener("fetch", (e) => {
-  if (e.request.method !== "GET") return;
+  // Only cache same-origin GET requests (skip CDN resources)
+  const url = new URL(e.request.url);
+  if (e.request.method !== "GET" || url.origin !== self.location.origin) return;
+
   e.respondWith(
     caches.match(e.request).then((hit) => {
       if (hit) {

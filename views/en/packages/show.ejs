@@ -1,6 +1,8 @@
 <%- include('../../partials/head', { lang, t, alternates }) %>
 <%- include('../../partials/navbar', { lang, t }) %>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
 
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
   <div class="max-w-4xl mx-auto">
@@ -142,9 +144,22 @@ function switchVersion(version) {
           + '<pre class="p-4 text-xs leading-relaxed font-mono text-gray-700 bg-white overflow-x-auto max-h-96 scrollbar-thin"><code class="' + langClass + '">' + escapeHtml(file.content) + '</code></pre>';
         container.appendChild(div);
       });
+      // Highlight source files
+      if (typeof hljs !== 'undefined') {
+        document.querySelectorAll('#sourceFiles pre code').forEach(function(block) {
+          hljs.highlightElement(block);
+        });
+      }
     }
   } catch (e) {
     document.getElementById('sourceFiles').innerHTML = '<p class="text-gray-400 text-sm">Source files unavailable.</p>';
+  }
+
+  // Highlight README code blocks
+  if (typeof hljs !== 'undefined') {
+    document.querySelectorAll('.markdown-body pre code').forEach(function(block) {
+      hljs.highlightElement(block);
+    });
   }
 
   function escapeHtml(str) {
