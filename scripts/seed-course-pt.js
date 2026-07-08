@@ -7854,10 +7854,11 @@ export async function seedCoursePt() {
   const course = await Course.create({
     title: "Curso Completo de XanaScript",
     slug: "curso-completo-xanascript",
+    lang: "pt",
     description: "Aprenda XanaScript do zero ao avançado. 156 aulas cobrindo cada aspecto da linguagem — sintaxe, orientação a objetos, ORM, WebAssembly, testes, macros, e muito mais.",
     image: "",
     category: "Programação",
-    level: "iniciante",
+    level: "beginner",
     duration: "40h",
     published: true,
     lessons: processedLessons,

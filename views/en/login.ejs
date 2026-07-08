@@ -70,7 +70,8 @@
       }
       localStorage.setItem('xs_token', data.token);
       localStorage.setItem('xs_user', JSON.stringify(data.user));
-      window.location.href = '/<%= lang %>/packages/dashboard';
+      var redirect = new URLSearchParams(window.location.search).get('redirect') || '/<%= lang %>/packages/dashboard';
+      window.location.href = redirect;
     } catch (e) {
       loginError.textContent = 'Network error';
       loginError.classList.remove('hidden');
@@ -129,7 +130,8 @@
       }
       localStorage.setItem('xs_token', data.token);
       localStorage.setItem('xs_user', JSON.stringify(data.user));
-      window.location.href = '/<%= lang %>/packages/dashboard';
+      var redirect = new URLSearchParams(window.location.search).get('redirect') || '/<%= lang %>/packages/dashboard';
+      window.location.href = redirect;
     } catch (e) {
       twofaError.textContent = 'Network error';
       twofaError.classList.remove('hidden');

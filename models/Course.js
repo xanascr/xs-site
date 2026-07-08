@@ -21,6 +21,7 @@ const courseSchema = new mongoose.Schema({
   slug: { type: String, required: true, unique: true },
   description: { type: String, default: "" },
   image: { type: String, default: "" },
+  lang: { type: String, enum: ["en", "pt", "es"], default: "en" },
   category: { type: String, default: "beginner" },
   level: { type: String, enum: ["beginner", "intermediate", "advanced"], default: "beginner" },
   duration: { type: String, default: "2h" },

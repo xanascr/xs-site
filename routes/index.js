@@ -159,7 +159,10 @@ router.get("/:lang(en|pt|es)?/login", (req, res) => {
 router.get("/:lang(en|pt|es)?/courses", async (req, res) => {
   const lang = req.params.lang || "en";
   try {
-    const courses = await Course.find({ published: true }).select("title slug description image category level duration totalPoints").sort({ createdAt: -1 }).lean();
+    let courses = await Course.find({ published: true, lang }).select("title slug description image category level duration totalPoints").sort({ createdAt: -1 }).lean();
+    if (!courses.length) {
+      courses = await Course.find({ published: true }).select("title slug description image category level duration totalPoints").sort({ createdAt: -1 }).lean();
+    }
     res.render(`${lang}/courses/index`, { lang, courses, page: "courses" });
   } catch {
     res.render(`${lang}/courses/index`, { lang, courses: [], page: "courses" });
