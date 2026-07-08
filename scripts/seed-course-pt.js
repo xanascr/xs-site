@@ -1,12 +1,14 @@
+import "dotenv/config";
 import mongoose from "mongoose";
 import Course from "../models/Course.js";
 
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/xs-site";
 
+
 const lessons = [
-  {
+{
     slug: "o-que-e-xanascript",
-    title: "O que é XanaScript?",
+    title: "O que e XanaScript?",
     order: 1,
     points: 5,
     bodyMd: `# What is XanaScript?
@@ -27,14 +29,13 @@ XanaScript is a **full programming language** designed entirely in Brazilian Por
 
 Code should read like it's written for humans. Every construct in XanaScript uses clear, intuitive Portuguese keywords so the intent is obvious at a glance.`,
     challenges: [
-      { question: "Como são tratadas palavras-chave multi-palavra como SE LIGA SO?", answer: "atômico", points: 3 },
-      { question: "XanaScript usa transpilador ou compilador nativo?", answer: "compilador nativo", points: 3 },
-      { question: "Qual é a filosofia por trás do XanaScript?", answer: "código deve ser lido como para humanos", points: 5 },
-    ],
-  },
-  {
-    slug: "instalacao-configuracao",
-    title: "Installation & Setup",
+      { question: "What type of tokens are multi-word keywords like SE LIGA SO treated as?", answer: "atomic", points: 3 },
+      { question: "Does XanaScript use a transpiler approach or a native compiler?", answer: "native compiler", points: 3 },
+      { question: "What is the philosophy behind XanaScript?", answer: "code should read like it is written for humans", points: 5 },
+    ],,
+{
+    slug: "instalacao-e-configuracao",
+    title: "Instalacao & Configuracao",
     order: 2,
     points: 5,
     bodyMd: `# Installation & Setup
@@ -67,12 +68,11 @@ xs --version
 
 Install \`vscode-xs\` from the marketplace for syntax highlighting, snippets, and LSP integration.`,
     challenges: [
-      { question: "Qual o comando npm para instalar XanaScript globalmente?", answer: "npm install -g xanascript", points: 3 },
-      { question: "Qual comando verifica se XanaScript está instalado?", answer: "xs --version", points: 3 },
-      { question: "Qual extensão VS Code fornece suporte ao XanaScript?", answer: "vscode-xs", points: 3 },
-    ],
-  },
-  {
+      { question: "What is the npm command to install XanaScript globally?", answer: "npm install -g xanascript", points: 3 },
+      { question: "What command verifies XanaScript is installed?", answer: "xs --version", points: 3 },
+      { question: "What VS Code extension provides XanaScript support?", answer: "vscode-xs", points: 3 },
+    ],,
+{
     slug: "seu-primeiro-programa",
     title: "Seu Primeiro Programa",
     order: 3,
@@ -118,14 +118,13 @@ SOLTA O GRITO("Ola, " + nome + "! Voce tem " + idade + " anos.")
    multi-line comment */
 \`\`\``,
     challenges: [
-      { question: "Qual palavra-chave declara uma variável em XanaScript?", answer: "CRIA", points: 3 },
-      { question: "Qual função imprime saída no console?", answer: "SOLTA O GRITO", points: 3 },
-      { question: "Qual comando executa um arquivo .xs?", answer: "xs run", points: 3 },
-    ],
-  },
-  {
-    slug: "variaveis-cria",
-    title: "Variáveis com CRIA",
+      { question: "What keyword declares a variable in XanaScript?", answer: "CRIA", points: 3 },
+      { question: "What function prints output to the console?", answer: "SOLTA O GRITO", points: 3 },
+      { question: "What command runs a .xs file?", answer: "xs run", points: 3 },
+    ],,
+{
+    slug: "variaveis-com-cria",
+    title: "Variaveis com CRIA",
     order: 4,
     points: 10,
     bodyMd: `# Variables with CRIA
@@ -167,13 +166,12 @@ SOLTA O GRITO(a + b + c)  // 6
 
 \`CRIA\` is block-scoped. Variables declared inside a block are not accessible outside.`,
     challenges: [
-      { question: "Qual palavra-chave declara uma variável mutável?", answer: "CRIA", points: 3 },
-      { question: "Uma variável CRIA pode ser reatribuída?", answer: "sim", points: 3 },
-      { question: "Variáveis CRIA têm escopo de bloco ou de função?", answer: "escopo de bloco", points: 5 },
-    ],
-  },
-  {
-    slug: "constantes-constante",
+      { question: "What keyword declares a mutable variable?", answer: "CRIA", points: 3 },
+      { question: "Can a CRIA variable be reassigned?", answer: "yes", points: 3 },
+      { question: "Are CRIA variables block-scoped or function-scoped?", answer: "block-scoped", points: 5 },
+    ],,
+{
+    slug: "constantes-com-constante",
     title: "Constantes com CONSTANTE",
     order: 5,
     points: 10,
@@ -211,14 +209,13 @@ CONSTANTE MAX_USERS = 100
 
 Always prefer \`CONSTANTE\` by default. Only use \`CRIA\` when the value needs to change.`,
     challenges: [
-      { question: "Qual palavra-chave cria uma variável imutável?", answer: "CONSTANTE", points: 3 },
-      { question: "Uma CONSTANTE pode ser reatribuída?", answer: "não", points: 3 },
-      { question: "Qual preferir por padrão: CRIA ou CONSTANTE?", answer: "CONSTANTE", points: 5 },
-    ],
-  },
-  {
+      { question: "What keyword creates an immutable variable?", answer: "CONSTANTE", points: 3 },
+      { question: "Can a CONSTANTE be reassigned?", answer: "no", points: 3 },
+      { question: "Which should you prefer by default: CRIA or CONSTANTE?", answer: "CONSTANTE", points: 5 },
+    ],,
+{
     slug: "comentarios",
-    title: "Comentários",
+    title: "Comentarios",
     order: 6,
     points: 5,
     bodyMd: `# Comments
@@ -253,11 +250,10 @@ CRIA y = 20
 
 Use multi-line comments for function documentation explaining what the function does. Good comments explain "why", not "what".`,
     challenges: [
-      { question: "Qual símbolo inicia um comentário de uma linha?", answer: "//", points: 3 },
-      { question: "Quais delimitadores envolvem um comentário multi-linha?", answer: "/* */", points: 3 },
-    ],
-  },
-  {
+      { question: "What symbol starts a single-line comment in XanaScript?", answer: "//", points: 3 },
+      { question: "What delimiters wrap a multi-line comment?", answer: "/* */", points: 3 },
+    ],,
+{
     slug: "tipos-de-dados",
     title: "Tipos de Dados",
     order: 7,
@@ -303,14 +299,13 @@ flexivel = 42  // OK
 
 Each type serves a specific purpose. Type inference handles them automatically.`,
     challenges: [
-      { question: "Quantos tipos de dados nativos o XanaScript possui?", answer: "5", points: 3 },
-      { question: "Qual é a palavra-chave para booleano verdadeiro?", answer: "VERDADEIRO", points: 3 },
-      { question: "Qual tipo permite qualquer valor ser atribuído?", answer: "QUALQUER", points: 3 },
-    ],
-  },
-  {
-    slug: "type-inference",
-    title: "Inferência de Tipos",
+      { question: "How many built-in data types does XanaScript have?", answer: "5", points: 3 },
+      { question: "What is the keyword for boolean true?", answer: "VERDADEIRO", points: 3 },
+      { question: "What type allows any value to be assigned?", answer: "QUALQUER", points: 3 },
+    ],,
+{
+    slug: "inferencia-de-tipos",
+    title: "Inferencia de Tipos",
     order: 8,
     points: 10,
     bodyMd: `# Type Inference
@@ -345,13 +340,12 @@ With QUALQUER, the type can change at runtime.
 For clarity, you can annotate types: \`CRIA nome: TEXTO = "Joao"\`.`,
     challenges: [
       { question: "What type is inferred for \"CRIA x = 42\"?", answer: "NUMERO", points: 3 },
-      { question: "Pode atribuir NUMERO a uma variável TEXTO?", answer: "não", points: 3 },
-      { question: "Qual tipo permite mudanças dinâmicas?", answer: "QUALQUER", points: 5 },
-    ],
-  },
-  {
-    slug: "strings-em-detalhe",
-    title: "Strings em Detalhe",
+      { question: "Can you assign a NUMERO to a TEXTO variable?", answer: "no", points: 3 },
+      { question: "What type allows dynamic changes?", answer: "QUALQUER", points: 5 },
+    ],,
+{
+    slug: "strings-em-detalhes",
+    title: "Strings em Detalhes",
     order: 9,
     points: 10,
     bodyMd: `# Strings in Depth
@@ -389,14 +383,13 @@ substituir(texto, "e", "eh")  // replace
 
 Use \`+\` to interpolate values into strings. Strings in XanaScript are immutable — methods return new strings.`,
     challenges: [
-      { question: "Qual operador concatena strings?", answer: "+", points: 3 },
-      { question: "Qual método retorna o comprimento?", answer: "tamanho", points: 3 },
-      { question: "Qual método converte para maiúsculas?", answer: "maiusculo", points: 3 },
-    ],
-  },
-  {
-    slug: "numeros-em-detalhe",
-    title: "Números em Detalhe",
+      { question: "What operator concatenates strings?", answer: "+", points: 3 },
+      { question: "What method returns string length?", answer: "tamanho", points: 3 },
+      { question: "What method converts a string to uppercase?", answer: "maiusculo", points: 3 },
+    ],,
+{
+    slug: "numeros-em-detalhes",
+    title: "Numeros em Detalhes",
     order: 10,
     points: 10,
     bodyMd: `# Numbers in Depth
@@ -443,12 +436,11 @@ x *= 2   // x = x * 2
 x /= 4   // x = x / 4
 \`\`\``,
     challenges: [
-      { question: "Qual operador calcula o resto da divisão?", answer: "%", points: 3 },
-      { question: "Qual é o operador de exponenciação?", answer: "**", points: 3 },
-      { question: "O que x += 5 faz?", answer: "adiciona 5 a x", points: 3 },
-    ],
-  },
-  {
+      { question: "What operator computes the remainder of division?", answer: "%", points: 3 },
+      { question: "What is the exponentiation operator?", answer: "**", points: 3 },
+      { question: "What does x += 5 do?", answer: "adds 5 to x", points: 3 },
+    ],,
+{
     slug: "booleanos",
     title: "Booleanos",
     order: 11,
@@ -485,13 +477,12 @@ SE LIGA SO ("") {
 }
 \`\`\``,
     challenges: [
-      { question: "Qual é a palavra-chave para booleano verdadeiro?", answer: "VERDADEIRO", points: 3 },
-      { question: "Qual palavra-chave representa AND lógico?", answer: "E", points: 3 },
-      { question: "Qual palavra-chave representa NOT lógico?", answer: "NAO", points: 3 },
-    ],
-  },
-  {
-    slug: "nulo-indefinido",
+      { question: "What is the keyword for boolean true?", answer: "VERDADEIRO", points: 3 },
+      { question: "What keyword represents logical AND?", answer: "E", points: 3 },
+      { question: "What keyword represents logical NOT?", answer: "NAO", points: 3 },
+    ],,
+{
+    slug: "nulo-e-indefinido",
     title: "Nulo e Indefinido",
     order: 12,
     points: 5,
@@ -531,14 +522,13 @@ CRIA nome = usuario ?? "Convidado"
 | null | Intentional empty |
 | undefined | Uninitialized |`,
     challenges: [
-      { question: "Qual valor representa vazio intencional?", answer: "null", points: 3 },
-      { question: "Qual operador fornece padrão para null/undefined?", answer: "??", points: 3 },
-      { question: "Diferença entre null e undefined?", answer: "null é intencional, undefined é não inicializado", points: 5 },
-    ],
-  },
-  {
-    slug: "type-conversion",
-    title: "Conversão de Tipos",
+      { question: "What value represents an intentional empty value?", answer: "null", points: 3 },
+      { question: "What operator provides a default for null/undefined?", answer: "??", points: 3 },
+      { question: "Difference between null and undefined?", answer: "null is intentional, undefined is uninitialized", points: 5 },
+    ],,
+{
+    slug: "conversao-de-tipos",
+    title: "Conversao de Tipos",
     order: 13,
     points: 10,
     bodyMd: `# Type Conversion
@@ -573,12 +563,11 @@ CRIA b4 = BOOLEANO(0)         // FALSO
 
 Numeric strings are implicitly converted in arithmetic contexts.`,
     challenges: [
-      { question: "Qual função converte valor para número?", answer: "NUMERO()", points: 3 },
-      { question: "Qual função converte valor para string?", answer: "TEXTO()", points: 3 },
-      { question: "O que BOOLEANO(0) retorna?", answer: "FALSO", points: 3 },
-    ],
-  },
-  {
+      { question: "What function converts a value to a number?", answer: "NUMERO()", points: 3 },
+      { question: "What function converts a value to a string?", answer: "TEXTO()", points: 3 },
+      { question: "What does BOOLEANO(0) return?", answer: "FALSO", points: 3 },
+    ],,
+{
     slug: "operadores",
     title: "Operadores",
     order: 14,
@@ -621,14 +610,13 @@ E   OU   NAO   !
 -x   +x   !x   x++   x--
 \`\`\``,
     challenges: [
-      { question: "Qual é o operador de módulo?", answer: "%", points: 3 },
-      { question: "Quais três palavras portuguesas são operadores lógicos?", answer: "E OU NAO", points: 3 },
-      { question: "What does \"x ?? y\" do?", answer: "retorna x se x não for null/undefined, senão y", points: 5 },
-    ],
-  },
-  {
+      { question: "What is the modulo operator?", answer: "%", points: 3 },
+      { question: "What three Portuguese words are used for logical operators?", answer: "E OU NAO", points: 3 },
+      { question: "What does \"x ?? y\" do?", answer: "returns x if x is not null/undefined, otherwise y", points: 5 },
+    ],,
+{
     slug: "precedencia-de-operadores",
-    title: "Precedência de Operadores",
+    title: "Precedencia de Operadores",
     order: 15,
     points: 5,
     bodyMd: `# Operator Precedence
@@ -661,12 +649,11 @@ VERDADEIRO OU FALSO E FALSO  // VERDADEIRO
 Use parentheses to clarify intent.`,
     challenges: [
       { question: "What is the result of \"2 + 3 * 4\"?", answer: "14", points: 3 },
-      { question: "Qual tem maior precedência: E ou OU?", answer: "E", points: 3 },
-    ],
-  },
-  {
+      { question: "Which has higher precedence: E or OU?", answer: "E", points: 3 },
+    ],,
+{
     slug: "se-liga-so",
-    title: "SE LIGA SO (If)",
+    title: "SE LIGA SO (Instrucoes If)",
     order: 16,
     points: 10,
     bodyMd: `# SE LIGA SO — If Statements
@@ -703,13 +690,12 @@ SE LIGA SO (logado) {
 
 Always use curly braces even for single statements.`,
     challenges: [
-      { question: "Qual palavra-chave inicia if?", answer: "SE LIGA SO", points: 3 },
-      { question: "A condição deve estar entre parênteses?", answer: "sim", points: 3 },
-    ],
-  },
-  {
+      { question: "What keyword starts an if statement in XanaScript?", answer: "SE LIGA SO", points: 3 },
+      { question: "Must the condition be wrapped in parentheses?", answer: "yes", points: 3 },
+    ],,
+{
     slug: "senao",
-    title: "SENAO (Else)",
+    title: "SENAO (Clausulas Else)",
     order: 17,
     points: 10,
     bodyMd: `# SENAO — Else Clauses
@@ -740,13 +726,12 @@ CHAMA ESSE CARA dividir(a, b) {
 
 The \`SENAO\` branch runs only when the condition is false, providing a complete fork in program flow.`,
     challenges: [
-      { question: "Qual palavra-chave representa else?", answer: "SENAO", points: 3 },
-      { question: "Quando o SENAO executa?", answer: "quando a condição do if é falsa", points: 3 },
-    ],
-  },
-  {
+      { question: "What keyword represents else in XanaScript?", answer: "SENAO", points: 3 },
+      { question: "When does the SENAO branch execute?", answer: "when the if condition is false", points: 3 },
+    ],,
+{
     slug: "senao-se",
-    title: "SENAO SE (Else If)",
+    title: "SENAO SE (Cadeias Else If)",
     order: 18,
     points: 10,
     bodyMd: `# SENAO SE — Else If Chains
@@ -781,14 +766,13 @@ SE LIGA SO (renda <= 2000) {
 
 Conditions are evaluated top-to-bottom. First match executes. Final SENAO is optional.`,
     challenges: [
-      { question: "Qual palavra-chave inicia else-if?", answer: "SENAO SE", points: 3 },
-      { question: "Quantos ramos executam em if-else if?", answer: "um", points: 3 },
-      { question: "O SENAO final é obrigatório?", answer: "não", points: 3 },
-    ],
-  },
-  {
-    slug: "condicionais-aninhadas",
-    title: "Condicionais Aninhadas",
+      { question: "What keyword starts an else-if branch?", answer: "SENAO SE", points: 3 },
+      { question: "How many branches execute in an if-else if chain?", answer: "one", points: 3 },
+      { question: "Is the final SENAO branch required?", answer: "no", points: 3 },
+    ],,
+{
+    slug: "condicionais-aninhados",
+    title: "Condicionais Aninhados",
     order: 19,
     points: 10,
     bodyMd: `# Nested Conditionals
@@ -821,13 +805,12 @@ VOLTA VERDADEIRO
 
 Indent each level by 2 spaces. Keep nesting to 3 levels or less.`,
     challenges: [
-      { question: "Qual técnica evita aninhamento profundo?", answer: "retornos antecipados", points: 3 },
-      { question: "Quantos níveis de aninhamento máximos?", answer: "3", points: 5 },
-    ],
-  },
-  {
+      { question: "What technique avoids deep nesting?", answer: "early returns", points: 3 },
+      { question: "How many levels of nesting is recommended maximum?", answer: "3", points: 5 },
+    ],,
+{
     slug: "expressoes-ternarias",
-    title: "Expressões Ternárias",
+    title: "Expressoes Ternarias/Condicionais",
     order: 20,
     points: 10,
     bodyMd: `# Ternary/Conditional Expressions
@@ -859,13 +842,12 @@ Ternary is an **expression** (returns a value). If/else is a **statement**.
 
 Use for simple binary choices. Avoid deep chaining.`,
     challenges: [
-      { question: "Qual operador cria expressão condicional?", answer: "? :", points: 3 },
-      { question: "Ternário é expressão ou declaração?", answer: "expressão", points: 5 },
-    ],
-  },
-  {
+      { question: "What operator creates a conditional expression?", answer: "? :", points: 3 },
+      { question: "Is ternary an expression or a statement?", answer: "expression", points: 5 },
+    ],,
+{
     slug: "combina-basico",
-    title: "COMBINA Básico (Switch)",
+    title: "COMBINA Basico (Switch/Match)",
     order: 21,
     points: 10,
     bodyMd: `# COMBINA Basics
@@ -900,13 +882,12 @@ CASO 400, 401, 403 => "Client Error"
 
 Each arm returns a value. Wildcard \`_\` matches anything.`,
     challenges: [
-      { question: "Qual palavra-chave inicia pattern matching?", answer: "COMBINA", points: 3 },
-      { question: "Qual palavra-chave define caso?", answer: "CASO", points: 3 },
-      { question: "Qual caractere é o curinga?", answer: "_", points: 3 },
-    ],
-  },
-  {
-    slug: "combina-intervalos",
+      { question: "What keyword starts pattern matching in XanaScript?", answer: "COMBINA", points: 3 },
+      { question: "What keyword defines a case?", answer: "CASO", points: 3 },
+      { question: "What character is the wildcard?", answer: "_", points: 3 },
+    ],,
+{
+    slug: "combina-com-intervalos",
     title: "COMBINA com Intervalos",
     order: 22,
     points: 10,
@@ -942,11 +923,10 @@ CASO >= 90 => "A"   // unreachable!
 
 Range matching makes COMBINA far more expressive than traditional switch statements.`,
     challenges: [
-      { question: "COMBINA pode usar >= nos braços CASO?", answer: "sim", points: 3 },
-      { question: "O que acontece se um range amplo vem antes de um restrito?", answer: "o caso restrito fica inalcançável", points: 5 },
-    ],
-  },
-  {
+      { question: "Can COMBINA use comparison operators like >= in CASO arms?", answer: "yes", points: 3 },
+      { question: "What happens if a broader range comes before a narrower one?", answer: "the narrower case becomes unreachable", points: 5 },
+    ],,
+{
     slug: "combina-curingas",
     title: "COMBINA Curingas (_)",
     order: 23,
@@ -979,13 +959,12 @@ COMBINA (cor) {
 
 The wildcard must be the **last** arm because it matches everything. Always include a \`_\` wildcard to handle unexpected values gracefully.`,
     challenges: [
-      { question: "Qual caractere é o curinga no COMBINA?", answer: "_", points: 3 },
-      { question: "Onde o curinga deve ser colocado?", answer: "último", points: 3 },
-    ],
-  },
-  {
+      { question: "What character is the wildcard in COMBINA?", answer: "_", points: 3 },
+      { question: "Where must the wildcard be placed?", answer: "last", points: 3 },
+    ],,
+{
     slug: "combina-expressoes",
-    title: "COMBINA Expressões",
+    title: "COMBINA Expressoes (Retornando Valores)",
     order: 24,
     points: 10,
     bodyMd: `# COMBINA Expressions
@@ -1026,13 +1005,12 @@ CHAMA ESSE CARA tipoDia(d) {
 
 Using COMBINA as expression leads to more declarative code.`,
     challenges: [
-      { question: "COMBINA é declaração ou expressão?", answer: "expressão", points: 3 },
-      { question: "O que todos os braços de COMBINA devem retornar?", answer: "the same type", points: 3 },
-    ],
-  },
-  {
-    slug: "avaliacao-curto-circuito",
-    title: "Avaliação de Curto-Circuito",
+      { question: "Is COMBINA a statement or an expression?", answer: "expression", points: 3 },
+      { question: "What should all arms of a COMBINA expression return?", answer: "the same type", points: 3 },
+    ],,
+{
+    slug: "avaliacao-de-curto-circuito",
+    title: "Avaliacao de Curto-Circuito",
     order: 25,
     points: 5,
     bodyMd: `# Short-Circuit Evaluation
@@ -1070,11 +1048,10 @@ CRIA display = nome OU "Visitante"
 SE LIGA SO (!dados OU !dados.nome) { VOLTA FALSO }
 \`\`\``,
     challenges: [
-      { question: "O que acontece em E se o esquerdo for FALSO?", answer: "o operando direito não é avaliado", points: 3 },
-      { question: "Qual operador para valor padrão?", answer: "OU", points: 3 },
-    ],
-  },
-  {
+      { question: "What happens in E if the left operand is FALSO?", answer: "the right operand is not evaluated", points: 3 },
+      { question: "What operator would you use for a default value pattern?", answer: "OU", points: 3 },
+    ],,
+{
     slug: "tipo-numero",
     title: "Tipo: NUMERO",
     order: 26,
@@ -1119,12 +1096,11 @@ CRIA b = 10 // 3  // 3 (integer division)
 
 \`//\` performs integer division (floor).`,
     challenges: [
-      { question: "Qual tipo são todos os números?", answer: "NUMERO", points: 3 },
-      { question: "Qual operador faz divisão inteira?", answer: "//", points: 5 },
-      { question: "Qual função inspeciona o tipo de um valor?", answer: "TIPO", points: 3 },
-    ],
-  },
-  {
+      { question: "What type are all numbers in XanaScript?", answer: "NUMERO", points: 3 },
+      { question: "What operator performs integer division?", answer: "//", points: 5 },
+      { question: "What function inspects a values type?", answer: "TIPO", points: 3 },
+    ],,
+{
     slug: "tipo-texto",
     title: "Tipo: TEXTO",
     order: 27,
@@ -1162,12 +1138,11 @@ CRIA saudacao = "Ola, \${nome}!"  // "Ola, Joao!"
 - \`[]\`: indexing (\`"abc"[1]\` → \`"b"\`)
 - \`[::]\`: slicing (\`"abcdef"[1:4]\` → \`"bcd"\`)`,
     challenges: [
-      { question: "Qual nome de tipo representa strings?", answer: "TEXTO", points: 3 },
-      { question: "Como interpolar uma variável em string?", answer: "${variavel}", points: 3 },
+      { question: "What type name represents strings in XanaScript?", answer: "TEXTO", points: 3 },
+      { question: "How do you interpolate a variable into a string?", answer: "${variable}", points: 3 },
       { question: "What does \"abc\" * 3 evaluate to?", answer: "abcabcabc", points: 5 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "tipo-booleano",
     title: "Tipo: BOOLEANO",
     order: 28,
@@ -1204,9 +1179,8 @@ SE LIGA SO (1)    { SOLTA O GRITO("truthy") }  // runs
       { question: "What are the two boolean values in XanaScript?", answer: "VERDADEIRO and FALSO", points: 3 },
       { question: "What values are falsy in XanaScript?", answer: "FALSO, 0, and empty string", points: 5 },
       { question: "What is the XOR operator?", answer: "XOU", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "tipo-lista",
     title: "Tipo: LISTA",
     order: 29,
@@ -1249,9 +1223,8 @@ Lists declared with \`CRIA\` are mutable. Use \`CONSTANTE\` for immutable.`,
       { question: "How do you access the last element of a list?", answer: "negative index -1", points: 3 },
       { question: "What method appends to a list?", answer: "empurra", points: 3 },
       { question: "What property gives the length of a list?", answer: "tamanho", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "tipo-dicionario",
     title: "Tipo: DICIONARIO",
     order: 30,
@@ -1296,11 +1269,10 @@ PARA CADA (chave EM user) {
 Keys are always strings. Values can be any type.`,
     challenges: [
       { question: "What type represents key-value maps?", answer: "DICIONARIO", points: 3 },
-      { question: "Can you use dot notation to access dictionary values?", answer: "sim", points: 3 },
+      { question: "Can you use dot notation to access dictionary values?", answer: "yes", points: 3 },
       { question: "What method removes a key from a dictionary?", answer: "tira", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "tipo-opcional",
     title: "Tipo: OPCIONAL",
     order: 31,
@@ -1349,11 +1321,10 @@ Optionals prevent null reference errors at compile time.`,
       { question: "What suffix makes a type optional?", answer: "?", points: 3 },
       { question: "What operator provides a default for null?", answer: "??", points: 3 },
       { question: "What operator provides safe property access?", answer: "?.", points: 5 },
-    ],
-  },
-  {
-    slug: "type-inference",
-    title: "Inferência de Tipos",
+    ],,
+{
+    slug: "inferencia-de-tipos",
+    title: "Inferencia de Tipos",
     order: 32,
     points: 10,
     bodyMd: `# Type Inference
@@ -1394,13 +1365,12 @@ CHAMA ESSE CARA busca(id: NUMERO): TEXTO? { ... }
 \`\`\``,
     challenges: [
       { question: "What type is x in: CRIA x = 42", answer: "NUMERO", points: 3 },
-      { question: "Are type annotations required in XanaScript?", answer: "não", points: 3 },
+      { question: "Are type annotations required in XanaScript?", answer: "no", points: 3 },
       { question: "When should you annotate types?", answer: "when inference is ambiguous or for documentation", points: 5 },
-    ],
-  },
-  {
-    slug: "type-conversion",
-    title: "Conversão de Tipos",
+    ],,
+{
+    slug: "conversao-de-tipos",
+    title: "Conversao de Tipos",
     order: 33,
     points: 10,
     bodyMd: `# Type Conversion
@@ -1446,14 +1416,13 @@ CRIA r = "Total: " + 42   // "Total: 42"
 
 Always prefer explicit conversion for clarity.`,
     challenges: [
-      { question: "Qual função converte valor para número?", answer: "NUMERO", points: 3 },
+      { question: "What function converts a value to a number?", answer: "NUMERO", points: 3 },
       { question: "What does \"Total: \" + 42 produce?", answer: "Total: 42", points: 3 },
       { question: "Should you rely on implicit coercion?", answer: "no, prefer explicit conversion", points: 5 },
-    ],
-  },
-  {
-    slug: "funcao-basico",
-    title: "Funções Básicas",
+    ],,
+{
+    slug: "basico-de-funcoes",
+    title: "Basico de Funcoes",
     order: 34,
     points: 5,
     bodyMd: `# Function Basics
@@ -1492,11 +1461,10 @@ Parameters and return types can be annotated. The return type follows the parame
     challenges: [
       { question: "What keyword declares a function?", answer: "CHAMA ESSE CARA", points: 3 },
       { question: "Where does the return type annotation go?", answer: "after the parameter list", points: 5 },
-      { question: "Can parameters have type annotations?", answer: "sim", points: 3 },
-    ],
-  },
-  {
-    slug: "retorno-de-funcao",
+      { question: "Can parameters have type annotations?", answer: "yes", points: 3 },
+    ],,
+{
+    slug: "valores-de-retorno",
     title: "Valores de Retorno",
     order: 35,
     points: 5,
@@ -1548,11 +1516,10 @@ CHAMA ESSE CARA minMax(lista) {
       { question: "What keyword returns a value?", answer: "VOLTA", points: 3 },
       { question: "What happens if the last expression has no semicolon?", answer: "it is returned implicitly", points: 5 },
       { question: "How do you return multiple values?", answer: "return an array or object", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "parametros-e-padroes",
-    title: "Parameters & Defaults",
+    title: "Parametros & Padroes",
     order: 36,
     points: 5,
     bodyMd: `# Parameters & Defaults
@@ -1604,11 +1571,10 @@ Calling with wrong argument count is a compile error.`,
       { question: "How do you define a default parameter?", answer: "param = valor", points: 3 },
       { question: "What syntax captures variable arguments?", answer: "...param", points: 3 },
       { question: "How do you simulate named parameters?", answer: "pass an object", points: 3 },
-    ],
-  },
-  {
-    slug: "funcoes-primeira-classe",
-    title: "Funções como Primeira-Classe",
+    ],,
+{
+    slug: "funcoes-como-primeira-classe",
+    title: "Funcoes como Primeira-Classe",
     order: 37,
     points: 10,
     bodyMd: `# Functions as First-Class
@@ -1651,14 +1617,13 @@ SOLTA O GRITO(triplicar(5))  // 15
 
 This enables closures and functional programming patterns.`,
     challenges: [
-      { question: "Can you assign a function to a variable?", answer: "sim", points: 3 },
+      { question: "Can you assign a function to a variable?", answer: "yes", points: 3 },
       { question: "What syntax creates an anonymous function?", answer: "CHAMA ESSE CARA (params) { body }", points: 3 },
       { question: "What is a closure?", answer: "a function that captures surrounding scope", points: 5 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "funcoes-flecha",
-    title: "Funções Flecha (=>)",
+    title: "Funcoes Flecha (=>)",
     order: 38,
     points: 10,
     bodyMd: `# Arrow Functions
@@ -1703,13 +1668,12 @@ CRIA processar = (x) => {
 - Cannot have a name (always anonymous)`,
     challenges: [
       { question: "What is the arrow function syntax?", answer: "(params) => expression", points: 3 },
-      { question: "Do arrow functions capture ISTO from the surrounding scope?", answer: "sim", points: 3 },
-      { question: "Can arrow functions be used as constructors?", answer: "não", points: 5 },
-    ],
-  },
-  {
+      { question: "Do arrow functions capture ISTO from the surrounding scope?", answer: "yes", points: 3 },
+      { question: "Can arrow functions be used as constructors?", answer: "no", points: 5 },
+    ],,
+{
     slug: "recursao",
-    title: "Recursão",
+    title: "Recursao",
     order: 39,
     points: 10,
     bodyMd: `# Recursion
@@ -1753,11 +1717,10 @@ Without tail recursion optimization, deep recursion can overflow the stack (>100
     challenges: [
       { question: "What optimization does the compiler apply to tail recursion?", answer: "converts to loop", points: 5 },
       { question: "How deep can recursion go before stack overflow?", answer: "about 10000 calls", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "funcoes-puras",
-    title: "Funções Puras",
+    title: "Funcoes Puras",
     order: 40,
     points: 10,
     bodyMd: `# Pure Functions
@@ -1803,11 +1766,10 @@ The compiler rejects side effects in \`PURO\` functions.`,
       { question: "What makes a function pure?", answer: "no side effects, deterministic", points: 3 },
       { question: "What keyword enforces purity?", answer: "PURO", points: 5 },
       { question: "Name one benefit of pure functions", answer: "easier to test / thread-safe / memoizable", points: 3 },
-    ],
-  },
-  {
-    slug: "sobrecarga-de-funcao",
-    title: "Sobrecarga de Função",
+    ],,
+{
+    slug: "sobrecarga-de-funcoes",
+    title: "Sobrecarga de Funcoes",
     order: 41,
     points: 10,
     bodyMd: `# Function Overloading
@@ -1845,11 +1807,10 @@ Overloading enables expressive APIs without different function names.`,
     challenges: [
       { question: "Can you have multiple functions with the same name?", answer: "yes, with different parameter types", points: 3 },
       { question: "What happens on ambiguous overload?", answer: "compile error", points: 3 },
-    ],
-  },
-  {
-    slug: "operacoes-de-lista",
-    title: "Operações de Lista",
+    ],,
+{
+    slug: "operacoes-com-lista",
+    title: "Operacoes com Lista",
     order: 42,
     points: 5,
     bodyMd: `# List Operations
@@ -1893,12 +1854,11 @@ Methods return new lists — original is unchanged.`,
     challenges: [
       { question: "What method transforms each element?", answer: "mapa", points: 3 },
       { question: "What method filters elements?", answer: "filtra", points: 3 },
-      { question: "Can list methods be chained?", answer: "sim", points: 3 },
-    ],
-  },
-  {
+      { question: "Can list methods be chained?", answer: "yes", points: 3 },
+    ],,
+{
     slug: "compreensao-de-lista",
-    title: "Compreensão de Lista",
+    title: "Compreensao de Lista",
     order: 43,
     points: 10,
     bodyMd: `# List Comprehensions
@@ -1932,10 +1892,9 @@ Comprehensions compile efficiently — similar performance to manual loops.`,
     challenges: [
       { question: "What syntax creates a list comprehension?", answer: "[expr PARA var EM list]", points: 3 },
       { question: "How do you add a filter to a comprehension?", answer: "SE condicao at the end", points: 3 },
-      { question: "Can comprehensions have nested loops?", answer: "sim", points: 3 },
-    ],
-  },
-  {
+      { question: "Can comprehensions have nested loops?", answer: "yes", points: 3 },
+    ],,
+{
     slug: "tipo-conjunto",
     title: "Tipo: CONJUNTO",
     order: 44,
@@ -1980,9 +1939,8 @@ PARA CADA (cor EM cores) {
       { question: "What type represents a set?", answer: "CONJUNTO", points: 3 },
       { question: "What operator computes union of two sets?", answer: "+", points: 3 },
       { question: "What operator computes intersection?", answer: "*", points: 5 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "tipo-tupla",
     title: "Tipo: TUPLA",
     order: 45,
@@ -2021,11 +1979,10 @@ CRIA par: (TEXTO, NUMERO) = ("chave", 42)
 Tuples are immutable by default. Use them for returning multiple values from functions.`,
     challenges: [
       { question: "How do you destructure a tuple?", answer: "(var1, var2) = tuple", points: 3 },
-      { question: "Are tuples mutable by default?", answer: "não", points: 3 },
+      { question: "Are tuples mutable by default?", answer: "no", points: 3 },
       { question: "When should you use a tuple over a list?", answer: "for fixed-size collections with position-typed elements", points: 5 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "tipo-intervalo",
     title: "Tipo: INTERVALO",
     order: 46,
@@ -2071,10 +2028,9 @@ Ranges are lazy — elements are computed on demand.`,
       { question: "How do you create an inclusive range from 1 to 5?", answer: "1..5", points: 3 },
       { question: "How do you create a range with a step?", answer: "start..end..step", points: 3 },
       { question: "What operator checks membership in a range?", answer: "EM", points: 3 },
-    ],
-  },
-  {
-    slug: "iteracao-para-cada",
+    ],,
+{
+    slug: "loop-para-cada",
     title: "Loop PARA CADA",
     order: 47,
     points: 5,
@@ -2121,10 +2077,9 @@ PARA CADA (n EM nums) {
       { question: "What keyword iterates over a collection?", answer: "PARA CADA", points: 3 },
       { question: "How do you access the index in PARA CADA?", answer: "destructure (i, item) with comIndice()", points: 5 },
       { question: "What keyword breaks out of a loop?", answer: "INTERROMPE", points: 3 },
-    ],
-  },
-  {
-    slug: "iteracao-enquanto",
+    ],,
+{
+    slug: "loop-enquanto",
     title: "Loop ENQUANTO",
     order: 48,
     points: 5,
@@ -2166,11 +2121,10 @@ Use \`ENQUANTO\` when the number of iterations is unknown. Use \`PARA CADA\` for
       { question: "What keyword starts a while loop?", answer: "ENQUANTO", points: 3 },
       { question: "What is the do-while syntax?", answer: "FAZ { ... } ENQUANTO (cond)", points: 5 },
       { question: "When should you use ENQUANTO over PARA CADA?", answer: "when iteration count is unknown", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "controle-de-loop",
-    title: "Loop Control: CONTINUE & INTERROMPE",
+    title: "Controle de Loop: CONTINUE & INTERROMPE",
     order: 49,
     points: 5,
     bodyMd: `# Loop Control
@@ -2215,11 +2169,10 @@ Labels make complex loop control readable and precise.`,
       { question: "What skips to the next iteration?", answer: "CONTINUE", points: 3 },
       { question: "What exits the loop entirely?", answer: "INTERROMPE", points: 3 },
       { question: "How do you break from an outer loop?", answer: "label: INTERROMPE label", points: 5 },
-    ],
-  },
-  {
-    slug: "classe-basico",
-    title: "Classes com CLASSE",
+    ],,
+{
+    slug: "basico-de-classes",
+    title: "Basico de Classes com CLASSE",
     order: 50,
     points: 5,
     bodyMd: `# Class Basics
@@ -2260,10 +2213,9 @@ The \`init\` method acts as the constructor.`,
       { question: "What keyword defines a class?", answer: "CLASSE", points: 3 },
       { question: "What keyword refers to the current instance?", answer: "ISTO", points: 3 },
       { question: "What method acts as the constructor?", answer: "init", points: 3 },
-    ],
-  },
-  {
-    slug: "construtor-de-classe",
+    ],,
+{
+    slug: "construtores-de-classe",
     title: "Construtores de Classe",
     order: 51,
     points: 5,
@@ -2322,11 +2274,10 @@ CLASSE User {
       { question: "What method is the constructor?", answer: "init", points: 3 },
       { question: "Can a class have multiple constructors?", answer: "yes, via overloading", points: 5 },
       { question: "What keyword defines a static method?", answer: "ESTATICO", points: 3 },
-    ],
-  },
-  {
-    slug: "metodos-instancia-estaticos",
-    title: "Instance & Static Methods",
+    ],,
+{
+    slug: "metodos-de-classe",
+    title: "Metodos de Instancia & Estaticos",
     order: 52,
     points: 5,
     bodyMd: `# Instance & Static Methods
@@ -2377,9 +2328,8 @@ CLASSE Pessoa {
       { question: "What keyword defines a static method?", answer: "ESTATICO", points: 3 },
       { question: "What keyword defines a getter?", answer: "PEGA", points: 3 },
       { question: "What keyword defines a setter?", answer: "COLOCA", points: 5 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "encapsulamento",
     title: "Encapsulamento",
     order: 53,
@@ -2435,9 +2385,8 @@ Encapsulation reduces coupling and prevents misuse.`,
       { question: "What prefix conventionally marks private members?", answer: "_", points: 3 },
       { question: "What keyword enforces private access?", answer: "PRIVADO", points: 5 },
       { question: "What is a benefit of encapsulation?", answer: "reduces coupling / prevents misuse", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "propriedades-computadas",
     title: "Propriedades Computadas",
     order: 54,
@@ -2490,10 +2439,9 @@ Computed properties look like fields but execute code on access.`,
     challenges: [
       { question: "What defines a getter?", answer: "PEGA", points: 3 },
       { question: "What defines a setter?", answer: "COLOCA", points: 3 },
-      { question: "Can computed properties have both get and set?", answer: "sim", points: 3 },
-    ],
-  },
-  {
+      { question: "Can computed properties have both get and set?", answer: "yes", points: 3 },
+    ],,
+{
     slug: "sobrecarga-de-operadores",
     title: "Sobrecarga de Operadores",
     order: 55,
@@ -2542,12 +2490,11 @@ Operators make custom types feel native.`,
     challenges: [
       { question: "What keyword defines operator overloading?", answer: "OPERADOR", points: 3 },
       { question: "Which operator can you use for string conversion?", answer: "OPERADOR TEXTO", points: 5 },
-      { question: "Can overloading make code more readable?", answer: "sim", points: 3 },
-    ],
-  },
-  {
+      { question: "Can overloading make code more readable?", answer: "yes", points: 3 },
+    ],,
+{
     slug: "composicao-vs-heranca",
-    title: "Composição vs Herança",
+    title: "Composicao vs Heranca",
     order: 56,
     points: 10,
     bodyMd: `# Composition vs Inheritance
@@ -2594,11 +2541,10 @@ Use \`EXTENDE\` for true subtype relationships, composition for code reuse.`,
       { question: "Should you prefer composition or inheritance?", answer: "composition", points: 3 },
       { question: "When is inheritance appropriate?", answer: "when there is a clear is-a relationship", points: 5 },
       { question: "What keyword extends a class?", answer: "EXTENDE", points: 3 },
-    ],
-  },
-  {
-    slug: "membros-estaticos-singleton",
-    title: "Static Members & Singleton",
+    ],,
+{
+    slug: "membros-estaticos",
+    title: "Membros Estaticos & Singleton",
     order: 57,
     points: 10,
     bodyMd: `# Static Members & Singleton
@@ -2645,13 +2591,12 @@ CLASSE DatabasePool {
 Static members are initialized lazily.`,
     challenges: [
       { question: "What keyword makes a member static?", answer: "ESTATICO", points: 3 },
-      { question: "Are static properties shared across instances?", answer: "sim", points: 3 },
+      { question: "Are static properties shared across instances?", answer: "yes", points: 3 },
       { question: "Can the init constructor be private?", answer: "yes, with PRIVADO", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "heranca-com-extende",
-    title: "Herança com EXTENDE",
+    title: "Heranca com EXTENDE",
     order: 58,
     points: 5,
     bodyMd: `# Inheritance Basics
@@ -2694,12 +2639,11 @@ CLASSE Gato EXTENDE Animal {
     challenges: [
       { question: "What keyword extends a class?", answer: "EXTENDE", points: 3 },
       { question: "How do you call a parent method?", answer: "SUPER.metodo()", points: 3 },
-      { question: "Can a child class inherit properties?", answer: "sim", points: 3 },
-    ],
-  },
-  {
-    slug: "sobrescrita-de-metodo",
-    title: "Sobrescrição de Método",
+      { question: "Can a child class inherit properties?", answer: "yes", points: 3 },
+    ],,
+{
+    slug: "sobrescrita-de-metodos",
+    title: "Sobrescrita de Metodos",
     order: 59,
     points: 5,
     bodyMd: `# Method Overriding
@@ -2748,10 +2692,9 @@ CLASSE Abstrata Forma {
     challenges: [
       { question: "What keyword prevents method overriding?", answer: "FINAL", points: 3 },
       { question: "How do you define an abstract method?", answer: "declare without a body", points: 5 },
-      { question: "Can abstract classes be instantiated?", answer: "não", points: 3 },
-    ],
-  },
-  {
+      { question: "Can abstract classes be instantiated?", answer: "no", points: 3 },
+    ],,
+{
     slug: "polimorfismo",
     title: "Polimorfismo",
     order: 60,
@@ -2795,9 +2738,8 @@ Polymorphism enables flexible, extensible designs without conditionals.`,
       { question: "What is polymorphism?", answer: "objects of different types respond to the same interface", points: 3 },
       { question: "Does polymorphism require inheritance?", answer: "no, duck typing works too", points: 5 },
       { question: "What is a benefit of polymorphism?", answer: "reduces conditionals, enables extensibility", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "classes-abstratas",
     title: "Classes Abstratas",
     order: 61,
@@ -2831,13 +2773,12 @@ CLASSE Quadrado EXTENDE Forma {
 
 Abstract classes provide a contract plus shared implementation.`,
     challenges: [
-      { question: "Can you instantiate an abstract class?", answer: "não", points: 3 },
+      { question: "Can you instantiate an abstract class?", answer: "no", points: 3 },
       { question: "What annotation makes a class abstract?", answer: "Abstrata", points: 5 },
-      { question: "Must child classes implement all abstract methods?", answer: "sim", points: 3 },
-    ],
-  },
-  {
-    slug: "interfaces-protocolo",
+      { question: "Must child classes implement all abstract methods?", answer: "yes", points: 3 },
+    ],,
+{
+    slug: "interfaces-com-protocolo",
     title: "Interfaces com PROTOCOLO",
     order: 62,
     points: 10,
@@ -2881,12 +2822,11 @@ Protocols support multiple inheritance of contracts without the diamond problem.
     challenges: [
       { question: "What keyword defines an interface?", answer: "PROTOCOLO", points: 3 },
       { question: "What keyword implements a protocol?", answer: "IMPLEMENTA", points: 3 },
-      { question: "Can a class implement multiple protocols?", answer: "sim", points: 3 },
-    ],
-  },
-  {
-    slug: "heranca-multipla-via-protocolos",
-    title: "Multiple Inheritance via Protocols",
+      { question: "Can a class implement multiple protocols?", answer: "yes", points: 3 },
+    ],,
+{
+    slug: "heranca-multipla",
+    title: "Heranca Multipla via Protocolos",
     order: 63,
     points: 10,
     bodyMd: `# Multiple Inheritance
@@ -2927,14 +2867,13 @@ Protocols are nominal — you must explicitly declare \`IMPLEMENTA\`. This ensur
 
 Use protocols when different classes share capabilities but not hierarchy.`,
     challenges: [
-      { question: "Can a class implement two protocols?", answer: "sim", points: 3 },
+      { question: "Can a class implement two protocols?", answer: "yes", points: 3 },
       { question: "Are XanaScript protocols nominal or structural?", answer: "nominal", points: 5 },
       { question: "Why use protocols over abstract classes?", answer: "when sharing capabilities across unrelated hierarchies", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "injecao-de-dependencia",
-    title: "Injeção de Dependência",
+    title: "Injecao de Dependencia",
     order: 64,
     points: 10,
     bodyMd: `# Dependency Injection
@@ -2981,12 +2920,11 @@ DI enables testing with mocks and swapping implementations.`,
     challenges: [
       { question: "What is dependency injection?", answer: "passing dependencies rather than creating them internally", points: 3 },
       { question: "What is a benefit of DI?", answer: "easier testing and swapping implementations", points: 5 },
-      { question: "Does DI work well with protocols?", answer: "sim", points: 3 },
-    ],
-  },
-  {
+      { question: "Does DI work well with protocols?", answer: "yes", points: 3 },
+    ],,
+{
     slug: "principios-solid",
-    title: "Princípios SOLID",
+    title: "Principios SOLID",
     order: 65,
     points: 10,
     bodyMd: `# SOLID Principles
@@ -3030,11 +2968,10 @@ Following SOLID yields maintainable, testable code.`,
       { question: "What does the S in SOLID stand for?", answer: "Single Responsibility", points: 3 },
       { question: "What does the D in SOLID stand for?", answer: "Dependency Inversion", points: 3 },
       { question: "What does Liskov Substitution mean?", answer: "subtypes must be substitutable for base types", points: 5 },
-    ],
-  },
-  {
-    slug: "tratamento-de-erros-tente",
-    title: "Tratamento de Erros (TENTE)",
+    ],,
+{
+    slug: "tratamento-de-erros-com-tente",
+    title: "Tratamento de Erros com TENTE",
     order: 66,
     points: 5,
     bodyMd: `# Error Handling
@@ -3080,11 +3017,10 @@ Use \`TENTE\` for operations that may fail.`,
       { question: "What keyword starts a try block?", answer: "TENTE", points: 3 },
       { question: "What keyword catches an error?", answer: "CAPTURA", points: 3 },
       { question: "What block always executes?", answer: "FINALLY", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "lancando-erros",
-    title: "Lançando Erros",
+    title: "Lancando Erros",
     order: 67,
     points: 5,
     bodyMd: `# Throwing Errors
@@ -3132,13 +3068,12 @@ CAPTURA (erro) {
 Only throw errors for exceptional situations, not control flow.`,
     challenges: [
       { question: "What keyword throws an error?", answer: "JOGAR", points: 3 },
-      { question: "Can you throw a string?", answer: "sim", points: 3 },
+      { question: "Can you throw a string?", answer: "yes", points: 3 },
       { question: "What pattern rethrows a caught error?", answer: "JOGAR erro inside CAPTURA", points: 3 },
-    ],
-  },
-  {
-    slug: "erros-customizados",
-    title: "Erros Customizados",
+    ],,
+{
+    slug: "classes-de-erro-personalizadas",
+    title: "Classes de Erro Personalizadas",
     order: 68,
     points: 10,
     bodyMd: `# Custom Error Classes
@@ -3184,11 +3119,10 @@ Custom errors enable precise error handling with domain-specific data.`,
     challenges: [
       { question: "How do you create a custom error?", answer: "extend Erro class", points: 3 },
       { question: "Why use custom errors?", answer: "for domain-specific error data and precise handling", points: 5 },
-    ],
-  },
-  {
-    slug: "padroes-de-erro",
-    title: "Padrões de Erro",
+    ],,
+{
+    slug: "padroes-de-tratamento-de-erro",
+    title: "Padroes de Tratamento de Erro",
     order: 69,
     points: 10,
     bodyMd: `# Error Handling Patterns
@@ -3241,11 +3175,10 @@ SE LIGA SO (r.sucesso) {
       { question: "What pattern checks conditions early?", answer: "guard clause", points: 3 },
       { question: "What is an alternative to exceptions?", answer: "Result pattern", points: 5 },
       { question: "What type does a guard clause use?", answer: "JOGAR / throw", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "validacao-de-entrada",
-    title: "Validação de Entrada",
+    title: "Validacao de Entrada",
     order: 70,
     points: 5,
     bodyMd: `# Input Validation
@@ -3290,14 +3223,13 @@ CRIA erros = valida(dados, regras)
 
 Always validate external input before processing.`,
     challenges: [
-      { question: "Should you validate inputs before processing?", answer: "sim", points: 3 },
+      { question: "Should you validate inputs before processing?", answer: "yes", points: 3 },
       { question: "What is a validation rule?", answer: "a condition that input must satisfy", points: 3 },
       { question: "Where should validation happen?", answer: "at system boundaries (API, forms)", points: 3 },
-    ],
-  },
-  {
-    slug: "logging-de-erros",
-    title: "Logging de Erros",
+    ],,
+{
+    slug: "registro-de-erros",
+    title: "Registro de Erros",
     order: 71,
     points: 5,
     bodyMd: `# Error Logging
@@ -3346,11 +3278,10 @@ Log enough to diagnose problems, not so much that logs are noise.`,
       { question: "What log level is for errors?", answer: "ERRO", points: 3 },
       { question: "Why use structured logging?", answer: "for machine-parseable, searchable logs", points: 5 },
       { question: "What is the trade-off with logging?", answer: "too much = noise, too little = undiagnosable", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "estrategias-de-recuperacao",
-    title: "Estratégias de Recuperação",
+    title: "Estrategias de Recuperacao de Erros",
     order: 72,
     points: 10,
     bodyMd: `# Error Recovery
@@ -3403,11 +3334,10 @@ Choose recovery strategy based on error type and system requirements.`,
       { question: "What pattern retries a failed operation?", answer: "retry pattern", points: 3 },
       { question: "What pattern stops calling a failing service?", answer: "circuit breaker", points: 5 },
       { question: "Should all errors be retried?", answer: "no, only transient errors", points: 3 },
-    ],
-  },
-  {
-    slug: "boas-praticas-de-erro",
-    title: "Boas Práticas de Erro",
+    ],,
+{
+    slug: "melhores-praticas-de-erro",
+    title: "Melhores Praticas de Tratamento de Erros",
     order: 73,
     points: 10,
     bodyMd: `# Best Practices
@@ -3453,13 +3383,12 @@ Document what errors a function can throw.
 Following these practices prevents silent failures and data corruption.`,
     challenges: [
       { question: "What does fail fast mean?", answer: "detect errors as early as possible", points: 3 },
-      { question: "Is it OK to swallow errors?", answer: "não", points: 3 },
+      { question: "Is it OK to swallow errors?", answer: "no", points: 3 },
       { question: "Where should cleanup code go?", answer: "FINALLY block", points: 3 },
-    ],
-  },
-  {
-    slug: "modulos-basico",
-    title: "Módulos Básicos",
+    ],,
+{
+    slug: "basico-de-modulos",
+    title: "Basico de Modulos",
     order: 74,
     points: 5,
     bodyMd: `# Module Basics
@@ -3506,12 +3435,11 @@ Every file can have one default export and multiple named exports.`,
     challenges: [
       { question: "What keyword exports a value?", answer: "export", points: 3 },
       { question: "What keyword imports a value?", answer: "import", points: 3 },
-      { question: "How many default exports can a module have?", answer: "um", points: 3 },
-    ],
-  },
-  {
-    slug: "imports-exports-nomeados",
-    title: "Imports/Exports Nomeados",
+      { question: "How many default exports can a module have?", answer: "one", points: 3 },
+    ],,
+{
+    slug: "importacoes-exportacoes-nomeadas",
+    title: "Importacoes/Exportacoes Nomeadas",
     order: 75,
     points: 5,
     bodyMd: `# Named Imports/Exports
@@ -3560,11 +3488,10 @@ Named imports are explicit and enable tree-shaking.`,
       { question: "How do you alias an import?", answer: "import { Original as Alias }", points: 3 },
       { question: "How do you import everything from a module?", answer: "import * as name", points: 3 },
       { question: "What is the main benefit of named imports?", answer: "tree-shaking and explicit dependencies", points: 5 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "resolucao-de-modulos",
-    title: "Resolução de Módulos",
+    title: "Resolucao de Modulos",
     order: 76,
     points: 5,
     bodyMd: `# Module Resolution
@@ -3608,11 +3535,10 @@ The compiler caches resolved paths for fast recompilation.`,
       { question: "What prefix denotes a relative import?", answer: "./ or ../", points: 3 },
       { question: "What prefix denotes built-in modules?", answer: "xs:", points: 3 },
       { question: "Where does the compiler look for package imports?", answer: "node_modules", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "dependencias-circulares",
-    title: "Dependências Circulares",
+    title: "Dependencias Circulares",
     order: 77,
     points: 10,
     bodyMd: `# Circular Dependencies
@@ -3655,9 +3581,8 @@ Cycles are sometimes unavoidable but should be minimized.`,
     challenges: [
       { question: "Can XanaScript handle circular dependencies?", answer: "yes, with hoisted exports", points: 3 },
       { question: "What is the best way to resolve cycles?", answer: "extract shared logic into a third module", points: 5 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "criando-pacotes",
     title: "Criando Pacotes",
     order: 78,
@@ -3715,11 +3640,10 @@ Packages enable code sharing across projects and with the community.`,
       { question: "What file configures a package?", answer: "package.json", points: 3 },
       { question: "What field specifies the entry point?", answer: "main or xs.entry", points: 3 },
       { question: "How do you publish a package?", answer: "xs publish or npm publish", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "carregamento-preguicoso",
-    title: "Carregamento Preguiçoso",
+    title: "Carregamento Preguicoso",
     order: 79,
     points: 10,
     bodyMd: `# Lazy Loading
@@ -3763,11 +3687,10 @@ Use lazy loading for rarely-used features or platform-specific code.`,
       { question: "What function dynamically imports a module?", answer: "import()", points: 3 },
       { question: "What is a benefit of lazy loading?", answer: "faster startup / lower memory", points: 3 },
       { question: "When should you use lazy loading?", answer: "for rarely-used features or platform-specific code", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "escopo-de-modulo",
-    title: "Escopo de Módulo",
+    title: "Escopo de Modulo",
     order: 80,
     points: 5,
     bodyMd: `# Module Scope
@@ -3811,12 +3734,11 @@ Module scope prevents naming collisions and encourages encapsulation.`,
     challenges: [
       { question: "Are top-level variables automatically global?", answer: "no, they are module-scoped", points: 3 },
       { question: "What keyword creates a cross-module global?", answer: "global", points: 3 },
-      { question: "Are modules cached after first import?", answer: "sim", points: 3 },
-    ],
-  },
-  {
+      { question: "Are modules cached after first import?", answer: "yes", points: 3 },
+    ],,
+{
     slug: "padroes-de-modulo",
-    title: "Padrões de Módulo",
+    title: "Padroes de Modulo",
     order: 81,
     points: 5,
     bodyMd: `# Module Standards
@@ -3865,9 +3787,8 @@ Consistent structure makes navigation predictable.`,
       { question: "What naming convention is recommended for .xs files?", answer: "kebab-case", points: 3 },
       { question: "What is a barrel export?", answer: "re-exports from multiple files in one index", points: 3 },
       { question: "What should each module do?", answer: "one thing well with a clear API", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "leitura-de-arquivos",
     title: "Leitura de Arquivos",
     order: 82,
@@ -3919,9 +3840,8 @@ Always handle errors when reading files.`,
       { question: "What module provides file operations?", answer: "xs:fs", points: 3 },
       { question: "What function reads a file synchronously?", answer: "readFile", points: 3 },
       { question: "How do you read a file asynchronously?", answer: "readFileAsync with await", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "escrita-de-arquivos",
     title: "Escrita de Arquivos",
     order: 83,
@@ -3973,11 +3893,10 @@ Always close resources and handle write errors.`,
       { question: "What function writes to a file?", answer: "writeFile", points: 3 },
       { question: "What function appends to a file?", answer: "appendFile", points: 3 },
       { question: "What flag creates parent directories?", answer: "recursivo: true", points: 3 },
-    ],
-  },
-  {
-    slug: "json-em-arquivos",
-    title: "JSON em Arquivos",
+    ],,
+{
+    slug: "manipulacao-de-json",
+    title: "Manipulacao de JSON",
     order: 84,
     points: 10,
     bodyMd: `# JSON File Handling
@@ -4033,9 +3952,8 @@ JSON is the standard format for structured data exchange.`,
       { question: "What function parses a JSON string?", answer: "JSON.parse", points: 3 },
       { question: "What function serializes to JSON?", answer: "JSON.serializa", points: 3 },
       { question: "Why handle JSON parse errors?", answer: "because input may be malformed", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "fluxos-de-arquivo",
     title: "Fluxos de Arquivo",
     order: 85,
@@ -4087,11 +4005,10 @@ Streams prevent memory issues with files larger than available RAM.`,
       { question: "Why use streams for large files?", answer: "to avoid loading entire file into memory", points: 5 },
       { question: "What event provides data chunks?", answer: "dados", points: 3 },
       { question: "What method connects read to write stream?", answer: "pipe", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "manipulacao-de-caminhos",
-    title: "Manipulação de Caminhos",
+    title: "Manipulacao de Caminhos",
     order: 86,
     points: 5,
     bodyMd: `# Path Manipulation
@@ -4132,11 +4049,10 @@ Always use \`xs:path\` instead of string concatenation for paths.`,
       { question: "What module provides path utilities?", answer: "xs:path", points: 3 },
       { question: "What function joins path segments?", answer: "join", points: 3 },
       { question: "Why use join instead of string concatenation?", answer: "for platform-independent path separators", points: 3 },
-    ],
-  },
-  {
-    slug: "operacoes-de-diretorio",
-    title: "Operações de Diretório",
+    ],,
+{
+    slug: "operacoes-com-diretorios",
+    title: "Operacoes com Diretorios",
     order: 87,
     points: 5,
     bodyMd: `# Directory Operations
@@ -4187,11 +4103,10 @@ Directory operations support building tools like file watchers and build systems
       { question: "What function lists a directory?", answer: "readdir", points: 3 },
       { question: "What function finds files by pattern?", answer: "glob", points: 3 },
       { question: "What function watches for file changes?", answer: "watch", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "arquivos-temporarios",
-    title: "Arquivos Temporários",
+    title: "Arquivos Temporarios",
     order: 88,
     points: 5,
     bodyMd: `# Temporary Files
@@ -4233,11 +4148,10 @@ Temporary files isolate operations and prevent permanent clutter.`,
       { question: "What function creates a temporary file?", answer: "tmpFile", points: 3 },
       { question: "Should you clean up temporary files?", answer: "yes, in FINALLY block", points: 3 },
       { question: "What option sets the filename prefix?", answer: "prefix", points: 3 },
-    ],
-  },
-  {
-    slug: "codificacao-de-arquivo",
-    title: "Codificação de Arquivos",
+    ],,
+{
+    slug: "codificacao-de-arquivos",
+    title: "Codificacao de Arquivos",
     order: 89,
     points: 5,
     bodyMd: `# File Encodings
@@ -4284,11 +4198,10 @@ Using the correct encoding prevents data corruption with special characters.`,
       { question: "What encoding is default for text files?", answer: "utf8", points: 3 },
       { question: "What mode reads raw bytes?", answer: "binary", points: 3 },
       { question: "What function detects file encoding?", answer: "detectEncoding", points: 3 },
-    ],
-  },
-  {
-    slug: "async-com-prometa",
-    title: "Async com PROMETA",
+    ],,
+{
+    slug: "basico-de-assincrono-com-prometa",
+    title: "Basico de Assincrono com PROMETA",
     order: 90,
     points: 5,
     bodyMd: `# Async Basics
@@ -4326,9 +4239,8 @@ promessa
       { question: "What class creates promises?", answer: "PROMETA", points: 3 },
       { question: "What method handles success?", answer: "entao", points: 3 },
       { question: "What method handles failure?", answer: "captura", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "async-await",
     title: "Async/Await",
     order: 91,
@@ -4376,12 +4288,11 @@ CHAMA ESSE CARA ASSINCRONO seguro() {
     challenges: [
       { question: "What keyword makes a function async?", answer: "ASSINCRONO", points: 3 },
       { question: "What keyword awaits a promise?", answer: "await", points: 3 },
-      { question: "Can await be used in non-async functions?", answer: "não", points: 3 },
-    ],
-  },
-  {
+      { question: "Can await be used in non-async functions?", answer: "no", points: 3 },
+    ],,
+{
     slug: "execucao-paralela",
-    title: "Execução Paralela",
+    title: "Execucao Paralela",
     order: 92,
     points: 10,
     bodyMd: `# Parallel Execution
@@ -4433,11 +4344,10 @@ Parallel execution speeds up independent operations.`,
       { question: "What function waits for all promises?", answer: "PROMETA.tudo", points: 3 },
       { question: "What function waits for all regardless of outcome?", answer: "PROMETA.tudoResolvido", points: 5 },
       { question: "What function returns the first settled promise?", answer: "PROMETA.corrida", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "fila-assincrona",
-    title: "Async Queue & Throttling",
+    title: "Fila Assincrona & Throttling",
     order: 93,
     points: 10,
     bodyMd: `# Async Queue
@@ -4479,11 +4389,10 @@ Limiting concurrency prevents overwhelming resources.`,
     challenges: [
       { question: "What is a queue used for in async?", answer: "controlling concurrency", points: 3 },
       { question: "Why limit concurrent operations?", answer: "to prevent overwhelming resources", points: 5 },
-    ],
-  },
-  {
-    slug: "temporizadores",
-    title: "Timers & Intervals",
+    ],,
+{
+    slug: "timers-e-intervalos",
+    title: "Timers & Intervalos",
     order: 94,
     points: 5,
     bodyMd: `# Timers & Intervals
@@ -4536,10 +4445,9 @@ Always clear timers when no longer needed.`,
       { question: "What function schedules a one-time callback?", answer: "setTimeout", points: 3 },
       { question: "What function schedules repeated callbacks?", answer: "setInterval", points: 3 },
       { question: "How do you stop an interval?", answer: "clearInterval", points: 3 },
-    ],
-  },
-  {
-    slug: "workers",
+    ],,
+{
+    slug: "web-workers",
     title: "Web Workers / Threads",
     order: 95,
     points: 10,
@@ -4588,11 +4496,10 @@ Workers enable true parallelism for CPU-bound work.`,
       { question: "What module provides workers?", answer: "xs:workers", points: 3 },
       { question: "How do workers communicate?", answer: "via mensagem events / envia()", points: 3 },
       { question: "Why use a thread pool?", answer: "to limit concurrent threads and reuse them", points: 5 },
-    ],
-  },
-  {
-    slug: "emissor-eventos",
-    title: "Event Emitter",
+    ],,
+{
+    slug: "emissor-de-eventos",
+    title: "Emissor de Eventos",
     order: 96,
     points: 5,
     bodyMd: `# Event Emitter
@@ -4645,11 +4552,10 @@ Event emitters enable loose coupling between components.`,
       { question: "What method subscribes to an event?", answer: "em", points: 3 },
       { question: "What method emits an event?", answer: "emite", points: 3 },
       { question: "What method subscribes for a single event?", answer: "once", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "padroes-assincronos",
-    title: "Padrões Assíncronos",
+    title: "Padroes Assincronos",
     order: 97,
     points: 10,
     bodyMd: `# Async Patterns
@@ -4701,11 +4607,10 @@ Choose the right pattern for your use case.`,
       { question: "What is exponential backoff?", answer: "increasing delay between retries", points: 3 },
       { question: "How do you add a timeout to a promise?", answer: "Promise.race with a rejection timer", points: 5 },
       { question: "When should you use parallel execution?", answer: "when order does not matter", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "tipos-uniao",
-    title: "Tipos União",
+    title: "Tipos Uniao",
     order: 98,
     points: 5,
     bodyMd: `# Union Types
@@ -4753,11 +4658,10 @@ Unions express "this or that" without class hierarchies.`,
       { question: "What operator creates a union type?", answer: "|", points: 3 },
       { question: "What technique checks which union variant?", answer: "type narrowing / TIPO()", points: 3 },
       { question: "How do you match union variants?", answer: "COMBINA with CASO TIPO", points: 5 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "tipos-intersecao",
-    title: "Tipos Interseção",
+    title: "Tipos Intersecao",
     order: 99,
     points: 5,
     bodyMd: `# Intersection Types
@@ -4804,11 +4708,10 @@ Use \`&\` to merge type requirements.`,
       { question: "What operator creates an intersection type?", answer: "&", points: 3 },
       { question: "What keyword defines a type alias?", answer: "TIPO", points: 3 },
       { question: "Is intersection structural or nominal?", answer: "structural", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "genericos",
-    title: "Genéricos",
+    title: "Genericos",
     order: 100,
     points: 10,
     bodyMd: `# Generics
@@ -4856,9 +4759,8 @@ Generics enable type-safe reusable code.`,
       { question: "What syntax declares a generic type parameter?", answer: "<T>", points: 3 },
       { question: "Can you constrain type parameters?", answer: "yes, with T: Constraint", points: 5 },
       { question: "What is a benefit of generics?", answer: "type-safe reusable code", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "tipos-mapeados",
     title: "Tipos Mapeados",
     order: 101,
@@ -4904,11 +4806,10 @@ TIPO FormErrors<T> = {
 Mapped types reduce boilerplate in type definitions.`,
     challenges: [
       { question: "What syntax maps over type keys?", answer: "[K in chaves<T>]", points: 3 },
-      { question: "Can you make all properties optional with a mapped type?", answer: "sim", points: 5 },
+      { question: "Can you make all properties optional with a mapped type?", answer: "yes", points: 5 },
       { question: "What keyword makes properties readonly?", answer: "readonly", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "tipos-condicionais",
     title: "Tipos Condicionais",
     order: 102,
@@ -4956,11 +4857,10 @@ Conditional types enable high-level type transformations.`,
       { question: "What syntax checks a type condition?", answer: "T EXTENDE U ? A : B", points: 3 },
       { question: "What keyword infers a type in a conditional?", answer: "infer", points: 5 },
       { question: "What is a practical use of conditional types?", answer: "extracting return types or element types", points: 3 },
-    ],
-  },
-  {
-    slug: "tipos-literal-template",
-    title: "Tipos Template Literal",
+    ],,
+{
+    slug: "tipos-literais-de-template",
+    title: "Tipos Literais de Template",
     order: 103,
     points: 10,
     bodyMd: `# Template Literal Types
@@ -5001,11 +4901,10 @@ Template literal types enable compile-time string validation.`,
       { question: "What types can template literal types work with?", answer: "string types and unions", points: 3 },
       { question: "Can template literal types parse string patterns?", answer: "yes, with infer", points: 5 },
       { question: "What is a use case?", answer: "type-safe event handlers and routes", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "tipos-marcados",
-    title: "Branded / Nominal Types",
+    title: "Tipos Marcados / Nominais",
     order: 104,
     points: 10,
     bodyMd: `# Branded Types
@@ -5047,11 +4946,10 @@ Branded types prevent mixing semantically different values of the same primitive
       { question: "What technique creates nominal typing?", answer: "brand pattern with __brand", points: 3 },
       { question: "Can you pass a ProductId where UserId is expected?", answer: "no, type error", points: 5 },
       { question: "When are branded types useful?", answer: "distinguishing IDs, currencies, units", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "operador-satisfaz",
-    title: "Operador SATISFAZ",
+    title: "Operador Satisfaz",
     order: 105,
     points: 10,
     bodyMd: `# Satisfies Operator
@@ -5089,12 +4987,11 @@ CRIA config: Config = {
     challenges: [
       { question: "What operator checks a type without widening?", answer: "SATISFAZ", points: 3 },
       { question: "What is the benefit over type annotation?", answer: "preserves literal types", points: 5 },
-      { question: "Does SATISFAZ validate the shape?", answer: "sim", points: 3 },
-    ],
-  },
-  {
-    slug: "reflexao-com-tipo",
-    title: "Reflection with TIPO & REFLETE",
+      { question: "Does SATISFAZ validate the shape?", answer: "yes", points: 3 },
+    ],,
+{
+    slug: "reflexao-com-tipo-e-reflete",
+    title: "Reflexao com TIPO & REFLETE",
     order: 106,
     points: 5,
     bodyMd: `# Reflection
@@ -5142,9 +5039,8 @@ Reflection enables tools like serializers, ORMs, and DI containers.`,
       { question: "What function returns a values type?", answer: "TIPO", points: 3 },
       { question: "What module provides reflection?", answer: "xs:reflect", points: 3 },
       { question: "What function checks class inheritance?", answer: "REFLETE.extends", points: 5 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "proxies",
     title: "Proxies",
     order: 107,
@@ -5188,9 +5084,8 @@ Proxies enable metaprogramming without modifying the original object.`,
       { question: "What class creates an interception layer?", answer: "Proxy", points: 3 },
       { question: "What trap intercepts property reads?", answer: "PEGA (get)", points: 3 },
       { question: "What is a common proxy use case?", answer: "logging, validation, lazy loading", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "decoradores",
     title: "Decoradores",
     order: 108,
@@ -5243,11 +5138,10 @@ Decorate with the \`@\` syntax. Decorators are functions that receive metadata.`
       { question: "What syntax applies a decorator?", answer: "@nomeDoDecorator", points: 3 },
       { question: "Can decorators modify method behavior?", answer: "yes, via the descriptor", points: 5 },
       { question: "What are decorators useful for?", answer: "logging, validation, metadata", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "simbolos",
-    title: "Symbols & Metaprogramming",
+    title: "Simbolos & Metaprogramacao",
     order: 109,
     points: 10,
     bodyMd: `# Symbols
@@ -5297,13 +5191,12 @@ CLASSE Colecao {
 Symbols prevent property name collisions.`,
     challenges: [
       { question: "What function creates a symbol?", answer: "SIMBOLO", points: 3 },
-      { question: "Can symbol-keyed properties be accessed by string?", answer: "não", points: 3 },
+      { question: "Can symbol-keyed properties be accessed by string?", answer: "no", points: 3 },
       { question: "What well-known symbol controls iteration?", answer: "SIMBOLO.iterator", points: 5 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "geracao-de-codigo",
-    title: "Geração de Código",
+    title: "Geracao de Codigo",
     order: 110,
     points: 10,
     bodyMd: `# Code Generation
@@ -5357,11 +5250,10 @@ Code generation enables macros and build tools.`,
       { question: "What module provides AST building?", answer: "xs:compiler", points: 3 },
       { question: "What function generates source from AST?", answer: "generate", points: 3 },
       { question: "What function compiles a string?", answer: "compile", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "serializacao",
-    title: "Serialização",
+    title: "Serializacao",
     order: 111,
     points: 10,
     bodyMd: `# Serialization
@@ -5414,11 +5306,10 @@ Implement \`paraJSON\` on classes to control serialization.`,
       { question: "What function serializes to JSON?", answer: "JSON.serializa", points: 3 },
       { question: "How do you customize serialization?", answer: "implement paraJSON method", points: 3 },
       { question: "What modules handle non-JSON formats?", answer: "xs:yaml, xs:binary", points: 3 },
-    ],
-  },
-  {
-    slug: "anotacoes-metadados",
-    title: "Type Annotations & Metadata",
+    ],,
+{
+    slug: "anotacoes-e-metadados",
+    title: "Anotacoes de Tipo & Metadados",
     order: 112,
     points: 10,
     bodyMd: `# Type Annotations & Metadata
@@ -5470,11 +5361,10 @@ Metadata enables frameworks and decorator-based architectures.`,
       { question: "What operator checks instanceof?", answer: "INSTANCIA DE", points: 3 },
       { question: "How do you attach metadata?", answer: "@Metadata({...}) decorator", points: 5 },
       { question: "What function reads metadata?", answer: "Metadata.get", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "metaprogramacao-avancada",
-    title: "Metaprogramação Avançada",
+    title: "Metaprogramacao Avancada",
     order: 113,
     points: 10,
     bodyMd: `# Advanced Metaprogramming
@@ -5527,11 +5417,10 @@ Metaprogramming enables flexible, dynamic architectures.`,
       { question: "What pattern dispatches methods dynamically?", answer: "dynamic dispatch with object lookup", points: 3 },
       { question: "What operator spreads object properties?", answer: "...", points: 3 },
       { question: "What is a benefit of metaprogramming?", answer: "flexible, dynamic architectures", points: 3 },
-    ],
-  },
-  {
-    slug: "gerenciamento-memoria",
-    title: "Gerenciamento de Memória",
+    ],,
+{
+    slug: "gerenciamento-de-memoria",
+    title: "Gerenciamento de Memoria",
     order: 114,
     points: 5,
     bodyMd: `# Memory Management
@@ -5575,11 +5464,10 @@ Understanding GC helps optimize memory-intensive applications.`,
       { question: "What strategy does the GC use?", answer: "generational collection", points: 3 },
       { question: "Are small integers stack or heap allocated?", answer: "stack", points: 3 },
       { question: "What is a WeakRef?", answer: "a reference that does not prevent GC", points: 5 },
-    ],
-  },
-  {
-    slug: "prevencao-vazamentos",
-    title: "Prevenção de Vazamentos",
+    ],,
+{
+    slug: "prevencao-de-vazamentos",
+    title: "Prevencao de Vazamentos de Memoria",
     order: 115,
     points: 10,
     bodyMd: `# Memory Leak Prevention
@@ -5634,9 +5522,8 @@ Use heap snapshots and profiling tools to detect leaks.`,
       { question: "What causes event listener leaks?", answer: "listeners not removed", points: 3 },
       { question: "What causes closure leaks?", answer: "large objects captured in closure scope", points: 5 },
       { question: "How do you prevent timer leaks?", answer: "clearInterval/clearTimeout when done", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "perfilamento",
     title: "Perfilamento",
     order: 116,
@@ -5688,11 +5575,10 @@ Profile before optimizing to focus on actual bottlenecks.`,
       { question: "What function returns high-resolution time?", answer: "hrTime", points: 3 },
       { question: "What command profiles execution?", answer: "xs run --profile", points: 3 },
       { question: "What should you do before optimizing?", answer: "profile to find actual bottlenecks", points: 5 },
-    ],
-  },
-  {
-    slug: "otimizacao-desempenho",
-    title: "Otimização de Desempenho",
+    ],,
+{
+    slug: "tecnicas-de-otimizacao",
+    title: "Tecnicas de Otimizacao",
     order: 117,
     points: 10,
     bodyMd: `# Optimization Techniques
@@ -5746,12 +5632,11 @@ Built-in methods are optimized in C++: prefer them over manual loops.`,
     challenges: [
       { question: "Should you allocate objects inside loops?", answer: "no, reuse when possible", points: 3 },
       { question: "Why keep variable types consistent?", answer: "avoids JIT deoptimization", points: 5 },
-      { question: "Are native methods faster than manual loops?", answer: "sim", points: 3 },
-    ],
-  },
-  {
-    slug: "otimizacoes-compilador",
-    title: "Otimizações do Compilador",
+      { question: "Are native methods faster than manual loops?", answer: "yes", points: 3 },
+    ],,
+{
+    slug: "otimizacoes-do-compilador",
+    title: "Otimizacoes do Compilador",
     order: 118,
     points: 10,
     bodyMd: `# Compiler Optimizations
@@ -5798,11 +5683,10 @@ PARA CADA (i EM 0..3) { arr[i] = i }
       { question: "What optimization evaluates expressions at compile time?", answer: "constant folding", points: 3 },
       { question: "What optimization removes unreachable code?", answer: "dead code elimination", points: 3 },
       { question: "What optimization replaces function calls with body?", answer: "inlining", points: 3 },
-    ],
-  },
-  {
-    slug: "otimizacao-memoria",
-    title: "Otimização de Memória",
+    ],,
+{
+    slug: "otimizacao-de-memoria",
+    title: "Otimizacao de Memoria",
     order: 119,
     points: 10,
     bodyMd: `# Memory Optimization
@@ -5859,11 +5743,10 @@ PEGA dadosCaros() {
       { question: "What pattern reuses objects?", answer: "object pooling", points: 3 },
       { question: "What data structure is best for numeric arrays?", answer: "Int32Array / Float64Array", points: 5 },
       { question: "When should you use lazy initialization?", answer: "for expensive operations not always needed", points: 3 },
-    ],
-  },
-  {
-    slug: "desempenho-assincrono",
-    title: "Desempenho Assíncrono",
+    ],,
+{
+    slug: "performance-assincrona",
+    title: "Performance Assincrona",
     order: 120,
     points: 10,
     bodyMd: `# Async Performance
@@ -5916,11 +5799,10 @@ Await yields to the microtask queue — use for splitting CPU work.`,
       { question: "Should you mark sync functions as async?", answer: "no, avoid unnecessary async", points: 3 },
       { question: "What is a risk of PROMETA.tudo with many items?", answer: "excessive concurrent execution", points: 5 },
       { question: "How do you limit async concurrency?", answer: "queue with batch processing", points: 3 },
-    ],
-  },
-  {
-    slug: "boas-praticas-desempenho",
-    title: "Boas Práticas de Desempenho",
+    ],,
+{
+    slug: "melhores-praticas-de-performance",
+    title: "Melhores Praticas de Performance",
     order: 121,
     points: 10,
     bodyMd: `# Performance Best Practices
@@ -5968,10 +5850,9 @@ Consistent, measurable optimization beats guesswork.`,
     challenges: [
       { question: "What is the first step in optimization?", answer: "measure/profile to find bottlenecks", points: 3 },
       { question: "Should you optimize before measuring?", answer: "no, avoid premature optimization", points: 3 },
-      { question: "Should you batch I/O operations?", answer: "sim", points: 3 },
-    ],
-  },
-  {
+      { question: "Should you batch I/O operations?", answer: "yes", points: 3 },
+    ],,
+{
     slug: "testes-com-teste",
     title: "Testes com TESTE",
     order: 122,
@@ -6014,11 +5895,10 @@ xs test --coverage
       { question: "What keyword defines a test?", answer: "TESTE", points: 3 },
       { question: "What keyword makes an assertion?", answer: "AFIRMA", points: 3 },
       { question: "What command runs tests?", answer: "xs test", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "afirmacoes-avancadas",
-    title: "Afirmações Avançadas",
+    title: "Afirmacoes Avancadas",
     order: 123,
     points: 5,
     bodyMd: `# Advanced Assertions
@@ -6068,11 +5948,10 @@ Good assertions produce clear failure messages.`,
       { question: "What assertion checks values within tolerance?", answer: "AFIRMA.proximo", points: 3 },
       { question: "What assertion checks an error is thrown?", answer: "AFIRMA.joga", points: 3 },
       { question: "What assertion deeply compares objects?", answer: "AFIRMA.profundamenteIgual", points: 5 },
-    ],
-  },
-  {
-    slug: "estrutura-testes",
-    title: "Test Structure & Organization",
+    ],,
+{
+    slug: "estrutura-de-testes",
+    title: "Estrutura & Organizacao de Testes",
     order: 124,
     points: 5,
     bodyMd: `# Test Structure
@@ -6118,10 +5997,9 @@ TESTE "Banco de dados" {
     challenges: [
       { question: "What block runs before each test?", answer: "ANTES DE CADA", points: 3 },
       { question: "What block runs after each test?", answer: "DEPOIS DE CADA", points: 3 },
-      { question: "Can tests be nested?", answer: "sim", points: 3 },
-    ],
-  },
-  {
+      { question: "Can tests be nested?", answer: "yes", points: 3 },
+    ],,
+{
     slug: "mocks-e-stubs",
     title: "Mocks & Stubs",
     order: 125,
@@ -6171,11 +6049,10 @@ Mocks isolate code from external dependencies.`,
       { question: "What creates a mock function?", answer: "mock.fn", points: 3 },
       { question: "What function spies on an existing method?", answer: "mock.espia", points: 3 },
       { question: "What module provides mocking?", answer: "xs:test", points: 3 },
-    ],
-  },
-  {
-    slug: "cobertura-codigo",
-    title: "Cobertura de Código",
+    ],,
+{
+    slug: "cobertura-de-codigo",
+    title: "Cobertura de Codigo",
     order: 126,
     points: 10,
     bodyMd: `# Code Coverage
@@ -6216,12 +6093,11 @@ Aim for high coverage but remember: 100% coverage doesn't mean bug-free.`,
     challenges: [
       { question: "What command runs tests with coverage?", answer: "xs test --coverage", points: 3 },
       { question: "Name one coverage metric", answer: "statements / branches / functions / lines", points: 3 },
-      { question: "Does 100% coverage guarantee no bugs?", answer: "não", points: 3 },
-    ],
-  },
-  {
-    slug: "testes-propriedades",
-    title: "Testes por Propriedade",
+      { question: "Does 100% coverage guarantee no bugs?", answer: "no", points: 3 },
+    ],,
+{
+    slug: "testes-baseados-em-propriedades",
+    title: "Testes Baseados em Propriedades",
     order: 127,
     points: 10,
     bodyMd: `# Property-Based Testing
@@ -6268,11 +6144,10 @@ Property tests complement example-based tests.`,
       { question: "What keyword starts a property test?", answer: "TESTA TODO", points: 3 },
       { question: "What is shrinking?", answer: "finding the minimal failing case", points: 5 },
       { question: "What is a benefit of property tests?", answer: "finds unexpected edge cases", points: 3 },
-    ],
-  },
-  {
-    slug: "testes-integracao",
-    title: "Testes de Integração",
+    ],,
+{
+    slug: "testes-de-integracao",
+    title: "Testes de Integracao",
     order: 128,
     points: 10,
     bodyMd: `# Integration Testing
@@ -6320,11 +6195,10 @@ Use real dependencies in integration tests, mocks in unit tests.`,
       { question: "What is integration testing?", answer: "testing components working together", points: 3 },
       { question: "Should you use mocks in integration tests?", answer: "no, use real dependencies", points: 5 },
       { question: "What should you do in DEPOIS DE CADA for DB tests?", answer: "clean up data and close connection", points: 3 },
-    ],
-  },
-  {
-    slug: "tdd-estrategias",
-    title: "TDD & Testing Strategies",
+    ],,
+{
+    slug: "tdd-e-estrategias",
+    title: "TDD & Estrategias de Teste",
     order: 129,
     points: 10,
     bodyMd: `# TDD & Testing Strategies
@@ -6366,11 +6240,10 @@ Write tests that give confidence to refactor.`,
       { question: "What are the three steps of TDD?", answer: "Red, Green, Refactor", points: 3 },
       { question: "What type of test should be most numerous?", answer: "unit tests", points: 3 },
       { question: "Should you test private methods?", answer: "no, test public API", points: 5 },
-    ],
-  },
-  {
-    slug: "introducao-tabela-orm",
-    title: "Introdução ao TABELA ORM",
+    ],,
+{
+    slug: "introducao-ao-orm",
+    title: "Introducao ao ORM TABELA",
     order: 130,
     points: 5,
     bodyMd: `# TABELA ORM
@@ -6413,11 +6286,10 @@ The ORM generates SQL or NoSQL queries behind the scenes.
       { question: "What keyword defines an ORM model?", answer: "TABELA", points: 3 },
       { question: "What keyword defines a field?", answer: "CAMPO", points: 3 },
       { question: "Is TABELA a library or a language feature?", answer: "language feature", points: 3 },
-    ],
-  },
-  {
-    slug: "tipos-campos-orm",
-    title: "Field Types & Options",
+    ],,
+{
+    slug: "campos-e-opcoes",
+    title: "Tipos & Opcoes de Campo",
     order: 131,
     points: 5,
     bodyMd: `# Field Types & Options
@@ -6454,11 +6326,10 @@ TABELA Produto {
       { question: "What option marks a field as primary key?", answer: "chave: true", points: 3 },
       { question: "What option sets a default value?", answer: "padrao", points: 3 },
       { question: "What option makes a field required?", answer: "obrigatorio: true", points: 3 },
-    ],
-  },
-  {
-    slug: "consultas-orm",
-    title: "Consultando Dados",
+    ],,
+{
+    slug: "consultas",
+    title: "Consultas de Dados",
     order: 132,
     points: 10,
     bodyMd: `# Querying Data
@@ -6507,10 +6378,9 @@ CRIA total = Usuario.contar({ ativo: true })
       { question: "What method returns all records?", answer: "todos", points: 3 },
       { question: "What method filters records?", answer: "ondetem", points: 3 },
       { question: "What method limits results?", answer: "limite", points: 3 },
-    ],
-  },
-  {
-    slug: "relacionamentos-orm",
+    ],,
+{
+    slug: "relacionamentos",
     title: "Relacionamentos",
     order: 133,
     points: 10,
@@ -6565,12 +6435,11 @@ CRIA posts = await usuario.posts.carregar()  // eager load
     challenges: [
       { question: "What keyword defines a relationship?", answer: "RELACAO", points: 3 },
       { question: "What type is a foreign key relationship?", answer: "pertenceA", points: 3 },
-      { question: "Can relations be lazy loaded?", answer: "sim", points: 3 },
-    ],
-  },
-  {
-    slug: "migracoes-orm",
-    title: "Migrações",
+      { question: "Can relations be lazy loaded?", answer: "yes", points: 3 },
+    ],,
+{
+    slug: "migracoes",
+    title: "Migracoes",
     order: 134,
     points: 10,
     bodyMd: `# Migrations
@@ -6617,11 +6486,10 @@ Migrations keep database schema versioned and reproducible.`,
       { question: "What command runs migrations?", answer: "xs db migrate", points: 3 },
       { question: "What block defines the forward migration?", answer: "PARA CIMA", points: 3 },
       { question: "What block defines the rollback?", answer: "PARA BAIXO", points: 3 },
-    ],
-  },
-  {
-    slug: "semeadura-banco",
-    title: "Semeadura de Banco",
+    ],,
+{
+    slug: "semeadura",
+    title: "Semeadura de Banco de Dados",
     order: 135,
     points: 10,
     bodyMd: `# Database Seeding
@@ -6670,11 +6538,10 @@ Seeds provide consistent starting data for development and testing.`,
       { question: "What keyword defines a seeder?", answer: "SEMEADOR", points: 3 },
       { question: "What block inserts data?", answer: "SEMEAR", points: 3 },
       { question: "What block runs before seeding?", answer: "ANTES", points: 3 },
-    ],
-  },
-  {
-    slug: "transacoes-orm",
-    title: "Transações",
+    ],,
+{
+    slug: "transacoes",
+    title: "Transacoes",
     order: 136,
     points: 10,
     bodyMd: `# Transactions
@@ -6728,11 +6595,10 @@ Transactions maintain database integrity.`,
       { question: "What keyword starts a transaction?", answer: "TRANSACAO", points: 3 },
       { question: "What method commits a transaction?", answer: "confirmar", points: 3 },
       { question: "What method rolls back?", answer: "reverter", points: 3 },
-    ],
-  },
-  {
-    slug: "desempenho-orm",
-    title: "Desempenho do ORM",
+    ],,
+{
+    slug: "performance-do-orm",
+    title: "Performance do ORM",
     order: 137,
     points: 10,
     bodyMd: `# ORM Performance
@@ -6784,11 +6650,10 @@ TABELA Usuario {
       { question: "What problem causes extra queries in loops?", answer: "N+1 problem", points: 3 },
       { question: "What method prevents N+1?", answer: "incluir (eager loading)", points: 3 },
       { question: "What helps query performance?", answer: "indexes on queried columns", points: 3 },
-    ],
-  },
-  {
-    slug: "introducao-wasm",
-    title: "Introduction to WASM",
+    ],,
+{
+    slug: "introducao-ao-wasm",
+    title: "Introducao ao WASM",
     order: 138,
     points: 5,
     bodyMd: `# Introduction to WebAssembly
@@ -6834,12 +6699,11 @@ Direct WASM emission, no Emscripten required.`,
     challenges: [
       { question: "What flag compiles to WASM?", answer: "--target wasm", points: 3 },
       { question: "What keyword exports a function for WASM?", answer: "EXPORTA", points: 3 },
-      { question: "Does XanaScript require Emscripten for WASM?", answer: "não", points: 3 },
-    ],
-  },
-  {
+      { question: "Does XanaScript require Emscripten for WASM?", answer: "no", points: 3 },
+    ],,
+{
     slug: "memoria-wasm",
-    title: "Memória WASM",
+    title: "Gerenciamento de Memoria WASM",
     order: 139,
     points: 10,
     bodyMd: `# WASM Memory
@@ -6886,11 +6750,10 @@ Manual memory control enables zero-overhead data structures.`,
       { question: "What keyword declares WASM memory?", answer: "MEMORIA", points: 3 },
       { question: "What is the page size?", answer: "64KB", points: 3 },
       { question: "What function grows WASM memory?", answer: "MEMORIA.CRESCER", points: 3 },
-    ],
-  },
-  {
-    slug: "imports-exports-wasm",
-    title: "WASM Imports & Exports",
+    ],,
+{
+    slug: "importacoes-exportacoes-wasm",
+    title: "Importacoes & Exportacoes WASM",
     order: 140,
     points: 10,
     bodyMd: `# WASM Imports & Exports
@@ -6945,11 +6808,10 @@ Imports/exports are the bridge between WASM and host.`,
       { question: "What keyword exposes a WASM function?", answer: "EXPORTA", points: 3 },
       { question: "What keyword imports a host function?", answer: "IMPORTA", points: 3 },
       { question: "How does the host provide imported functions?", answer: "via the imports object in instantiate", points: 5 },
-    ],
-  },
-  {
-    slug: "tipos-wasm",
-    title: "WASM Types & Conversion",
+    ],,
+{
+    slug: "tipos-e-conversao-wasm",
+    title: "Tipos & Conversao WASM",
     order: 141,
     points: 10,
     bodyMd: `# WASM Types
@@ -6998,11 +6860,10 @@ Understanding WASM types avoids runtime conversion overhead.`,
       { question: "What are the native WASM integer types?", answer: "I32 and I64", points: 3 },
       { question: "Can you pass strings directly to WASM exports?", answer: "no, use pointers to linear memory", points: 5 },
       { question: "What function converts to 32-bit integer?", answer: "I32", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "otimizacao-wasm",
-    title: "Otimização WASM",
+    title: "Otimizacao WASM",
     order: 142,
     points: 10,
     bodyMd: `# WASM Optimization
@@ -7055,11 +6916,10 @@ WASM benefits from predictable, simple code patterns.`,
       { question: "What is faster in WASM: direct call or dynamic dispatch?", answer: "direct call", points: 3 },
       { question: "What compiler flag optimizes for speed?", answer: "--optimize velocidade", points: 3 },
       { question: "Where are local variables stored in WASM?", answer: "in registers (locals)", points: 5 },
-    ],
-  },
-  {
-    slug: "debug-wasm",
-    title: "Debug WASM",
+    ],,
+{
+    slug: "depuracao-wasm",
+    title: "Depuracao WASM",
     order: 143,
     points: 10,
     bodyMd: `# Debugging WASM
@@ -7109,11 +6969,10 @@ Debugging WASM requires host-side tooling and careful error handling.`,
       { question: "What flag generates source maps?", answer: "--source-map", points: 3 },
       { question: "What tool converts WASM to text format?", answer: "wasm2wat", points: 3 },
       { question: "How do you signal errors in WASM?", answer: "return error codes", points: 3 },
-    ],
-  },
-  {
-    slug: "runtime-wasm",
-    title: "Runtime WASM",
+    ],,
+{
+    slug: "integracao-wasm",
+    title: "Integracao de Runtime WASM",
     order: 144,
     points: 10,
     bodyMd: `# WASM Runtime
@@ -7158,13 +7017,12 @@ wasmtime saida.wasm
 WASI enables system calls (files, networking) from WASM.`,
     challenges: [
       { question: "What is WASI?", answer: "WebAssembly System Interface", points: 3 },
-      { question: "Can WASM run in the browser?", answer: "sim", points: 3 },
+      { question: "Can WASM run in the browser?", answer: "yes", points: 3 },
       { question: "What runtime runs WASI modules?", answer: "wasmtime", points: 3 },
-    ],
-  },
-  {
-    slug: "boas-praticas-wasm",
-    title: "Boas Práticas WASM",
+    ],,
+{
+    slug: "melhores-praticas-wasm",
+    title: "Melhores Praticas WASM",
     order: 145,
     points: 10,
     bodyMd: `# WASM Best Practices
@@ -7210,12 +7068,11 @@ WASM excels for compute-heavy, deterministic workloads.`,
     challenges: [
       { question: "What adds overhead in WASM?", answer: "cross-boundary host calls", points: 3 },
       { question: "What is the best numeric type for WASM?", answer: "I32 or F64", points: 3 },
-      { question: "Should WASM behavior be tested across platforms?", answer: "sim", points: 3 },
-    ],
-  },
-  {
-    slug: "introducao-macros",
-    title: "Introdução a Macros",
+      { question: "Should WASM behavior be tested across platforms?", answer: "yes", points: 3 },
+    ],,
+{
+    slug: "introducao-a-macros",
+    title: "Introducao a Macros",
     order: 146,
     points: 5,
     bodyMd: `# Introduction to Macros
@@ -7253,11 +7110,10 @@ Macros execute at compile time — expanded code has no macro overhead.
       { question: "What keyword defines a macro?", answer: "MACRO", points: 3 },
       { question: "When do macros execute?", answer: "at compile time", points: 3 },
       { question: "Do macros have runtime overhead?", answer: "no, they expand at compile time", points: 3 },
-    ],
-  },
-  {
-    slug: "sintaxe-macros",
-    title: "Macro Syntax & Patterns",
+    ],,
+{
+    slug: "sintaxe-de-macro",
+    title: "Sintaxe & Padroes de Macro",
     order: 147,
     points: 10,
     bodyMd: `# Macro Syntax
@@ -7310,11 +7166,10 @@ Macros operate on syntax trees, not strings.`,
       { question: "Do XanaScript macros operate on strings or AST?", answer: "AST", points: 3 },
       { question: "What makes a macro hygienic?", answer: "it respects variable scoping", points: 5 },
       { question: "What does a macro return?", answer: "AST nodes to substitute", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "macros-avancadas",
-    title: "Macros Avançadas",
+    title: "Tecnicas Avancadas de Macro",
     order: 148,
     points: 10,
     bodyMd: `# Advanced Macros
@@ -7373,13 +7228,12 @@ MACRO validarEmail(email) {
 \`ERRO_COMPILACAO\` halts compilation with a message.`,
     challenges: [
       { question: "What function stops compilation with an error?", answer: "ERRO_COMPILACAO", points: 3 },
-      { question: "Can macros be recursive?", answer: "sim", points: 3 },
+      { question: "Can macros be recursive?", answer: "yes", points: 3 },
       { question: "Can a macro return multiple expressions?", answer: "yes, as an array", points: 3 },
-    ],
-  },
-  {
-    slug: "macros-compiletime",
-    title: "Execução em Compile-Time",
+    ],,
+{
+    slug: "execucao-em-tempo-de-compilacao",
+    title: "Execucao em Tempo de Compilacao",
     order: 149,
     points: 10,
     bodyMd: `# Compile-Time Execution
@@ -7426,14 +7280,13 @@ assertBuild(process.env.NODE_ENV === "production", "Must build in production")
 
 Compile-time execution enables powerful build-time metaprogramming.`,
     challenges: [
-      { question: "Can macros perform I/O at compile time?", answer: "sim", points: 3 },
+      { question: "Can macros perform I/O at compile time?", answer: "yes", points: 3 },
       { question: "What does ERRO_COMPILACAO do?", answer: "halts compilation with an error message", points: 3 },
       { question: "What is compile-time compute useful for?", answer: "pre-computing values, build-time checks", points: 3 },
-    ],
-  },
-  {
-    slug: "exemplos-macros",
-    title: "Exemplos Práticos de Macros",
+    ],,
+{
+    slug: "exemplos-praticos-de-macros",
+    title: "Exemplos Praticos de Macros",
     order: 150,
     points: 10,
     bodyMd: `# Practical Macros
@@ -7487,12 +7340,11 @@ CRIA user = build({}, { chave: "nome", valor: "Maria" })
 
 Macros reduce boilerplate across your codebase.`,
     challenges: [
-      { question: "Can macros generate enum-like objects?", answer: "sim", points: 3 },
+      { question: "Can macros generate enum-like objects?", answer: "yes", points: 3 },
       { question: "What pattern creates lazy-initialized properties?", answer: "lazy macro", points: 5 },
       { question: "What is a benefit of macros?", answer: "reducing boilerplate at compile time", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "testando-macros",
     title: "Testando Macros",
     order: 151,
@@ -7543,11 +7395,10 @@ Test macros to ensure they generate correct code across edge cases.`,
       { question: "What function expands a macro for testing?", answer: "MACRO_EXPANDE", points: 3 },
       { question: "What is snapshot testing for macros?", answer: "comparing expanded output to a saved snapshot", points: 5 },
       { question: "How do you test compile-time errors?", answer: "AFIRMA.ERRO_COMPILACAO", points: 3 },
-    ],
-  },
-  {
-    slug: "boas-praticas-macros",
-    title: "Boas Práticas de Macros",
+    ],,
+{
+    slug: "melhores-praticas-de-macros",
+    title: "Melhores Praticas de Macros",
     order: 152,
     points: 10,
     bodyMd: `# Macro Best Practices
@@ -7593,11 +7444,10 @@ Only use macros when you genuinely need compile-time transformation.`,
       { question: "Should macros be simple or complex?", answer: "simple — complex macros are hard to debug", points: 3 },
       { question: "Should macros have side effects?", answer: "no, prefer pure macros", points: 3 },
       { question: "What should you prefer before using macros?", answer: "regular functions", points: 3 },
-    ],
-  },
-  {
-    slug: "introducao-dsl",
-    title: "Linguagens Específicas de Domínio",
+    ],,
+{
+    slug: "introducao-a-dsl",
+    title: "Linguagens Especificas de Dominio",
     order: 153,
     points: 10,
     bodyMd: `# Domain-Specific Languages
@@ -7645,11 +7495,10 @@ DSLs make code read like the domain language.`,
       { question: "What technique enables DSLs in XanaScript?", answer: "macros and metaprogramming", points: 3 },
       { question: "What is a benefit of DSLs?", answer: "code reads like domain language", points: 3 },
       { question: "Can DSLs be embedded in XanaScript?", answer: "yes, via macros", points: 3 },
-    ],
-  },
-  {
-    slug: "dsl-html",
-    title: "DSL HTML",
+    ],,
+{
+    slug: "exemplo-dsl-html",
+    title: "Exemplo de DSL HTML",
     order: 154,
     points: 10,
     bodyMd: `# HTML DSL
@@ -7704,12 +7553,11 @@ MACRO divAttr(attrs, ...children) {
 
 DSL-based HTML generation is type-safe and composable.`,
     challenges: [
-      { question: "Can you create an HTML DSL with macros?", answer: "sim", points: 3 },
-      { question: "Is DSL-based HTML generation type-safe?", answer: "sim", points: 3 },
+      { question: "Can you create an HTML DSL with macros?", answer: "yes", points: 3 },
+      { question: "Is DSL-based HTML generation type-safe?", answer: "yes", points: 3 },
       { question: "What is an advantage over string concatenation?", answer: "composability and type safety", points: 5 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "testando-dsl",
     title: "Testando DSL",
     order: 155,
@@ -7758,11 +7606,10 @@ Creating custom DSLs lets you design the perfect syntax for each problem domain.
       { question: "What is a DSL?", answer: "a domain-specific language embedded in the host language", points: 3 },
       { question: "What macro groups tests in the DSL example?", answer: "testSuite", points: 3 },
       { question: "What is an advantage of a testing DSL?", answer: "expressive, readable test definitions", points: 3 },
-    ],
-  },
-  {
+    ],,
+{
     slug: "melhores-praticas-finais",
-    title: "Final Best Practices & Next Steps",
+    title: "Melhores Praticas Finais & Proximos Passos",
     order: 156,
     points: 5,
     bodyMd: `# Best Practices & Next Steps
@@ -7801,7 +7648,7 @@ Your journey with XanaScript — what to do next.
 - GitHub: https://github.com/xanascript/xanascript
 - Discord: https://xanascript.xyz/discord
 
-Parabens! Agora voce conhece XanaScript, do basico ao metaprogramming avancado.`,
+Parabens! You now know XanaScript from fundamentals to advanced metaprogramming.`,
     challenges: [
       { question: "Should you prefer CRIA or CONSTANTE for immutable values?", answer: "CONSTANTE", points: 3 },
       { question: "What naming convention for classes?", answer: "PascalCase", points: 3 },
@@ -7809,6 +7656,8 @@ Parabens! Agora voce conhece XanaScript, do basico ao metaprogramming avancado.`
     ],
   },
 ];
+];
+
 
 // Simple markdown to HTML converter for seed data
 function mdToHtml(md) {
@@ -7852,34 +7701,34 @@ export async function seedCoursePt() {
   await Course.deleteOne({ slug: "curso-completo-xanascript" });
 
   const course = await Course.create({
-    title: "Curso Completo de XanaScript",
+    title: "Complete XanaScript Mastery",
     slug: "curso-completo-xanascript",
-    lang: "pt",
-    description: "Aprenda XanaScript do zero ao avançado. 156 aulas cobrindo cada aspecto da linguagem — sintaxe, orientação a objetos, ORM, WebAssembly, testes, macros, e muito mais.",
+    lang: "en",
+    description: "Aprenda XanaScript do zero ao avancado. 156 aulas cobrindo cada aspecto da linguagem — sintaxe, orientacao a objetos, ORM, WebAssembly, testes, macros, e muito mais.",
     image: "",
-    category: "Programação",
+    category: "Programming",
     level: "beginner",
     duration: "40h",
     published: true,
     lessons: processedLessons,
   });
 
-  console.log(`Curso criado: ${course.title}`);
+  console.log(`Course created: ${course.title}`);
   console.log(`Lessons: ${course.lessons.length}`);
-  console.log(`Total de pontos: ${course.totalPoints}`);
-  console.log(`ID do curso: ${course._id}`);
+  console.log(`Total points: ${course.totalPoints}`);
+  console.log(`Course ID: ${course._id}`);
   return course;
 }
 
 async function seed() {
   try {
     await mongoose.connect(MONGODB_URI);
-    console.log("Conectado ao MongoDB");
+    console.log("Connected to MongoDB");
     await seedCoursePt();
     await mongoose.disconnect();
-    console.log("Concluído!");
+    console.log("Done!");
   } catch (e) {
-    console.error("Falha no seed:", e);
+    console.error("Seed failed:", e);
     process.exit(1);
   }
 }

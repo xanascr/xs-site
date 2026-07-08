@@ -52,6 +52,7 @@
       try { await fetch('/api/auth/logout', { method:'POST', headers:{'Authorization':'Bearer '+token} }); } catch(_) {}
       localStorage.removeItem('xs_token');
       localStorage.removeItem('xs_user');
+      document.cookie = 'xs_token=; path=/; max-age=0';
       window.location.href = '/<%= lang %>/';
     });
   }

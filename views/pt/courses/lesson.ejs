@@ -15,10 +15,6 @@
           <span class="xs-tag xs-tag-primary"><%= lesson.points || 0 %> pts</span>
         </div>
 
-        <% if (enrollment && !enrollment.progress.find(function(p) { return p.lessonSlug === lesson.slug && p.completed })) { %>
-          <p class="mb-4 text-sm text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-4 py-2">Complete os desafios abaixo e clique em "Marcar como Concluido" para receber seus pontos.</p>
-        <% } %>
-
         <div class="prose prose-sm sm:prose max-w-none text-gray-700 mb-8">
           <%- lessonHtml %>
         </div>
@@ -59,69 +55,69 @@
 <script>
 (function() {
   var token = localStorage.getItem('xs_token');
+  if (!token) return;
 
   var completeBtn = document.getElementById('completeBtn');
-  if (completeBtn) {
-    completeBtn.addEventListener('click', function() {
-      var answers = [];
-      document.querySelectorAll('.challenge-input').forEach(function(inp) {
-        answers.push(inp.value);
-      });
+  if (!completeBtn) return;
 
-      completeBtn.disabled = true;
-      completeBtn.textContent = 'Salvando...';
+  completeBtn.addEventListener('click', function() {
+    var answers = [];
+    document.querySelectorAll('.challenge-input').forEach(function(inp) {
+      answers.push(inp.value);
+    });
 
-      fetch('/api/courses/<%= course.slug %>/lessons/<%= lesson.slug %>/complete', {
-        method 'POST',
-        headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ answers: answers })
-      })
-      .then(function(r) { return r.json(); })
-      .then(function(d) {
-        if (d.ok) {
-          window.location.reload();
-        } else {
-          alert(d.error || 'Falha ao concluir a aula');
-          completeBtn.disabled = false;
-          completeBtn.textContent = 'Marcar como Concluido';
-        }
-      })
-      .catch(function() {
-        alert('Erro de rede. Verifique sua conexao.');
+    completeBtn.disabled = true;
+    completeBtn.textContent = 'Salvando...';
+
+    fetch('/api/courses/<%= course.slug %>/lessons/<%= lesson.slug %>/complete', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answers: answers })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      if (d.ok) { window.location.reload(); }
+      else {
+        alert(d.error || 'Falha ao concluir aula');
         completeBtn.disabled = false;
         completeBtn.textContent = 'Marcar como Concluido';
-      });
+      }
+    })
+    .catch(function() {
+      alert('Erro de rede.');
+      completeBtn.disabled = false;
+      completeBtn.textContent = 'Marcar como Concluido';
     });
-  }
+  });
 
   var checkBtn = document.getElementById('checkAnswersBtn');
-  if (checkBtn) {
-    checkBtn.addEventListener('click', function() {
-      var answers = JSON.parse('<%= JSON.stringify((lesson.challenges || []).map(function(c) { return c.answer })).replace(/'/g, "\\'").replace(/\\n/g, "\\\\n") %>');
-      document.querySelectorAll('.challenge-input').forEach(function(inp) {
-        var idx = parseInt(inp.dataset.idx);
-        var fb = inp.parentElement.querySelector('.challenge-feedback');
-        var userAns = inp.value.trim().toLowerCase();
-        var correctAns = (answers[idx] || '').trim().toLowerCase();
-        var isCorrect = answers[idx] && userAns === correctAns;
-        if (isCorrect) {
-          inp.classList.remove('border-red-300');
-          inp.classList.add('border-green-300', 'bg-green-50');
-          fb.textContent = 'Correto!';
-          fb.classList.remove('text-red-500');
-          fb.classList.add('text-green-600');
-        } else {
-          inp.classList.remove('border-green-300', 'bg-green-50');
-          inp.classList.add('border-red-300');
-          var hint = answers[idx] ? answers[idx].substring(0, 3) + '...' : '';
-          fb.textContent = 'Incorreto. A resposta comeca com: ' + hint;
-          fb.classList.remove('text-green-600');
-          fb.classList.add('text-red-500');
-        }
-        fb.classList.remove('hidden');
-      });
+  if (!checkBtn) return;
+
+  checkBtn.addEventListener('click', function() {
+    var answers = JSON.parse('<%= JSON.stringify((lesson.challenges || []).map(function(c) { return c.answer })).replace(/'/g, "\\'").replace(/\\n/g, "\\\\n") %>');
+    document.querySelectorAll('.challenge-input').forEach(function(inp) {
+      var idx = parseInt(inp.dataset.idx);
+      var fb = inp.parentElement.querySelector('.challenge-feedback');
+      var userAns = inp.value.trim().toLowerCase();
+      var correctAns = (answers[idx] || '').trim().toLowerCase();
+      var isCorrect = answers[idx] && userAns === correctAns;
+      if (isCorrect) {
+        inp.classList.remove('border-red-300');
+        inp.classList.add('border-green-300', 'bg-green-50');
+        fb.textContent = 'Correto!';
+        fb.classList.remove('text-red-500');
+        fb.classList.add('text-green-600');
+      } else {
+        inp.classList.remove('border-green-300', 'bg-green-50');
+        inp.classList.add('border-red-300');
+        var hint = answers[idx] ? answers[idx].substring(0, 3) + '...' : '';
+        fb.textContent = 'Incorreto. Comeca com: ' + hint;
+        fb.classList.remove('text-green-600');
+        fb.classList.add('text-red-500');
+      }
+      fb.classList.remove('hidden');
     });
-  }
+  });
 })();
 </script>
 

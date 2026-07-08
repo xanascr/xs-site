@@ -59,6 +59,13 @@ router.post("/signup", async (req, res) => {
     await sendVerificationEmail(user.email, user.username, token);
 
     const jwtToken = signToken(user);
+    res.cookie("xs_token", jwtToken, {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      path: "/",
+    });
     res.status(201).json({
       ok: true,
       token: jwtToken,
@@ -107,6 +114,13 @@ router.post("/login", async (req, res) => {
     }
 
     const jwtToken = signToken(user);
+    res.cookie("xs_token", jwtToken, {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      path: "/",
+    });
     res.json({ ok: true, token: jwtToken, user: user.toPublic() });
   } catch (e) {
     res.status(500).json({ ok: false, error: "Internal server error" });
@@ -121,6 +135,7 @@ router.post("/logout", auth, async (req, res) => {
     if (!user) return res.status(404).json({ ok: false, error: "User not found" });
     user.tokenVersion += 1;
     await user.save();
+    res.clearCookie("xs_token", { path: "/" });
     res.json({ ok: true, message: "Logged out" });
   } catch (e) {
     res.status(500).json({ ok: false, error: "Internal server error" });
@@ -154,6 +169,13 @@ router.post("/2fa/verify", async (req, res) => {
     // Try TOTP code first
     if (await verifyToken(user.twoFactorSecret, code)) {
       const jwtToken = signToken(user);
+      res.cookie("xs_token", jwtToken, {
+        httpOnly: false,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        path: "/",
+      });
       return res.json({ ok: true, token: jwtToken, user: user.toPublic() });
     }
 
@@ -163,6 +185,13 @@ router.post("/2fa/verify", async (req, res) => {
       user.twoFactorBackupCodes = user.twoFactorBackupCodes.filter(h => h !== usedCodeHash);
       await user.save();
       const jwtToken = signToken(user);
+      res.cookie("xs_token", jwtToken, {
+        httpOnly: false,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        path: "/",
+      });
       return res.json({ ok: true, token: jwtToken, user: user.toPublic(), usedBackupCode: true });
     }
 

@@ -155,6 +155,17 @@ router.get("/:lang(en|pt|es)?/login", (req, res) => {
   res.render(`${lang}/login`, { lang, page: "login" });
 });
 
+// Helper to get enrollment from cookie
+async function getEnrollment(courseId, req) {
+  const token = req.headers.cookie?.match(/xs_token=([^;]+)/)?.[1];
+  if (!token) return null;
+  try {
+    const jwt = (await import("jsonwebtoken")).default;
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    return await Enrollment.findOne({ userId: payload.id, courseId }).lean();
+  } catch { return null; }
+}
+
 // ── Courses ──────────────────────────────────────────────────────────────
 router.get("/:lang(en|pt|es)?/courses", async (req, res) => {
   const lang = req.params.lang || "en";
@@ -174,16 +185,7 @@ router.get("/:lang(en|pt|es)?/courses/:slug", async (req, res) => {
   try {
     const course = await Course.findOne({ slug: req.params.slug, published: true }).lean();
     if (!course) return res.status(404).render(`${lang}/404`, { lang });
-    // Try to get enrollment if logged in
-    let enrollment = null;
-    const token = req.headers.cookie?.match(/token=([^;]+)/)?.[1];
-    if (token) {
-      try {
-        const jwt = (await import("jsonwebtoken")).default;
-        const payload = jwt.verify(token, process.env.JWT_SECRET);
-        enrollment = await Enrollment.findOne({ userId: payload.id, courseId: course._id }).lean();
-      } catch {}
-    }
+    const enrollment = await getEnrollment(course._id, req);
     res.render(`${lang}/courses/show`, { lang, course, enrollment, page: "courses" });
   } catch {
     res.status(404).render(`${lang}/404`, { lang });
@@ -198,19 +200,10 @@ router.get("/:lang(en|pt|es)?/courses/:slug/lessons/:lessonSlug", async (req, re
     const lesson = course.lessons.find(l => l.slug === req.params.lessonSlug);
     if (!lesson) return res.status(404).render(`${lang}/404`, { lang });
 
-    // Render markdown body to clean HTML
     const marked = (await import("marked")).marked;
     const lessonHtml = lesson.bodyMd ? marked.parse(lesson.bodyMd, { async: false }) : (lesson.bodyHtml || lesson.contentHtml || lesson.content || "");
+    const enrollment = await getEnrollment(course._id, req);
 
-    let enrollment = null;
-    const token = req.headers.cookie?.match(/token=([^;]+)/)?.[1];
-    if (token) {
-      try {
-        const jwt = (await import("jsonwebtoken")).default;
-        const payload = jwt.verify(token, process.env.JWT_SECRET);
-        enrollment = await Enrollment.findOne({ userId: payload.id, courseId: course._id }).lean();
-      } catch {}
-    }
     res.render(`${lang}/courses/lesson`, { lang, course, lesson, lessonHtml, enrollment, page: "courses" });
   } catch {
     res.status(404).render(`${lang}/404`, { lang });
@@ -225,7 +218,7 @@ router.get("/:lang(en|pt|es)?/courses/:slug/certificate", async (req, res) => {
 
     let enrollment = null;
     let certificate = null;
-    const token = req.headers.cookie?.match(/token=([^;]+)/)?.[1];
+    const token = req.headers.cookie?.match(/xs_token=([^;]+)/)?.[1];
     if (token) {
       try {
         const jwt = (await import("jsonwebtoken")).default;
