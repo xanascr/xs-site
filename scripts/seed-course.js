@@ -7848,30 +7848,33 @@ const processedLessons = lessons.map(l => ({
   }))
 }));
 
+export async function seedCourse() {
+  await Course.deleteOne({ slug: "complete-xanascript" });
+
+  const course = await Course.create({
+    title: "Complete XanaScript Mastery",
+    slug: "complete-xanascript",
+    description: "Aprenda XanaScript do zero ao avancado. 156 aulas cobrindo cada aspecto da linguagem — sintaxe, orientacao a objetos, ORM, WebAssembly, testes, macros, e muito mais.",
+    image: "",
+    category: "Programming",
+    level: "beginner",
+    duration: "40h",
+    published: true,
+    lessons: processedLessons,
+  });
+
+  console.log(`Course created: ${course.title}`);
+  console.log(`Lessons: ${course.lessons.length}`);
+  console.log(`Total points: ${course.totalPoints}`);
+  console.log(`Course ID: ${course._id}`);
+  return course;
+}
+
 async function seed() {
   try {
     await mongoose.connect(MONGODB_URI);
     console.log("Connected to MongoDB");
-
-    await Course.deleteOne({ slug: "complete-xanascript" });
-
-    const course = await Course.create({
-      title: "Complete XanaScript Mastery",
-      slug: "complete-xanascript",
-      description: "Aprenda XanaScript do zero ao avancado. 156 aulas cobrindo cada aspecto da linguagem — sintaxe, orientacao a objetos, ORM, WebAssembly, testes, macros, e muito mais.",
-      image: "",
-      category: "Programming",
-      level: "beginner",
-      duration: "40h",
-      published: true,
-      lessons: processedLessons,
-    });
-
-    console.log(`Course created: ${course.title}`);
-    console.log(`Lessons: ${course.lessons.length}`);
-    console.log(`Total points: ${course.totalPoints}`);
-    console.log(`Course ID: ${course._id}`);
-
+    await seedCourse();
     await mongoose.disconnect();
     console.log("Done!");
   } catch (e) {

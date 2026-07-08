@@ -144,6 +144,22 @@ async function start() {
       socketTimeoutMS: 45000,
     });
     console.log("MongoDB connected");
+
+    // Auto-seed course if database is empty
+    try {
+      const Course = (await import("./models/Course.js")).default;
+      const count = await Course.countDocuments();
+      if (count === 0) {
+        console.log("[seed] No courses found, running auto-seed...");
+        const { seedCourse } = await import("./scripts/seed-course.js");
+        await seedCourse();
+        console.log("[seed] Course seeded successfully");
+      } else {
+        console.log(`[seed] ${count} course(s) already exist, skipping seed`);
+      }
+    } catch (e) {
+      console.warn("[seed] Auto-seed skipped:", e.message);
+    }
   } catch (e) {
     console.error("FATAL: MongoDB unavailable:", e.message);
     process.exit(1);
