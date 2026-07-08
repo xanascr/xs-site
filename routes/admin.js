@@ -30,7 +30,7 @@ router.get("/packages/:name", async (req, res) => {
       .populate("authorId", "username email role createdAt")
       .lean();
     if (!pkg) return res.status(404).json({ ok: false, error: "Package not found" });
-    if (!pkg.readmeSanitized && pkg.readme) {
+    if (pkg.readme) {
       pkg.readmeSanitized = sanitizeHtml(pkg.readme);
     }
     res.json({ ok: true, package: pkg });

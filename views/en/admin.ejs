@@ -1,5 +1,8 @@
 <%- include('../partials/head', { lang, t, alternates }) %>
 <%- include('../partials/navbar', { lang, t }) %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
 
 <div id="adminRoot" class="hidden">
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
@@ -242,11 +245,16 @@
           });
 
           loadSourceFiles(name);
+
+          // Highlight README code blocks
+          if (typeof hljs !== 'undefined') {
+            document.querySelectorAll('#reviewContent .markdown-body pre code').forEach(function(b) { hljs.highlightElement(b); });
+          }
         });
     }
 
     function loadSourceFiles(name) {
-      fetch('/api/packages/' + name + '/source')
+      fetch('/api/packages/' + name + '/source', { headers: { 'Authorization': 'Bearer ' + tkn } })
         .then(function(r) { return r.json(); })
         .then(function(data) {
           var container = document.getElementById('reviewSourceFiles');
@@ -256,15 +264,20 @@
           }
           container.innerHTML = '';
           data.files.forEach(function(file) {
+            var ext = file.path.split('.').pop();
+            var langClass = (ext === 'xs' || ext === 'js' || ext === 'json' || ext === 'md') ? 'language-' + ext : '';
             var div = document.createElement('div');
             div.className = 'mb-3 border border-gray-200 rounded-xl overflow-hidden';
             div.innerHTML = '<div class="flex items-center justify-between px-4 py-2 bg-gray-50 border-b border-gray-200">'
               + '<span class="text-xs font-mono text-gray-500 truncate">' + escapeHtml(file.path) + '</span>'
               + '<span class="text-xs text-gray-400">' + formatSize(file.content.length) + '</span>'
               + '</div>'
-              + '<pre class="p-4 text-xs leading-relaxed font-mono text-gray-700 bg-white overflow-x-auto max-h-80 scrollbar-thin"><code>' + escapeHtml(file.content) + '</code></pre>';
+              + '<pre class="p-4 text-xs leading-relaxed font-mono text-gray-700 bg-white overflow-x-auto max-h-80 scrollbar-thin"><code class="' + langClass + '">' + escapeHtml(file.content) + '</code></pre>';
             container.appendChild(div);
           });
+          if (typeof hljs !== 'undefined') {
+            document.querySelectorAll('#reviewSourceFiles pre code').forEach(function(b) { hljs.highlightElement(b); });
+          }
         })
         .catch(function() {
           document.getElementById('reviewSourceFiles').innerHTML = '<p class="text-gray-400 text-sm">Failed to load source files.</p>';
