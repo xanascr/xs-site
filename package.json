@@ -8,6 +8,8 @@
     "start": "node app.js",
     "dev": "node --watch app.js",
     "seed": "node scripts/seed-course.js",
+    "seed:pt": "node scripts/seed-course-pt.js",
+    "seed:all": "node scripts/seed-course.js && node scripts/seed-course-pt.js",
     "test": "vitest run",
     "test:watch": "vitest"
   },

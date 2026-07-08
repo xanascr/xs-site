@@ -145,15 +145,17 @@ async function start() {
     });
     console.log("MongoDB connected");
 
-    // Auto-seed course if database is empty
+    // Auto-seed courses if database is empty
     try {
       const Course = (await import("./models/Course.js")).default;
       const count = await Course.countDocuments();
       if (count === 0) {
-        console.log("[seed] No courses found, running auto-seed...");
+        console.log("[seed] No courses found, running auto-seed (EN + PT)...");
         const { seedCourse } = await import("./scripts/seed-course.js");
+        const { seedCoursePt } = await import("./scripts/seed-course-pt.js");
         await seedCourse();
-        console.log("[seed] Course seeded successfully");
+        await seedCoursePt();
+        console.log("[seed] Both courses seeded successfully");
       } else {
         console.log(`[seed] ${count} course(s) already exist, skipping seed`);
       }
