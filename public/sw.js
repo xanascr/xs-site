@@ -1,5 +1,5 @@
 const CACHE = "xanascript-v1";
-const ASSETS = ["/", "/en/", "/pt/", "/es/", "/manifest.json"];
+const ASSETS = ["/", "/en/", "/pt/", "/es/", "/manifest.json", "/css/tailwind.css"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(
@@ -12,21 +12,27 @@ self.addEventListener("activate", (e) => {
 });
 
 self.addEventListener("fetch", (e) => {
-  // Only cache same-origin GET requests (skip CDN resources)
   const url = new URL(e.request.url);
+
+  // Only handle same-origin GET requests
   if (e.request.method !== "GET" || url.origin !== self.location.origin) return;
+
+  // Skip API routes (they have dynamic auth headers)
+  if (url.pathname.startsWith("/api/")) return;
+
+  // Only cache static assets (CSS, JS, images, fonts, manifest)
+  const isStatic = /\.(css|js|json|png|jpg|jpeg|gif|svg|ico|woff2?|ttf|eot)$/i.test(url.pathname)
+    || ASSETS.includes(url.pathname);
+  if (!isStatic) return;
 
   e.respondWith(
     caches.match(e.request).then((hit) => {
-      if (hit) {
-        fetch(e.request).then((res) => {
-          caches.open(CACHE).then((c) => c.put(e.request, res));
-        });
-        return hit;
-      }
+      if (hit) return hit;
       return fetch(e.request).then((res) => {
-        const clone = res.clone();
-        caches.open(CACHE).then((c) => c.put(e.request, clone));
+        if (res.ok) {
+          const clone = res.clone();
+          caches.open(CACHE).then((c) => c.put(e.request, clone));
+        }
         return res;
       });
     }).catch(() => caches.match("/en/"))
