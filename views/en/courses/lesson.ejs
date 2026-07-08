@@ -15,12 +15,10 @@
           <span class="xs-tag xs-tag-primary"><%= lesson.points || 0 %> pts</span>
         </div>
 
-        <% if (enrollment && !enrollment.progress.find(function(p) { return p.lessonSlug === lesson.slug && p.completed })) { %>
-          <p class="mb-4 text-sm text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-4 py-2">Complete the challenges below and click "Mark as Completed" to earn your points.</p>
-        <% } %>
+        <div id="lessonAlert"></div>
 
         <div class="prose prose-sm sm:prose max-w-none text-gray-700 mb-8">
-          <%= lesson.bodyHtml || lesson.contentHtml || lesson.content || '' %>
+          <%- lessonHtml %>
         </div>
 
         <% if (lesson.challenges && lesson.challenges.length > 0) { %>
@@ -46,7 +44,10 @@
             <% } else if (enrollment) { %>
               <button id="completeBtn" class="xs-btn xs-btn-primary">Mark as Completed</button>
             <% } else { %>
-              <a href="/<%= lang %>/login?redirect=/<%= lang %>/courses/<%= course.slug %>/lessons/<%= lesson.slug %>" class="xs-btn xs-btn-primary">Log in to track progress</a>
+              <div id="notEnrolled">
+                <a href="/<%= lang %>/login?redirect=/<%= lang %>/courses/<%= course.slug %>/lessons/<%= lesson.slug %>" class="xs-btn xs-btn-primary">Log in to track progress</a>
+                <p class="text-xs text-gray-400 mt-2">Or <a href="/<%= lang %>/courses/<%= course.slug %>" class="text-pinky-400 underline">enroll first</a> if you already logged in.</p>
+              </div>
             <% } %>
           </div>
           <span id="earnedPoints" class="text-sm text-gray-400"></span>
@@ -59,9 +60,52 @@
 <script>
 (function() {
   var token = localStorage.getItem('xs_token');
+  if (!token) return;
 
-  var completeBtn = document.getElementById('completeBtn');
-  if (completeBtn) {
+  // Try to fetch enrollment from API (SSR may have missed it due to cookie not being set)
+  fetch('/api/courses/<%= course.slug %>/progress', {
+    headers: { 'Authorization': 'Bearer ' + token }
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(d) {
+    if (!d.ok) return;
+    var enrollment = d.enrollment;
+    if (!enrollment) {
+      // Not enrolled — offer enrollment
+      var statusDiv = document.getElementById('lessonStatus');
+      if (statusDiv && document.getElementById('enrolled') || document.getElementById('enrollInline')) return;
+      // Redirect to course page if not enrolled
+      window.location.href = '/<%= lang %>/courses/<%= course.slug %>?enroll=1';
+      return;
+    }
+
+    var prog = (enrollment.progress || []).find(function(p) { return p.lessonSlug === '<%= lesson.slug %>' });
+    var completed = prog && prog.completed;
+
+    if (completed) {
+      var statusDiv = document.getElementById('lessonStatus');
+      if (statusDiv) {
+        statusDiv.innerHTML = '<span class="inline-flex items-center gap-1.5 text-sm text-green-600 font-semibold"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Completed</span>';
+      }
+      document.querySelectorAll('.challenge-input').forEach(function(inp) { inp.disabled = true; });
+      return;
+    }
+
+    // Enrolled but not completed — show complete button
+    var notEnrolledDiv = document.getElementById('enrolled');
+    if (notEnrolledDiv) notEnrolledDiv.innerHTML = '';
+    var statusDiv = document.getElementById('lessonStatus');
+    if (statusDiv && !statusDiv.querySelector('#completeBtn')) {
+      statusDiv.innerHTML = '<button id="completeBtn" class="xs-btn xs-btn-primary">Mark as Completed</button>';
+      setupCompleteBtn(enrollment);
+    }
+  })
+  .catch(function() {});
+
+  function setupCompleteBtn(enrollment) {
+    var completeBtn = document.getElementById('completeBtn');
+    if (!completeBtn) return;
+
     completeBtn.addEventListener('click', function() {
       var answers = [];
       document.querySelectorAll('.challenge-input').forEach(function(inp) {

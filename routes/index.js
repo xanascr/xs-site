@@ -198,6 +198,10 @@ router.get("/:lang(en|pt|es)?/courses/:slug/lessons/:lessonSlug", async (req, re
     const lesson = course.lessons.find(l => l.slug === req.params.lessonSlug);
     if (!lesson) return res.status(404).render(`${lang}/404`, { lang });
 
+    // Render markdown body to clean HTML
+    const marked = (await import("marked")).marked;
+    const lessonHtml = lesson.bodyMd ? marked.parse(lesson.bodyMd, { async: false }) : (lesson.bodyHtml || lesson.contentHtml || lesson.content || "");
+
     let enrollment = null;
     const token = req.headers.cookie?.match(/token=([^;]+)/)?.[1];
     if (token) {
@@ -207,7 +211,7 @@ router.get("/:lang(en|pt|es)?/courses/:slug/lessons/:lessonSlug", async (req, re
         enrollment = await Enrollment.findOne({ userId: payload.id, courseId: course._id }).lean();
       } catch {}
     }
-    res.render(`${lang}/courses/lesson`, { lang, course, lesson, enrollment, page: "courses" });
+    res.render(`${lang}/courses/lesson`, { lang, course, lesson, lessonHtml, enrollment, page: "courses" });
   } catch {
     res.status(404).render(`${lang}/404`, { lang });
   }

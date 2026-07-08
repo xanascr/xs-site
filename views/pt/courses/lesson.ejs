@@ -20,7 +20,7 @@
         <% } %>
 
         <div class="prose prose-sm sm:prose max-w-none text-gray-700 mb-8">
-          <%= lesson.bodyHtml || lesson.contentHtml || lesson.content || '' %>
+          <%- lessonHtml %>
         </div>
 
         <% if (lesson.challenges && lesson.challenges.length > 0) { %>
