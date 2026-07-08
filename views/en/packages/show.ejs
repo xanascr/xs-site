@@ -103,18 +103,23 @@
 var pkgName = '<%= pkg.name %>';
 var currentVersion = '<%= pkg.version %>';
 
-document.getElementById('installCopyBtn').addEventListener('click', function() {
-  navigator.clipboard.writeText('xs install ' + pkgName).then(function() {
-    var btn = document.getElementById('installCopyBtn');
-    btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Copied!';
-    setTimeout(function() {
-      btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg> xs install ' + pkgName;
-    }, 2000);
+var installBtn = document.getElementById('installCopyBtn');
+if (installBtn) {
+  installBtn.addEventListener('click', function() {
+    navigator.clipboard.writeText('xs install ' + pkgName).then(function() {
+      var btn = document.getElementById('installCopyBtn');
+      btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Copied!';
+      setTimeout(function() {
+        btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg> xs install ' + pkgName;
+      }, 2000);
+    });
   });
-});
+}
 
-document.getElementById('downloadBtn').addEventListener('click', downloadTar);
-document.getElementById('versionSelect').addEventListener('change', function() {
+var dlBtn = document.getElementById('downloadBtn');
+if (dlBtn) dlBtn.addEventListener('click', downloadTar);
+var verSelect = document.getElementById('versionSelect');
+if (verSelect) verSelect.addEventListener('change', function() {
   switchVersion(this.value);
 });
 

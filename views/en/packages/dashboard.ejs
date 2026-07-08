@@ -75,11 +75,16 @@
   var token = localStorage.getItem('xs_token');
   var user = JSON.parse(localStorage.getItem('xs_user') || 'null');
   if (!token || !user) { window.location.href = '<%= lang === 'en' ? '' : '/' + lang %>/login'; return; }
-  document.getElementById('userInfo').textContent = 'Logged in as ' + user.username + ' (' + user.role + ')';
-  document.getElementById('editModal').addEventListener('click', function(e) { if (e.target === this) closeEdit(); });
-  document.getElementById('editCloseBtn').addEventListener('click', closeEdit);
-  document.getElementById('editCancelBtn').addEventListener('click', closeEdit);
-  document.getElementById('logoutBtn').addEventListener('click', async function() {
+  var el = document.getElementById('userInfo');
+  if (el) el.textContent = 'Logged in as ' + user.username + ' (' + user.role + ')';
+  el = document.getElementById('editModal');
+  if (el) el.addEventListener('click', function(e) { if (e.target === this) closeEdit(); });
+  el = document.getElementById('editCloseBtn');
+  if (el) el.addEventListener('click', closeEdit);
+  el = document.getElementById('editCancelBtn');
+  if (el) el.addEventListener('click', closeEdit);
+  el = document.getElementById('logoutBtn');
+  if (el) el.addEventListener('click', async function() {
     try { await fetch('/api/auth/logout', { method:'POST', headers:{'Authorization':'Bearer '+token} }); } catch(_) {}
     localStorage.removeItem('xs_token');
     localStorage.removeItem('xs_user');
