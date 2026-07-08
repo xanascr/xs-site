@@ -3,6 +3,7 @@ import Package from "../models/Package.js";
 import User from "../models/User.js";
 import { adminOrApiKey } from "../middleware/auth.js";
 import { sendPackageApproved, sendPackageRejected } from "../services/email.js";
+import { sanitizeHtml } from "../services/sanitize.js";
 
 const VALID_STATUSES = ["pending", "approved", "rejected"];
 
@@ -29,6 +30,9 @@ router.get("/packages/:name", async (req, res) => {
       .populate("authorId", "username email role createdAt")
       .lean();
     if (!pkg) return res.status(404).json({ ok: false, error: "Package not found" });
+    if (!pkg.readmeSanitized && pkg.readme) {
+      pkg.readmeSanitized = sanitizeHtml(pkg.readme);
+    }
     res.json({ ok: true, package: pkg });
   } catch (e) {
     res.status(500).json({ ok: false, error: e.message });

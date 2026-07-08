@@ -14,7 +14,7 @@
             <p class="text-gray-500 mt-2 text-lg"><%= pkg.description %></p>
           </div>
           <div class="text-right text-sm text-gray-400 shrink-0">
-            <div class="text-2xl font-black text-gray-800">v<%= pkg.version %></div>
+            <div class="text-2xl font-black text-gray-800" id="pkgVersion">v<%= pkg.version %></div>
             <div class="mt-1"><%= pkg.downloads?.toLocaleString() || 0 %> <%= t('packages.downloads') %></div>
           </div>
         </div>
@@ -42,22 +42,50 @@
         </div>
         <% } %>
 
+        <% if (pkg.dependencies && pkg.dependencies.length > 0) { %>
+        <div class="mt-4">
+          <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Dependencies</span>
+          <div class="flex flex-wrap gap-1.5 mt-1">
+            <% pkg.dependencies.forEach(function(dep) { %>
+            <a href="/<%= lang %>/packages/<%= dep %>" class="text-xs bg-gray-50 text-gray-600 px-2.5 py-1 rounded border border-gray-200 hover:border-pinky-300 hover:text-pinky-500 transition-colors no-underline font-mono"><%= dep %></a>
+            <% }) %>
+          </div>
+        </div>
+        <% } %>
+
         <div class="mt-6 flex gap-3 flex-wrap">
           <button onclick="navigator.clipboard.writeText('xs install <%= pkg.name %>')" class="bg-pinky-400 hover:bg-pinky-500 text-white px-5 py-2.5 rounded-lg font-semibold text-sm transition-all inline-flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
             xs install <%= pkg.name %>
           </button>
+          <button onclick="downloadTar()" class="border border-gray-300 hover:border-pinky-400 hover:text-pinky-500 text-gray-600 px-5 py-2.5 rounded-lg font-semibold text-sm transition-all inline-flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            Download .tar.gz
+          </button>
         </div>
+
+        <% if (versions && versions.length > 1) { %>
+        <div class="mt-4 flex items-center gap-2">
+          <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Version:</span>
+          <select id="versionSelect" onchange="switchVersion(this.value)" class="text-sm border border-gray-300 rounded-lg px-3 py-1.5 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-pinky-300 focus:border-pinky-400">
+            <% versions.forEach(function(v) { %>
+            <option value="<%= v %>" <%= v === pkg.version ? 'selected' : '' %>><%= v %></option>
+            <% }) %>
+          </select>
+        </div>
+        <% } %>
       </div>
 
-      <% if (pkg.readmeSanitized) { %>
-      <div class="border-t border-gray-100 px-8 py-6">
-        <h2 class="text-lg font-bold text-gray-800 mb-4">README</h2>
-        <div class="prose prose-sm max-w-none text-gray-600">
-          <%- pkg.readmeSanitized %>
+      <div class="border-t border-gray-100" id="readmeSection">
+        <% if (pkg.readmeSanitized) { %>
+        <div class="px-8 py-6">
+          <h2 class="text-lg font-bold text-gray-800 mb-4">README</h2>
+          <div class="markdown-body">
+            <%- pkg.readmeSanitized %>
+          </div>
         </div>
+        <% } %>
       </div>
-      <% } %>
 
       <div class="border-t border-gray-100 px-8 py-6">
         <h2 class="text-lg font-bold text-gray-800 mb-4"><%= t('packages.sourceFiles') %></h2>
@@ -70,6 +98,31 @@
 </section>
 
 <script>
+var pkgName = '<%= pkg.name %>';
+var currentVersion = '<%= pkg.version %>';
+
+async function downloadTar() {
+  try {
+    const res = await fetch('/api/packages/' + pkgName + '/download', { method: 'POST' });
+    if (!res.ok) { alert('Download failed'); return; }
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = pkgName + '-' + currentVersion + '.tar.gz';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  } catch (e) {
+    alert('Download error: ' + e.message);
+  }
+}
+
+function switchVersion(version) {
+  window.location.href = window.location.pathname.replace(/\/[^/]*$/, '') + '/' + version;
+}
+
 (async function() {
   try {
     const res = await fetch('/api/packages/<%= pkg.name %>/source');

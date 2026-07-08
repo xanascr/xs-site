@@ -16,11 +16,11 @@ vi.mock("axios", () => ({
   get: vi.fn().mockResolvedValue({ data: { downloads: 1000 } }),
 }));
 
-vi.mock("https", () => {
+function makeS3Mock() {
   const mockRes = {
     statusCode: 200,
     on(event, cb) {
-      if (event === "data") cb("");
+      if (event === "data") cb(Buffer.from(""));
       if (event === "end") cb();
       return this;
     },
@@ -33,7 +33,10 @@ vi.mock("https", () => {
     default: { request: vi.fn(createReq) },
     request: vi.fn(createReq),
   };
-});
+}
+
+vi.mock("https", () => makeS3Mock());
+vi.mock("http", () => makeS3Mock());
 
 vi.mock("../services/twoFactor.js", () => ({
   generateSecret: vi.fn(() => ({ secret: "TESTBASE32SECRET", otpauth: "otpauth://totp/test" })),
@@ -84,6 +87,7 @@ vi.mock("../models/Package.js", () => ({
     findOneAndUpdate: vi.fn(),
     create: vi.fn(),
     updateOne: vi.fn(),
+    countDocuments: vi.fn().mockResolvedValue(0),
   },
 }));
 
@@ -116,6 +120,7 @@ function makeQuery(result) {
   const q = {
     select: vi.fn().mockReturnThis(),
     sort: vi.fn().mockReturnThis(),
+    skip: vi.fn().mockReturnThis(),
     limit: vi.fn().mockReturnThis(),
     lean: vi.fn().mockReturnThis(),
     populate: vi.fn().mockReturnThis(),
@@ -729,7 +734,7 @@ describe("POST /api/packages size limit", () => {
       .field("version", "1.0.0")
       .attach("file", oversized, "oversized-pkg-1.0.0.tar.gz");
 
-    expect(res.status).toBe(500); // multer rejects before handler
+    expect(res.status).toBe(400); // multer rejects before handler
     expect(Package.create).not.toHaveBeenCalled();
   });
 });
@@ -907,7 +912,7 @@ describe("GET /api/packages/:name", () => {
 });
 
 describe("POST /api/packages/:name/download", () => {
-  it("increments the download counter and returns package info", async () => {
+  it("increments the download counter and returns tarball", async () => {
     const pkg = makePackage({ name: "dl-pkg", status: "approved", downloads: 5 });
     Package.findOne.mockResolvedValue(pkg);
     Package.updateOne.mockResolvedValue({ acknowledged: true });
@@ -915,8 +920,7 @@ describe("POST /api/packages/:name/download", () => {
     const res = await request(app).post("/api/packages/dl-pkg/download");
 
     expect(res.status).toBe(200);
-    expect(res.body.ok).toBe(true);
-    expect(res.body.downloads).toBe(6);
+    expect(res.headers["content-type"]).toBe("application/gzip");
     expect(Package.updateOne).toHaveBeenCalledWith(
       { _id: "pkg1" },
       { $inc: { downloads: 1 } }

@@ -1,4 +1,5 @@
 import { Router } from "express";
+import semver from "semver";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -214,8 +215,46 @@ router.get("/:lang(en|pt|es)?/packages/:name", async (req, res) => {
   try {
     const pkg = await Package.findOne({ name: req.params.name, status: "approved" }).lean();
     if (!pkg) return res.status(404).render(`${lang}/404`, { lang });
+
+    // Get versions list (sorted newest first)
+    const versions = (pkg.versions || [])
+      .map(v => v.version)
+      .sort((a, b) => semver.rcompare(a, b));
+
     if (pkg.readme) pkg.readmeSanitized = sanitizeHtml(pkg.readme);
-    res.render(`${lang}/packages/show`, { lang, pkg, page: "packages" });
+    res.render(`${lang}/packages/show`, { lang, pkg, versions, page: "packages" });
+  } catch {
+    res.status(404).render(`${lang}/404`, { lang });
+  }
+});
+
+router.get("/:lang(en|pt|es)?/packages/:name/:version", async (req, res) => {
+  const lang = req.params.lang || "en";
+  try {
+    const pkg = await Package.findOne({ name: req.params.name, status: "approved" }).lean();
+    if (!pkg) return res.status(404).render(`${lang}/404`, { lang });
+
+    const reqVer = req.params.version;
+    const versionData = (pkg.versions || []).find(v => v.version === reqVer);
+    if (!versionData) return res.status(404).render(`${lang}/404`, { lang });
+
+    // Override with version-specific data
+    pkg.version = versionData.version;
+    if (versionData.description) pkg.description = versionData.description;
+    if (versionData.license) pkg.license = versionData.license;
+    if (versionData.repository) pkg.repository = versionData.repository;
+    if (versionData.keywords?.length > 0) pkg.keywords = versionData.keywords;
+    if (versionData.readme) pkg.readme = versionData.readme;
+    if (versionData.s3Key) pkg.s3Key = versionData.s3Key;
+    if (versionData.fileSize) pkg.fileSize = versionData.fileSize;
+    if (versionData.dependencies?.length > 0) pkg.dependencies = versionData.dependencies;
+
+    const versions = (pkg.versions || [])
+      .map(v => v.version)
+      .sort((a, b) => semver.rcompare(a, b));
+
+    if (pkg.readme) pkg.readmeSanitized = sanitizeHtml(pkg.readme);
+    res.render(`${lang}/packages/show`, { lang, pkg, versions, page: "packages" });
   } catch {
     res.status(404).render(`${lang}/404`, { lang });
   }
