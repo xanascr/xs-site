@@ -15,7 +15,7 @@
 
     <div class="flex gap-2 mb-6 flex-wrap">
       <button id="navPackages" class="text-sm px-4 py-2 rounded-lg font-semibold bg-pinky-400 text-white">Pacotes</button>
-      <a href="//admin/certificates" class="text-sm px-4 py-2 rounded-lg font-semibold bg-gray-100 text-gray-500 hover:bg-gray-200 no-underline">Certificados</a>
+      <a href="/admin/certificates" class="text-sm px-4 py-2 rounded-lg font-semibold bg-gray-100 text-gray-500 hover:bg-gray-200 no-underline">Certificados</a>
     </div>
 
     <div id="adminContent">
@@ -28,7 +28,7 @@
     </div>
 
     <div id="packageReview" class="hidden">
-      <button id="backToList" class="text-sm text-gray-400 hover:text-pinky-400 no-underline mb-4">&larr; Voltar à lista</button>
+      <button id="backToList" class="text-sm text-gray-400 hover:text-pinky-400 no-underline mb-4">&lt;- Voltar a lista</button>
       <div id="reviewContent"></div>
     </div>
 
@@ -321,7 +321,7 @@
           data.keys.forEach(function(k) {
             var div = document.createElement('div');
             div.className = 'bg-white rounded-xl border border-gray-200 p-4 flex items-center justify-between';
-            div.innerHTML = '<div><div class="font-semibold text-sm text-gray-800">' + escapeHtml(k.name) + '</div><div class="text-xs text-gray-400 mt-0.5"><code>' + escapeHtml(k.prefix) + '...</code> &middot; Criada em ' + new Date(k.createdAt).toLocaleDateString() + (k.lastUsedAt ? ' &middot; Último uso em ' + new Date(k.lastUsedAt).toLocaleDateString() : ' &middot; Nunca usada') + '</div></div><button class="revoke-key text-xs text-red-500 hover:text-red-700 hover:bg-red-50 px-3 py-1 rounded-lg transition-colors" data-id="' + k.id + '">Revogar</button></div>';
+            div.innerHTML = '<div><div class="font-semibold text-sm text-gray-800">' + escapeHtml(k.name) + '</div><div class="text-xs text-gray-400 mt-0.5"><code>' + escapeHtml(k.prefix) + '...</code> - Criada em ' + new Date(k.createdAt).toLocaleDateString() + (k.lastUsedAt ? ' - Ultimo uso em ' + new Date(k.lastUsedAt).toLocaleDateString() : ' - Nunca usada') + '</div></div><button class="revoke-key text-xs text-red-500 hover:text-red-700 hover:bg-red-50 px-3 py-1 rounded-lg transition-colors" data-id="' + k.id + '">Revogar</button></div>';
             list.appendChild(div);
           });
           document.querySelectorAll('.revoke-key').forEach(function(btn) {

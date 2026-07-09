@@ -3,7 +3,7 @@
 
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
   <div class="max-w-3xl mx-auto">
-    <a href="/courses/<%= course.slug %>" class="text-sm text-gray-400 hover:text-pinky-400 no-underline mb-4 inline-block">&larr; Voltar ao curso</a>
+    <a href="/courses/<%= course.slug %>" class="text-sm text-gray-400 hover:text-pinky-400 no-underline mb-4 inline-block">&lt;- Voltar ao curso</a>
 
     <div class="xs-card xs-card-glass animate-fade-in p-8 text-center">
       <h1 class="text-3xl font-black mb-3">Certificado do Curso</h1>
@@ -25,7 +25,7 @@
             <p class="text-green-700 font-bold text-lg mb-1">Certificado Emitido!</p>
             <p class="text-sm text-green-600 mb-3">Código: <code class="font-mono bg-white px-2 py-1 rounded border border-green-200"><%= certificate.code %></code></p>
             <p class="text-xs text-gray-500">Você pode validar este certificado a qualquer momento na página de validação.</p>
-            <a href="//certificates/validate" class="xs-btn xs-btn-ghost mt-4">Validar Certificado</a>
+            <a href="/certificates/validate" class="xs-btn xs-btn-ghost mt-4">Validar Certificado</a>
           <% } %>
         </div>
       <% } else { %>

@@ -3,14 +3,14 @@
 
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
   <div class="max-w-3xl mx-auto animate-fade-in">
-    <a href="/courses/<%= course.slug %>" class="text-sm text-gray-400 hover:text-pinky-400 no-underline mb-4 inline-block">&larr; Voltar ao curso</a>
+    <a href="/courses/<%= course.slug %>" class="text-sm text-gray-400 hover:text-pinky-400 no-underline mb-4 inline-block">&lt;- Voltar ao curso</a>
 
     <div class="xs-card xs-card-glass p-6 sm:p-8">
       <div class="flex items-center gap-3 mb-2">
-        <span class="text-2xl">📝</span>
+        <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
         <h1 class="text-2xl sm:text-3xl font-black"><%= quiz.title %></h1>
       </div>
-      <p class="text-gray-500 text-sm mb-6">Quiz do Módulo &middot; <%= quiz.questions.length %> perguntas</p>
+      <p class="text-gray-500 text-sm mb-6">Quiz do Modulo - <%= quiz.questions.length %> perguntas</p>
 
       <div id="quizStart">
         <p class="text-sm text-gray-600 mb-4">Teste seus conhecimentos deste módulo. Nota mínima: <%= quiz.passingScore || 70 %>%.</p>
@@ -24,7 +24,7 @@
       </div>
 
       <div id="quizResult" class="hidden text-center py-8">
-        <div class="text-5xl mb-3" id="resultIcon">🎉</div>
+        <div class="text-5xl mb-3" id="resultIcon">--</div>
         <div class="text-2xl font-black mb-1" id="resultScore">0%</div>
         <p class="text-sm text-gray-500 mb-1" id="resultDetails">0/0 corretas</p>
         <p class="text-sm text-gray-500 mb-4" id="resultXp">+0 XP ganhos</p>
@@ -75,11 +75,11 @@
       var html = '';
       d.attempts.forEach(function(a) {
         var date = new Date(a.createdAt).toLocaleDateString();
-        var icon = a.passed ? '✅' : '❌';
+        var icon = a.passed ? '<span class="text-green-600 font-bold">OK</span>' : '<span class="text-red-500 font-bold">XX</span>';
         html += '<div class="flex items-center gap-3 bg-white border border-gray-200 rounded-lg px-4 py-3 text-sm">'
           + '<span>' + icon + '</span>'
-          + '<span class="flex-1">Tentativa #' + a.attemptNumber + ' &middot; ' + a.score + '%</span>'
-          + '<span class="text-xs text-gray-400">' + date + ' &middot; +' + a.earnedXp + ' XP</span>'
+          + '<span class="flex-1">Tentativa #' + a.attemptNumber + ' - ' + a.score + '%</span>'
+          + '<span class="text-xs text-gray-400">' + date + ' - +' + a.earnedXp + ' XP</span>'
           + '</div>';
       });
       attemptsList.innerHTML = html;
@@ -141,7 +141,8 @@
       if (!d.ok) { alert(d.error || 'Falhou'); submitBtn.disabled = false; submitBtn.textContent = 'Enviar Respostas'; return; }
       quizForm.classList.add('hidden');
       quizResult.classList.remove('hidden');
-      var icon = d.passed ? document.getElementById('resultIcon').textContent = '🎉' : document.getElementById('resultIcon').textContent = '💪';
+      var icon = d.passed ? 'OK' : 'XX';
+      document.getElementById('resultIcon').textContent = icon;
       document.getElementById('resultScore').textContent = d.score + '%';
       document.getElementById('resultDetails').textContent = d.correct + '/' + d.total + ' corretas';
       document.getElementById('resultXp').textContent = '+' + d.earnedXp + ' XP ganhos';

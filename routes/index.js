@@ -217,9 +217,6 @@ router.get("/privacy", (req, res) => {res.render("privacy", { page: "privacy" })
 router.get("/leaderboard", async (req, res) => {res.render("leaderboard", { page: "leaderboard" });
 });
 
-router.get("/playground", (req, res) => {res.render("playground", { code: req.query.code || "", page: "playground" });
-});
-
 router.get("/forgot-password", (req, res) => {res.render("forgot-password", { page: "forgot-password", sent: req.query.sent, error: req.query.error });
 });
 
