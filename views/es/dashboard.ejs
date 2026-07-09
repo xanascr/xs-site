@@ -1,0 +1,99 @@
+<%- include('../partials/head', { lang, t, alternates }) %>
+<%- include('../partials/navbar', { lang, t }) %>
+
+<section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
+  <div class="max-w-4xl mx-auto animate-fade-in">
+    <h1 class="text-3xl font-black mb-6">Dashboard</h1>
+
+    <% if (!user) { %>
+      <div class="xs-card xs-card-glass p-8 text-center">
+        <p class="text-gray-500 mb-4">Inicia sesión para ver tu progreso.</p>
+        <a href="/<%= lang %>/login?redirect=/<%= lang %>/dashboard" class="xs-btn xs-btn-primary">Iniciar sesión</a>
+      </div>
+    <% } else { %>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8" id="statsGrid">
+        <div class="xs-card xs-card-glass p-5 text-center animate-up" style="animation-delay:0s">
+          <div class="text-2xl font-black text-pinky-500"><%= user.xp || 0 %></div>
+          <div class="text-xs text-gray-500 mt-1">XP</div>
+        </div>
+        <div class="xs-card xs-card-glass p-5 text-center animate-up" style="animation-delay:0.05s">
+          <div class="text-2xl font-black text-pinky-500"><%= user.level || 1 %></div>
+          <div class="text-xs text-gray-500 mt-1">Nivel</div>
+        </div>
+        <div class="xs-card xs-card-glass p-5 text-center animate-up" style="animation-delay:0.1s">
+          <div class="text-2xl font-black <%= (user.streak || 0) >= 3 ? 'text-amber-500' : 'text-gray-500' %>"><%= user.streak || 0 %></div>
+          <div class="text-xs text-gray-500 mt-1">Racha</div>
+        </div>
+        <div class="xs-card xs-card-glass p-5 text-center animate-up" style="animation-delay:0.15s">
+          <div class="text-2xl font-black text-green-500" id="coursesDisplay">0</div>
+          <div class="text-xs text-gray-500 mt-1">Cursos</div>
+        </div>
+      </div>
+
+      <% var xp = user.xp || 0 %>
+      <% var currentLevel = user.level || 1 %>
+      <% var xpInLevel = xp % 200 %>
+      <div class="xs-card xs-card-glass p-6 mb-8">
+        <div class="flex items-center justify-between text-sm text-gray-500 mb-2">
+          <span>Nivel <%= currentLevel %> — Nivel <%= currentLevel + 1 %></span>
+          <span><%= xpInLevel %> / 200 XP</span>
+        </div>
+        <div class="w-full h-3 bg-gray-100 rounded-full overflow-hidden">
+          <div class="h-full bg-gradient-to-r from-pinky-400 to-amber-400 rounded-full transition-all" style="width:<%= (xpInLevel / 200 * 100) %>%"></div>
+        </div>
+      </div>
+
+      <h2 class="text-xl font-bold mb-4">Mis Cursos</h2>
+      <div id="enrollmentsList" class="space-y-3">
+        <div class="text-center py-8 text-gray-400">Cargando...</div>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<script>
+(async function() {
+  var token = localStorage.getItem('xs_token');
+  if (!token) return;
+  try {
+    var res = await fetch('/api/courses/dashboard/enrollments', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    var data = await res.json();
+    if (!data.ok) return;
+    var enrollments = data.enrollments || [];
+    document.getElementById('coursesDisplay').textContent = enrollments.length;
+    var list = document.getElementById('enrollmentsList');
+    if (enrollments.length === 0) {
+      list.innerHTML = '<div class="text-center py-8 text-gray-400">Sin cursos aún. <a href="/<%= lang %>/courses" class="text-pinky-500 underline">Ver cursos</a></div>';
+      return;
+    }
+    list.innerHTML = '';
+    enrollments.forEach(function(enc) {
+      var course = enc.courseId;
+      if (!course || !course.lessons) return;
+      var doneCount = (enc.progress || []).filter(function(p) { return p.completed; }).length;
+      var totalCount = course.lessons.length;
+      var pct = totalCount > 0 ? Math.round(doneCount / totalCount * 100) : 0;
+      var nextLesson = (course.lessons || []).find(function(l) {
+        var p = (enc.progress || []).find(function(x) { return x.lessonSlug === l.slug; });
+        return !p || !p.completed;
+      }) || course.lessons[0];
+      list.innerHTML += '<a href="/<%= lang %>/courses/' + course.slug + '/lessons/' + (nextLesson ? nextLesson.slug : '') + '" class="flex items-center gap-4 bg-white border border-gray-200 rounded-xl px-5 py-4 no-underline transition-all hover:border-pinky-400 hover:shadow-sm">'
+        + '<div class="flex-1 min-w-0">'
+        + '<div class="font-semibold text-sm text-gray-800 truncate">' + escapeHtml(course.title) + '</div>'
+        + '<div class="text-xs text-gray-400 mt-0.5">' + doneCount + '/' + totalCount + ' lecciones &middot; ' + (enc.points || 0) + ' pts</div>'
+        + '</div>'
+        + '<div class="w-24"><div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-green-500 rounded-full" style="width:' + pct + '%"></div></div></div>'
+        + '<span class="text-xs font-semibold text-pinky-400 shrink-0">' + (doneCount === 0 ? 'Empezar' : (doneCount < totalCount ? 'Continuar' : 'Repasar')) + '</span>'
+        + '<svg class="w-4 h-4 text-gray-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>'
+        + '</a>';
+    });
+    function escapeHtml(str) { var d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
+  } catch(e) {
+    document.getElementById('enrollmentsList').innerHTML = '<div class="text-center py-8 text-gray-400">Error al cargar.</div>';
+  }
+})();
+</script>
+
+<%- include('../partials/footer', { lang, t }) %>

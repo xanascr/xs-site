@@ -167,6 +167,24 @@ async function getEnrollment(courseId, req) {
 }
 
 // ── Courses ──────────────────────────────────────────────────────────────
+// ── Dashboard ────────────────────────────────────────────────────────────
+router.get("/:lang(en|pt|es)?/dashboard", async (req, res) => {
+  const lang = req.params.lang || "en";
+  try {
+    const token = req.headers.cookie?.match(/xs_token=([^;]+)/)?.[1];
+    let userData = null;
+    if (token) {
+      const jwt = (await import("jsonwebtoken")).default;
+      try {
+        const payload = jwt.verify(token, process.env.JWT_SECRET);
+        const User = (await import("../models/User.js")).default;
+        userData = await User.findById(payload.id).select("xp level streak username email").lean();
+      } catch {}
+    }
+    res.render(`${lang}/dashboard`, { lang, user: userData, page: "dashboard" });
+  } catch { res.status(404).render(`${lang}/404`, { lang }); }
+});
+
 router.get("/:lang(en|pt|es)?/courses", async (req, res) => {
   const lang = req.params.lang || "en";
   try {

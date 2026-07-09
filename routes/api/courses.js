@@ -3,6 +3,7 @@ import { auth, adminAuth } from "../../middleware/auth.js";
 import Course from "../../models/Course.js";
 import Enrollment from "../../models/Enrollment.js";
 import Certificate from "../../models/Certificate.js";
+import User from "../../models/User.js";
 
 const router = Router();
 
@@ -94,6 +95,34 @@ router.post("/:slug/lessons/:lessonSlug/complete", auth, async (req, res) => {
     }
 
     await enrollment.save();
+
+    // Award XP to user
+    const user = await User.findById(req.user.id);
+    if (user) {
+      user.xp = (user.xp || 0) + earned;
+
+      // Level up: every 200 XP
+      const newLevel = Math.floor(user.xp / 200) + 1;
+      if (newLevel > (user.level || 1)) user.level = newLevel;
+
+      // Update streak
+      const now = new Date();
+      const lastActivity = user.lastActivityAt;
+      if (lastActivity) {
+        const diff = now - new Date(lastActivity);
+        const hours = diff / (1000 * 60 * 60);
+        if (hours >= 24 && hours < 48) {
+          user.streak = (user.streak || 0) + 1;
+        } else if (hours >= 48) {
+          user.streak = 1;
+        }
+      } else {
+        user.streak = 1;
+      }
+      user.lastActivityAt = now;
+      await user.save();
+    }
+
     res.json({ ok: true, completed: true, points: enrollment.points, earned, certificateEligible: enrollment.certificateEligible });
   } catch (e) {
     res.status(500).json({ ok: false, error: e.message });
@@ -203,6 +232,17 @@ router.get("/certificates/validate/:code", async (req, res) => {
     const cert = await Certificate.findOne({ code: req.params.code, status: "issued" }).lean();
     if (!cert) return res.json({ ok: false, valid: false, error: "Invalid or pending certificate" });
     res.json({ ok: true, valid: true, certificate: { code: cert.code, userName: cert.userName, courseName: cert.courseName, issuedAt: cert.issuedAt, points: cert.points } });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
+
+// ── Dashboard: user progress across all courses ─────────────────────────
+router.get("/dashboard/enrollments", auth, async (req, res) => {
+  try {
+    const enrollments = await Enrollment.find({ userId: req.user.id }).populate("courseId", "title slug lang lessons").lean();
+    const user = await User.findById(req.user.id).select("xp level streak").lean();
+    res.json({ ok: true, enrollments, user });
   } catch (e) {
     res.status(500).json({ ok: false, error: e.message });
   }

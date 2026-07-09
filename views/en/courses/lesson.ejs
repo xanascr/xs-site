@@ -26,10 +26,10 @@
               <div id="challenges" class="space-y-4">
                 <% lesson.challenges.forEach(function(ch, i) { %>
                   <% var isDisabled = enrollment && enrollment.progress && enrollment.progress.find(function(p) { return p.lessonSlug === lesson.slug && p.completed }) %>
-                  <div class="bg-gray-50 border border-gray-200 rounded-xl p-4">
+                  <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 challenge-card" data-idx="<%= i %>">
                     <p class="font-semibold text-sm text-gray-800 mb-2">Challenge <%= i + 1 %>: <%= ch.question %></p>
                     <div class="flex items-center gap-2">
-                      <input type="text" class="challenge-input xs-input w-full" data-idx="<%= i %>" data-answer="<%= ch.answer.replace(/"/g, '&quot;') %>" placeholder="Type your answer..." <%= isCompleted ? 'disabled' : '' %>>
+                      <input type="text" class="challenge-input xs-input w-full" data-idx="<%= i %>" data-answer="<%= ch.answer.replace(/"/g, '&quot;') %>" placeholder="Type your answer..." <%= isDisabled ? 'disabled' : '' %>>
                       <span class="challenge-result text-sm font-semibold w-20 text-center"></span>
                     </div>
                     <div class="challenge-feedback text-xs mt-1 hidden"></div>
@@ -53,6 +53,40 @@
           </div>
           <span id="earnedPoints" class="text-sm text-gray-400"></span>
         </div>
+
+        <!-- Navigation: previous/next/continue -->
+        <div class="flex items-center justify-between mt-6 pt-4 border-t border-gray-100">
+          <div>
+            <% var prevIdx = (course.lessons || []).findIndex(function(l) { return l.slug === lesson.slug }) - 1 %>
+            <% if (prevIdx >= 0) { %>
+              <a href="/<%= lang %>/courses/<%= course.slug %>/lessons/<%= course.lessons[prevIdx].slug %>" class="text-sm text-gray-400 hover:text-pinky-500 no-underline inline-flex items-center gap-1">&larr; Previous</a>
+            <% } %>
+          </div>
+          <div>
+            <% var nextIdx = (course.lessons || []).findIndex(function(l) { return l.slug === lesson.slug }) + 1 %>
+            <% if (nextIdx < (course.lessons || []).length) { %>
+              <a href="/<%= lang %>/courses/<%= course.slug %>/lessons/<%= course.lessons[nextIdx].slug %>" id="nextLessonBtn" class="text-sm font-semibold text-pinky-500 hover:text-pinky-600 no-underline inline-flex items-center gap-1">Next &rarr;</a>
+            <% } else { %>
+              <a href="/<%= lang %>/courses/<%= course.slug %>/certificate" class="text-sm font-semibold text-pinky-500 hover:text-pinky-600 no-underline inline-flex items-center gap-1">Certificate &rarr;</a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="xs-card xs-card-glass mt-8 p-6 sm:p-8" id="commentsSection">
+      <h2 class="text-xl font-bold mb-4">Comments</h2>
+      <div id="commentsList" class="space-y-3">
+        <div class="text-center py-6 text-gray-400 text-sm">Loading comments...</div>
+      </div>
+      <div id="commentForm" class="mt-4 hidden">
+        <textarea id="commentBody" class="xs-input w-full" rows="3" placeholder="Share your thoughts..." maxlength="2000"></textarea>
+        <button id="submitCommentBtn" class="xs-btn xs-btn-primary text-sm mt-2">Post Comment</button>
+        <span id="commentError" class="text-xs text-red-500 ml-2 hidden"></span>
+      </div>
+      <div id="loginToComment" class="mt-4 hidden">
+        <a href="/<%= lang %>/login?redirect=/<%= lang %>/courses/<%= course.slug %>/lessons/<%= lesson.slug %>" class="text-sm text-pinky-500 underline">Log in to comment</a>
       </div>
     </div>
   </div>
@@ -61,7 +95,9 @@
 <script>
 (function() {
   var token = localStorage.getItem('xs_token');
-  if (!token) return;
+  var lang = '<%= lang %>';
+  var courseSlug = '<%= course.slug %>';
+  var lessonSlug = '<%= lesson.slug %>';
 
   // ── Complete button ─────────────────────────────────────────────────
   var completeBtn = document.getElementById('completeBtn');
@@ -73,50 +109,170 @@
       });
       completeBtn.disabled = true;
       completeBtn.textContent = 'Saving...';
-      fetch('/api/courses/<%= course.slug %>/lessons/<%= lesson.slug %>/complete', {
+      fetch('/api/courses/' + courseSlug + '/lessons/' + lessonSlug + '/complete', {
         method: 'POST',
         headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
         body: JSON.stringify({ answers: answers })
       })
       .then(function(r) { return r.json(); })
       .then(function(d) {
-        if (d.ok) { window.location.reload(); }
-        else { alert(d.error || 'Failed'); completeBtn.disabled = false; completeBtn.textContent = 'Mark as Completed'; }
+        if (d.ok) {
+          var pts = document.getElementById('earnedPoints');
+          if (d.earned) pts.textContent = '+' + d.earned + ' XP earned!';
+          pts.className = 'text-sm text-green-600 font-semibold';
+          setTimeout(function() { window.location.reload(); }, 1200);
+        } else {
+          alert(d.error || 'Failed');
+          completeBtn.disabled = false;
+          completeBtn.textContent = 'Mark as Completed';
+        }
       })
-      .catch(function() { alert('Network error.'); completeBtn.disabled = false; completeBtn.textContent = 'Mark as Completed'; });
+      .catch(function() {
+        alert('Network error.');
+        completeBtn.disabled = false;
+        completeBtn.textContent = 'Mark as Completed';
+      });
     });
   }
 
   // ── Check answers ───────────────────────────────────────────────────
   var checkBtn = document.getElementById('checkAnswersBtn');
-  if (!checkBtn) return;
+  if (checkBtn) {
+    checkBtn.addEventListener('click', function() {
+      var allCorrect = true;
+      document.querySelectorAll('.challenge-card').forEach(function(card) {
+        var inp = card.querySelector('.challenge-input');
+        var correctAnswer = inp.getAttribute('data-answer');
+        var userAnswer = inp.value.trim().toLowerCase();
+        var correctLow = (correctAnswer || '').trim().toLowerCase();
+        var isCorrect = correctAnswer && userAnswer === correctLow;
+        var resultSpan = card.querySelector('.challenge-result');
+        var fb = card.querySelector('.challenge-feedback');
 
-  checkBtn.addEventListener('click', function() {
-    document.querySelectorAll('.challenge-input').forEach(function(inp) {
-      var correctAnswer = inp.getAttribute('data-answer');
-      var userAnswer = inp.value.trim().toLowerCase();
-      var correctLow = (correctAnswer || '').trim().toLowerCase();
-      var isCorrect = correctAnswer && userAnswer === correctLow;
-      var resultSpan = inp.parentElement.querySelector('.challenge-result');
-      var fb = inp.parentElement.parentElement.querySelector('.challenge-feedback');
+        inp.className = inp.className.replace(/border-(red|green)-\d+/g, '').trim();
+        inp.className += ' xs-input w-full';
+        inp.classList.remove('border-gray-200');
 
-      if (isCorrect) {
-        inp.classList.remove('border-red-300');
-        inp.classList.add('border-green-300', 'bg-green-50');
-        if (resultSpan) { resultSpan.textContent = '✓ Correct'; resultSpan.className = 'challenge-result text-sm font-semibold w-20 text-center text-green-600'; }
-        if (fb) { fb.textContent = ''; fb.classList.add('hidden'); }
-      } else {
-        inp.classList.remove('border-green-300', 'bg-green-50');
-        inp.classList.add('border-red-300');
-        if (resultSpan) { resultSpan.textContent = '✗ Wrong'; resultSpan.className = 'challenge-result text-sm font-semibold w-20 text-center text-red-500'; }
-        if (fb) {
-          fb.textContent = 'Answer starts with: ' + (correctAnswer ? correctAnswer.substring(0, 3) + '...' : '');
-          fb.classList.remove('hidden', 'text-green-600');
-          fb.classList.add('text-red-500');
+        if (!userAnswer) {
+          if (resultSpan) { resultSpan.textContent = ''; resultSpan.className = 'challenge-result text-sm font-semibold w-20 text-center'; }
+          if (fb) { fb.classList.add('hidden'); }
+          allCorrect = false;
+          return;
         }
+
+        if (isCorrect) {
+          inp.classList.add('border-green-300', 'bg-green-50');
+          if (resultSpan) { resultSpan.textContent = '✓ Correct'; resultSpan.className = 'challenge-result text-sm font-semibold w-20 text-center text-green-600'; }
+          if (fb) { fb.textContent = ''; fb.classList.add('hidden'); }
+        } else {
+          inp.classList.add('border-red-300');
+          if (resultSpan) { resultSpan.textContent = '✗ Wrong'; resultSpan.className = 'challenge-result text-sm font-semibold w-20 text-center text-red-500'; }
+          if (fb) {
+            fb.textContent = 'Answer starts with: ' + (correctAnswer ? correctAnswer.substring(0, 3) + '...' : '');
+            fb.classList.remove('hidden');
+            fb.className = 'challenge-feedback text-xs mt-1 text-red-500';
+          }
+          allCorrect = false;
+        }
+      });
+
+      if (allCorrect && completeBtn) {
+        completeBtn.textContent = 'All correct! Complete now →';
+        completeBtn.className = 'xs-btn xs-btn-primary animate-pulse';
       }
     });
-  });
+  }
+
+  // ── Comments ────────────────────────────────────────────────────────────────
+  function loadComments() {
+    fetch('/api/courses/' + courseSlug + '/lessons/' + lessonSlug + '/comments')
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        var list = document.getElementById('commentsList');
+        if (!d.ok || !d.comments || d.comments.length === 0) {
+          list.innerHTML = '<div class="text-center py-6 text-gray-400 text-sm">No comments yet. Be the first!</div>';
+          return;
+        }
+        list.innerHTML = '';
+        d.comments.forEach(function(c) {
+          var date = new Date(c.createdAt).toLocaleDateString();
+          list.innerHTML += '<div class="bg-gray-50 border border-gray-200 rounded-xl p-4">'
+            + '<div class="flex items-center gap-2 mb-1">'
+            + '<span class="font-semibold text-xs text-gray-700">' + escapeHtml(c.username) + '</span>'
+            + '<span class="text-xs text-gray-400">' + date + '</span>'
+            + (c.userId === (token ? parseJwt(token).id : null) ? '<button class="text-xs text-red-400 hover:text-red-600 ml-auto delete-comment" data-id="' + c._id + '">Delete</button>' : '')
+            + '</div>'
+            + '<p class="text-sm text-gray-700">' + escapeHtml(c.body) + '</p>'
+            + '</div>';
+        });
+        document.querySelectorAll('.delete-comment').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var id = this.getAttribute('data-id');
+            if (!confirm('Delete this comment?')) return;
+            fetch('/api/courses/' + courseSlug + '/lessons/' + lessonSlug + '/comments/' + id, {
+              method: 'DELETE',
+              headers: { 'Authorization': 'Bearer ' + token }
+            }).then(function(r) { return r.json(); }).then(function(d) {
+              if (d.ok) loadComments();
+              else alert(d.error || 'Failed');
+            });
+          });
+        });
+      });
+  }
+
+  function parseJwt(token) {
+    try { return JSON.parse(atob(token.split('.')[1])); } catch(e) { return {}; }
+  }
+
+  function escapeHtml(str) {
+    var d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  // Comment form visibility
+  var commentForm = document.getElementById('commentForm');
+  if (token) {
+    commentForm.classList.remove('hidden');
+  } else {
+    document.getElementById('loginToComment').classList.remove('hidden');
+  }
+
+  var submitBtn = document.getElementById('submitCommentBtn');
+  if (submitBtn) {
+    submitBtn.addEventListener('click', function() {
+      var body = document.getElementById('commentBody');
+      if (!body.value.trim()) { showError('Comment cannot be empty'); return; }
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Posting...';
+      fetch('/api/courses/' + courseSlug + '/lessons/' + lessonSlug + '/comments', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ body: body.value.trim() })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (d.ok) {
+          body.value = '';
+          loadComments();
+          hideError();
+        } else { showError(d.error || 'Failed'); }
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Post Comment';
+      })
+      .catch(function() { showError('Network error.'); submitBtn.disabled = false; submitBtn.textContent = 'Post Comment'; });
+    });
+  }
+
+  function showError(msg) {
+    var el = document.getElementById('commentError');
+    el.textContent = msg;
+    el.classList.remove('hidden');
+  }
+  function hideError() { document.getElementById('commentError').classList.add('hidden'); }
+
+  loadComments();
 })();
 </script>
 

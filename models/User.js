@@ -33,6 +33,12 @@ const userSchema = new mongoose.Schema(
       lastUsedAt: { type: Date, default: null },
     }],
 
+    // Gamification
+    xp: { type: Number, default: 0 },
+    level: { type: Number, default: 1 },
+    streak: { type: Number, default: 0 },
+    lastActivityAt: { type: Date, default: null },
+
     // LGPD / privacy
     privacyConsent: { type: Boolean, default: false },
     privacyConsentAt: { type: Date, default: null },
@@ -60,6 +66,9 @@ userSchema.methods.toPublic = function () {
     emailVerified: this.emailVerified,
     twoFactorEnabled: this.twoFactorEnabled,
     privacyConsent: this.privacyConsent,
+    xp: this.xp,
+    level: this.level,
+    streak: this.streak,
     createdAt: this.createdAt,
   };
 };
