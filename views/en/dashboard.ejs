@@ -185,7 +185,12 @@
       var res = await fetch('/api/packages/mine', { headers: { 'Authorization': 'Bearer ' + token } });
       var data = await res.json();
       var list = document.getElementById('myPackagesList');
-      if (!data.ok || !data.packages || data.packages.length === 0) {
+      if (!data.ok || !data.packages) {
+        console.warn('Dashboard: packages API response', data);
+        list.innerHTML = '<div class="text-center py-8 text-gray-400">No packages published. <a href="/' + lang + '/packages/dashboard" class="text-pinky-500 underline">Publish one</a></div>';
+        return;
+      }
+      if (data.packages.length === 0) {
         list.innerHTML = '<div class="text-center py-8 text-gray-400">No packages published. <a href="/' + lang + '/packages/dashboard" class="text-pinky-500 underline">Publish one</a></div>';
         return;
       }
@@ -199,6 +204,7 @@
           + '<svg class="w-4 h-4 text-gray-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></a>';
       });
     } catch(e) {
+      console.error('Dashboard: my packages failed', e);
       document.getElementById('myPackagesList').innerHTML = '<div class="text-center py-8 text-gray-400">Failed to load packages.</div>';
     }
   })();
