@@ -10,9 +10,7 @@ const lessons = [
     title: "What is XanaScript?",
     order: 1,
     points: 5,
-    bodyMd: `# What is XanaScript?
-
-XanaScript is a **full programming language** designed entirely in Brazilian Portuguese. Unlike transpilers or wrappers, every keyword, operator, and syntax construct is native Portuguese — parsed, type-checked, compiled, and executed by a custom toolchain written in JavaScript.
+    bodyMd: `XanaScript is a **full programming language** designed entirely in Brazilian Portuguese. Unlike transpilers or wrappers, every keyword, operator, and syntax construct is native Portuguese — parsed, type-checked, compiled, and executed by a custom toolchain written in JavaScript.
 
 ## Key Features
 
@@ -38,9 +36,7 @@ Code should read like it's written for humans. Every construct in XanaScript use
     title: "Installation & Setup",
     order: 2,
     points: 5,
-    bodyMd: `# Installation & Setup
-
-XanaScript can be installed in two ways:
+    bodyMd: `XanaScript can be installed in two ways:
 
 ## Via npm (Cross-platform)
 
@@ -78,9 +74,7 @@ Install \`vscode-xs\` from the marketplace for syntax highlighting, snippets, an
     title: "Your First Program",
     order: 3,
     points: 10,
-    bodyMd: `# Your First Program
-
-Let's write the classic "Hello, World!" in XanaScript:
+    bodyMd: `Let's write the classic "Hello, World!" in XanaScript:
 
 \`\`\`xs
 SOLTA O GRITO("Hello, World!")
@@ -129,9 +123,7 @@ SOLTA O GRITO("Ola, " + nome + "! Voce tem " + idade + " anos.")
     title: "Variables with CRIA",
     order: 4,
     points: 10,
-    bodyMd: `# Variables with CRIA
-
-\`CRIA\` ("create") declares a mutable variable in XanaScript:
+    bodyMd: `\`CRIA\` ("create") declares a mutable variable in XanaScript:
 
 \`\`\`xs
 CRIA nome = "Joao"
@@ -178,9 +170,7 @@ SOLTA O GRITO(a + b + c)  // 6
     title: "Constants with CONSTANTE",
     order: 5,
     points: 10,
-    bodyMd: `# Constants with CONSTANTE
-
-\`CONSTANTE\` declares an immutable, read-only binding:
+    bodyMd: `\`CONSTANTE\` declares an immutable, read-only binding:
 
 \`\`\`xs
 CONSTANTE PI = 3.14159
@@ -222,9 +212,7 @@ Always prefer \`CONSTANTE\` by default. Only use \`CRIA\` when the value needs t
     title: "Comments",
     order: 6,
     points: 5,
-    bodyMd: `# Comments
-
-Comments are ignored by the compiler and exist only for humans reading the code.
+    bodyMd: `Comments are ignored by the compiler and exist only for humans reading the code.
 
 ## Single-Line Comments
 
@@ -263,9 +251,7 @@ Use multi-line comments for function documentation explaining what the function 
     title: "Data Types",
     order: 7,
     points: 10,
-    bodyMd: `# Data Types
-
-XanaScript has five built-in types.
+    bodyMd: `XanaScript has five built-in types.
 
 ## TEXTO (String)
 
@@ -314,9 +300,7 @@ Each type serves a specific purpose. Type inference handles them automatically.`
     title: "Type Inference",
     order: 8,
     points: 10,
-    bodyMd: `# Type Inference
-
-XanaScript automatically detects the type of a variable based on its value.
+    bodyMd: `XanaScript automatically detects the type of a variable based on its value.
 
 ## How Inference Works
 
@@ -355,9 +339,7 @@ For clarity, you can annotate types: \`CRIA nome: TEXTO = "Joao"\`.`,
     title: "Strings in Depth",
     order: 9,
     points: 10,
-    bodyMd: `# Strings in Depth
-
-Strings (\`TEXTO\`) are UTF-8 encoded.
+    bodyMd: `Strings (\`TEXTO\`) are UTF-8 encoded.
 
 ## String Creation
 
@@ -400,9 +382,7 @@ Use \`+\` to interpolate values into strings. Strings in XanaScript are immutabl
     title: "Numbers in Depth",
     order: 10,
     points: 10,
-    bodyMd: `# Numbers in Depth
-
-Numbers (\`NUMERO\`) cover both integers and floating-point. Values are 64-bit floats (IEEE 754).
+    bodyMd: `Numbers (\`NUMERO\`) cover both integers and floating-point. Values are 64-bit floats (IEEE 754).
 
 ## Integer Literals
 
@@ -454,9 +434,7 @@ x /= 4   // x = x / 4
     title: "Booleans",
     order: 11,
     points: 5,
-    bodyMd: `# Booleans
-
-Booleans (\`BOOLEANO\`) represent truth values: \`VERDADEIRO\` (true) and \`FALSO\` (false).
+    bodyMd: `Booleans (\`BOOLEANO\`) represent truth values: \`VERDADEIRO\` (true) and \`FALSO\` (false).
 
 ## Logical Operators
 
@@ -496,9 +474,7 @@ SE LIGA SO ("") {
     title: "Null and Undefined",
     order: 12,
     points: 5,
-    bodyMd: `# Null and Undefined
-
-Two special values for "no value".
+    bodyMd: `Two special values for "no value".
 
 ## Null
 
@@ -542,9 +518,7 @@ CRIA nome = usuario ?? "Convidado"
     title: "Type Conversion",
     order: 13,
     points: 10,
-    bodyMd: `# Type Conversion
-
-Built-in functions for converting between types.
+    bodyMd: `Built-in functions for converting between types.
 
 ## To Number
 
@@ -584,9 +558,7 @@ Numeric strings are implicitly converted in arithmetic contexts.`,
     title: "Operators",
     order: 14,
     points: 10,
-    bodyMd: `# Operators
-
-A full set of operators for arithmetic, comparison, logic, and assignment.
+    bodyMd: `A full set of operators for arithmetic, comparison, logic, and assignment.
 
 ## Arithmetic
 
@@ -632,9 +604,7 @@ E   OU   NAO   !
     title: "Operator Precedence",
     order: 15,
     points: 5,
-    bodyMd: `# Operator Precedence
-
-Determines evaluation order in expressions (highest to lowest):
+    bodyMd: `Determines evaluation order in expressions (highest to lowest):
 
 | Level | Operators |
 |-------|-----------|
@@ -670,9 +640,7 @@ Use parentheses to clarify intent.`,
     title: "SE LIGA SO (If Statements)",
     order: 16,
     points: 10,
-    bodyMd: `# SE LIGA SO — If Statements
-
-\`SE LIGA SO\` ("pay attention") is XanaScript's \`if\` statement.
+    bodyMd: `\`SE LIGA SO\` ("pay attention") is XanaScript's \`if\` statement.
 
 ## Basic Syntax
 
@@ -713,9 +681,7 @@ Always use curly braces even for single statements.`,
     title: "SENAO (Else Clauses)",
     order: 17,
     points: 10,
-    bodyMd: `# SENAO — Else Clauses
-
-\`SENAO\` ("otherwise") provides the alternative branch.
+    bodyMd: `\`SENAO\` ("otherwise") provides the alternative branch.
 
 ## Basic Syntax
 
@@ -750,9 +716,7 @@ The \`SENAO\` branch runs only when the condition is false, providing a complete
     title: "SENAO SE (Else If Chains)",
     order: 18,
     points: 10,
-    bodyMd: `# SENAO SE — Else If Chains
-
-\`SENAO SE\` ("otherwise if") chains multiple conditions.
+    bodyMd: `\`SENAO SE\` ("otherwise if") chains multiple conditions.
 
 ## Grade Example
 
@@ -792,9 +756,7 @@ Conditions are evaluated top-to-bottom. First match executes. Final SENAO is opt
     title: "Nested Conditionals",
     order: 19,
     points: 10,
-    bodyMd: `# Nested Conditionals
-
-Place \`SE LIGA SO\` inside other \`SE LIGA SO\` blocks.
+    bodyMd: `Place \`SE LIGA SO\` inside other \`SE LIGA SO\` blocks.
 
 ## Example
 
@@ -831,9 +793,7 @@ Indent each level by 2 spaces. Keep nesting to 3 levels or less.`,
     title: "Ternary/Conditional Expressions",
     order: 20,
     points: 10,
-    bodyMd: `# Ternary/Conditional Expressions
-
-Inline conditional using \`? :\`.
+    bodyMd: `Inline conditional using \`? :\`.
 
 ## Syntax
 
@@ -869,9 +829,7 @@ Use for simple binary choices. Avoid deep chaining.`,
     title: "COMBINA Basics (Switch/Match)",
     order: 21,
     points: 10,
-    bodyMd: `# COMBINA Basics
-
-\`COMBINA\` is pattern matching, similar to \`switch\`/\`match\`.
+    bodyMd: `\`COMBINA\` is pattern matching, similar to \`switch\`/\`match\`.
 
 ## Basic Syntax
 
@@ -911,9 +869,7 @@ Each arm returns a value. Wildcard \`_\` matches anything.`,
     title: "COMBINA with Ranges",
     order: 22,
     points: 10,
-    bodyMd: `# COMBINA with Ranges
-
-Use comparison operators in \`CASO\` arms.
+    bodyMd: `Use comparison operators in \`CASO\` arms.
 
 ## Numeric Ranges
 
@@ -952,9 +908,7 @@ Range matching makes COMBINA far more expressive than traditional switch stateme
     title: "COMBINA Wildcards (_)",
     order: 23,
     points: 5,
-    bodyMd: `# COMBINA Wildcards
-
-The underscore \`_\` matches any value.
+    bodyMd: `The underscore \`_\` matches any value.
 
 ## Default Case
 
@@ -989,9 +943,7 @@ The wildcard must be the **last** arm because it matches everything. Always incl
     title: "COMBINA Expressions (Returning Values)",
     order: 24,
     points: 10,
-    bodyMd: `# COMBINA Expressions
-
-COMBINA is an expression, not just a statement.
+    bodyMd: `COMBINA is an expression, not just a statement.
 
 ## Expression Form
 
@@ -1036,9 +988,7 @@ Using COMBINA as expression leads to more declarative code.`,
     title: "Short-Circuit Evaluation",
     order: 25,
     points: 5,
-    bodyMd: `# Short-Circuit Evaluation
-
-Right operand only evaluated if necessary.
+    bodyMd: `Right operand only evaluated if necessary.
 
 ## AND (\`E\`) Short-Circuit
 
@@ -1080,9 +1030,7 @@ SE LIGA SO (!dados OU !dados.nome) { VOLTA FALSO }
     title: "Type: NUMERO",
     order: 26,
     points: 5,
-    bodyMd: `# Type: NUMERO
-
-All numbers in XanaScript are of type \`NUMERO\` — both integers and floats.
+    bodyMd: `All numbers in XanaScript are of type \`NUMERO\` — both integers and floats.
 
 ## Integer Literals
 
@@ -1130,9 +1078,7 @@ CRIA b = 10 // 3  // 3 (integer division)
     title: "Type: TEXTO",
     order: 27,
     points: 5,
-    bodyMd: `# Type: TEXTO
-
-Strings in XanaScript use double quotes and are type \`TEXTO\`.
+    bodyMd: `Strings in XanaScript use double quotes and are type \`TEXTO\`.
 
 ## String Literals
 
@@ -1173,9 +1119,7 @@ CRIA saudacao = "Ola, \${nome}!"  // "Ola, Joao!"
     title: "Type: BOOLEANO",
     order: 28,
     points: 5,
-    bodyMd: `# Type: BOOLEANO
-
-Booleans represent logical truth values.
+    bodyMd: `Booleans represent logical truth values.
 
 ## Values
 
@@ -1212,9 +1156,7 @@ SE LIGA SO (1)    { SOLTA O GRITO("truthy") }  // runs
     title: "Type: LISTA",
     order: 29,
     points: 5,
-    bodyMd: `# Type: LISTA
-
-Arrays in XanaScript are called \`LISTA\`.
+    bodyMd: `Arrays in XanaScript are called \`LISTA\`.
 
 ## Creating Lists
 
@@ -1257,9 +1199,7 @@ Lists declared with \`CRIA\` are mutable. Use \`CONSTANTE\` for immutable.`,
     title: "Type: DICIONARIO",
     order: 30,
     points: 5,
-    bodyMd: `# Type: DICIONARIO
-
-Dictionaries in XanaScript are key-value maps, type \`DICIONARIO\`.
+    bodyMd: `Dictionaries in XanaScript are key-value maps, type \`DICIONARIO\`.
 
 ## Creating Dictionaries
 
@@ -1306,9 +1246,7 @@ Keys are always strings. Values can be any type.`,
     title: "Type: OPCIONAL",
     order: 31,
     points: 5,
-    bodyMd: `# Type: OPCIONAL
-
-Optional types handle nullable values safely.
+    bodyMd: `Optional types handle nullable values safely.
 
 ## Declaration
 
@@ -1357,9 +1295,7 @@ Optionals prevent null reference errors at compile time.`,
     title: "Type Inference",
     order: 32,
     points: 10,
-    bodyMd: `# Type Inference
-
-XanaScript infers types automatically. Annotations are optional.
+    bodyMd: `XanaScript infers types automatically. Annotations are optional.
 
 ## How Inference Works
 
@@ -1404,9 +1340,7 @@ CHAMA ESSE CARA busca(id: NUMERO): TEXTO? { ... }
     title: "Type Conversion",
     order: 33,
     points: 10,
-    bodyMd: `# Type Conversion
-
-Explicit conversion between types uses built-in functions.
+    bodyMd: `Explicit conversion between types uses built-in functions.
 
 ## To Number
 
@@ -1457,9 +1391,7 @@ Always prefer explicit conversion for clarity.`,
     title: "Function Basics",
     order: 34,
     points: 5,
-    bodyMd: `# Function Basics
-
-Functions are declared with \`CHAMA ESSE CARA\` ("call this guy").
+    bodyMd: `Functions are declared with \`CHAMA ESSE CARA\` ("call this guy").
 
 ## Basic Syntax
 
@@ -1501,9 +1433,7 @@ Parameters and return types can be annotated. The return type follows the parame
     title: "Return Values",
     order: 35,
     points: 5,
-    bodyMd: `# Return Values
-
-Use \`VOLTA\` ("return") to return a value from a function.
+    bodyMd: `Use \`VOLTA\` ("return") to return a value from a function.
 
 ## Return Syntax
 
@@ -1556,9 +1486,7 @@ CHAMA ESSE CARA minMax(lista) {
     title: "Parameters & Defaults",
     order: 36,
     points: 5,
-    bodyMd: `# Parameters & Defaults
-
-Functions support default parameters and rest params.
+    bodyMd: `Functions support default parameters and rest params.
 
 ## Default Parameters
 
@@ -1612,9 +1540,7 @@ Calling with wrong argument count is a compile error.`,
     title: "Functions as First-Class",
     order: 37,
     points: 10,
-    bodyMd: `# Functions as First-Class
-
-Functions are values — assign them to variables, pass as arguments.
+    bodyMd: `Functions are values — assign them to variables, pass as arguments.
 
 ## Assign to Variable
 
@@ -1662,9 +1588,7 @@ This enables closures and functional programming patterns.`,
     title: "Arrow Functions (=>)",
     order: 38,
     points: 10,
-    bodyMd: `# Arrow Functions
-
-Arrow functions offer a shorter syntax.
+    bodyMd: `Arrow functions offer a shorter syntax.
 
 ## Single Expression
 
@@ -1713,9 +1637,7 @@ CRIA processar = (x) => {
     title: "Recursion",
     order: 39,
     points: 10,
-    bodyMd: `# Recursion
-
-Functions can call themselves — XanaScript supports recursion.
+    bodyMd: `Functions can call themselves — XanaScript supports recursion.
 
 ## Basic Recursion
 
@@ -1761,9 +1683,7 @@ Without tail recursion optimization, deep recursion can overflow the stack (>100
     title: "Pure Functions",
     order: 40,
     points: 10,
-    bodyMd: `# Pure Functions
-
-Pure functions have no side effects and always return the same output for the same input.
+    bodyMd: `Pure functions have no side effects and always return the same output for the same input.
 
 ## Pure Example
 
@@ -1811,9 +1731,7 @@ The compiler rejects side effects in \`PURO\` functions.`,
     title: "Function Overloading",
     order: 41,
     points: 10,
-    bodyMd: `# Function Overloading
-
-Define multiple functions with the same name but different parameter types.
+    bodyMd: `Define multiple functions with the same name but different parameter types.
 
 ## Type-Based Overloading
 
@@ -1853,9 +1771,7 @@ Overloading enables expressive APIs without different function names.`,
     title: "List Operations",
     order: 42,
     points: 5,
-    bodyMd: `# List Operations
-
-Core operations for working with lists.
+    bodyMd: `Core operations for working with lists.
 
 ## map, filter, reduce
 
@@ -1902,9 +1818,7 @@ Methods return new lists — original is unchanged.`,
     title: "List Comprehensions",
     order: 43,
     points: 10,
-    bodyMd: `# List Comprehensions
-
-Build new lists with a declarative syntax.
+    bodyMd: `Build new lists with a declarative syntax.
 
 ## Basic Comprehension
 
@@ -1941,9 +1855,7 @@ Comprehensions compile efficiently — similar performance to manual loops.`,
     title: "Type: CONJUNTO",
     order: 44,
     points: 5,
-    bodyMd: `# Type: CONJUNTO
-
-Sets are unordered collections of unique values.
+    bodyMd: `Sets are unordered collections of unique values.
 
 ## Creating Sets
 
@@ -1988,9 +1900,7 @@ PARA CADA (cor EM cores) {
     title: "Type: TUPLA",
     order: 45,
     points: 5,
-    bodyMd: `# Type: TUPLA
-
-Tuples are fixed-size ordered collections with position types.
+    bodyMd: `Tuples are fixed-size ordered collections with position types.
 
 ## Creating Tuples
 
@@ -2031,9 +1941,7 @@ Tuples are immutable by default. Use them for returning multiple values from fun
     title: "Type: INTERVALO",
     order: 46,
     points: 5,
-    bodyMd: `# Type: INTERVALO
-
-Ranges represent a sequence of values.
+    bodyMd: `Ranges represent a sequence of values.
 
 ## Creating Ranges
 
@@ -2079,9 +1987,7 @@ Ranges are lazy — elements are computed on demand.`,
     title: "PARA CADA Loop",
     order: 47,
     points: 5,
-    bodyMd: `# PARA CADA Loop
-
-Iterate over collections with a clean syntax.
+    bodyMd: `Iterate over collections with a clean syntax.
 
 ## Basic Syntax
 
@@ -2129,9 +2035,7 @@ PARA CADA (n EM nums) {
     title: "ENQUANTO Loop",
     order: 48,
     points: 5,
-    bodyMd: `# ENQUANTO Loop
-
-Loop while a condition is true.
+    bodyMd: `Loop while a condition is true.
 
 ## Basic Syntax
 
@@ -2174,9 +2078,7 @@ Use \`ENQUANTO\` when the number of iterations is unknown. Use \`PARA CADA\` for
     title: "Loop Control: CONTINUE & INTERROMPE",
     order: 49,
     points: 5,
-    bodyMd: `# Loop Control
-
-\`CONTINUE\` skips to the next iteration. \`INTERROMPE\` exits the loop.
+    bodyMd: `\`CONTINUE\` skips to the next iteration. \`INTERROMPE\` exits the loop.
 
 ## CONTINUE
 
@@ -2223,9 +2125,7 @@ Labels make complex loop control readable and precise.`,
     title: "Class Basics with CLASSE",
     order: 50,
     points: 5,
-    bodyMd: `# Class Basics
-
-Classes are defined with \`CLASSE\`.
+    bodyMd: `Classes are defined with \`CLASSE\`.
 
 ## Class Definition
 
@@ -2268,9 +2168,7 @@ The \`init\` method acts as the constructor.`,
     title: "Class Constructors",
     order: 51,
     points: 5,
-    bodyMd: `# Class Constructors
-
-The \`init\` method initializes a new instance.
+    bodyMd: `The \`init\` method initializes a new instance.
 
 ## Constructor Pattern
 
@@ -2330,9 +2228,7 @@ CLASSE User {
     title: "Instance & Static Methods",
     order: 52,
     points: 5,
-    bodyMd: `# Instance & Static Methods
-
-Methods can be instance-level or class-level.
+    bodyMd: `Methods can be instance-level or class-level.
 
 ## Instance Methods
 
@@ -2385,9 +2281,7 @@ CLASSE Pessoa {
     title: "Encapsulation",
     order: 53,
     points: 5,
-    bodyMd: `# Encapsulation
-
-Control access to class members.
+    bodyMd: `Control access to class members.
 
 ## Private Members
 
@@ -2443,9 +2337,7 @@ Encapsulation reduces coupling and prevents misuse.`,
     title: "Computed Properties",
     order: 54,
     points: 10,
-    bodyMd: `# Computed Properties
-
-Properties with custom get/set logic.
+    bodyMd: `Properties with custom get/set logic.
 
 ## Getter
 
@@ -2499,9 +2391,7 @@ Computed properties look like fields but execute code on access.`,
     title: "Operator Overloading",
     order: 55,
     points: 10,
-    bodyMd: `# Operator Overloading
-
-Define custom behavior for operators on your classes.
+    bodyMd: `Define custom behavior for operators on your classes.
 
 ## Overloadable Operators
 
@@ -2551,9 +2441,7 @@ Operators make custom types feel native.`,
     title: "Composition vs Inheritance",
     order: 56,
     points: 10,
-    bodyMd: `# Composition vs Inheritance
-
-Prefer composition over inheritance.
+    bodyMd: `Prefer composition over inheritance.
 
 ## Composition Example
 
@@ -2602,9 +2490,7 @@ Use \`EXTENDE\` for true subtype relationships, composition for code reuse.`,
     title: "Static Members & Singleton",
     order: 57,
     points: 10,
-    bodyMd: `# Static Members & Singleton
-
-Class-level members shared across all instances.
+    bodyMd: `Class-level members shared across all instances.
 
 ## Static Properties
 
@@ -2655,9 +2541,7 @@ Static members are initialized lazily.`,
     title: "Inheritance with EXTENDE",
     order: 58,
     points: 5,
-    bodyMd: `# Inheritance Basics
-
-A class can extend another class with \`EXTENDE\`.
+    bodyMd: `A class can extend another class with \`EXTENDE\`.
 
 ## Syntax
 
@@ -2703,9 +2587,7 @@ CLASSE Gato EXTENDE Animal {
     title: "Method Overriding",
     order: 59,
     points: 5,
-    bodyMd: `# Method Overriding
-
-Child classes can override methods from the parent.
+    bodyMd: `Child classes can override methods from the parent.
 
 ## Override Rules
 
@@ -2757,9 +2639,7 @@ CLASSE Abstrata Forma {
     title: "Polymorphism",
     order: 60,
     points: 10,
-    bodyMd: `# Polymorphism
-
-Objects of different types respond to the same interface.
+    bodyMd: `Objects of different types respond to the same interface.
 
 ## Polymorphic Behavior
 
@@ -2803,9 +2683,7 @@ Polymorphism enables flexible, extensible designs without conditionals.`,
     title: "Abstract Classes",
     order: 61,
     points: 10,
-    bodyMd: `# Abstract Classes
-
-Abstract classes define a template with some methods unimplemented.
+    bodyMd: `Abstract classes define a template with some methods unimplemented.
 
 ## Defining Abstract Class
 
@@ -2842,9 +2720,7 @@ Abstract classes provide a contract plus shared implementation.`,
     title: "Interfaces with PROTOCOLO",
     order: 62,
     points: 10,
-    bodyMd: `# Interfaces (PROTOCOLO)
-
-Define a contract without implementation.
+    bodyMd: `Define a contract without implementation.
 
 ## Protocol Definition
 
@@ -2890,9 +2766,7 @@ Protocols support multiple inheritance of contracts without the diamond problem.
     title: "Multiple Inheritance via Protocols",
     order: 63,
     points: 10,
-    bodyMd: `# Multiple Inheritance
-
-Protocols allow inheriting multiple contracts.
+    bodyMd: `Protocols allow inheriting multiple contracts.
 
 ## Combining Protocols
 
@@ -2938,9 +2812,7 @@ Use protocols when different classes share capabilities but not hierarchy.`,
     title: "Dependency Injection",
     order: 64,
     points: 10,
-    bodyMd: `# Dependency Injection
-
-Pass dependencies rather than creating them internally.
+    bodyMd: `Pass dependencies rather than creating them internally.
 
 ## Without DI (Tight Coupling)
 
@@ -2990,9 +2862,7 @@ DI enables testing with mocks and swapping implementations.`,
     title: "SOLID Principles",
     order: 65,
     points: 10,
-    bodyMd: `# SOLID Principles
-
-Five principles for maintainable OOP.
+    bodyMd: `Five principles for maintainable OOP.
 
 ## S — Single Responsibility
 
@@ -3038,9 +2908,7 @@ Following SOLID yields maintainable, testable code.`,
     title: "Error Handling with TENTE",
     order: 66,
     points: 5,
-    bodyMd: `# Error Handling
-
-Errors are handled with \`TENTE\` (try), \`CAPTURA\` (catch), \`FINALLY\` (finally).
+    bodyMd: `Errors are handled with \`TENTE\` (try), \`CAPTURA\` (catch), \`FINALLY\` (finally).
 
 ## Basic Try/Catch
 
@@ -3088,9 +2956,7 @@ Use \`TENTE\` for operations that may fail.`,
     title: "Throwing Errors",
     order: 67,
     points: 5,
-    bodyMd: `# Throwing Errors
-
-Use \`JOGAR\` (throw) to raise an error.
+    bodyMd: `Use \`JOGAR\` (throw) to raise an error.
 
 ## Basic Throw
 
@@ -3142,9 +3008,7 @@ Only throw errors for exceptional situations, not control flow.`,
     title: "Custom Error Classes",
     order: 68,
     points: 10,
-    bodyMd: `# Custom Error Classes
-
-Create domain-specific errors by extending the base error class.
+    bodyMd: `Create domain-specific errors by extending the base error class.
 
 ## Defining Custom Errors
 
@@ -3192,9 +3056,7 @@ Custom errors enable precise error handling with domain-specific data.`,
     title: "Error Handling Patterns",
     order: 69,
     points: 10,
-    bodyMd: `# Error Handling Patterns
-
-Common patterns for robust error handling.
+    bodyMd: `Common patterns for robust error handling.
 
 ## Guard Clause
 
@@ -3249,9 +3111,7 @@ SE LIGA SO (r.sucesso) {
     title: "Input Validation",
     order: 70,
     points: 5,
-    bodyMd: `# Input Validation
-
-Validate inputs before processing.
+    bodyMd: `Validate inputs before processing.
 
 ## Basic Validation
 
@@ -3301,9 +3161,7 @@ Always validate external input before processing.`,
     title: "Error Logging",
     order: 71,
     points: 5,
-    bodyMd: `# Error Logging
-
-Log errors for debugging and monitoring.
+    bodyMd: `Log errors for debugging and monitoring.
 
 ## Basic Logging
 
@@ -3354,9 +3212,7 @@ Log enough to diagnose problems, not so much that logs are noise.`,
     title: "Error Recovery Strategies",
     order: 72,
     points: 10,
-    bodyMd: `# Error Recovery
-
-Strategies for recovering from failures.
+    bodyMd: `Strategies for recovering from failures.
 
 ## Retry Pattern
 
@@ -3411,9 +3267,7 @@ Choose recovery strategy based on error type and system requirements.`,
     title: "Error Handling Best Practices",
     order: 73,
     points: 10,
-    bodyMd: `# Best Practices
-
-Guidelines for robust error handling.
+    bodyMd: `Guidelines for robust error handling.
 
 ## 1. Fail Fast
 
@@ -3463,9 +3317,7 @@ Following these practices prevents silent failures and data corruption.`,
     title: "Module Basics",
     order: 74,
     points: 5,
-    bodyMd: `# Module Basics
-
-Organize code into reusable modules.
+    bodyMd: `Organize code into reusable modules.
 
 ## Exporting
 
@@ -3515,9 +3367,7 @@ Every file can have one default export and multiple named exports.`,
     title: "Named Imports/Exports",
     order: 75,
     points: 5,
-    bodyMd: `# Named Imports/Exports
-
-Import and export specific names.
+    bodyMd: `Import and export specific names.
 
 ## Named Exports
 
@@ -3568,9 +3418,7 @@ Named imports are explicit and enable tree-shaking.`,
     title: "Module Resolution",
     order: 76,
     points: 5,
-    bodyMd: `# Module Resolution
-
-How XanaScript finds imported modules.
+    bodyMd: `How XanaScript finds imported modules.
 
 ## Relative Paths
 
@@ -3616,9 +3464,7 @@ The compiler caches resolved paths for fast recompilation.`,
     title: "Circular Dependencies",
     order: 77,
     points: 10,
-    bodyMd: `# Circular Dependencies
-
-When module A imports from B and B imports from A.
+    bodyMd: `When module A imports from B and B imports from A.
 
 ## The Problem
 
@@ -3663,9 +3509,7 @@ Cycles are sometimes unavoidable but should be minimized.`,
     title: "Creating Packages",
     order: 78,
     points: 10,
-    bodyMd: `# Creating Packages
-
-Package your modules for distribution.
+    bodyMd: `Package your modules for distribution.
 
 ## Package Structure
 
@@ -3723,9 +3567,7 @@ Packages enable code sharing across projects and with the community.`,
     title: "Lazy Loading",
     order: 79,
     points: 10,
-    bodyMd: `# Lazy Loading
-
-Load modules on demand to improve startup time.
+    bodyMd: `Load modules on demand to improve startup time.
 
 ## Dynamic Import
 
@@ -3771,9 +3613,7 @@ Use lazy loading for rarely-used features or platform-specific code.`,
     title: "Module Scope",
     order: 80,
     points: 5,
-    bodyMd: `# Module Scope
-
-Each module has its own scope.
+    bodyMd: `Each module has its own scope.
 
 ## Top-Level Scope
 
@@ -3820,9 +3660,7 @@ Module scope prevents naming collisions and encourages encapsulation.`,
     title: "Module Standards",
     order: 81,
     points: 5,
-    bodyMd: `# Module Standards
-
-Conventions for organizing modules.
+    bodyMd: `Conventions for organizing modules.
 
 ## File Naming
 
@@ -3873,9 +3711,7 @@ Consistent structure makes navigation predictable.`,
     title: "Reading Files",
     order: 82,
     points: 5,
-    bodyMd: `# Reading Files
-
-Use \`xs:fs\` module for file operations.
+    bodyMd: `Use \`xs:fs\` module for file operations.
 
 ## Read File (Sync)
 
@@ -3927,9 +3763,7 @@ Always handle errors when reading files.`,
     title: "Writing Files",
     order: 83,
     points: 5,
-    bodyMd: `# Writing Files
-
-Write content to files using \`xs:fs\`.
+    bodyMd: `Write content to files using \`xs:fs\`.
 
 ## Write File
 
@@ -3981,9 +3815,7 @@ Always close resources and handle write errors.`,
     title: "JSON File Handling",
     order: 84,
     points: 10,
-    bodyMd: `# JSON File Handling
-
-Read and write JSON data.
+    bodyMd: `Read and write JSON data.
 
 ## Reading JSON
 
@@ -4041,9 +3873,7 @@ JSON is the standard format for structured data exchange.`,
     title: "File Streams",
     order: 85,
     points: 10,
-    bodyMd: `# File Streams
-
-Process large files without loading entirely into memory.
+    bodyMd: `Process large files without loading entirely into memory.
 
 ## Reading Stream
 
@@ -4095,9 +3925,7 @@ Streams prevent memory issues with files larger than available RAM.`,
     title: "Path Manipulation",
     order: 86,
     points: 5,
-    bodyMd: `# Path Manipulation
-
-Work with file paths using \`xs:path\`.
+    bodyMd: `Work with file paths using \`xs:path\`.
 
 ## Path Operations
 
@@ -4140,9 +3968,7 @@ Always use \`xs:path\` instead of string concatenation for paths.`,
     title: "Directory Operations",
     order: 87,
     points: 5,
-    bodyMd: `# Directory Operations
-
-List, create, and remove directories.
+    bodyMd: `List, create, and remove directories.
 
 ## List Directory
 
@@ -4195,9 +4021,7 @@ Directory operations support building tools like file watchers and build systems
     title: "Temporary Files",
     order: 88,
     points: 5,
-    bodyMd: `# Temporary Files
-
-Create and manage temporary files.
+    bodyMd: `Create and manage temporary files.
 
 ## Temp File
 
@@ -4241,9 +4065,7 @@ Temporary files isolate operations and prevent permanent clutter.`,
     title: "File Encodings",
     order: 89,
     points: 5,
-    bodyMd: `# File Encodings
-
-Handle different text encodings.
+    bodyMd: `Handle different text encodings.
 
 ## Encoding Options
 
@@ -4292,9 +4114,7 @@ Using the correct encoding prevents data corruption with special characters.`,
     title: "Async Basics with PROMETA",
     order: 90,
     points: 5,
-    bodyMd: `# Async Basics
-
-Promises in XanaScript use \`PROMETA\` (promise).
+    bodyMd: `Promises in XanaScript use \`PROMETA\` (promise).
 
 ## Creating a Promise
 
@@ -4334,9 +4154,7 @@ promessa
     title: "Async/Await",
     order: 91,
     points: 10,
-    bodyMd: `# Async/Await
-
-Write async code that reads like synchronous code.
+    bodyMd: `Write async code that reads like synchronous code.
 
 ## Async Function
 
@@ -4385,9 +4203,7 @@ CHAMA ESSE CARA ASSINCRONO seguro() {
     title: "Parallel Execution",
     order: 92,
     points: 10,
-    bodyMd: `# Parallel Execution
-
-Run multiple async operations concurrently.
+    bodyMd: `Run multiple async operations concurrently.
 
 ## Promise.all
 
@@ -4441,9 +4257,7 @@ Parallel execution speeds up independent operations.`,
     title: "Async Queue & Throttling",
     order: 93,
     points: 10,
-    bodyMd: `# Async Queue
-
-Control concurrency with queues.
+    bodyMd: `Control concurrency with queues.
 
 ## Simple Queue
 
@@ -4487,9 +4301,7 @@ Limiting concurrency prevents overwhelming resources.`,
     title: "Timers & Intervals",
     order: 94,
     points: 5,
-    bodyMd: `# Timers & Intervals
-
-Schedule delayed or repeated execution.
+    bodyMd: `Schedule delayed or repeated execution.
 
 ## setTimeout
 
@@ -4544,9 +4356,7 @@ Always clear timers when no longer needed.`,
     title: "Web Workers / Threads",
     order: 95,
     points: 10,
-    bodyMd: `# Web Workers
-
-Run CPU-intensive tasks in separate threads.
+    bodyMd: `Run CPU-intensive tasks in separate threads.
 
 ## Creating a Worker
 
@@ -4596,9 +4406,7 @@ Workers enable true parallelism for CPU-bound work.`,
     title: "Event Emitter",
     order: 96,
     points: 5,
-    bodyMd: `# Event Emitter
-
-Publish/subscribe pattern for decoupled communication.
+    bodyMd: `Publish/subscribe pattern for decoupled communication.
 
 ## Creating Emitter
 
@@ -4653,9 +4461,7 @@ Event emitters enable loose coupling between components.`,
     title: "Async Patterns",
     order: 97,
     points: 10,
-    bodyMd: `# Async Patterns
-
-Common patterns for robust async code.
+    bodyMd: `Common patterns for robust async code.
 
 ## Retry with Backoff
 
@@ -4709,9 +4515,7 @@ Choose the right pattern for your use case.`,
     title: "Union Types",
     order: 98,
     points: 5,
-    bodyMd: `# Union Types
-
-A value can be one of several types.
+    bodyMd: `A value can be one of several types.
 
 ## Union Syntax
 
@@ -4761,9 +4565,7 @@ Unions express "this or that" without class hierarchies.`,
     title: "Intersection Types",
     order: 99,
     points: 5,
-    bodyMd: `# Intersection Types
-
-Combine multiple types into one.
+    bodyMd: `Combine multiple types into one.
 
 ## Intersection Syntax
 
@@ -4812,9 +4614,7 @@ Use \`&\` to merge type requirements.`,
     title: "Generics",
     order: 100,
     points: 10,
-    bodyMd: `# Generics
-
-Parameterize types with type variables.
+    bodyMd: `Parameterize types with type variables.
 
 ## Generic Function
 
@@ -4864,9 +4664,7 @@ Generics enable type-safe reusable code.`,
     title: "Mapped Types",
     order: 101,
     points: 10,
-    bodyMd: `# Mapped Types
-
-Transform types by mapping over their properties.
+    bodyMd: `Transform types by mapping over their properties.
 
 ## Making Properties Optional
 
@@ -4914,9 +4712,7 @@ Mapped types reduce boilerplate in type definitions.`,
     title: "Conditional Types",
     order: 102,
     points: 10,
-    bodyMd: `# Conditional Types
-
-Types that depend on a condition.
+    bodyMd: `Types that depend on a condition.
 
 ## Basic Conditional
 
@@ -4964,9 +4760,7 @@ Conditional types enable high-level type transformations.`,
     title: "Template Literal Types",
     order: 103,
     points: 10,
-    bodyMd: `# Template Literal Types
-
-Create string types from templates.
+    bodyMd: `Create string types from templates.
 
 ## Basic Template
 
@@ -5009,9 +4803,7 @@ Template literal types enable compile-time string validation.`,
     title: "Branded / Nominal Types",
     order: 104,
     points: 10,
-    bodyMd: `# Branded Types
-
-Simulate nominal typing with brands.
+    bodyMd: `Simulate nominal typing with brands.
 
 ## Brand Pattern
 
@@ -5055,9 +4847,7 @@ Branded types prevent mixing semantically different values of the same primitive
     title: "Satisfies Operator",
     order: 105,
     points: 10,
-    bodyMd: `# Satisfies Operator
-
-Check a value satisfies a type without widening.
+    bodyMd: `Check a value satisfies a type without widening.
 
 ## Basic Usage
 
@@ -5098,9 +4888,7 @@ CRIA config: Config = {
     title: "Reflection with TIPO & REFLETE",
     order: 106,
     points: 5,
-    bodyMd: `# Reflection
-
-Inspect types and properties at runtime.
+    bodyMd: `Inspect types and properties at runtime.
 
 ## TIPO() Function
 
@@ -5150,9 +4938,7 @@ Reflection enables tools like serializers, ORMs, and DI containers.`,
     title: "Proxies",
     order: 107,
     points: 10,
-    bodyMd: `# Proxies
-
-Intercept operations on objects.
+    bodyMd: `Intercept operations on objects.
 
 ## Creating a Proxy
 
@@ -5196,9 +4982,7 @@ Proxies enable metaprogramming without modifying the original object.`,
     title: "Decorators",
     order: 108,
     points: 10,
-    bodyMd: `# Decorators
-
-Annotate and modify classes, methods, and properties.
+    bodyMd: `Annotate and modify classes, methods, and properties.
 
 ## Method Decorator
 
@@ -5251,9 +5035,7 @@ Decorate with the \`@\` syntax. Decorators are functions that receive metadata.`
     title: "Symbols & Metaprogramming",
     order: 109,
     points: 10,
-    bodyMd: `# Symbols
-
-Unique, immutable identifiers for metaprogramming.
+    bodyMd: `Unique, immutable identifiers for metaprogramming.
 
 ## Creating Symbols
 
@@ -5307,9 +5089,7 @@ Symbols prevent property name collisions.`,
     title: "Code Generation",
     order: 110,
     points: 10,
-    bodyMd: `# Code Generation
-
-Generate XanaScript code programmatically.
+    bodyMd: `Generate XanaScript code programmatically.
 
 ## AST Building
 
@@ -5365,9 +5145,7 @@ Code generation enables macros and build tools.`,
     title: "Serialization",
     order: 111,
     points: 10,
-    bodyMd: `# Serialization
-
-Convert objects to and from different formats.
+    bodyMd: `Convert objects to and from different formats.
 
 ## JSON Serialization
 
@@ -5422,9 +5200,7 @@ Implement \`paraJSON\` on classes to control serialization.`,
     title: "Type Annotations & Metadata",
     order: 112,
     points: 10,
-    bodyMd: `# Type Annotations & Metadata
-
-Access and manipulate type metadata.
+    bodyMd: `Access and manipulate type metadata.
 
 ## Runtime Type Info
 
@@ -5478,9 +5254,7 @@ Metadata enables frameworks and decorator-based architectures.`,
     title: "Advanced Metaprogramming",
     order: 113,
     points: 10,
-    bodyMd: `# Advanced Metaprogramming
-
-Techniques for dynamic code behavior.
+    bodyMd: `Techniques for dynamic code behavior.
 
 ## Dynamic Dispatch
 
@@ -5535,9 +5309,7 @@ Metaprogramming enables flexible, dynamic architectures.`,
     title: "Memory Management",
     order: 114,
     points: 5,
-    bodyMd: `# Memory Management
-
-XanaScript uses automatic garbage collection.
+    bodyMd: `XanaScript uses automatic garbage collection.
 
 ## GC Strategy
 
@@ -5583,9 +5355,7 @@ Understanding GC helps optimize memory-intensive applications.`,
     title: "Memory Leak Prevention",
     order: 115,
     points: 10,
-    bodyMd: `# Memory Leak Prevention
-
-Common leaks and how to avoid them.
+    bodyMd: `Common leaks and how to avoid them.
 
 ## Event Listener Leaks
 
@@ -5642,9 +5412,7 @@ Use heap snapshots and profiling tools to detect leaks.`,
     title: "Profiling",
     order: 116,
     points: 10,
-    bodyMd: `# Profiling
-
-Measure and analyze performance.
+    bodyMd: `Measure and analyze performance.
 
 ## Timing
 
@@ -5696,9 +5464,7 @@ Profile before optimizing to focus on actual bottlenecks.`,
     title: "Optimization Techniques",
     order: 117,
     points: 10,
-    bodyMd: `# Optimization Techniques
-
-Write performant XanaScript code.
+    bodyMd: `Write performant XanaScript code.
 
 ## Loop Optimization
 
@@ -5755,9 +5521,7 @@ Built-in methods are optimized in C++: prefer them over manual loops.`,
     title: "Compiler Optimizations",
     order: 118,
     points: 10,
-    bodyMd: `# Compiler Optimizations
-
-What the XanaScript compiler does automatically.
+    bodyMd: `What the XanaScript compiler does automatically.
 
 ## Constant Folding
 
@@ -5806,9 +5570,7 @@ PARA CADA (i EM 0..3) { arr[i] = i }
     title: "Memory Optimization",
     order: 119,
     points: 10,
-    bodyMd: `# Memory Optimization
-
-Reduce memory usage.
+    bodyMd: `Reduce memory usage.
 
 ## Object Pooling
 
@@ -5867,9 +5629,7 @@ PEGA dadosCaros() {
     title: "Async Performance",
     order: 120,
     points: 10,
-    bodyMd: `# Async Performance
-
-Optimize asynchronous code.
+    bodyMd: `Optimize asynchronous code.
 
 ## Avoid Promise Overhead
 
@@ -5924,9 +5684,7 @@ Await yields to the microtask queue — use for splitting CPU work.`,
     title: "Performance Best Practices",
     order: 121,
     points: 10,
-    bodyMd: `# Performance Best Practices
-
-Summary guidelines for performant code.
+    bodyMd: `Summary guidelines for performant code.
 
 ## 1. Measure First
 
@@ -5977,9 +5735,7 @@ Consistent, measurable optimization beats guesswork.`,
     title: "Testing with TESTE",
     order: 122,
     points: 5,
-    bodyMd: `# Testing Basics
-
-XanaScript has a built-in test framework.
+    bodyMd: `XanaScript has a built-in test framework.
 
 ## Test Syntax
 
@@ -6022,9 +5778,7 @@ xs test --coverage
     title: "Advanced Assertions",
     order: 123,
     points: 5,
-    bodyMd: `# Advanced Assertions
-
-More assertion patterns.
+    bodyMd: `More assertion patterns.
 
 ## Approximate Equality
 
@@ -6076,9 +5830,7 @@ Good assertions produce clear failure messages.`,
     title: "Test Structure & Organization",
     order: 124,
     points: 5,
-    bodyMd: `# Test Structure
-
-Organize tests for maintainability.
+    bodyMd: `Organize tests for maintainability.
 
 ## Test Blocks
 
@@ -6127,9 +5879,7 @@ TESTE "Banco de dados" {
     title: "Mocks & Stubs",
     order: 125,
     points: 10,
-    bodyMd: `# Mocks & Stubs
-
-Isolate units under test.
+    bodyMd: `Isolate units under test.
 
 ## Mock Function
 
@@ -6179,9 +5929,7 @@ Mocks isolate code from external dependencies.`,
     title: "Code Coverage",
     order: 126,
     points: 10,
-    bodyMd: `# Code Coverage
-
-Measure which code is exercised by tests.
+    bodyMd: `Measure which code is exercised by tests.
 
 ## Running Coverage
 
@@ -6225,9 +5973,7 @@ Aim for high coverage but remember: 100% coverage doesn't mean bug-free.`,
     title: "Property-Based Testing",
     order: 127,
     points: 10,
-    bodyMd: `# Property-Based Testing
-
-Test properties that should always hold.
+    bodyMd: `Test properties that should always hold.
 
 ## Basic Property
 
@@ -6276,9 +6022,7 @@ Property tests complement example-based tests.`,
     title: "Integration Testing",
     order: 128,
     points: 10,
-    bodyMd: `# Integration Testing
-
-Test components working together.
+    bodyMd: `Test components working together.
 
 ## API Tests
 
@@ -6328,9 +6072,7 @@ Use real dependencies in integration tests, mocks in unit tests.`,
     title: "TDD & Testing Strategies",
     order: 129,
     points: 10,
-    bodyMd: `# TDD & Testing Strategies
-
-Test-Driven Development workflow.
+    bodyMd: `Test-Driven Development workflow.
 
 ## Red-Green-Refactor
 
@@ -6374,9 +6116,7 @@ Write tests that give confidence to refactor.`,
     title: "Introduction to TABELA ORM",
     order: 130,
     points: 5,
-    bodyMd: `# TABELA ORM
-
-XanaScript has a built-in ORM with first-class syntax.
+    bodyMd: `XanaScript has a built-in ORM with first-class syntax.
 
 ## Model Definition
 
@@ -6421,9 +6161,7 @@ The ORM generates SQL or NoSQL queries behind the scenes.
     title: "Field Types & Options",
     order: 131,
     points: 5,
-    bodyMd: `# Field Types & Options
-
-Configure model fields with constraints.
+    bodyMd: `Configure model fields with constraints.
 
 ## Field Types
 
@@ -6462,9 +6200,7 @@ TABELA Produto {
     title: "Querying Data",
     order: 132,
     points: 10,
-    bodyMd: `# Querying Data
-
-Filter, sort, and paginate data.
+    bodyMd: `Filter, sort, and paginate data.
 
 ## Basic Queries
 
@@ -6515,9 +6251,7 @@ CRIA total = Usuario.contar({ ativo: true })
     title: "Relationships",
     order: 133,
     points: 10,
-    bodyMd: `# Relationships
-
-Define relationships between models.
+    bodyMd: `Define relationships between models.
 
 ## Belongs To
 
@@ -6574,9 +6308,7 @@ CRIA posts = await usuario.posts.carregar()  // eager load
     title: "Migrations",
     order: 134,
     points: 10,
-    bodyMd: `# Migrations
-
-Manage database schema changes.
+    bodyMd: `Manage database schema changes.
 
 ## Auto Migration
 
@@ -6625,9 +6357,7 @@ Migrations keep database schema versioned and reproducible.`,
     title: "Database Seeding",
     order: 135,
     points: 10,
-    bodyMd: `# Database Seeding
-
-Populate database with test or initial data.
+    bodyMd: `Populate database with test or initial data.
 
 ## Seed Script
 
@@ -6678,9 +6408,7 @@ Seeds provide consistent starting data for development and testing.`,
     title: "Transactions",
     order: 136,
     points: 10,
-    bodyMd: `# Transactions
-
-Ensure data consistency across operations.
+    bodyMd: `Ensure data consistency across operations.
 
 ## Basic Transaction
 
@@ -6736,9 +6464,7 @@ Transactions maintain database integrity.`,
     title: "ORM Performance",
     order: 137,
     points: 10,
-    bodyMd: `# ORM Performance
-
-Optimize database operations.
+    bodyMd: `Optimize database operations.
 
 ## N+1 Problem
 
@@ -6792,9 +6518,7 @@ TABELA Usuario {
     title: "Introduction to WASM",
     order: 138,
     points: 5,
-    bodyMd: `# Introduction to WebAssembly
-
-XanaScript can compile directly to WebAssembly.
+    bodyMd: `XanaScript can compile directly to WebAssembly.
 
 ## Why WASM?
 
@@ -6843,9 +6567,7 @@ Direct WASM emission, no Emscripten required.`,
     title: "WASM Memory Management",
     order: 139,
     points: 10,
-    bodyMd: `# WASM Memory
-
-Manage linear memory in WebAssembly.
+    bodyMd: `Manage linear memory in WebAssembly.
 
 ## Memory Declaration
 
@@ -6894,9 +6616,7 @@ Manual memory control enables zero-overhead data structures.`,
     title: "WASM Imports & Exports",
     order: 140,
     points: 10,
-    bodyMd: `# WASM Imports & Exports
-
-Call host functions from WASM and expose functions to host.
+    bodyMd: `Call host functions from WASM and expose functions to host.
 
 ## Exports
 
@@ -6953,9 +6673,7 @@ Imports/exports are the bridge between WASM and host.`,
     title: "WASM Types & Conversion",
     order: 141,
     points: 10,
-    bodyMd: `# WASM Types
-
-WASM supports only i32, i64, f32, f64 natively.
+    bodyMd: `WASM supports only i32, i64, f32, f64 natively.
 
 ## Supported Types
 
@@ -7006,9 +6724,7 @@ Understanding WASM types avoids runtime conversion overhead.`,
     title: "WASM Optimization",
     order: 142,
     points: 10,
-    bodyMd: `# WASM Optimization
-
-Optimize XanaScript code for WASM output.
+    bodyMd: `Optimize XanaScript code for WASM output.
 
 ## Avoid Dynamic Features
 
@@ -7063,9 +6779,7 @@ WASM benefits from predictable, simple code patterns.`,
     title: "Debugging WASM",
     order: 143,
     points: 10,
-    bodyMd: `# Debugging WASM
-
-Debug WebAssembly modules.
+    bodyMd: `Debug WebAssembly modules.
 
 ## Source Maps
 
@@ -7117,9 +6831,7 @@ Debugging WASM requires host-side tooling and careful error handling.`,
     title: "WASM Runtime Integration",
     order: 144,
     points: 10,
-    bodyMd: `# WASM Runtime
-
-Embed WASM in different environments.
+    bodyMd: `Embed WASM in different environments.
 
 ## Browser
 
@@ -7168,9 +6880,7 @@ WASI enables system calls (files, networking) from WASM.`,
     title: "WASM Best Practices",
     order: 145,
     points: 10,
-    bodyMd: `# WASM Best Practices
-
-Guidelines for effective WASM development.
+    bodyMd: `Guidelines for effective WASM development.
 
 ## 1. Profile First
 
@@ -7219,9 +6929,7 @@ WASM excels for compute-heavy, deterministic workloads.`,
     title: "Introduction to Macros",
     order: 146,
     points: 5,
-    bodyMd: `# Introduction to Macros
-
-Compile-time code transformations.
+    bodyMd: `Compile-time code transformations.
 
 ## What are Macros?
 
@@ -7261,9 +6969,7 @@ Macros execute at compile time — expanded code has no macro overhead.
     title: "Macro Syntax & Patterns",
     order: 147,
     points: 10,
-    bodyMd: `# Macro Syntax
-
-Pattern matching and transformation.
+    bodyMd: `Pattern matching and transformation.
 
 ## Simple Pattern
 
@@ -7318,9 +7024,7 @@ Macros operate on syntax trees, not strings.`,
     title: "Advanced Macro Techniques",
     order: 148,
     points: 10,
-    bodyMd: `# Advanced Macros
-
-Parameterized and recursive macros.
+    bodyMd: `Parameterized and recursive macros.
 
 ## Conditional Macro
 
@@ -7383,9 +7087,7 @@ MACRO validarEmail(email) {
     title: "Compile-Time Execution",
     order: 149,
     points: 10,
-    bodyMd: `# Compile-Time Execution
-
-Run arbitrary code at compile time.
+    bodyMd: `Run arbitrary code at compile time.
 
 ## Compile-Time Compute
 
@@ -7437,9 +7139,7 @@ Compile-time execution enables powerful build-time metaprogramming.`,
     title: "Practical Macro Examples",
     order: 150,
     points: 10,
-    bodyMd: `# Practical Macros
-
-Real-world macro patterns.
+    bodyMd: `Real-world macro patterns.
 
 ## Enum-Like
 
@@ -7498,9 +7198,7 @@ Macros reduce boilerplate across your codebase.`,
     title: "Testing Macros",
     order: 151,
     points: 10,
-    bodyMd: `# Testing Macros
-
-Verify macro expansion produces correct code.
+    bodyMd: `Verify macro expansion produces correct code.
 
 ## Expansion Test
 
@@ -7551,9 +7249,7 @@ Test macros to ensure they generate correct code across edge cases.`,
     title: "Macro Best Practices",
     order: 152,
     points: 10,
-    bodyMd: `# Macro Best Practices
-
-Guidelines for safe, maintainable macros.
+    bodyMd: `Guidelines for safe, maintainable macros.
 
 ## 1. Keep Macros Simple
 
@@ -7601,9 +7297,7 @@ Only use macros when you genuinely need compile-time transformation.`,
     title: "Domain-Specific Languages",
     order: 153,
     points: 10,
-    bodyMd: `# Domain-Specific Languages
-
-Embedded DSLs via macros and metaprogramming.
+    bodyMd: `Embedded DSLs via macros and metaprogramming.
 
 ## What is a DSL?
 
@@ -7653,9 +7347,7 @@ DSLs make code read like the domain language.`,
     title: "HTML DSL Example",
     order: 154,
     points: 10,
-    bodyMd: `# HTML DSL
-
-Build HTML with XanaScript DSL.
+    bodyMd: `Build HTML with XanaScript DSL.
 
 ## Element Macros
 
@@ -7715,9 +7407,7 @@ DSL-based HTML generation is type-safe and composable.`,
     title: "Testing DSL",
     order: 155,
     points: 10,
-    bodyMd: `# Testing DSL
-
-Create a testing DSL for expressive test definitions.
+    bodyMd: `Create a testing DSL for expressive test definitions.
 
 ## Test DSL
 
@@ -7766,9 +7456,7 @@ Creating custom DSLs lets you design the perfect syntax for each problem domain.
     title: "Final Best Practices & Next Steps",
     order: 156,
     points: 5,
-    bodyMd: `# Best Practices & Next Steps
-
-Your journey with XanaScript — what to do next.
+    bodyMd: `Your journey with XanaScript — what to do next.
 
 ## Style Guide
 

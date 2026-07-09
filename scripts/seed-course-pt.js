@@ -10,9 +10,7 @@ const lessons = [
     title: "O que é XanaScript?",
     order: 1,
     points: 5,
-    bodyMd: `# O que é XanaScript?
-
-XanaScript é uma **linguagem de programação completa** projetada inteiramente em português brasileiro. Diferente de transpiladores ou wrappers, cada palavra-chave, operador e construção sintática é nativa em português — analisada, verificada por tipos, compilada e executada por um toolchain personalizado escrito em JavaScript.
+    bodyMd: `XanaScript é uma **linguagem de programação completa** projetada inteiramente em português brasileiro. Diferente de transpiladores ou wrappers, cada palavra-chave, operador e construção sintática é nativa em português — analisada, verificada por tipos, compilada e executada por um toolchain personalizado escrito em JavaScript.
 
 ## Principais Recursos
 
@@ -38,9 +36,7 @@ O código deve ser lido como se fosse escrito para humanos. Cada construção em
     title: "Instalação e Configuração",
     order: 2,
     points: 5,
-    bodyMd: `# Instalação e Configuração
-
-O XanaScript pode ser instalado de duas formas:
+    bodyMd: `O XanaScript pode ser instalado de duas formas:
 
 ## Via npm (Multiplataforma)
 
@@ -78,9 +74,7 @@ Instale \`vscode-xs\` da marketplace para realce de sintaxe, snippets e integra�
     title: "Seu Primeiro Programa",
     order: 3,
     points: 10,
-    bodyMd: `# Seu Primeiro Programa
-
-Vamos escrever o clássico "Olá, Mundo!" em XanaScript:
+    bodyMd: `Vamos escrever o clássico "Olá, Mundo!" em XanaScript:
 
 \`\`\`xs
 SOLTA O GRITO("Hello, World!")
@@ -129,9 +123,7 @@ SOLTA O GRITO("Olá, " + nome + "! Você tem " + idade + " anos.")
     title: "Variáveis com CRIA",
     order: 4,
     points: 10,
-    bodyMd: `# Variáveis com CRIA
-
-\`CRIA\` ("create") declara uma variável mutável em XanaScript:
+    bodyMd: `\`CRIA\` ("create") declara uma variável mutável em XanaScript:
 
 \`\`\`xs
 CRIA nome = "João"
@@ -178,9 +170,7 @@ SOLTA O GRITO(a + b + c)  // 6
     title: "Constantes com CONSTANTE",
     order: 5,
     points: 10,
-    bodyMd: `# Constantes com CONSTANTE
-
-\`CONSTANTE\` declara uma ligação imutável e somente leitura:
+    bodyMd: `\`CONSTANTE\` declara uma ligação imutável e somente leitura:
 
 \`\`\`xs
 CONSTANTE PI = 3.14159
@@ -222,9 +212,7 @@ Sempre prefira \`CONSTANTE\` por padrão. Use \`CRIA\` apenas quando o valor pre
     title: "Comentários",
     order: 6,
     points: 5,
-    bodyMd: `# Comentários
-
-Comentários são ignorados pelo compilador e existem apenas para humanos que leem o código.
+    bodyMd: `Comentários são ignorados pelo compilador e existem apenas para humanos que leem o código.
 
 ## Comentários de Linha Única
 
@@ -263,9 +251,7 @@ Use comentários multilinha para documentação de funções explicando o que a 
     title: "Tipos de Dados",
     order: 7,
     points: 10,
-    bodyMd: `# Tipos de Dados
-
-XanaScript tem cinco tipos nativos.
+    bodyMd: `XanaScript tem cinco tipos nativos.
 
 ## TEXTO (String)
 
@@ -314,9 +300,7 @@ Cada tipo serve a um propósito específico. A inferência de tipos lida com ele
     title: "Inferência de Tipos",
     order: 8,
     points: 10,
-    bodyMd: `# Inferência de Tipos
-
-XanaScript detecta automaticamente o tipo de uma variável com base em seu valor.
+    bodyMd: `XanaScript detecta automaticamente o tipo de uma variável com base em seu valor.
 
 ## Como a Inferência Funciona
 
@@ -355,9 +339,7 @@ Para clareza, você pode anotar tipos: \`CRIA nome: TEXTO = "João"\`.`,
     title: "Strings em Detalhe",
     order: 9,
     points: 10,
-    bodyMd: `# Strings em Detalhe
-
-Strings (\`TEXTO\`) são codificadas em UTF-8.
+    bodyMd: `Strings (\`TEXTO\`) são codificadas em UTF-8.
 
 ## Criação de Strings
 
@@ -400,9 +382,7 @@ Use \`+\` para interpolar valores em strings. Strings em XanaScript são imutáv
     title: "Números em Detalhe",
     order: 10,
     points: 10,
-    bodyMd: `# Números em Detalhe
-
-Números (\`NUMERO\`) cobrem tanto inteiros quanto ponto flutuante. Valores são floats de 64 bits (IEEE 754).
+    bodyMd: `Números (\`NUMERO\`) cobrem tanto inteiros quanto ponto flutuante. Valores são floats de 64 bits (IEEE 754).
 
 ## Literais Inteiros
 
@@ -454,9 +434,7 @@ x /= 4   // x = x / 4
     title: "Booleanos",
     order: 11,
     points: 5,
-    bodyMd: `# Booleanos
-
-Booleanos (\`BOOLEANO\`) representam valores verdadeiros: \`VERDADEIRO\` (true) e \`FALSO\` (false).
+    bodyMd: `Booleanos (\`BOOLEANO\`) representam valores verdadeiros: \`VERDADEIRO\` (true) e \`FALSO\` (false).
 
 ## Operadores Lógicos
 
@@ -496,9 +474,7 @@ SE LIGA SO ("") {
     title: "Nulo e Indefinido",
     order: 12,
     points: 5,
-    bodyMd: `# Nulo e Indefinido
-
-Dois valores especiais para "sem valor".
+    bodyMd: `Dois valores especiais para "sem valor".
 
 ## Null
 
@@ -542,9 +518,7 @@ CRIA nome = usuario ?? "Convidado"
     title: "Conversão de Tipos",
     order: 13,
     points: 10,
-    bodyMd: `# Conversão de Tipos
-
-Funções nativas para converter entre tipos.
+    bodyMd: `Funções nativas para converter entre tipos.
 
 ## Para Número
 
@@ -584,9 +558,7 @@ Strings numéricas são convertidas implicitamente em contextos aritméticos.`,
     title: "Operadores",
     order: 14,
     points: 10,
-    bodyMd: `# Operadores
-
-Um conjunto completo de operadores para aritmética, comparação, lógica e atribuição.
+    bodyMd: `Um conjunto completo de operadores para aritmética, comparação, lógica e atribuição.
 
 ## Aritméticos
 
@@ -632,9 +604,7 @@ E   OU   NAO   !
     title: "Precedência de Operadores",
     order: 15,
     points: 5,
-    bodyMd: `# Precedência de Operadores
-
-Determina a ordem de avaliação em expressões (da maior para a menor):
+    bodyMd: `Determina a ordem de avaliação em expressões (da maior para a menor):
 
 | Nível | Operadores |
 |-------|------------|
@@ -670,9 +640,7 @@ Use parênteses para esclarecer a intenção.`,
     title: "SE LIGA SO (If Statements)",
     order: 16,
     points: 10,
-    bodyMd: `# SE LIGA SO — If Statements
-
-\`SE LIGA SO\` ("preste atenção") é a instrução \`if\` do XanaScript.
+    bodyMd: `\`SE LIGA SO\` ("preste atenção") é a instrução \`if\` do XanaScript.
 
 ## Sintaxe Básica
 
@@ -711,9 +679,7 @@ Sempre use chaves mesmo para instruções únicas.`,
     title: "SENAO (Else Clauses)",
     order: 17,
     points: 10,
-    bodyMd: `# SENAO — Else Clauses
-
-\`SENAO\` ("senão") fornece o ramo alternativo.
+    bodyMd: `\`SENAO\` ("senão") fornece o ramo alternativo.
 
 ## Sintaxe Básica
 
@@ -748,9 +714,7 @@ O ramo \`SENAO\` executa apenas quando a condição é falsa.`,
     title: "SENAO SE (Else If Chains)",
     order: 18,
     points: 10,
-    bodyMd: `# SENAO SE — Else If Chains
-
-\`SENAO SE\` ("senão se") encadeia múltiplas condições.
+    bodyMd: `\`SENAO SE\` ("senão se") encadeia múltiplas condições.
 
 ## Exemplo de Notas
 
@@ -790,9 +754,7 @@ Condições são avaliadas de cima para baixo. A primeira correspondente executa
     title: "Condicionais Aninhadas",
     order: 19,
     points: 10,
-    bodyMd: `# Condicionais Aninhadas
-
-Coloque \`SE LIGA SO\` dentro de outros blocos \`SE LIGA SO\`.
+    bodyMd: `Coloque \`SE LIGA SO\` dentro de outros blocos \`SE LIGA SO\`.
 
 ## Exemplo
 
@@ -829,9 +791,7 @@ Mantenha o aninhamento em 3 níveis ou menos.`,
     title: "Expressões Ternárias",
     order: 20,
     points: 10,
-    bodyMd: `# Expressões Ternárias
-
-Condicional inline usando \`? :\`.
+    bodyMd: `Condicional inline usando \`? :\`.
 
 ## Sintaxe
 
@@ -867,9 +827,7 @@ Use para escolhas binárias simples. Evite encadeamento profundo.`,
     title: "COMBINA Básico (Switch/Match)",
     order: 21,
     points: 10,
-    bodyMd: `# COMBINA Básico
-
-\`COMBINA\` é pattern matching, similar a \`switch\`/\`match\`.
+    bodyMd: `\`COMBINA\` é pattern matching, similar a \`switch\`/\`match\`.
 
 ## Sintaxe Básica
 
@@ -909,9 +867,7 @@ Cada braço retorna um valor. O wildcard \`_\` corresponde a qualquer coisa.`,
     title: "COMBINA com Intervalos",
     order: 22,
     points: 10,
-    bodyMd: `# COMBINA com Intervalos
-
-Use operadores de comparação em braços \`CASO\`.
+    bodyMd: `Use operadores de comparação em braços \`CASO\`.
 
 ## Intervalos Numéricos
 
@@ -950,9 +906,7 @@ COMBINA com intervalos é muito mais expressivo que switch tradicional.`,
     title: "COMBINA Wildcards (_)",
     order: 23,
     points: 5,
-    bodyMd: `# COMBINA Wildcards
-
-O sublinhado \`_\` corresponde a qualquer valor.
+    bodyMd: `O sublinhado \`_\` corresponde a qualquer valor.
 
 ## Caso Padrão
 
@@ -987,9 +941,7 @@ O wildcard deve ser o **último** braço porque corresponde a tudo.`,
     title: "Expressões COMBINA (Retornando Valores)",
     order: 24,
     points: 10,
-    bodyMd: `# Expressões COMBINA
-
-COMBINA é uma expressão, não apenas uma instrução.
+    bodyMd: `COMBINA é uma expressão, não apenas uma instrução.
 
 ## Forma de Expressão
 
@@ -1034,9 +986,7 @@ Usar COMBINA como expressão leva a código mais declarativo.`,
     title: "Avaliação de Curto-Circuito",
     order: 25,
     points: 5,
-    bodyMd: `# Avaliação de Curto-Circuito
-
-O operando direito só é avaliado se necessário.
+    bodyMd: `O operando direito só é avaliado se necessário.
 
 ## E (\`E\`) Curto-Circuito
 
@@ -1078,9 +1028,7 @@ SE LIGA SO (!dados OU !dados.nome) { VOLTA FALSO }
     title: "Tipo: NUMERO",
     order: 26,
     points: 5,
-    bodyMd: `# Tipo: NUMERO
-
-Todos os números em XanaScript são do tipo \`NUMERO\` — inteiros e floats.
+    bodyMd: `Todos os números em XanaScript são do tipo \`NUMERO\` — inteiros e floats.
 
 ## Literais Inteiros
 
@@ -1128,9 +1076,7 @@ CRIA b = 10 // 3  // 3 (divisão inteira)
     title: "Tipo: TEXTO",
     order: 27,
     points: 5,
-    bodyMd: `# Tipo: TEXTO
-
-Strings em XanaScript usam aspas duplas e são do tipo \`TEXTO\`.
+    bodyMd: `Strings em XanaScript usam aspas duplas e são do tipo \`TEXTO\`.
 
 ## Literais de String
 
@@ -1171,9 +1117,7 @@ CRIA saudacao = "Ola, \${nome}!"  // "Ola, Joao!"
     title: "Tipo: BOOLEANO",
     order: 28,
     points: 5,
-    bodyMd: `# Tipo: BOOLEANO
-
-Booleanos representam valores lógicos de verdade.
+    bodyMd: `Booleanos representam valores lógicos de verdade.
 
 ## Valores
 
@@ -1210,9 +1154,7 @@ SE LIGA SO (1)    { SOLTA O GRITO("truthy") }  // executa
     title: "Tipo: LISTA",
     order: 29,
     points: 5,
-    bodyMd: `# Tipo: LISTA
-
-Arrays em XanaScript são chamados de \`LISTA\`.
+    bodyMd: `Arrays em XanaScript são chamados de \`LISTA\`.
 
 ## Criando Listas
 
@@ -1253,9 +1195,7 @@ Listas declaradas com \`CRIA\` são mutáveis. Use \`CONSTANTE\` para imutável.
     title: "Tipo: DICIONARIO",
     order: 30,
     points: 5,
-    bodyMd: `# Tipo: DICIONARIO
-
-Dicionários em XanaScript são mapas chave-valor, tipo \`DICIONARIO\`.
+    bodyMd: `Dicionários em XanaScript são mapas chave-valor, tipo \`DICIONARIO\`.
 
 ## Criando Dicionários
 
@@ -1302,9 +1242,7 @@ Chaves são sempre strings. Valores podem ser qualquer tipo.`,
     title: "Tipo: OPCIONAL",
     order: 31,
     points: 5,
-    bodyMd: `# Tipo: OPCIONAL
-
-Tipos opcionais lidam com valores anuláveis de forma segura.
+    bodyMd: `Tipos opcionais lidam com valores anuláveis de forma segura.
 
 ## Declaração
 
@@ -1353,9 +1291,7 @@ Optionals previnem erros de referência nula em tempo de compilação.`,
     title: "Inferência de Tipos",
     order: 32,
     points: 10,
-    bodyMd: `# Inferência de Tipos
-
-XanaScript infere tipos automaticamente. Anotações são opcionais.
+    bodyMd: `XanaScript infere tipos automaticamente. Anotações são opcionais.
 
 ## Como a Inferência Funciona
 
@@ -1400,9 +1336,7 @@ CHAMA ESSE CARA busca(id: NUMERO): TEXTO? { ... }
     title: "Conversão de Tipos",
     order: 33,
     points: 10,
-    bodyMd: `# Conversão de Tipos
-
-Conversão explícita entre tipos usa funções nativas.
+    bodyMd: `Conversão explícita entre tipos usa funções nativas.
 
 ## Para Número
 
@@ -1453,9 +1387,7 @@ Sempre prefira conversão explícita para clareza.`,
     title: "Fundamentos de Funções",
     order: 34,
     points: 5,
-    bodyMd: `# Fundamentos de Funções
-
-Funções são declaradas com \`CHAMA ESSE CARA\` ("chame esse cara").
+    bodyMd: `Funções são declaradas com \`CHAMA ESSE CARA\` ("chame esse cara").
 
 ## Sintaxe Básica
 
@@ -1497,9 +1429,7 @@ Parâmetros e tipos de retorno podem ser anotados. O tipo de retorno segue a lis
     title: "Valores de Retorno",
     order: 35,
     points: 5,
-    bodyMd: `# Valores de Retorno
-
-Use \`VOLTA\` ("volta") para retornar um valor de uma função.
+    bodyMd: `Use \`VOLTA\` ("volta") para retornar um valor de uma função.
 
 ## Sintaxe de Retorno
 
@@ -1552,9 +1482,7 @@ CHAMA ESSE CARA minMax(lista) {
     title: "Parâmetros e Valores Padrão",
     order: 36,
     points: 5,
-    bodyMd: `# Parâmetros e Valores Padrão
-
-Funções suportam parâmetros padrão e params rest.
+    bodyMd: `Funções suportam parâmetros padrão e params rest.
 
 ## Parâmetros Padrão
 
@@ -1608,9 +1536,7 @@ Chamar com número errado de argumentos é um erro de compilação.`,
     title: "Funções como Primeira Classe",
     order: 37,
     points: 10,
-    bodyMd: `# Funções como Primeira Classe
-
-Funções são valores — atribua a variáveis, passe como argumentos.
+    bodyMd: `Funções são valores — atribua a variáveis, passe como argumentos.
 
 ## Atribuir a Variável
 
@@ -1658,9 +1584,7 @@ Isso permite closures e padrões de programação funcional.`,
     title: "Funções Arrow (=>)",
     order: 38,
     points: 10,
-    bodyMd: `# Funções Arrow
-
-Funções arrow oferecem uma sintaxe mais curta.
+    bodyMd: `Funções arrow oferecem uma sintaxe mais curta.
 
 ## Expressão Única
 
@@ -1709,9 +1633,7 @@ CRIA processar = (x) => {
     title: "Recursão",
     order: 39,
     points: 10,
-    bodyMd: `# Recursão
-
-Funções podem chamar a si mesmas — XanaScript suporta recursão.
+    bodyMd: `Funções podem chamar a si mesmas — XanaScript suporta recursão.
 
 ## Recursão Básica
 
@@ -1757,9 +1679,7 @@ Sem otimização de recursão de cauda, recursão profunda pode estourar a pilha
     title: "Funções Puras",
     order: 40,
     points: 10,
-    bodyMd: `# Funções Puras
-
-Funções puras não têm efeitos colaterais e sempre retornam a mesma saída para a mesma entrada.
+    bodyMd: `Funções puras não têm efeitos colaterais e sempre retornam a mesma saída para a mesma entrada.
 
 ## Exemplo Puro
 
@@ -1807,9 +1727,7 @@ O compilador rejeita efeitos colaterais em funções \`PURO\`.`,
     title: "Sobrecarga de Funções",
     order: 41,
     points: 10,
-    bodyMd: `# Sobrecarga de Funções
-
-Defina múltiplas funções com o mesmo nome, mas diferentes tipos de parâmetros.
+    bodyMd: `Defina múltiplas funções com o mesmo nome, mas diferentes tipos de parâmetros.
 
 ## Sobrecarga Baseada em Tipo
 
@@ -1849,9 +1767,7 @@ Sobrecarga permite APIs expressivas sem nomes de função diferentes.`,
     title: "Operações com Listas",
     order: 42,
     points: 5,
-    bodyMd: `# Operações com Listas
-
-Operações principais para trabalhar com listas.
+    bodyMd: `Operações principais para trabalhar com listas.
 
 ## map, filter, reduce
 
@@ -1898,9 +1814,7 @@ Métodos retornam novas listas — a original não é alterada.`,
     title: "Compreensão de Listas",
     order: 43,
     points: 10,
-    bodyMd: `# Compreensão de Listas
-
-Construa novas listas com uma sintaxe declarativa.
+    bodyMd: `Construa novas listas com uma sintaxe declarativa.
 
 ## Compreensão Básica
 
@@ -1937,9 +1851,7 @@ Compreensões compilam eficientemente — desempenho similar a loops manuais.`,
     title: "Tipo: CONJUNTO",
     order: 44,
     points: 5,
-    bodyMd: `# Tipo: CONJUNTO
-
-Conjuntos são coleções não ordenadas de valores únicos.
+    bodyMd: `Conjuntos são coleções não ordenadas de valores únicos.
 
 ## Criando Conjuntos
 
@@ -1984,9 +1896,7 @@ PARA CADA (cor EM cores) {
     title: "Tipo: TUPLA",
     order: 45,
     points: 5,
-    bodyMd: `# Tipo: TUPLA
-
-Tuplas são coleções ordenadas de tamanho fixo com tipos por posição.
+    bodyMd: `Tuplas são coleções ordenadas de tamanho fixo com tipos por posição.
 
 ## Criando Tuplas
 
@@ -2027,9 +1937,7 @@ Tuplas são imutáveis por padrão. Use-as para retornar múltiplos valores de f
     title: "Tipo: INTERVALO",
     order: 46,
     points: 5,
-    bodyMd: `# Tipo: INTERVALO
-
-Intervalos representam uma sequência de valores.
+    bodyMd: `Intervalos representam uma sequência de valores.
 
 ## Criando Intervalos
 
@@ -2075,9 +1983,7 @@ Intervalos são preguiçosos — elementos são computados sob demanda.`,
     title: "Loop PARA CADA",
     order: 47,
     points: 5,
-    bodyMd: `# Loop PARA CADA
-
-Itere sobre coleções com uma sintaxe limpa.
+    bodyMd: `Itere sobre coleções com uma sintaxe limpa.
 
 ## Sintaxe Básica
 
@@ -2125,9 +2031,7 @@ PARA CADA (n EM nums) {
     title: "Loop ENQUANTO",
     order: 48,
     points: 5,
-    bodyMd: `# Loop ENQUANTO
-
-Loop enquanto uma condição for verdadeira.
+    bodyMd: `Loop enquanto uma condição for verdadeira.
 
 ## Sintaxe Básica
 
@@ -2170,9 +2074,7 @@ Use \`ENQUANTO\` quando o número de iterações for desconhecido. Use \`PARA CA
     title: "Controle de Loop: CONTINUE e INTERROMPE",
     order: 49,
     points: 5,
-    bodyMd: `# Controle de Loop
-
-\`CONTINUE\` pula para a próxima iteração. \`INTERROMPE\` sai do loop.
+    bodyMd: `\`CONTINUE\` pula para a próxima iteração. \`INTERROMPE\` sai do loop.
 
 ## CONTINUE
 
@@ -2219,9 +2121,7 @@ Rótulos tornam o controle complexo de loop legível e preciso.`,
     title: "Fundamentos de Classes com CLASSE",
     order: 50,
     points: 5,
-    bodyMd: `# Fundamentos de Classes
-
-Classes são definidas com \`CLASSE\`.
+    bodyMd: `Classes são definidas com \`CLASSE\`.
 
 ## Definição de Classe
 
@@ -2264,9 +2164,7 @@ O método \`init\` atua como construtor.`,
     title: "Construtores de Classe",
     order: 51,
     points: 5,
-    bodyMd: `# Construtores de Classe
-
-O método \`init\` inicializa uma nova instância.
+    bodyMd: `O método \`init\` inicializa uma nova instância.
 
 ## Padrão de Construtor
 
@@ -2326,9 +2224,7 @@ CLASSE User {
     title: "Métodos de Instância e Estáticos",
     order: 52,
     points: 5,
-    bodyMd: `# Métodos de Instância e Estáticos
-
-Métodos podem ser de nível de instância ou de classe.
+    bodyMd: `Métodos podem ser de nível de instância ou de classe.
 
 ## Métodos de Instância
 
@@ -2381,9 +2277,7 @@ CLASSE Pessoa {
     title: "Encapsulamento",
     order: 53,
     points: 5,
-    bodyMd: `# Encapsulamento
-
-Controle o acesso aos membros da classe.
+    bodyMd: `Controle o acesso aos membros da classe.
 
 ## Membros Privados
 
@@ -2439,9 +2333,7 @@ Encapsulamento reduz acoplamento e previne mau uso.`,
     title: "Propriedades Computadas",
     order: 54,
     points: 10,
-    bodyMd: `# Propriedades Computadas
-
-Propriedades com lógica personalizada de get/set.
+    bodyMd: `Propriedades com lógica personalizada de get/set.
 
 ## Getter
 
@@ -2495,9 +2387,7 @@ Propriedades computadas parecem campos, mas executam código no acesso.`,
     title: "Sobrecarga de Operadores",
     order: 55,
     points: 10,
-    bodyMd: `# Sobrecarga de Operadores
-
-Defina comportamento personalizado para operadores em suas classes.
+    bodyMd: `Defina comportamento personalizado para operadores em suas classes.
 
 ## Operadores Sobrecarregáveis
 
@@ -2547,9 +2437,7 @@ Operadores fazem tipos personalizados parecerem nativos.`,
     title: "Composição vs Herança",
     order: 56,
     points: 10,
-    bodyMd: `# Composição vs Herança
-
-Prefira composição sobre herança.
+    bodyMd: `Prefira composição sobre herança.
 
 ## Exemplo de Composição
 
@@ -2598,9 +2486,7 @@ Use \`EXTENDE\` para verdadeiras relações de subtipo, composição para reuso 
     title: "Membros Estáticos e Singleton",
     order: 57,
     points: 10,
-    bodyMd: `# Membros Estáticos e Singleton
-
-Membros de nível de classe compartilhados entre todas as instâncias.
+    bodyMd: `Membros de nível de classe compartilhados entre todas as instâncias.
 
 ## Propriedades Estáticas
 
@@ -2651,9 +2537,7 @@ Membros estáticos são inicializados preguiçosamente.`,
     title: "Herança com EXTENDE",
     order: 58,
     points: 5,
-    bodyMd: `# Herança com EXTENDE
-
-Uma classe pode estender outra classe com \`EXTENDE\`.
+    bodyMd: `Uma classe pode estender outra classe com \`EXTENDE\`.
 
 ## Sintaxe
 
@@ -2699,9 +2583,7 @@ CLASSE Gato EXTENDE Animal {
     title: "Sobrescrita de Métodos",
     order: 59,
     points: 5,
-    bodyMd: `# Sobrescrita de Métodos
-
-Classes filhas podem sobrescrever métodos da classe pai.
+    bodyMd: `Classes filhas podem sobrescrever métodos da classe pai.
 
 ## Regras de Sobrescrita
 
@@ -2753,9 +2635,7 @@ CLASSE Abstrata Forma {
     title: "Polimorfismo",
     order: 60,
     points: 10,
-    bodyMd: `# Polimorfismo
-
-Objetos de diferentes tipos respondem à mesma interface.
+    bodyMd: `Objetos de diferentes tipos respondem à mesma interface.
 
 ## Comportamento Polimórfico
 
@@ -2799,9 +2679,7 @@ Polimorfismo permite designs flexíveis e extensíveis sem condicionais.`,
     title: "Classes Abstratas",
     order: 61,
     points: 10,
-    bodyMd: `# Classes Abstratas
-
-Classes abstratas definem um template com alguns métodos não implementados.
+    bodyMd: `Classes abstratas definem um template com alguns métodos não implementados.
 
 ## Definindo Classe Abstrata
 
@@ -2838,9 +2716,7 @@ Classes abstratas fornecem um contrato mais implementação compartilhada.`,
     title: "Interfaces com PROTOCOLO",
     order: 62,
     points: 10,
-    bodyMd: `# Interfaces (PROTOCOLO)
-
-Defina um contrato sem implementação.
+    bodyMd: `Defina um contrato sem implementação.
 
 ## Definição de Protocolo
 
@@ -2886,9 +2762,7 @@ Protocolos suportam herança múltipla de contratos sem o problema do diamante.`
     title: "Herança Múltipla via Protocolos",
     order: 63,
     points: 10,
-    bodyMd: `# Herança Múltipla
-
-Protocolos permitem herdar múltiplos contratos.
+    bodyMd: `Protocolos permitem herdar múltiplos contratos.
 
 ## Combinando Protocolos
 
@@ -2934,9 +2808,7 @@ Use protocolos quando classes diferentes compartilham capacidades, mas não hier
     title: "Injeção de Dependência",
     order: 64,
     points: 10,
-    bodyMd: `# Injeção de Dependência
-
-Passe dependências em vez de criá-las internamente.
+    bodyMd: `Passe dependências em vez de criá-las internamente.
 
 ## Sem DI (Acoplamento Forte)
 
@@ -2986,9 +2858,7 @@ DI permite testar com mocks e trocar implementações.`,
     title: "Princípios SOLID",
     order: 65,
     points: 10,
-    bodyMd: `# Princípios SOLID
-
-Cinco princípios para OOP sustentável.
+    bodyMd: `Cinco princípios para OOP sustentável.
 
 ## S — Responsabilidade Única
 
@@ -3034,9 +2904,7 @@ Seguir SOLID produz código sustentável e testável.`,
     title: "Tratamento de Erros com TENTE",
     order: 66,
     points: 5,
-    bodyMd: `# Tratamento de Erros
-
-Erros são tratados com \`TENTE\` (try), \`CAPTURA\` (catch), \`FINALLY\` (finally).
+    bodyMd: `Erros são tratados com \`TENTE\` (try), \`CAPTURA\` (catch), \`FINALLY\` (finally).
 
 ## Try/Catch Básico
 
@@ -3084,9 +2952,7 @@ Use \`TENTE\` para operações que podem falhar.`,
     title: "Lançando Erros",
     order: 67,
     points: 5,
-    bodyMd: `# Lançando Erros
-
-Use \`JOGAR\` (throw) para levantar um erro.
+    bodyMd: `Use \`JOGAR\` (throw) para levantar um erro.
 
 ## Throw Básico
 
@@ -3138,9 +3004,7 @@ Apenas lance erros para situações excepcionais, não para fluxo de controle.`,
     title: "Classes de Erro Personalizadas",
     order: 68,
     points: 10,
-    bodyMd: `# Classes de Erro Personalizadas
-
-Crie erros específicos de domínio estendendo a classe de erro base.
+    bodyMd: `Crie erros específicos de domínio estendendo a classe de erro base.
 
 ## Definindo Erros Personalizados
 
@@ -3188,9 +3052,7 @@ Erros personalizados permitem tratamento preciso com dados específicos de domí
     title: "Padrões de Tratamento de Erros",
     order: 69,
     points: 10,
-    bodyMd: `# Padrões de Tratamento de Erros
-
-Padrões comuns para tratamento robusto de erros.
+    bodyMd: `Padrões comuns para tratamento robusto de erros.
 
 ## Cláusula de Guarda
 
@@ -3245,9 +3107,7 @@ SE LIGA SO (r.sucesso) {
     title: "Validação de Entrada",
     order: 70,
     points: 5,
-    bodyMd: `# Validação de Entrada
-
-Valide entradas antes de processar.
+    bodyMd: `Valide entradas antes de processar.
 
 ## Validação Básica
 
@@ -3297,9 +3157,7 @@ Sempre valide entrada externa antes de processar.`,
     title: "Registro de Erros (Logging)",
     order: 71,
     points: 5,
-    bodyMd: `# Registro de Erros
-
-Registre erros para depuração e monitoramento.
+    bodyMd: `Registre erros para depuração e monitoramento.
 
 ## Logging Básico
 
@@ -3350,9 +3208,7 @@ Registre o suficiente para diagnosticar problemas, não tanto que os logs sejam 
     title: "Estratégias de Recuperação de Erros",
     order: 72,
     points: 10,
-    bodyMd: `# Recuperação de Erros
-
-Estratégias para se recuperar de falhas.
+    bodyMd: `Estratégias para se recuperar de falhas.
 
 ## Padrão de Retry
 
@@ -3407,9 +3263,7 @@ Escolha a estratégia de recuperação baseada no tipo de erro e requisitos do s
     title: "Melhores Práticas de Tratamento de Erros",
     order: 73,
     points: 10,
-    bodyMd: `# Melhores Práticas
-
-Diretrizes para tratamento robusto de erros.
+    bodyMd: `Diretrizes para tratamento robusto de erros.
 
 ## 1. Falhe Rápido
 
@@ -3459,9 +3313,7 @@ Seguir estas práticas previne falhas silenciosas e corrupção de dados.`,
     title: "Fundamentos de Módulos",
     order: 74,
     points: 5,
-    bodyMd: `# Fundamentos de Módulos
-
-Organize código em módulos reutilizáveis.
+    bodyMd: `Organize código em módulos reutilizáveis.
 
 ## Exportando
 
@@ -3511,9 +3363,7 @@ Cada arquivo pode ter uma exportação padrão e múltiplas exportações nomead
     title: "Imports/Exports Nomeados",
     order: 75,
     points: 5,
-    bodyMd: `# Imports/Exports Nomeados
-
-Importe e exporte nomes específicos.
+    bodyMd: `Importe e exporte nomes específicos.
 
 ## Exports Nomeados
 
@@ -3564,9 +3414,7 @@ Imports nomeados são explícitos e permitem tree-shaking.`,
     title: "Resolução de Módulos",
     order: 76,
     points: 5,
-    bodyMd: `# Resolução de Módulos
-
-Como o XanaScript encontra módulos importados.
+    bodyMd: `Como o XanaScript encontra módulos importados.
 
 ## Caminhos Relativos
 
@@ -3612,9 +3460,7 @@ O compilador armazena em cache caminhos resolvidos para recompilação rápida.`
     title: "Dependências Circulares",
     order: 77,
     points: 10,
-    bodyMd: `# Dependências Circulares
-
-Quando o módulo A importa de B e B importa de A.
+    bodyMd: `Quando o módulo A importa de B e B importa de A.
 
 ## O Problema
 
@@ -3659,9 +3505,7 @@ Ciclos são às vezes inevitáveis, mas devem ser minimizados.`,
     title: "Criando Pacotes",
     order: 78,
     points: 10,
-    bodyMd: `# Criando Pacotes
-
-Empacote seus módulos para distribuição.
+    bodyMd: `Empacote seus módulos para distribuição.
 
 ## Estrutura do Pacote
 
@@ -3719,9 +3563,7 @@ Pacotes permitem compartilhamento de código entre projetos e com a comunidade.`
     title: "Ecossistema de Pacotes",
     order: 79,
     points: 5,
-    bodyMd: `# Ecossistema de Pacotes
-
-Visão geral das ferramentas de pacotes XanaScript.
+    bodyMd: `Visão geral das ferramentas de pacotes XanaScript.
 
 ## Registro
 
@@ -3774,9 +3616,7 @@ O ecossistema fornece ferramentas para descoberta, instalação e atualização 
     title: "Coleta de Lixo em XanaScript",
     order: 80,
     points: 5,
-    bodyMd: `# Coleta de Lixo
-
-XanaScript possui coleta de lixo automática.
+    bodyMd: `XanaScript possui coleta de lixo automática.
 
 ## Como Funciona
 
@@ -3822,9 +3662,7 @@ A GC torna a gestão de memória automática, mas entenda suas implicações.`,
     title: "Considerações de Desempenho",
     order: 81,
     points: 10,
-    bodyMd: `# Desempenho
-
-Escreva código XanaScript eficiente.
+    bodyMd: `Escreva código XanaScript eficiente.
 
 ## Alocação no Hot Path
 
@@ -3884,9 +3722,7 @@ Perfile antes de otimizar. Nunca otimize prematuramente.`,
     title: "Otimizações do Compilador",
     order: 82,
     points: 10,
-    bodyMd: `# Otimizações do Compilador
-
-Entenda como o compilador otimiza seu código.
+    bodyMd: `Entenda como o compilador otimiza seu código.
 
 ## Inline de Funções
 
@@ -3936,9 +3772,7 @@ O compilador aplica otimizações agressivas mantendo comportamento correto.`,
     title: "Perfilamento e Depuração",
     order: 83,
     points: 5,
-    bodyMd: `# Perfilamento e Depuração
-
-Ferramentas para perfilar e depurar código XanaScript.
+    bodyMd: `Ferramentas para perfilar e depurar código XanaScript.
 
 ## Depurador
 
@@ -3990,9 +3824,7 @@ Use estas ferramentas para encontrar e corrigir problemas de desempenho.`,
     title: "Escrevendo Testes Unitários",
     order: 84,
     points: 5,
-    bodyMd: `# Testes Unitários
-
-Teste funções e módulos individualmente.
+    bodyMd: `Teste funções e módulos individualmente.
 
 ## Teste Básico
 
@@ -4043,9 +3875,7 @@ Testes unitários garantem que componentes individuais funcionem corretamente.`,
     title: "Testes de Integração",
     order: 85,
     points: 10,
-    bodyMd: `# Testes de Integração
-
-Teste como componentes funcionam juntos.
+    bodyMd: `Teste como componentes funcionam juntos.
 
 ## Exemplo de Teste de Integração
 
@@ -4094,9 +3924,7 @@ Testes de integração pegam bugs de interação entre componentes que testes un
     title: "TDD com XanaScript",
     order: 86,
     points: 10,
-    bodyMd: `# TDD com XanaScript
-
-Desenvolvimento Orientado a Testes.
+    bodyMd: `Desenvolvimento Orientado a Testes.
 
 ## Ciclo TDD: Vermelho-Verde-Refatora
 
@@ -4148,9 +3976,7 @@ TDD leva a código mais confiável e bem projetado.`,
     title: "Cobertura de Testes",
     order: 87,
     points: 5,
-    bodyMd: `# Cobertura de Testes
-
-Meça quão bem seus testes cobrem o código.
+    bodyMd: `Meça quão bem seus testes cobrem o código.
 
 ## Tipos de Cobertura
 
@@ -4191,9 +4017,7 @@ Cobertura é uma métrica, não uma garantia. Teste caminhos importantes primeir
     title: "Tipos de Testes na Prática",
     order: 88,
     points: 5,
-    bodyMd: `# Tipos de Testes na Prática
-
-Visão geral de diferentes tipos de teste.
+    bodyMd: `Visão geral de diferentes tipos de teste.
 
 ## Pirâmide de Testes
 
@@ -4243,9 +4067,7 @@ Misture tipos de teste para confiança máxima.`,
     title: "Depuração Avançada",
     order: 89,
     points: 10,
-    bodyMd: `# Depuração Avançada
-
-Técnicas para depurar problemas complexos.
+    bodyMd: `Técnicas para depurar problemas complexos.
 
 ## Logging Condicional
 
@@ -4305,9 +4127,7 @@ Depuração avançada requer as ferramentas certas e abordagem sistemática.`,
     title: "Tratamento de Erros Assíncronos",
     order: 90,
     points: 10,
-    bodyMd: `# Tratamento de Erros Assíncronos
-
-Trate erros em código assíncrono adequadamente.
+    bodyMd: `Trate erros em código assíncrono adequadamente.
 
 ## TENTE/CAPTURA Assíncrono
 
@@ -4369,9 +4189,7 @@ Erros assíncronos são traiçoeiros. Sempre trate promessas.`,
     title: "Event Loop em Detalhe",
     order: 91,
     points: 10,
-    bodyMd: `# Event Loop em Detalhe
-
-Aprofunde seu entendimento do event loop XanaScript.
+    bodyMd: `Aprofunde seu entendimento do event loop XanaScript.
 
 ## Fases do Event Loop
 
@@ -4418,9 +4236,7 @@ Entender o event loop previne bugs de ordenação e desempenho.`,
     title: "Trabalhando com Streams",
     order: 92,
     points: 10,
-    bodyMd: `# Trabalhando com Streams
-
-Processe dados em pedaços com streams.
+    bodyMd: `Processe dados em pedaços com streams.
 
 ## Streams de Leitura
 
@@ -4472,9 +4288,7 @@ Streams são eficientes para processar grandes conjuntos de dados sem carregar t
     title: "Buffers e Arrays de Bytes",
     order: 93,
     points: 5,
-    bodyMd: `# Buffers e Arrays de Bytes
-
-Trabalhe com dados binários.
+    bodyMd: `Trabalhe com dados binários.
 
 ## Criando Buffers
 
@@ -4528,9 +4342,7 @@ Buffers são essenciais para protocolos de rede, criptografia e processamento de
     title: "Operações de Arquivo",
     order: 94,
     points: 5,
-    bodyMd: `# Operações de Arquivo
-
-Leia e escreva arquivos com XanaScript.
+    bodyMd: `Leia e escreva arquivos com XanaScript.
 
 ## Leitura
 
@@ -4588,9 +4400,7 @@ Sempre use a versão assíncrona para IO, exceto em scripts de inicialização.`
     title: "Programação de Rede",
     order: 95,
     points: 10,
-    bodyMd: `# Programação de Rede
-
-Crie clientes e servidores de rede.
+    bodyMd: `Crie clientes e servidores de rede.
 
 ## Servidor TCP
 
@@ -4651,9 +4461,7 @@ XanaScript fornece APIs de rede de alto nível para construção rápida de serv
     title: "Processamento Assíncrono de Arquivos",
     order: 96,
     points: 10,
-    bodyMd: `# Processamento Assíncrono de Arquivos
-
-Padrões para processamento eficiente de arquivos.
+    bodyMd: `Padrões para processamento eficiente de arquivos.
 
 ## Leitura com Streams
 
@@ -4712,9 +4520,7 @@ Use streams para conjuntos de dados que não cabem na memória.`,
     title: "Conceitos de Banco de Dados",
     order: 97,
     points: 10,
-    bodyMd: `# Conceitos de Banco de Dados
-
-Conecte e interaja com bancos de dados.
+    bodyMd: `Conecte e interaja com bancos de dados.
 
 ## Conexão
 
@@ -4776,9 +4582,7 @@ Always parameterize queries to prevent injection.`,
     title: "Autenticação e Autorização",
     order: 98,
     points: 10,
-    bodyMd: `# Autenticação e Autorização
-
-Implemente segurança em suas aplicações.
+    bodyMd: `Implemente segurança em suas aplicações.
 
 ## Autenticação
 
@@ -4842,9 +4646,7 @@ Nunca armazene senhas em texto puro; use hash + salt.`,
     title: "Variáveis de Ambiente e Configuração",
     order: 99,
     points: 5,
-    bodyMd: `# Variáveis de Ambiente e Configuração
-
-Gerencie configurações de forma segura.
+    bodyMd: `Gerencie configurações de forma segura.
 
 ## Variáveis de Ambiente
 
@@ -4902,9 +4704,7 @@ Mantenha configurações fora do código.`,
     title: "Introdução ao CLI XanaScript",
     order: 100,
     points: 5,
-    bodyMd: `# Introdução ao CLI XanaScript
-
-Construa ferramentas de linha de comando.
+    bodyMd: `Construa ferramentas de linha de comando.
 
 ## Argumentos
 
@@ -4961,9 +4761,7 @@ XanaScript é excelente para ferramentas CLI rápidas e poderosas.`,
     title: "Programação Web com XanaScript",
     order: 101,
     points: 5,
-    bodyMd: `# Programação Web
-
-Construa aplicações web com XanaScript.
+    bodyMd: `Construa aplicações web com XanaScript.
 
 ## Roteamento
 
@@ -5018,9 +4816,7 @@ XanaScript torna a construção de APIs web rápida e intuitiva.`,
     title: "Frameworks Web",
     order: 102,
     points: 10,
-    bodyMd: `# Frameworks Web
-
-Use frameworks web para produtividade máxima.
+    bodyMd: `Use frameworks web para produtividade máxima.
 
 ## Express (Estilo)
 
@@ -5070,9 +4866,7 @@ Frameworks fornecem estrutura e convenções para construir aplicações consist
     title: "Bancos de Dados Relacionais",
     order: 103,
     points: 10,
-    bodyMd: `# Bancos de Dados Relacionais
-
-Trabalhe com bancos SQL.
+    bodyMd: `Trabalhe com bancos SQL.
 
 ## Conexão e Consultas
 
@@ -5139,9 +4933,7 @@ Bancos relacionais fornecem integridade de dados e consultas poderosas.`,
     title: "Bancos de Dados NoSQL",
     order: 104,
     points: 10,
-    bodyMd: `# Bancos de Dados NoSQL
-
-Trabalhe com bancos NoSQL como MongoDB.
+    bodyMd: `Trabalhe com bancos NoSQL como MongoDB.
 
 ## Conexão
 
@@ -5193,9 +4985,7 @@ NoSQL oferece flexibilidade de esquema e escalabilidade horizontal.`,
     title: "Caching com XanaScript",
     order: 105,
     points: 10,
-    bodyMd: `# Caching
-
-Melhore desempenho com caching.
+    bodyMd: `Melhore desempenho com caching.
 
 ## Cache em Memória
 
@@ -5253,9 +5043,7 @@ Cache melhora drasticamente a latência e reduz carga no banco.`,
     title: "Introdução a Eventos",
     order: 106,
     points: 5,
-    bodyMd: `# Introdução a Eventos
-
-Programação orientada a eventos.
+    bodyMd: `Programação orientada a eventos.
 
 ## Emissor de Eventos
 
@@ -5305,9 +5093,7 @@ Objetos XanaScript podem estender EmissorEventos para expor eventos.`,
     title: "Padrão Observador",
     order: 107,
     points: 5,
-    bodyMd: `# Padrão Observador
-
-Um objeto (sujeito) notifica múltiplos observadores sobre mudanças.
+    bodyMd: `Um objeto (sujeito) notifica múltiplos observadores sobre mudanças.
 
 ## Estrutura
 
@@ -5370,9 +5156,7 @@ sujeito.notificar({ msg: "teste", urgente: true })
     title: "Programação Reativa",
     order: 108,
     points: 10,
-    bodyMd: `# Programação Reativa
-
-Programe com fluxos de dados assíncronos.
+    bodyMd: `Programe com fluxos de dados assíncronos.
 
 ## Observáveis
 
@@ -5427,9 +5211,7 @@ Programação reativa gerencia elegantemente fluxos de dados assíncronos e even
     title: "Webhooks e Arquitetura Orientada a Eventos",
     order: 109,
     points: 10,
-    bodyMd: `# Webhooks e Event-Driven
-
-Padrões para comunicação baseada em eventos.
+    bodyMd: `Padrões para comunicação baseada em eventos.
 
 ## Webhook (Servidor)
 
@@ -5493,9 +5275,7 @@ EDA desacopla componentes e melhora escalabilidade.`,
     title: "Filas e Processamento Assíncrono",
     order: 110,
     points: 10,
-    bodyMd: `# Filas e Processamento Assíncrono
-
-Gerencie tarefas assíncronas com filas.
+    bodyMd: `Gerencie tarefas assíncronas com filas.
 
 ## Fila em Memória
 
@@ -5556,9 +5336,7 @@ Filas permitem processamento assíncrono e desacoplamento entre serviços.`,
     title: "Containerização com XanaScript",
     order: 111,
     points: 10,
-    bodyMd: `# Containerização
-
-Empacote aplicações XanaScript com Docker.
+    bodyMd: `Empacote aplicações XanaScript com Docker.
 
 ## Dockerfile
 
@@ -5628,9 +5406,7 @@ Containerização garante ambientes consistentes e deploy simplificado.`,
     title: "Deploy em Nuvem",
     order: 112,
     points: 10,
-    bodyMd: `# Deploy em Nuvem
-
-Faça deploy de aplicações XanaScript na nuvem.
+    bodyMd: `Faça deploy de aplicações XanaScript na nuvem.
 
 ## Provedores Suportados
 
@@ -5691,9 +5467,7 @@ Escolha o provedor baseado em suas necessidades de escala e orçamento.`,
     title: "CI/CD para XanaScript",
     order: 113,
     points: 10,
-    bodyMd: `# CI/CD para XanaScript
-
-Automatize testes e deploys.
+    bodyMd: `Automatize testes e deploys.
 
 ## GitHub Actions
 
@@ -5750,9 +5524,7 @@ CI/CD automatizado previne regressões e acelera entregas.`,
     title: "Monitoramento e Observabilidade",
     order: 114,
     points: 10,
-    bodyMd: `# Monitoramento e Observabilidade
-
-Monitore aplicações em produção.
+    bodyMd: `Monitore aplicações em produção.
 
 ## Métricas
 
@@ -5812,9 +5584,7 @@ Observabilidade permite entender o comportamento do sistema em produção.`,
     title: "Serialização JSON",
     order: 115,
     points: 5,
-    bodyMd: `# Serialização JSON
-
-Trabalhe com JSON em XanaScript.
+    bodyMd: `Trabalhe com JSON em XanaScript.
 
 ## Serializar (Objeto → String)
 
@@ -5866,9 +5636,7 @@ JSON é o formato de intercâmbio de dados mais comum na web.`,
     title: "APIs REST com XanaScript",
     order: 116,
     points: 10,
-    bodyMd: `# APIs REST
-
-Construa APIs RESTful com XanaScript.
+    bodyMd: `Construa APIs RESTful com XanaScript.
 
 ## CRUD Completo
 
@@ -5932,9 +5700,7 @@ Siga convenções REST para APIs previsíveis e consistentes.`,
     title: "GraphQL com XanaScript",
     order: 117,
     points: 10,
-    bodyMd: `# GraphQL com XanaScript
-
-Construa APIs GraphQL.
+    bodyMd: `Construa APIs GraphQL.
 
 ## Schema
 
@@ -6001,9 +5767,7 @@ GraphQL permite que clientes busquem exatamente os dados que precisam.`,
     title: "WebSockets com XanaScript",
     order: 118,
     points: 10,
-    bodyMd: `# WebSockets
-
-Comunicação bidirecional em tempo real.
+    bodyMd: `Comunicação bidirecional em tempo real.
 
 ## Servidor WebSocket
 
@@ -6070,9 +5834,7 @@ WebSockets são perfeitos para aplicações que exigem baixa latência.`,
     title: "Testes de API",
     order: 119,
     points: 10,
-    bodyMd: `# Testes de API
-
-Teste suas APIs automaticamente.
+    bodyMd: `Teste suas APIs automaticamente.
 
 ## Teste de Requisição
 
@@ -6135,9 +5897,7 @@ Testes de API garantem que seus endpoints funcionem corretamente.`,
     title: "Boas Práticas de Segurança",
     order: 120,
     points: 10,
-    bodyMd: `# Segurança
-
-Proteja suas aplicações XanaScript.
+    bodyMd: `Proteja suas aplicações XanaScript.
 
 ## Validação de Entrada
 
@@ -6195,9 +5955,7 @@ Segurança é uma preocupação contínua, não uma configuração única.`,
     title: "Lidando com CORS",
     order: 121,
     points: 5,
-    bodyMd: `# Lidando com CORS
-
-Gerencie Cross-Origin Resource Sharing.
+    bodyMd: `Gerencie Cross-Origin Resource Sharing.
 
 ## O Problema
 
@@ -6250,9 +6008,7 @@ Configure CORS corretamente para permitir acesso de origens confiáveis.`,
     title: "Variáveis de Ambiente Avançado",
     order: 122,
     points: 5,
-    bodyMd: `# Variáveis de Ambiente Avançado
-
-Gerencie configurações complexas.
+    bodyMd: `Gerencie configurações complexas.
 
 ## Múltiplos Ambientes
 
@@ -6315,9 +6071,7 @@ Valide configurações no startup para falhar rápido.`,
     title: "Sessão e Cookies",
     order: 123,
     points: 5,
-    bodyMd: `# Sessão e Cookies
-
-Gerencie estado do usuário.
+    bodyMd: `Gerencie estado do usuário.
 
 ## Cookies
 
@@ -6375,9 +6129,7 @@ Sessões permitem estado persistente entre requisições HTTP.`,
     title: "Upload de Arquivos",
     order: 124,
     points: 10,
-    bodyMd: `# Upload de Arquivos
-
-Receba e processe arquivos enviados.
+    bodyMd: `Receba e processe arquivos enviados.
 
 ## Upload Simples
 
@@ -6449,9 +6201,7 @@ Sempre valide tipo e tamanho de arquivos enviados.`,
     title: "Processamento de Imagens",
     order: 125,
     points: 10,
-    bodyMd: `# Processamento de Imagens
-
-Manipule imagens com XanaScript.
+    bodyMd: `Manipule imagens com XanaScript.
 
 ## Redimensionar
 
@@ -6504,9 +6254,7 @@ Processamento de imagens permite otimizar uploads e criar variações.`,
     title: "Internacionalização (i18n)",
     order: 126,
     points: 5,
-    bodyMd: `# Internacionalização
-
-Prepare sua aplicação para múltiplos idiomas.
+    bodyMd: `Prepare sua aplicação para múltiplos idiomas.
 
 ## Configuração
 
@@ -6567,9 +6315,7 @@ i18n torna sua aplicação acessível globalmente.`,
     title: "Testes de Carga e Estresse",
     order: 127,
     points: 10,
-    bodyMd: `# Testes de Carga e Estresse
-
-Teste desempenho sob pressão.
+    bodyMd: `Teste desempenho sob pressão.
 
 ## Teste de Carga
 
@@ -6623,9 +6369,7 @@ Testes de carga revelam gargalos antes de afetar usuários reais.`,
     title: "Otimização de Consultas",
     order: 128,
     points: 10,
-    bodyMd: `# Otimização de Consultas
-
-Escreva consultas de banco de dados eficientes.
+    bodyMd: `Escreva consultas de banco de dados eficientes.
 
 ## EXPLAIN
 
@@ -6688,9 +6432,7 @@ Consultas otimizadas são críticas para desempenho em escala.`,
     title: "Caching Avançado",
     order: 129,
     points: 10,
-    bodyMd: `# Caching Avançado
-
-Estratégias avançadas de cache.
+    bodyMd: `Estratégias avançadas de cache.
 
 ## Cache de Camada Dupla
 
@@ -6765,9 +6507,7 @@ Estratégias avançadas de cache maximizam taxa de acerto e minimizam latência.
     title: "Testes de Segurança",
     order: 130,
     points: 10,
-    bodyMd: `# Testes de Segurança
-
-Teste vulnerabilidades de segurança.
+    bodyMd: `Teste vulnerabilidades de segurança.
 
 ## Teste de Injeção
 
@@ -6834,9 +6574,7 @@ Testes de segurança previnem vulnerabilidades antes da produção.`,
     title: "Logs Estruturados e Agregação",
     order: 131,
     points: 5,
-    bodyMd: `# Logs Estruturados e Agregação
-
-Centralize e analise logs.
+    bodyMd: `Centralize e analise logs.
 
 ## Logs JSON
 
@@ -6900,9 +6638,7 @@ Logs estruturados permitem busca e análise eficientes.`,
     title: "Tratamento de Erros em Produção",
     order: 132,
     points: 10,
-    bodyMd: `# Tratamento de Erros em Produção
-
-Lide com erros em ambiente de produção.
+    bodyMd: `Lide com erros em ambiente de produção.
 
 ## Erro Global
 
@@ -6965,9 +6701,7 @@ Preparação para erros em produção é essencial para sistemas confiáveis.`,
     title: "Ferramentas CLI Avançadas",
     order: 133,
     points: 10,
-    bodyMd: `# Ferramentas CLI Avançadas
-
-Construa CLIs sofisticadas.
+    bodyMd: `Construa CLIs sofisticadas.
 
 ## Comandos Aninhados
 
@@ -7043,9 +6777,7 @@ CLIs profissionais melhoram a experiência do desenvolvedor.`,
     title: "Configuração de Projeto Escalável",
     order: 134,
     points: 10,
-    bodyMd: `# Configuração de Projeto Escalável
-
-Estruture projetos para escalar.
+    bodyMd: `Estruture projetos para escalar.
 
 ## Estrutura de Diretórios
 
@@ -7124,9 +6856,7 @@ Organização consistente facilita navegação e manutenção.`,
     title: "TypeScript no XanaScript",
     order: 135,
     points: 10,
-    bodyMd: `# TypeScript no XanaScript
-
-XanaScript suporta TypeScript nativamente.
+    bodyMd: `XanaScript suporta TypeScript nativamente.
 
 ## Tipagem Estática
 
@@ -7192,9 +6922,7 @@ TypeScript fornece segurança de tipos para grandes codebases.`,
     title: "Decorators e Metaprogramação",
     order: 136,
     points: 10,
-    bodyMd: `# Decorators e Metaprogramação
-
-Decore e transforme classes e métodos.
+    bodyMd: `Decore e transforme classes e métodos.
 
 ## Decorator de Classe
 
@@ -7261,9 +6989,7 @@ Decorators permitem código mais limpo e separação de concerns.`,
     title: "Programação Funcional Avançada",
     order: 137,
     points: 10,
-    bodyMd: `# Programação Funcional Avançada
-
-Conceitos avançados de FP.
+    bodyMd: `Conceitos avançados de FP.
 
 ## Functors
 
@@ -7335,9 +7061,7 @@ FP traz previsibilidade e testabilidade.`,
     title: "Padrões de Arquitetura",
     order: 138,
     points: 10,
-    bodyMd: `# Padrões de Arquitetura
-
-Padrões arquiteturais para aplicações maiores.
+    bodyMd: `Padrões arquiteturais para aplicações maiores.
 
 ## Clean Architecture
 
@@ -7402,9 +7126,7 @@ Arquitetura limpa mantém regras de negócio independentes de frameworks.`,
     title: "Padrões Comportamentais",
     order: 139,
     points: 10,
-    bodyMd: `# Padrões Comportamentais
-
-Padrões que gerenciam algoritmos e responsabilidades.
+    bodyMd: `Padrões que gerenciam algoritmos e responsabilidades.
 
 ## Strategy
 
@@ -7482,9 +7204,7 @@ Padrões comportamentais promovem flexibilidade em algoritmos e comunicação.`,
     title: "Padrões Estruturais",
     order: 140,
     points: 10,
-    bodyMd: `# Padrões Estruturais
-
-Padrões que gerenciam composição de classes e objetos.
+    bodyMd: `Padrões que gerenciam composição de classes e objetos.
 
 ## Adapter
 
@@ -7569,9 +7289,7 @@ Padrões estruturais simplificam a composição de sistemas complexos.`,
     title: "Padrões Criacionais",
     order: 141,
     points: 10,
-    bodyMd: `# Padrões Criacionais
-
-Padrões que gerenciam criação de objetos.
+    bodyMd: `Padrões que gerenciam criação de objetos.
 
 ## Singleton
 
@@ -7654,9 +7372,7 @@ Padrões criacionais tornam a criação de objetos mais flexível e reutilizáve
     title: "Introdução a Testes E2E",
     order: 142,
     points: 10,
-    bodyMd: `# Testes E2E
-
-Teste fluxos completos do usuário.
+    bodyMd: `Teste fluxos completos do usuário.
 
 ## Configuração
 
@@ -7718,9 +7434,7 @@ Testes E2E simulam a experiência real do usuário.`,
     title: "Documentação de API",
     order: 143,
     points: 5,
-    bodyMd: `# Documentação de API
-
-Documente suas APIs automaticamente.
+    bodyMd: `Documente suas APIs automaticamente.
 
 ## Comentários como Documentação
 
@@ -7788,9 +7502,7 @@ APIs bem documentadas são fáceis de consumir e manter.`,
     title: "Versionamento de API",
     order: 144,
     points: 5,
-    bodyMd: `# Versionamento de API
-
-Gerencie mudanças em APIs.
+    bodyMd: `Gerencie mudanças em APIs.
 
 ## Versionamento por URL
 
@@ -7848,9 +7560,7 @@ Versionamento permite evoluir APIs sem quebrar clientes existentes.`,
     title: "Introdução a Microsserviços",
     order: 145,
     points: 10,
-    bodyMd: `# Introdução a Microsserviços
-
-Arquitetura baseada em serviços pequenos e independentes.
+    bodyMd: `Arquitetura baseada em serviços pequenos e independentes.
 
 ## Serviço Simples
 
@@ -7909,9 +7619,7 @@ Microsserviços são poderosos para sistemas grandes, mas adicionam complexidade
     title: "Filas de Mensagens e Streaming",
     order: 146,
     points: 10,
-    bodyMd: `# Filas de Mensagens e Streaming
-
-Comunicação assíncrona entre serviços.
+    bodyMd: `Comunicação assíncrona entre serviços.
 
 ## Produtor
 
@@ -7968,9 +7676,7 @@ Streaming permite processamento em tempo real e desacoplamento.`,
     title: "Técnicas Avançadas de Teste",
     order: 147,
     points: 10,
-    bodyMd: `# Técnicas Avançadas de Teste
-
-Estratégias de teste para cenários complexos.
+    bodyMd: `Estratégias de teste para cenários complexos.
 
 ## Testes de Contrato
 
@@ -8035,9 +7741,7 @@ Testes avançados cobrem cenários de integração e produção.`,
     title: "Testes Baseados em Propriedades",
     order: 148,
     points: 10,
-    bodyMd: `# Testes Baseados em Propriedades
-
-Teste propriedades invariantes do código.
+    bodyMd: `Teste propriedades invariantes do código.
 
 ## Conceito
 
@@ -8099,9 +7803,7 @@ Testes de propriedade encontram casos de borda que testes de exemplo perdem.`,
     title: "Testes de Mutação",
     order: 149,
     points: 10,
-    bodyMd: `# Testes de Mutação
-
-Avalie a qualidade dos seus testes introduzindo bugs artificiais.
+    bodyMd: `Avalie a qualidade dos seus testes introduzindo bugs artificiais.
 
 ## Conceito
 
@@ -8158,9 +7860,7 @@ Testes de mutação fornecem uma métrica mais rigorosa que cobertura de código
     title: "Revisão de Código e Qualidade",
     order: 150,
     points: 10,
-    bodyMd: `# Revisão de Código e Qualidade
-
-Mantenha qualidade através de revisões.
+    bodyMd: `Mantenha qualidade através de revisões.
 
 ## Checklist de Revisão
 
@@ -8220,9 +7920,7 @@ Revisões de código melhoram qualidade e compartilham conhecimento.`,
     title: "Técnicas de Refatoração",
     order: 151,
     points: 10,
-    bodyMd: `# Técnicas de Refatoração
-
-Melhore código sem mudar comportamento.
+    bodyMd: `Melhore código sem mudar comportamento.
 
 ## Extrair Função
 
@@ -8294,9 +7992,7 @@ Refatore em pequenos passos com testes passando entre cada mudança.`,
     title: "Refatoração Avançada",
     order: 152,
     points: 10,
-    bodyMd: `# Refatoração Avançada
-
-Técnicas avançadas de melhoria de código.
+    bodyMd: `Técnicas avançadas de melhoria de código.
 
 ## Extrair Classe
 
@@ -8366,9 +8062,7 @@ Refatoração avançada melhora o design mantendo comportamento.`,
     title: "Arquitetura Funcional",
     order: 153,
     points: 10,
-    bodyMd: `# Arquitetura Funcional
-
-Estruture aplicações usando princípios funcionais.
+    bodyMd: `Estruture aplicações usando princípios funcionais.
 
 ## Separação Puro/Impuro
 
@@ -8427,9 +8121,7 @@ Arquitetura funcional produz código mais previsível e testável.`,
     title: "Domain-Driven Design (DDD)",
     order: 154,
     points: 10,
-    bodyMd: `# Domain-Driven Design (DDD)
-
-Modele software baseado no domínio do negócio.
+    bodyMd: `Modele software baseado no domínio do negócio.
 
 ## Entidades
 
@@ -8509,9 +8201,7 @@ DDD alinha modelo de software com linguagem do negócio.`,
     title: "Event Sourcing",
     order: 155,
     points: 10,
-    bodyMd: `# Event Sourcing
-
-Armazene estado como sequência de eventos.
+    bodyMd: `Armazene estado como sequência de eventos.
 
 ## Conceito
 
@@ -8595,9 +8285,7 @@ Event Sourcing fornece auditoria completa e histórico de mudanças.`,
     title: "CQRS (Command Query Responsibility Segregation)",
     order: 156,
     points: 10,
-    bodyMd: `# CQRS
-
-Separe operações de leitura e escrita.
+    bodyMd: `Separe operações de leitura e escrita.
 
 ## Conceito
 
