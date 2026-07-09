@@ -3,17 +3,17 @@
 <%- include('partials/navbar', {}) %>
 
 <!-- Hero + Playground -->
-<section class="pt-16 sm:pt-24 pb-8 sm:pb-16 px-2 sm:px-6 bg-gradient-to-b from-pinky-50 to-white relative overflow-hidden">
+<section class="pt-16 sm:pt-24 pb-8 sm:pb-16 px-3 sm:px-6 bg-gradient-to-b from-pinky-50 to-white relative overflow-hidden">
   <div class="max-w-6xl mx-auto">
-    <div class="text-center mb-4 sm:mb-8 animate-fade-in">
-      <h1 class="text-xl sm:text-5xl md:text-7xl font-black leading-tight mb-2 sm:mb-4 px-2">
+    <div class="text-center mb-4 sm:mb-8 animate-fade-in px-0 sm:px-4">
+      <h1 class="text-3xl sm:text-5xl md:text-7xl font-black leading-tight mb-2 sm:mb-4">
         XanaScript <span class="text-pinky-400">Playground</span>
       </h1>
-      <p class="text-xs sm:text-lg md:text-xl text-gray-500 max-w-2xl mx-auto px-2 font-light">Uma linguagem de programação completa com compilador otimizador, ORM nativo, macros em tempo de compilação e WebAssembly nativo.</p>
+      <p class="text-sm sm:text-lg md:text-xl text-gray-500 max-w-2xl mx-auto font-light">Uma linguagem de programação completa com compilador otimizador, ORM nativo, macros em tempo de compilação e WebAssembly nativo.</p>
     </div>
 
     <div class="flex flex-col lg:flex-row gap-2 sm:gap-6 animate-slide-up">
-      <div class="flex-1 min-h-[35vh] sm:min-h-[40vh] lg:min-h-[50vh] rounded-xl sm:rounded-2xl overflow-hidden shadow-lg sm:shadow-2xl border border-gray-200 bg-white flex flex-col">
+      <div class="flex-1 min-h-[40vh] sm:min-h-[45vh] lg:min-h-[50vh] rounded-xl sm:rounded-2xl overflow-hidden shadow-lg sm:shadow-2xl border border-gray-200 bg-white flex flex-col">
         <div class="flex items-center gap-1.5 px-3 sm:px-4 py-2.5 sm:py-3 bg-gray-100 border-b border-gray-200">
           <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400"></div>
           <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
@@ -76,7 +76,7 @@ SOLTA O GRITO("Soma de 1 a 10: " + soma)</textarea>
           <pre class="p-4 text-sm">npm install -g xanascript</pre>
         </div>
       </div>
-      <div class="bg-pinky-50 rounded-2xl p-6 sm:p-8 border border-pinky-100">
+      <div class="bg-pinky-50 rounded-xl sm:rounded-2xl p-5 sm:p-8 border border-pinky-100">
         <h3 class="text-lg sm:text-xl font-bold mb-3">Binário Nativo</h3>
         <p class="text-gray-500 text-sm mb-4">Executável independente, sem necessidade de Node.js.</p>
         <div data-cmd="curl -fsSL https://xanascript.xyz/install.sh | bash" class="xs-cmd inline-flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-4 py-2.5 font-mono text-sm text-gray-500 cursor-pointer transition-all hover:border-pinky-400 hover:shadow-sm select-none">
