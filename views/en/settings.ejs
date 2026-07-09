@@ -1,0 +1,150 @@
+<%- include('../partials/head', { lang, t, alternates }) %>
+<%- include('../partials/navbar', { lang, t }) %>
+
+<section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
+  <div class="max-w-2xl mx-auto animate-fade-in">
+    <h1 class="text-3xl font-black mb-6">Account Settings</h1>
+
+    <div class="xs-card xs-card-glass p-6 mb-6">
+      <h2 class="text-xl font-bold mb-4">Two-Factor Authentication</h2>
+
+      <div id="tfaStatus" class="mb-4">
+        <div class="text-center py-4 text-gray-400 text-sm">Loading...</div>
+      </div>
+
+      <div id="tfaSetup" class="hidden space-y-4">
+        <p class="text-sm text-gray-600">Scan the QR code below with your authenticator app (Google Authenticator, Authy, etc.), then enter the 6-digit code to confirm.</p>
+        <div class="flex justify-center">
+          <div id="tfaQrContainer" class="bg-white p-4 rounded-xl border border-gray-200">
+            <div class="text-center py-8 text-gray-400 text-sm">Generating QR code...</div>
+          </div>
+        </div>
+        <div class="text-center text-xs text-gray-400">Or manually enter this secret: <code id="tfaSecret" class="font-mono text-pinky-500"></code></div>
+        <div class="max-w-xs mx-auto">
+          <input id="tfaCode" type="text" placeholder="000000" inputmode="numeric" class="xs-input text-center text-xl tracking-widest">
+          <button id="tfaConfirmBtn" class="xs-btn xs-btn-primary w-full justify-center mt-2">Enable 2FA</button>
+          <span id="tfaError" class="text-xs text-red-500 hidden mt-1 block text-center"></span>
+        </div>
+      </div>
+
+      <div id="tfaActive" class="hidden space-y-4">
+        <div class="bg-green-50 border border-green-200 rounded-xl p-4 text-sm text-green-700">Two-factor authentication is active.</div>
+        <button id="tfaDisableBtn" class="xs-btn xs-btn-ghost text-red-500 border-red-200 hover:bg-red-50">Disable 2FA</button>
+        <div id="tfaDisableForm" class="hidden space-y-2 max-w-xs">
+          <input id="tfaDisablePassword" type="password" placeholder="Your password" class="xs-input">
+          <input id="tfaDisableCode" type="text" placeholder="2FA code (optional)" class="xs-input">
+          <button id="tfaDisableConfirmBtn" class="xs-btn xs-btn-ghost text-red-500 border-red-200 hover:bg-red-50">Confirm Disable</button>
+          <span id="tfaDisableError" class="text-xs text-red-500 hidden"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="xs-card xs-card-glass p-6">
+      <h2 class="text-xl font-bold mb-2">Backup Codes</h2>
+      <p class="text-sm text-gray-500 mb-4">Keep these codes safe. Each can be used once if you lose access to your authenticator.</p>
+      <div id="backupCodesList" class="hidden">
+        <pre id="backupCodesPre" class="bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm font-mono text-center tracking-wider"></pre>
+        <p class="text-xs text-red-500 mt-2">Save these now. They will not be shown again.</p>
+      </div>
+      <button id="tfaBackupBtn" class="xs-btn xs-btn-ghost text-sm">Regenerate Backup Codes</button>
+      <span id="tfaBackupError" class="text-xs text-red-500 hidden ml-2"></span>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer', { lang, t }) %>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(function() {
+  var token = localStorage.getItem('xs_token');
+  if (!token) { window.location.href = '/<%= lang %>/login?redirect=/<%= lang %>/settings'; return; }
+
+  var tfaStatus = document.getElementById('tfaStatus');
+  var tfaSetup = document.getElementById('tfaSetup');
+  var tfaActive = document.getElementById('tfaActive');
+  var tfaQr = document.getElementById('tfaQr');
+  var tfaSecret = document.getElementById('tfaSecret');
+  var tfaCode = document.getElementById('tfaCode');
+  var tfaConfirmBtn = document.getElementById('tfaConfirmBtn');
+  var tfaError = document.getElementById('tfaError');
+  var tfaDisableBtn = document.getElementById('tfaDisableBtn');
+  var tfaDisableForm = document.getElementById('tfaDisableForm');
+  var tfaDisablePassword = document.getElementById('tfaDisablePassword');
+  var tfaDisableCode = document.getElementById('tfaDisableCode');
+  var tfaDisableConfirmBtn = document.getElementById('tfaDisableConfirmBtn');
+  var tfaDisableError = document.getElementById('tfaDisableError');
+  var backupCodesList = document.getElementById('backupCodesList');
+  var backupCodesPre = document.getElementById('backupCodesPre');
+  var tfaBackupBtn = document.getElementById('tfaBackupBtn');
+  var tfaBackupError = document.getElementById('tfaBackupError');
+
+  var headers = { 'Authorization': 'Bearer ' + token };
+
+  // Load status
+  fetch('/api/auth/2fa/status', { headers: headers })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (!data.ok) return;
+      tfaStatus.innerHTML = '';
+      if (data.twoFactorEnabled) {
+        tfaActive.classList.remove('hidden');
+      } else {
+        tfaSetup.classList.remove('hidden');
+        setup2FA();
+      }
+    });
+
+  function setup2FA() {
+    fetch('/api/auth/2fa/setup', { method: 'POST', headers: headers })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (!data.ok) { tfaQr.innerHTML = '<div class="text-red-500 text-sm">Failed to generate QR code.</div>'; return; }
+        tfaSecret.textContent = data.secret;
+        tfaQr.innerHTML = '<div id="qrcode"></div>';
+        new QRCode(document.getElementById('qrcode'), { text: data.otpauth, width: 200, height: 200 });
+      });
+  }
+
+  tfaConfirmBtn.addEventListener('click', function() {
+    var code = tfaCode.value.trim();
+    if (!code) { tfaError.textContent = 'Enter the code from your authenticator app.'; tfaError.classList.remove('hidden'); return; }
+    tfaConfirmBtn.disabled = true; tfaConfirmBtn.textContent = 'Verifying...';
+    fetch('/api/auth/2fa/confirm', { method: 'POST', headers: Object.assign({}, headers, { 'Content-Type': 'application/json' }), body: JSON.stringify({ code: code }) })
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (!d.ok) { tfaError.textContent = d.error; tfaError.classList.remove('hidden'); tfaConfirmBtn.disabled = false; tfaConfirmBtn.textContent = 'Enable 2FA'; return; }
+        tfaSetup.classList.add('hidden');
+        tfaActive.classList.remove('hidden');
+        backupCodesList.classList.remove('hidden');
+        backupCodesPre.textContent = d.backupCodes ? d.backupCodes.join('\n') : '';
+      });
+  });
+
+  tfaDisableBtn.addEventListener('click', function() { tfaDisableForm.classList.toggle('hidden'); });
+
+  tfaDisableConfirmBtn.addEventListener('click', function() {
+    var body = { password: tfaDisablePassword.value };
+    if (tfaDisableCode.value) body.code = tfaDisableCode.value;
+    fetch('/api/auth/2fa/disable', { method: 'POST', headers: Object.assign({}, headers, { 'Content-Type': 'application/json' }), body: JSON.stringify(body) })
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (!d.ok) { tfaDisableError.textContent = d.error; tfaDisableError.classList.remove('hidden'); return; }
+        window.location.reload();
+      });
+  });
+
+  tfaBackupBtn.addEventListener('click', function() {
+    var password = prompt('Enter your password to regenerate backup codes:');
+    if (!password) return;
+    fetch('/api/auth/2fa/backup-codes', { method: 'POST', headers: Object.assign({}, headers, { 'Content-Type': 'application/json' }), body: JSON.stringify({ password: password }) })
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (!d.ok) { tfaBackupError.textContent = d.error; tfaBackupError.classList.remove('hidden'); return; }
+        backupCodesList.classList.remove('hidden');
+        backupCodesPre.textContent = d.backupCodes ? d.backupCodes.join('\n') : '';
+        tfaBackupError.textContent = ''; tfaBackupError.classList.add('hidden');
+      });
+  });
+})();
+</script>

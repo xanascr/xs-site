@@ -215,6 +215,29 @@ pre::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
 .CodeMirror-activeline-background { background: #f3f4f6 !important; }
 .error-line-bg { background: rgba(245, 139, 142, 0.12) !important; }
 
+/* ── Responsive refinements ── */
+@media (max-width: 640px) {
+  .lesson-prose { font-size: 0.9375rem; line-height: 1.65; }
+  .lesson-prose pre { font-size: 12px; padding: 0.75rem; margin: 1rem -0.75rem; border-radius: 0; width: calc(100% + 1.5rem); max-width: calc(100% + 1.5rem); }
+  .lesson-prose table { font-size: 13px; }
+  .lesson-prose table .table-wrapper { margin: 0 -0.75rem; border-radius: 0; }
+  .lesson-prose h1 { font-size: 1.5rem; }
+  .lesson-prose h2 { font-size: 1.25rem; }
+  .lesson-prose h3 { font-size: 1.125rem; }
+  .xs-btn { padding: 0.5rem 1rem; font-size: 0.8125rem; }
+  .CodeMirror { font-size: 12px; }
+  #lessonSidebar { display: none; }
+  .CodeMirror-gutters { display: none; }
+  .CodeMirror-linenumber { display: none; }
+  [class*="grid-cols-"] { gap: 0.5rem; }
+  #cookieConsent { font-size: 12px; padding: 0.75rem; }
+  #navLinks a, #navLinks button { padding-top: 0.625rem; padding-bottom: 0.625rem; }
+}
+
+@media (max-width: 1024px) {
+  #lessonSidebar { display: none; }
+}
+
 /* ── Cookie Consent ── */
 #cookieConsent { transition: transform 0.3s ease-out, opacity 0.3s ease-out; }
 #cookieConsent.hidden { transform: translateY(100%); opacity: 0; pointer-events: none; }

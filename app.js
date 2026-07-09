@@ -19,6 +19,7 @@ import commentsRouter from "./routes/api/comments.js";
 import leaderboardRouter from "./routes/api/leaderboard.js";
 import searchRouter from "./routes/api/search.js";
 import quizzesRouter from "./routes/api/quizzes.js";
+import dashboardApiRouter from "./routes/api/dashboard.js";
 import multer from "multer";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -56,6 +57,14 @@ const loginLimiter = (await import("express-rate-limit")).default({
 });
 
 app.use(loginLimiter);
+
+const packageLimiter = (await import("express-rate-limit")).default({
+  windowMs: 60 * 1000,
+  max: 30,
+  validate: { xForwardedForHeader: true },
+  skip: req => req.user?.role === "admin" || !req.path.startsWith("/api/packages"),
+  message: { ok: false, error: "Too many requests. Slow down." },
+});
 
 app.locals.site = {
   name: "XanaScript",
@@ -107,14 +116,15 @@ app.get("/api/health", async (req, res) => {
 
 app.use("/", indexRouter);
 app.use("/api/auth", authRouter);
-app.use("/api/packages", apiPackagesRouter);
+app.use("/api/packages", packageLimiter, apiPackagesRouter);
 app.use("/api/courses", apiCoursesRouter);
 app.use("/api/admin", adminRouter);
-app.use("/api/packages", reviewsRouter);
+app.use("/api/packages", packageLimiter, reviewsRouter);
 app.use("/api/courses", commentsRouter);
 app.use("/api/leaderboard", leaderboardRouter);
 app.use("/api/search", searchRouter);
 app.use("/api/quizzes", quizzesRouter);
+app.use("/api/dashboard", dashboardApiRouter);
 
 app.use((req, res) => {
   const fallbackLang = req.lang || "en";

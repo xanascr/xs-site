@@ -280,6 +280,11 @@ router.get("/:lang(en|pt|es)?/signup", (req, res) => {
   res.render(`${lang}/signup`, { lang, page: "signup" });
 });
 
+router.get("/:lang(en|pt|es)?/settings", (req, res) => {
+  const lang = req.params.lang || "en";
+  res.render(`${lang}/settings`, { lang, page: "settings" });
+});
+
 router.get("/:lang(en|pt|es)?/admin", (req, res) => {
   const lang = req.params.lang || "en";
   res.render(`${lang}/admin`, { lang, page: "admin" });
