@@ -20,6 +20,8 @@ import leaderboardRouter from "./routes/api/leaderboard.js";
 import searchRouter from "./routes/api/search.js";
 import quizzesRouter from "./routes/api/quizzes.js";
 import dashboardApiRouter from "./routes/api/dashboard.js";
+import statsRouter from "./routes/api/stats.js";
+import webhooksRouter from "./routes/api/webhooks.js";
 import multer from "multer";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -125,6 +127,8 @@ app.use("/api/leaderboard", leaderboardRouter);
 app.use("/api/search", searchRouter);
 app.use("/api/quizzes", quizzesRouter);
 app.use("/api/dashboard", dashboardApiRouter);
+app.use("/api/stats", statsRouter);
+app.use("/api/webhooks", webhooksRouter);
 
 app.use((req, res) => {
   const fallbackLang = req.lang || "en";

@@ -360,7 +360,8 @@ router.get("/:lang(en|pt|es)?/packages/:name", async (req, res) => {
 
     if (pkg.readme) pkg.readmeSanitized = sanitizeHtml(pkg.readme);
     res.render(`${lang}/packages/show`, { lang, pkg, versions, page: "packages" });
-  } catch {
+  } catch (e) {
+    console.error("Error rendering package show:", e);
     res.status(404).render(`${lang}/404`, { lang });
   }
 });

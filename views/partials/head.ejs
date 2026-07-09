@@ -251,6 +251,7 @@ pre::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
   <button id="cookieConsentBtn" class="xs-btn xs-btn-primary">Got it</button>
 </div>
 <%- include('search-modal') %>
+<%- include('loading-screen') %>
 
 <script>
 if (localStorage.getItem('xs_cookie_consent')) document.getElementById('cookieConsent').classList.add('hidden');
