@@ -1,5 +1,5 @@
-<%- include('partials/head', { lang, t, alternates }) %>
-<%- include('partials/navbar', { lang, t }) %>
+<%- include('../partials/head', { lang, t, alternates }) %>
+<%- include('../partials/navbar', { lang, t }) %>
 <%
 var lessonIdx = (course.lessons || []).findIndex(function(l) { return l.slug === lesson.slug });
 var prevIdx = lessonIdx - 1;
@@ -189,7 +189,7 @@ if (lesson.bodyMd) {
   </div>
 </section>
 
-<%- include('partials/footer', { lang, t }) %>
+<%- include('../partials/footer', { lang, t }) %>
 
 <style>
 .highlight-annotation { background-color: #fef3c7; border-radius: 2px; cursor: pointer; }
