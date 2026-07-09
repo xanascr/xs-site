@@ -1,9 +1,9 @@
-<%- include('../partials/head', { lang, t, alternates }) %>
-<%- include('../partials/navbar', { lang, t }) %>
+<%- include('../partials/head', { lang, alternates }) %>
+<%- include('../partials/navbar', { lang }) %>
 
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
   <div class="max-w-3xl mx-auto animate-fade-in">
-    <a href="//courses/<%= course.slug %>" class="text-sm text-gray-400 hover:text-pinky-400 no-underline mb-4 inline-block">&larr; Voltar ao curso</a>
+    <a href="/courses/<%= course.slug %>" class="text-sm text-gray-400 hover:text-pinky-400 no-underline mb-4 inline-block">&larr; Voltar ao curso</a>
 
     <div class="xs-card xs-card-glass p-6 sm:p-8">
       <div class="flex items-center gap-3 mb-2">
@@ -42,7 +42,7 @@
   </div>
 </section>
 
-<%- include('../partials/footer', { lang, t }) %>
+<%- include('../partials/footer', { lang }) %>
 
 <script>
 (function() {

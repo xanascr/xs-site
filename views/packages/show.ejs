@@ -1,12 +1,12 @@
-<%- include('../partials/head', { lang, t, alternates }) %>
-<%- include('../partials/navbar', { lang, t }) %>
+<%- include('../partials/head', { lang, alternates }) %>
+<%- include('../partials/navbar', { lang }) %>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
 
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
   <div class="max-w-4xl mx-auto animate-fade-in">
-    <a href="//packages" class="text-sm text-gray-400 hover:text-pinky-400 no-underline inline-flex items-center gap-1">&larr; <%= t('packages.back') %></a>
+    <a href="//packages" class="text-sm text-gray-400 hover:text-pinky-400 no-underline inline-flex items-center gap-1">&larr; Voltar</a>
 
     <div class="xs-card mt-6 overflow-hidden">
       <div class="p-8 pb-6">
@@ -17,14 +17,14 @@
           </div>
           <div class="text-right text-sm text-gray-400 shrink-0">
             <div class="text-2xl font-black text-gray-800" id="pkgVersion">v<%= pkg.version %></div>
-            <div class="mt-1"><%= pkg.downloads?.toLocaleString() || 0 %> <%= t('packages.downloads') %></div>
+            <div class="mt-1"><%= pkg.downloads?.toLocaleString() || 0 %> Downloads</div>
           </div>
         </div>
 
         <div class="flex flex-wrap items-center gap-2 mt-4">
-          <% if (pkg.license) { %><span class="text-xs bg-gray-100 text-gray-500 px-2.5 py-1 rounded font-medium"><%= t('packages.license') %>: <%= pkg.license %></span><% } %>
+          <% if (pkg.license) { %><span class="text-xs bg-gray-100 text-gray-500 px-2.5 py-1 rounded font-medium">Licença: <%= pkg.license %></span><% } %>
           <% if (pkg.author) { %><span class="text-xs text-gray-400">por <span class="font-medium text-gray-600"><%= pkg.author %></span></span><% } %>
-          <span class="text-xs text-gray-400"><%= t('packages.updated') %>: <%= new Date(pkg.updatedAt).toLocaleDateString() %></span>
+          <span class="text-xs text-gray-400">Atualizado: <%= new Date(pkg.updatedAt).toLocaleDateString() %></span>
         </div>
 
         <% if (pkg.keywords && pkg.keywords.length > 0) { %>
@@ -124,9 +124,9 @@
       </div>
 
       <div class="border-t border-gray-100 px-8 py-6">
-        <h2 class="text-lg font-bold text-gray-800 mb-4"><%= t('packages.sourceFiles') %></h2>
+        <h2 class="text-lg font-bold text-gray-800 mb-4">Arquivos Fonte</h2>
         <div id="sourceFiles">
-          <p class="text-gray-400 text-sm"><%= t('packages.loadingFiles') %></p>
+          <p class="text-gray-400 text-sm">Carregando arquivos fonte...</p>
         </div>
       </div>
     </div>
@@ -346,4 +346,4 @@ loadReviews();
 })();
 </script>
 
-<%- include('../partials/footer', { lang, t }) %>
+<%- include('../partials/footer', { lang }) %>

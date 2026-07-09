@@ -1,5 +1,5 @@
-<%- include('../partials/head', { lang, t, alternates }) %>
-<%- include('../partials/navbar', { lang, t }) %>
+<%- include('../partials/head', { lang, alternates }) %>
+<%- include('../partials/navbar', { lang }) %>
 
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
   <div class="max-w-4xl mx-auto">
@@ -26,7 +26,7 @@
             <% var doneCount = (enrollment.progress || []).filter(function(p) { return p.completed; }).length %>
             <% var totalCount = (course.lessons || []).length %>
             <% var nextLesson = (course.lessons || []).find(function(l) { var p = (enrollment.progress || []).find(function(x) { return x.lessonSlug === l.slug }); return !p || !p.completed; }) || course.lessons[0] %>
-            <a href="//courses/<%= course.slug %>/lessons/<%= nextLesson.slug %>" class="xs-btn xs-btn-primary text-base px-8 py-3 no-underline"><%= (doneCount === 0) ? 'Iniciar Primeira Lição' : (doneCount < totalCount ? 'Continuar Aprendendo' : 'Revisar Curso') %></a>
+            <a href="/courses/<%= course.slug %>/lessons/<%= nextLesson.slug %>" class="xs-btn xs-btn-primary text-base px-8 py-3 no-underline"><%= (doneCount === 0) ? 'Iniciar Primeira Lição' : (doneCount < totalCount ? 'Continuar Aprendendo' : 'Revisar Curso') %></a>
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between text-xs text-gray-500 mb-1">
                 <span><%= doneCount %>/<%= totalCount %> lições concluídas</span>
@@ -45,7 +45,7 @@
               <svg class="w-8 h-8 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
               <div>
                 <h3 class="font-bold text-amber-800">Parabéns!</h3>
-                <p class="text-sm text-amber-700">Você completou todas as lições. <a href="//courses/<%= course.slug %>/certificate" class="font-semibold underline">Solicitar certificado</a>.</p>
+                <p class="text-sm text-amber-700">Você completou todas as lições. <a href="/courses/<%= course.slug %>/certificate" class="font-semibold underline">Solicitar certificado</a>.</p>
               </div>
             </div>
           </div>
@@ -57,7 +57,7 @@
           <div class="mb-6">
             <div class="flex items-center gap-2 mb-2">
               <h3 class="text-base font-bold text-gray-700">Módulo <%= modIdx + 1 %></h3>
-              <a href="//courses/<%= course.slug %>/quiz/<%= modIdx %>" class="ml-auto text-xs font-semibold text-pinky-500 hover:text-pinky-600 no-underline">Fazer Quiz &rarr;</a>
+              <a href="/courses/<%= course.slug %>/quiz/<%= modIdx %>" class="ml-auto text-xs font-semibold text-pinky-500 hover:text-pinky-600 no-underline">Fazer Quiz &rarr;</a>
             </div>
             <div class="space-y-1.5">
               <% for (var li = modIdx * moduleSize; li < Math.min((modIdx + 1) * moduleSize, lessonCount); li++) { %>
@@ -66,7 +66,7 @@
                 var prog = enrollment ? (enrollment.progress || []).find(function(p) { return p.lessonSlug === lesson.slug }) : null;
                 var done = prog && prog.completed;
                 %>
-                <a href="//courses/<%= course.slug %>/lessons/<%= lesson.slug %>" class="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-2.5 no-underline transition-all hover:border-pinky-400 hover:shadow-sm <%= done ? 'border-green-200 bg-green-50/40' : '' %>">
+                <a href="/courses/<%= course.slug %>/lessons/<%= lesson.slug %>" class="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-2.5 no-underline transition-all hover:border-pinky-400 hover:shadow-sm <%= done ? 'border-green-200 bg-green-50/40' : '' %>">
                   <div class="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 <%= done ? 'bg-green-500 text-white' : 'bg-gray-100 text-gray-400' %>"><%= done ? '✓' : (li + 1) %></div>
                   <div class="flex-1 min-w-0">
                     <div class="font-semibold text-sm text-gray-800 truncate"><%= lesson.title %></div>
@@ -121,4 +121,4 @@
 })();
 </script>
 
-<%- include('../partials/footer', { lang, t }) %>
+<%- include('../partials/footer', { lang }) %>

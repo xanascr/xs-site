@@ -1,10 +1,10 @@
-<%- include('partials/head', { lang, t, alternates }) %>
-<%- include('partials/navbar', { lang, t }) %>
+<%- include('partials/head', { lang, alternates }) %>
+<%- include('partials/navbar', { lang }) %>
 
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
   <div class="max-w-5xl mx-auto">
-    <h1 class="text-3xl md:text-5xl font-black text-center mb-4"><%= t('benchmark.title') %></h1>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg font-light"><%= t('benchmark.subtitle') %></p>
+    <h1 class="text-3xl md:text-5xl font-black text-center mb-4">Benchmark</h1>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg font-light">Comparação de desempenho contra JavaScript, Python e Lua.</p>
 
     <div class="overflow-x-auto border border-gray-200 rounded-2xl shadow-sm">
       <table class="w-full text-sm whitespace-nowrap">
@@ -51,4 +51,4 @@
   </div>
 </section>
 
-<%- include('partials/footer', { lang, t }) %>
+<%- include('partials/footer', { lang }) %>

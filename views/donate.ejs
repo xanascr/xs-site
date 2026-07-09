@@ -1,31 +1,31 @@
-<%- include('partials/head', { lang, t, alternates }) %>
-<%- include('partials/navbar', { lang, t }) %>
+<%- include('partials/head', { lang, alternates }) %>
+<%- include('partials/navbar', { lang }) %>
 
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
   <div class="max-w-2xl mx-auto text-center animate-fade-in">
-    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pinky-50 border border-pinky-100 text-pinky-500 text-xs font-semibold mb-6"><%= t('donate.title') %></div>
-    <h1 class="text-3xl md:text-5xl font-black mb-3"><%= t('donate.title') %></h1>
-    <p class="text-gray-500 text-sm mb-12 max-w-md mx-auto"><%= t('donate.subtitle') %></p>
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pinky-50 border border-pinky-100 text-pinky-500 text-xs font-semibold mb-6">Apoie o XanaScript</div>
+    <h1 class="text-3xl md:text-5xl font-black mb-3">Apoie o XanaScript</h1>
+    <p class="text-gray-500 text-sm mb-12 max-w-md mx-auto">Ajude a manter o projeto vivo com uma doação.</p>
 
     <div class="xs-card p-8 mb-8">
-      <h2 class="text-lg font-bold text-gray-800 mb-4"><%= t('donate.pix') %></h2>
+      <h2 class="text-lg font-bold text-gray-800 mb-4">PIX (Brasil)</h2>
       <div class="flex items-center justify-center gap-3 my-4">
-        <code class="text-base font-mono bg-gray-50 px-4 py-2 rounded-lg border border-gray-200 select-all"><%= t('donate.pixKey') %></code>
-        <button data-copy="<%= t('donate.pixKey') %>" class="xs-btn xs-btn-primary text-xs copy-btn">Copiar</button>
+        <code class="text-base font-mono bg-gray-50 px-4 py-2 rounded-lg border border-gray-200 select-all">pay@flazo0.xyz</code>
+        <button data-copy="pay@flazo0.xyz" class="xs-btn xs-btn-primary text-xs copy-btn">Copiar</button>
       </div>
-      <p class="text-gray-400 text-xs"><%= t('donate.pixHint') %></p>
+      <p class="text-gray-400 text-xs">Escaneie ou copie a chave acima para doar via PIX.</p>
     </div>
 
     <div class="xs-card p-8">
-      <h2 class="text-lg font-bold text-gray-800 mb-4"><%= t('donate.why') %></h2>
+      <h2 class="text-lg font-bold text-gray-800 mb-4">Por que doar?</h2>
       <ul class="text-left text-gray-600 space-y-3 max-w-md mx-auto">
-        <li class="flex items-start gap-2"><%= t('donate.why1') %></li>
-        <li class="flex items-start gap-2"><%= t('donate.why2') %></li>
-        <li class="flex items-start gap-2"><%= t('donate.why3') %></li>
+        <li class="flex items-start gap-2">Cobre custos de servidor e infraestrutura</li>
+        <li class="flex items-start gap-2">Financia o desenvolvimento contínuo e novos recursos</li>
+        <li class="flex items-start gap-2">Apoia a comunidade de código aberto</li>
       </ul>
     </div>
 
-    <p class="text-gray-500 text-sm mt-8">&#10084; <%= t('donate.thanks') %></p>
+    <p class="text-gray-500 text-sm mt-8">&#10084; Obrigado pelo seu apoio!</p>
   </div>
 </section>
 
@@ -42,4 +42,4 @@ document.querySelectorAll('.copy-btn').forEach(function(btn) {
 });
 </script>
 
-<%- include('partials/footer', { lang, t }) %>
+<%- include('partials/footer', { lang }) %>

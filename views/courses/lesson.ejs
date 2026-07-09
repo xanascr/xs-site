@@ -1,5 +1,5 @@
-<%- include('../partials/head', { lang, t, alternates }) %>
-<%- include('../partials/navbar', { lang, t }) %>
+<%- include('../partials/head', { lang, alternates }) %>
+<%- include('../partials/navbar', { lang }) %>
 <%
 var lessonIdx = (course.lessons || []).findIndex(function(l) { return l.slug === lesson.slug });
 var prevIdx = lessonIdx - 1;
@@ -82,7 +82,7 @@ if (lesson.bodyMd) {
     <!-- Main content -->
     <div class="flex-1 min-w-0">
       <div class="max-w-4xl mx-auto px-4 sm:px-0">
-        <a href="//courses/<%= course.slug %>" class="text-sm text-gray-400 hover:text-pinky-400 no-underline mb-4 inline-block">&larr; Voltar ao curso</a>
+        <a href="/courses/<%= course.slug %>" class="text-sm text-gray-400 hover:text-pinky-400 no-underline mb-4 inline-block">&larr; Voltar ao curso</a>
 
         <div class="xs-card xs-card-glass animate-fade-in">
           <div class="p-6 sm:p-8">
@@ -155,14 +155,14 @@ if (lesson.bodyMd) {
             <div class="flex items-center justify-between mt-6 pt-4 border-t border-gray-100">
               <div>
                 <% if (hasPrev) { %>
-                  <a href="//courses/<%= course.slug %>/lessons/<%= course.lessons[prevIdx].slug %>" class="text-sm text-gray-400 hover:text-pinky-500 no-underline inline-flex items-center gap-1">&larr; Anterior</a>
+                  <a href="/courses/<%= course.slug %>/lessons/<%= course.lessons[prevIdx].slug %>" class="text-sm text-gray-400 hover:text-pinky-500 no-underline inline-flex items-center gap-1">&larr; Anterior</a>
                 <% } %>
               </div>
               <div>
                 <% if (hasNext) { %>
-                  <a href="//courses/<%= course.slug %>/lessons/<%= course.lessons[nextIdx].slug %>" id="nextLessonBtn" class="text-sm font-semibold text-pinky-500 hover:text-pinky-600 no-underline inline-flex items-center gap-1">Próximo &rarr;</a>
+                  <a href="/courses/<%= course.slug %>/lessons/<%= course.lessons[nextIdx].slug %>" id="nextLessonBtn" class="text-sm font-semibold text-pinky-500 hover:text-pinky-600 no-underline inline-flex items-center gap-1">Próximo &rarr;</a>
                 <% } else { %>
-                  <a href="//courses/<%= course.slug %>/certificate" class="text-sm font-semibold text-pinky-500 hover:text-pinky-600 no-underline inline-flex items-center gap-1">Certificado &rarr;</a>
+                  <a href="/courses/<%= course.slug %>/certificate" class="text-sm font-semibold text-pinky-500 hover:text-pinky-600 no-underline inline-flex items-center gap-1">Certificado &rarr;</a>
                 <% } %>
               </div>
             </div>
@@ -189,7 +189,7 @@ if (lesson.bodyMd) {
   </div>
 </section>
 
-<%- include('../partials/footer', { lang, t }) %>
+<%- include('../partials/footer', { lang }) %>
 
 <style>
 .highlight-annotation { background-color: #fef3c7; border-radius: 2px; cursor: pointer; }

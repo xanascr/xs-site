@@ -1,6 +1,6 @@
-<%- include('partials/head', { lang, t, alternates }) %>
+<%- include('partials/head', { lang, alternates }) %>
 
-<%- include('partials/navbar', { lang, t }) %>
+<%- include('partials/navbar', { lang }) %>
 
 <!-- Hero + Playground -->
 <section class="min-h-[100dvh] lg:min-h-0 pt-20 sm:pt-24 pb-10 sm:pb-16 px-4 sm:px-6 bg-gradient-to-b from-pinky-50 to-white relative overflow-hidden">
@@ -9,7 +9,7 @@
       <h1 class="text-2xl sm:text-5xl md:text-7xl font-black leading-tight mb-3 sm:mb-4">
         XanaScript <span class="text-pinky-400">Playground</span>
       </h1>
-      <p class="text-sm sm:text-lg md:text-xl text-gray-500 max-w-2xl mx-auto px-2 font-light"><%= t('hero.subtitle') %></p>
+      <p class="text-sm sm:text-lg md:text-xl text-gray-500 max-w-2xl mx-auto px-2 font-light">Uma linguagem de programação completa com compilador otimizador, ORM nativo, macros em tempo de compilação e WebAssembly nativo.</p>
     </div>
 
     <div class="flex flex-col lg:flex-row gap-4 sm:gap-6 animate-slide-up min-h-[calc(100dvh-16rem)] lg:min-h-0" style="height: auto;">
@@ -20,7 +20,7 @@
           <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
           <span class="text-gray-500 text-xs sm:text-sm ml-2 sm:ml-3 font-medium">app.xs</span>
           <div class="ml-auto flex gap-1 sm:gap-2">
-            <button id="runBtn" class="bg-pinky-400 hover:bg-pinky-500 text-white px-4 sm:px-5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all shadow-md shadow-pinky-200 active:scale-95 w-full sm:w-auto"><%= t('playground.run') %></button>
+            <button id="runBtn" class="bg-pinky-400 hover:bg-pinky-500 text-white px-4 sm:px-5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all shadow-md shadow-pinky-200 active:scale-95 w-full sm:w-auto">Executar</button>
           </div>
         </div>
         <div id="examplesBar" class="flex items-center gap-1.5 px-3 sm:px-4 py-1.5 bg-gray-50 border-b border-gray-200 overflow-x-auto touch-pan-x snap-x snap-mandatory scrollbar-thin">
@@ -50,14 +50,14 @@ SOLTA O GRITO("Soma de 1 a 10: " + soma)</textarea>
           <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
           <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
           <span class="text-gray-500 text-xs sm:text-sm ml-2 sm:ml-3 font-medium">Saída</span>
-          <button id="clearBtn" class="ml-auto text-xs text-gray-400 hover:text-gray-600 transition-colors"><%= t('playground.clear') %></button>
+          <button id="clearBtn" class="ml-auto text-xs text-gray-400 hover:text-gray-600 transition-colors">Limpar</button>
         </div>
-        <pre id="output" class="flex-1 min-h-[160px] m-0 bg-white text-gray-700 p-4 sm:p-5 font-mono text-xs sm:text-sm overflow-auto leading-relaxed whitespace-pre-wrap border-t border-gray-100"><%= t('playground.ready') %></pre>
+        <pre id="output" class="flex-1 min-h-[160px] m-0 bg-white text-gray-700 p-4 sm:p-5 font-mono text-xs sm:text-sm overflow-auto leading-relaxed whitespace-pre-wrap border-t border-gray-100">Pronto para executar código XanaScript...</pre>
       </div>
     </div>
 
     <div class="text-center mt-4 sm:mt-6 text-xs sm:text-sm text-gray-400">
-      <span><%= t('playground.cli') %> </span><a href="#install" class="text-pinky-400 hover:underline font-medium"><%= t('playground.cliLink') %></a>
+      <span>Prefere o terminal? </span><a href="#install" class="text-pinky-400 hover:underline font-medium">npm install -g xanascript</a>
     </div>
   </div>
 </section>
@@ -65,20 +65,20 @@ SOLTA O GRITO("Soma de 1 a 10: " + soma)</textarea>
 <!-- Installation -->
 <section id="install" class="py-16 sm:py-20 px-4 sm:px-6">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4"><%= t('install.title') %></h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light"><%= t('install.subtitle') %></p>
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Instalação</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Instale via npm — a maneira mais fácil de começar.</p>
     <div class="grid md:grid-cols-2 gap-6">
       <div class="bg-pinky-50 rounded-2xl p-6 sm:p-8 border border-pinky-100">
-        <h3 class="text-lg sm:text-xl font-bold mb-3"><%= t('install.npm.title') %></h3>
-        <p class="text-gray-500 text-sm mb-4"><%= t('install.npm.desc') %></p>
+        <h3 class="text-lg sm:text-xl font-bold mb-3">npm (Multiplataforma)</h3>
+        <p class="text-gray-500 text-sm mb-4">Requer Node.js. Funciona no Windows, Linux e macOS.</p>
         <div class="code-block bg-white rounded-xl border border-gray-200 overflow-hidden">
           <div class="px-4 py-2 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">Bash</div>
           <pre class="p-4 text-sm">npm install -g xanascript</pre>
         </div>
       </div>
       <div class="bg-pinky-50 rounded-2xl p-6 sm:p-8 border border-pinky-100">
-        <h3 class="text-lg sm:text-xl font-bold mb-3"><%= t('install.binary.title') %></h3>
-        <p class="text-gray-500 text-sm mb-4"><%= t('install.binary.desc') %></p>
+        <h3 class="text-lg sm:text-xl font-bold mb-3">Binário Nativo</h3>
+        <p class="text-gray-500 text-sm mb-4">Executável independente, sem necessidade de Node.js.</p>
         <div data-cmd="curl -fsSL https://xanascript.xyz/install.sh | bash" class="xs-cmd inline-flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-4 py-2.5 font-mono text-sm text-gray-500 cursor-pointer transition-all hover:border-pinky-400 hover:shadow-sm select-none">
           <span class="text-pinky-400">$</span>
           <span class="text-gray-800">curl -fsSL https://xanascript.xyz/install.sh | bash</span>
@@ -657,4 +657,4 @@ Ajuda: Adicione `CRIA z = value` antes de us&aacute;-la</pre>
   </div>
 </section>
 
-<%- include('partials/footer', { lang, t }) %>
+<%- include('partials/footer', { lang }) %>

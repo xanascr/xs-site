@@ -8,7 +8,6 @@ import helmet from "helmet";
 import morgan from "morgan";
 import axios from "axios";
 
-import { i18n } from "./middleware/i18n.js";
 import indexRouter from "./routes/index.js";
 import apiPackagesRouter from "./routes/api/packages.js";
 import apiCoursesRouter from "./routes/api/courses.js";
@@ -48,7 +47,6 @@ app.use(morgan("short"));
 app.use(express.static(path.join(__dirname, "public")));
 app.set("trust proxy", 1);
 app.use(express.json({ limit: "1mb" }));
-app.use(i18n);
 
 const sensitivePaths = ["/signup", "/login", "/2fa/verify", "/forgot-password", "/reset-password"];
 const loginLimiter = (await import("express-rate-limit")).default({
@@ -172,12 +170,10 @@ async function start() {
       const Course = (await import("./models/Course.js")).default;
       const count = await Course.countDocuments();
       if (count === 0) {
-        console.log("[seed] No courses found, running auto-seed (EN + PT)...");
-        const { seedCourse } = await import("./scripts/seed-course.js");
+        console.log("[seed] No courses found, running auto-seed (PT)...");
         const { seedCoursePt } = await import("./scripts/seed-course-pt.js");
-        await seedCourse();
         await seedCoursePt();
-        console.log("[seed] Both courses seeded successfully");
+        console.log("[seed] PT course seeded successfully");
       } else {
         console.log(`[seed] ${count} course(s) already exist, skipping seed`);
       }

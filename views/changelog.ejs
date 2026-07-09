@@ -1,10 +1,10 @@
-<%- include('partials/head', { lang, t, alternates }) %>
-<%- include('partials/navbar', { lang, t }) %>
+<%- include('partials/head', { lang, alternates }) %>
+<%- include('partials/navbar', { lang }) %>
 
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
   <div class="max-w-3xl mx-auto">
-    <h1 class="text-3xl md:text-5xl font-black text-center mb-4"><%= t('changelog.title') %></h1>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg font-light"><%= t('changelog.subtitle') %></p>
+    <h1 class="text-3xl md:text-5xl font-black text-center mb-4">Changelog</h1>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-12 text-lg font-light">Histórico de versões e atualizações.</p>
 
     <div class="relative space-y-0">
       <% changelog.forEach(function(r, i) { %>
@@ -41,4 +41,4 @@
   </div>
 </section>
 
-<%- include('partials/footer', { lang, t }) %>
+<%- include('partials/footer', { lang }) %>

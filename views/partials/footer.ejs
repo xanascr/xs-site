@@ -6,26 +6,26 @@
         <p class="text-xs text-gray-400 mt-2 leading-relaxed max-w-xs">Uma linguagem de programação com sintaxe em português, compilador otimizador, ORM nativo e suporte a WebAssembly.</p>
       </div>
       <div>
-        <span class="xs-label"><%= t('nav.docs') %></span>
+        <span class="xs-label">Documentação</span>
         <div class="space-y-1.5">
-          <a href="/docs#install" class="block text-xs text-gray-400 hover:text-pinky-400 no-underline transition-colors"><%= t('nav.docs') %></a>
-          <a href="/examples" class="block text-xs text-gray-400 hover:text-pinky-400 no-underline transition-colors"><%= t('nav.examples') %></a>
-          <a href="/packages" class="block text-xs text-gray-400 hover:text-pinky-400 no-underline transition-colors"><%= t('nav.packages') %></a>
-          <a href="/changelog" class="block text-xs text-gray-400 hover:text-pinky-400 no-underline transition-colors"><%= t('nav.changelog') %></a>
+          <a href="/docs#install" class="block text-xs text-gray-400 hover:text-pinky-400 no-underline transition-colors">Documentação</a>
+          <a href="/examples" class="block text-xs text-gray-400 hover:text-pinky-400 no-underline transition-colors">Exemplos</a>
+          <a href="/packages" class="block text-xs text-gray-400 hover:text-pinky-400 no-underline transition-colors">Pacotes</a>
+          <a href="/changelog" class="block text-xs text-gray-400 hover:text-pinky-400 no-underline transition-colors">Changelog</a>
         </div>
       </div>
       <div>
         <span class="xs-label">Links</span>
         <div class="space-y-1.5">
           <a href="https://github.com/xanascr/xs" target="_blank" class="block text-xs text-gray-400 hover:text-pinky-400 no-underline transition-colors">GitHub</a>
-          <a href="/privacy" class="block text-xs text-gray-400 hover:text-pinky-400 no-underline transition-colors"><%= t('nav.privacy') %></a>
-          <a href="/donate" class="block text-xs text-gray-400 hover:text-pinky-400 no-underline transition-colors"><%= t('nav.donate') %></a>
+          <a href="/privacy" class="block text-xs text-gray-400 hover:text-pinky-400 no-underline transition-colors">Privacidade</a>
+          <a href="/donate" class="block text-xs text-gray-400 hover:text-pinky-400 no-underline transition-colors">Doar</a>
           <a href="/admin" class="block text-xs text-gray-400 hover:text-pinky-400 no-underline transition-colors">Admin</a>
         </div>
       </div>
     </div>
     <div class="border-t border-gray-200/60 mt-8 pt-6 text-center text-xs text-gray-400">
-      <p><%= t('footer.text') %></p>
+      <p>XanaScript — feito por flazo0</p>
     </div>
   </div>
 </footer>
@@ -99,12 +99,12 @@
     window.location.hash = '#code=' + encodeURIComponent(code);
     if (typeof window.playgroundRun !== 'function') {
       output.textContent = 'Engine not loaded. Try refreshing.';
-      if (runBtn) { runBtn.disabled = false; runBtn.textContent = '<%= t('playground.run') %>'; runBtn.classList.remove('opacity-75'); }
+      if (runBtn) { runBtn.disabled = false; runBtn.textContent = 'Executar'; runBtn.classList.remove('opacity-75'); }
       return;
     }
     window.playgroundRun(code).then(function(out) {
       output.textContent = out || 'Program finished (no output)';
-      if (runBtn) { runBtn.disabled = false; runBtn.textContent = '<%= t('playground.run') %>'; runBtn.classList.remove('opacity-75'); }
+      if (runBtn) { runBtn.disabled = false; runBtn.textContent = 'Executar'; runBtn.classList.remove('opacity-75'); }
     }).catch(function(err) {
       var msg = err.message || String(err);
       output.textContent = msg;
@@ -114,7 +114,7 @@
         var line = cmEditor.getLineHandle(lineNum);
         if (line) { cmEditor.addLineClass(lineNum, 'background', 'error-line-bg'); cmEditor.scrollIntoView({ line: lineNum, ch: 0 }, 80); }
       }
-      if (runBtn) { runBtn.disabled = false; runBtn.textContent = '<%= t('playground.run') %>'; runBtn.classList.remove('opacity-75'); }
+      if (runBtn) { runBtn.disabled = false; runBtn.textContent = 'Executar'; runBtn.classList.remove('opacity-75'); }
     });
   }
 
@@ -123,7 +123,7 @@
     clearBtn.addEventListener('click', function() {
       if (!output) return;
       output.style.color = '#374151';
-      output.textContent = '<%= t('playground.ready') %>';
+      output.textContent = 'Pronto para executar código XanaScript...';
       clearErrorLine();
     });
   }
