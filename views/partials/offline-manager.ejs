@@ -1,5 +1,5 @@
 <div id="readLaterToast" class="fixed bottom-6 right-6 z-50 bg-gray-900 text-white px-4 py-2.5 rounded-xl shadow-2xl text-sm hidden animate-up flex items-center gap-2">
-  <span id="readLaterToastText">Saved!</span>
+  <span id="readLaterToastText">Salvo!</span>
 </div>
 
 <script>
@@ -89,12 +89,12 @@
       var saved = await window.isLessonSaved(course, slug);
       if (saved) {
         await window.removeLessonOffline(course, slug);
-        btn.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg> Read Later';
-        showToast('Removed from offline');
+        btn.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg> Ler Depois';
+        showToast('Removido do modo offline');
       } else {
         await window.saveLessonOffline(course, slug, title || slug, html.outerHTML);
-        btn.innerHTML = '<svg class="w-3.5 h-3.5" fill="currentColor" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg> Saved';
-        showToast('Saved for offline reading!');
+        btn.innerHTML = '<svg class="w-3.5 h-3.5" fill="currentColor" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg> Salvo';
+        showToast('Lição salva para ler offline!');
       }
     })();
   });
