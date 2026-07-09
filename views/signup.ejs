@@ -50,7 +50,7 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
     if (!data.ok) { errEl.textContent = data.error; errEl.classList.remove('hidden'); return; }
     localStorage.setItem('xs_token', data.token);
     localStorage.setItem('xs_user', JSON.stringify(data.user));
-    window.location.href = '//packages/dashboard';
+    window.location.href = '/packages/dashboard';
   } catch (e) { errEl.textContent = 'Erro de rede'; errEl.classList.remove('hidden'); }
 });
 </script>

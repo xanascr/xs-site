@@ -243,7 +243,7 @@ router.get("/certificates/validate/:code", async (req, res) => {
 // ── Dashboard: user progress across all courses ─────────────────────────
 router.get("/dashboard/enrollments", auth, async (req, res) => {
   try {
-    const enrollments = await Enrollment.find({ userId: req.user.id }).populate("courseId", "title slug lang lessons").lean();
+    const enrollments = await Enrollment.find({ userId: req.user.id }).populate("courseId", "title slug lessons").lean();
     const user = await User.findById(req.user.id).select("xp level streak").lean();
     res.json({ ok: true, enrollments, user });
   } catch (e) {

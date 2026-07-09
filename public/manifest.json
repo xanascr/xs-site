@@ -1,7 +1,7 @@
 {
   "name": "XanaScript Playground",
   "short_name": "XanaScript",
-  "start_url": "/en/",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#f58b8e",

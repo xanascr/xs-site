@@ -66,12 +66,6 @@ const packageLimiter = (await import("express-rate-limit")).default({
   message: { ok: false, error: "Too many requests. Slow down." },
 });
 
-app.locals.site = {
-  name: "XanaScript",
-  url: "https://xanascript.xyz",
-  github: "https://github.com/xanascr/xs",
-};
-
 let npmDownloadsCache = null;
 let npmDownloadsTime = 0;
 

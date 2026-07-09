@@ -37,7 +37,7 @@ export async function checkAndAwardBadges(userId) {
   const coursesDone = enrollments.filter(e => e.completedAt).length;
 
   const courseIds = enrollments.map(e => e.courseId).filter(Boolean);
-  const courses = courseIds.length ? await Course.find({ _id: { $in: courseIds } }).select("lang").lean() : [];
+  const courses = courseIds.length ? await Course.find({ _id: { $in: courseIds } }).select("_id").lean() : [];
   const completedCourseIds = enrollments.filter(e => e.completedAt).map(e => String(e.courseId));
   const xp = user.xp || 0;
   const streak = user.streak || 0;

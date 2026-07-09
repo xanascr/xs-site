@@ -95,7 +95,7 @@ async function seedQuizzes() {
   const moduleCount = Object.keys(questionsByModule).length;
 
   // Seed pt course
-  const coursePt = await Course.findOne({ slug: "curso-completo-xanascript", lang: "pt" }).lean();
+  const coursePt = await Course.findOne({ slug: "curso-completo-xanascript" }).lean();
   if (coursePt) {
     const ptQuestionsByModule = {
       0: [

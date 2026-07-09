@@ -141,7 +141,7 @@ router.get("/dashboard", async (req, res) => {try {const token = req.headers.coo
   } catch {res.status(404).render("404", {}); }
 });
 
-router.get("/courses", async (req, res) => {try {let courses = await Course.find({published: true, lang: "pt" }).select("title slug description image category level duration totalPoints").sort({createdAt: -1 }).lean();
+router.get("/courses", async (req, res) => {try {let courses = await Course.find({published: true}).select("title slug description image category level duration totalPoints").sort({createdAt: -1 }).lean();
     res.render("courses/index", { courses, page: "courses" });
   } catch {res.render("courses/index", { courses: [], page: "courses" });
   }
