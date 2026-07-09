@@ -131,7 +131,7 @@ app.use("/api/stats", statsRouter);
 app.use("/api/webhooks", webhooksRouter);
 
 app.use((req, res) => {
-  res.status(404).render("en/404", { lang: "en" });
+  res.status(404).render("404", { page: "404" });
 });
 
 app.use((err, req, res, next) => {
@@ -146,7 +146,7 @@ app.use((err, req, res, next) => {
     console.error("Unhandled error:", err.stack || err.message);
   }
   if (req.accepts("html")) {
-    return res.status(500).render("en/500", { lang: "en", error: process.env.NODE_ENV === "development" ? err.message : "Internal server error" });
+    res.status(500).render("500", { error: process.env.NODE_ENV === "development" ? err.message : "Internal server error" });
   }
   res.status(500).json({ ok: false, error: "Internal server error" });
 });

@@ -1,5 +1,5 @@
 const CACHE = "xanascript-v2";
-const ASSETS = ["/", "/en/", "/pt/", "/es/", "/manifest.json", "/css/tailwind.css", "/css/lesson.css", "/css/markdown.css"];
+const ASSETS = ["/", "/manifest.json", "/css/tailwind.css", "/css/lesson.css", "/css/markdown.css"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(
@@ -27,7 +27,7 @@ self.addEventListener("fetch", (e) => {
           if (res.ok) { const clone = res.clone(); caches.open(CACHE).then((c) => c.put(e.request, clone)); }
           return res;
         });
-      }).catch(() => caches.match("/en/"))
+      }).catch(() => caches.match("/"))
     );
   }
 });

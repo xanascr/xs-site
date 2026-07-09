@@ -1,0 +1,66 @@
+<%- include('partials/head', { lang, t, alternates }) %>
+<%- include('partials/navbar', { lang, t }) %>
+
+<section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-3xl md:text-5xl font-black text-center mb-2">Política de Privacidade</h1>
+    <p class="text-center text-gray-400 text-sm mb-12">Última atualização: 1 de julho de 2026</p>
+
+    <h2 class="text-2xl font-black text-gray-800 mt-10 mb-3">1. Quais Dados Coletamos</h2>
+    <p class="text-gray-600 leading-relaxed">Quando você cria uma conta ou utiliza nossos serviços, coletamos os seguintes dados pessoais:</p>
+    <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2">
+      <li><strong>Usuário</strong> — usado para identificá-lo publicamente na plataforma</li>
+      <li><strong>Endereço de email</strong> — usado para verificação de conta, redefinição de senha e comunicação</li>
+      <li><strong>Hash da senha</strong> — armazenado como hash bcrypt; nunca armazenamos senhas em texto puro</li>
+      <li><strong>Dados de uso</strong> — histórico de publicação de pacotes, contagens de download e interações na página necessárias para a operação da plataforma</li>
+    </ul>
+
+    <h2 class="text-2xl font-black text-gray-800 mt-10 mb-3">2. Como Usamos Seus Dados</h2>
+    <p class="text-gray-600 leading-relaxed">Usamos seus dados exclusivamente para os seguintes propósitos:</p>
+    <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2">
+      <li>Criação e gerenciamento de conta</li>
+      <li>Publicação de pacotes e funcionalidade do registro</li>
+      <li>Envio de comunicações essenciais (redefinição de senha, emails de verificação)</li>
+      <li>Segurança da plataforma e prevenção de abusos</li>
+    </ul>
+
+    <h2 class="text-2xl font-black text-gray-800 mt-10 mb-3">3. Base Legal (LGPD Art. 7)</h2>
+    <p class="text-gray-600 leading-relaxed">Processamos seus dados pessoais sob as seguintes bases legais, conforme definido pela Lei Geral de Proteção de Dados (LGPD):</p>
+    <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2">
+      <li><strong>Consentimento (Art. 7, I)</strong> — você concorda explicitamente com nossa política de privacidade ao criar uma conta</li>
+      <li><strong>Interesse Legítimo (Art. 7, IX)</strong> — segurança da plataforma, prevenção de fraudes e melhoria do serviço</li>
+      <li><strong>Obrigação Legal (Art. 7, II)</strong> — cumprimento de leis e requisitos regulatórios aplicáveis</li>
+    </ul>
+
+    <h2 class="text-2xl font-black text-gray-800 mt-10 mb-3">4. Compartilhamento de Dados</h2>
+    <p class="text-gray-600 leading-relaxed">Nós <strong>não</strong> compartilhamos, vendemos, alugamos ou negociamos seus dados pessoais com terceiros. Seus dados permanecem exclusivamente sob nosso controle e são acessados apenas por pessoal autorizado para os fins descritos nesta política.</p>
+
+    <h2 class="text-2xl font-black text-gray-800 mt-10 mb-3">5. Retenção de Dados</h2>
+    <p class="text-gray-600 leading-relaxed">Mantemos seus dados pessoais enquanto sua conta permanecer ativa. Ao receber uma solicitação de exclusão, seus dados são anonimizados imediatamente e totalmente excluídos em até 30 dias, de acordo com a LGPD Art. 15.</p>
+
+    <h2 class="text-2xl font-black text-gray-800 mt-10 mb-3">6. Seus Direitos (LGPD Art. 18)</h2>
+    <p class="text-gray-600 leading-relaxed">Como titular de dados, você tem os seguintes direitos sob a LGPD:</p>
+    <ul class="list-disc list-inside text-gray-600 space-y-1 mt-2">
+      <li><strong>Acesso</strong> — solicitar uma cópia dos seus dados pessoais a qualquer momento</li>
+      <li><strong>Retificação</strong> — corrigir dados imprecisos ou incompletos</li>
+      <li><strong>Exclusão</strong> — solicitar a exclusão da sua conta e dados associados</li>
+      <li><strong>Portabilidade</strong> — exportar seus dados em formato estruturado e legível por máquina</li>
+      <li><strong>Revogar consentimento</strong> — revogar seu consentimento para processamento de dados a qualquer momento</li>
+    </ul>
+    <p class="text-gray-600 leading-relaxed mt-3">Para exercer qualquer um desses direitos, entre em contato conosco pelo email abaixo.</p>
+
+    <h2 class="text-2xl font-black text-gray-800 mt-10 mb-3">7. Contato</h2>
+    <p class="text-gray-600 leading-relaxed">Se você tiver dúvidas, preocupações ou solicitações sobre seus dados pessoais, entre em contato com nosso Encarregado de Proteção de Dados:</p>
+    <p class="text-gray-600 mt-2"><strong>Email:</strong> <a href="mailto:hello@esc-tech.com.br" class="text-pinky-400 hover:underline">hello@esc-tech.com.br</a></p>
+
+    <h2 class="text-2xl font-black text-gray-800 mt-10 mb-3">8. Uso de Cookies</h2>
+    <p class="text-gray-600 leading-relaxed">Usamos apenas <strong>cookies essenciais</strong> necessários para o funcionamento da nossa plataforma. Especificamente, usamos um token de autenticação baseado em JWT armazenado no localStorage (não um cookie). Nenhum cookie de rastreamento, análise ou publicidade é utilizado. Nenhum cookie de terceiros é definido.</p>
+
+    <h2 class="text-2xl font-black text-gray-800 mt-10 mb-3">9. Alterações nesta Política</h2>
+    <p class="text-gray-600 leading-relaxed">Podemos atualizar esta política de privacidade periodicamente. Alterações materiais serão comunicadas via email ou aviso na plataforma. O uso continuado da plataforma após alterações constitui aceitação da política atualizada.</p>
+
+    <p class="text-gray-400 text-sm mt-12 text-center">Última atualização: 1 de julho de 2026</p>
+  </div>
+</section>
+
+<%- include('partials/footer', { lang, t }) %>

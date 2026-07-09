@@ -1,0 +1,165 @@
+<%- include('partials/head', { lang, t, alternates }) %>
+<%- include('partials/navbar', { lang, t }) %>
+
+<section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
+  <div class="max-w-3xl mx-auto animate-fade-in">
+    <a href="//courses/<%= course.slug %>" class="text-sm text-gray-400 hover:text-pinky-400 no-underline mb-4 inline-block">&larr; Voltar ao curso</a>
+
+    <div class="xs-card xs-card-glass p-6 sm:p-8">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="text-2xl">📝</span>
+        <h1 class="text-2xl sm:text-3xl font-black"><%= quiz.title %></h1>
+      </div>
+      <p class="text-gray-500 text-sm mb-6">Quiz do Módulo &middot; <%= quiz.questions.length %> perguntas</p>
+
+      <div id="quizStart">
+        <p class="text-sm text-gray-600 mb-4">Teste seus conhecimentos deste módulo. Nota mínima: <%= quiz.passingScore || 70 %>%.</p>
+        <button id="startQuizBtn" class="xs-btn xs-btn-primary">Iniciar Quiz</button>
+      </div>
+
+      <div id="quizForm" class="hidden">
+        <div id="quizQuestions" class="space-y-4 mb-6"></div>
+        <button id="submitQuizBtn" class="xs-btn xs-btn-primary">Enviar Respostas</button>
+        <span id="quizError" class="text-xs text-red-500 ml-2 hidden"></span>
+      </div>
+
+      <div id="quizResult" class="hidden text-center py-8">
+        <div class="text-5xl mb-3" id="resultIcon">🎉</div>
+        <div class="text-2xl font-black mb-1" id="resultScore">0%</div>
+        <p class="text-sm text-gray-500 mb-1" id="resultDetails">0/0 corretas</p>
+        <p class="text-sm text-gray-500 mb-4" id="resultXp">+0 XP ganhos</p>
+        <button id="retryQuizBtn" class="xs-btn xs-btn-ghost">Tentar Novamente</button>
+      </div>
+    </div>
+
+    <!-- Previous attempts -->
+    <div class="xs-card xs-card-glass mt-6 p-6" id="attemptsSection">
+      <h2 class="text-lg font-bold mb-3">Tentativas Anteriores</h2>
+      <div id="attemptsList" class="space-y-2">
+        <div class="text-center py-4 text-gray-400 text-sm">Faça login para ver suas tentativas.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer', { lang, t }) %>
+
+<script>
+(function() {
+  var token = localStorage.getItem('xs_token');
+  var lang = 'pt';
+  var courseSlug = '<%= course.slug %>';
+  var moduleIndex = '<%= moduleIndex %>';
+
+  var startBtn = document.getElementById('startQuizBtn');
+  var quizForm = document.getElementById('quizForm');
+  var quizStart = document.getElementById('quizStart');
+  var quizQuestions = document.getElementById('quizQuestions');
+  var submitBtn = document.getElementById('submitQuizBtn');
+  var quizResult = document.getElementById('quizResult');
+  var retryBtn = document.getElementById('retryQuizBtn');
+  var attemptsList = document.getElementById('attemptsList');
+
+  var questions = [];
+
+  // Load attempts
+  function loadAttempts() {
+    if (!token) return;
+    fetch('/api/quizzes/' + courseSlug + '/module/' + moduleIndex + '/attempts', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    }).then(function(r) { return r.json(); }).then(function(d) {
+      if (!d.ok || !d.attempts || d.attempts.length === 0) {
+        attemptsList.innerHTML = '<div class="text-center py-4 text-gray-400 text-sm">Nenhuma tentativa ainda.</div>';
+        return;
+      }
+      var html = '';
+      d.attempts.forEach(function(a) {
+        var date = new Date(a.createdAt).toLocaleDateString();
+        var icon = a.passed ? '✅' : '❌';
+        html += '<div class="flex items-center gap-3 bg-white border border-gray-200 rounded-lg px-4 py-3 text-sm">'
+          + '<span>' + icon + '</span>'
+          + '<span class="flex-1">Tentativa #' + a.attemptNumber + ' &middot; ' + a.score + '%</span>'
+          + '<span class="text-xs text-gray-400">' + date + ' &middot; +' + a.earnedXp + ' XP</span>'
+          + '</div>';
+      });
+      attemptsList.innerHTML = html;
+    });
+  }
+  loadAttempts();
+
+  if (startBtn) startBtn.addEventListener('click', function() {
+    if (!token) {
+      window.location.href = '/login?redirect=/courses/<%= course.slug %>/quiz/' + moduleIndex;
+      return;
+    }
+    startBtn.disabled = true;
+    startBtn.textContent = 'Carregando...';
+    fetch('/api/quizzes/' + courseSlug + '/module/' + moduleIndex + '/start', {
+      method: 'POST', headers: { 'Authorization': 'Bearer ' + token }
+    }).then(function(r) { return r.json(); }).then(function(d) {
+      if (!d.ok) { alert(d.error || 'Falha ao carregar o quiz'); startBtn.disabled = false; startBtn.textContent = 'Iniciar Quiz'; return; }
+      questions = d.questions || [];
+      quizStart.classList.add('hidden');
+      quizForm.classList.remove('hidden');
+      var html = '';
+      questions.forEach(function(q, i) {
+        html += '<div class="bg-gray-50 border border-gray-200 rounded-xl p-4">'
+          + '<p class="font-semibold text-sm text-gray-800 mb-2">' + (i + 1) + '. ' + escapeHtml(q.question) + '</p>';
+        if (q.type === 'multiple' && q.options && q.options.length > 0) {
+          q.options.forEach(function(opt) {
+            html += '<label class="flex items-center gap-2 py-1 cursor-pointer text-sm">'
+              + '<input type="radio" name="q' + i + '" value="' + escapeHtml(opt) + '" class="accent-pinky-400">'
+              + '<span>' + escapeHtml(opt) + '</span></label>';
+          });
+        } else {
+          html += '<input type="text" class="quiz-input xs-input w-full text-sm" data-idx="' + i + '" placeholder="Digite sua resposta...">';
+        }
+        html += '</div>';
+      });
+      quizQuestions.innerHTML = html;
+    }).catch(function() { alert('Erro de rede.'); startBtn.disabled = false; startBtn.textContent = 'Iniciar Quiz'; });
+  });
+
+  if (submitBtn) submitBtn.addEventListener('click', function() {
+    var answers = [];
+    questions.forEach(function(q, i) {
+      if (q.type === 'multiple') {
+        var selected = document.querySelector('input[name="q' + i + '"]:checked');
+        answers.push(selected ? selected.value : '');
+      } else {
+        var inp = document.querySelector('.quiz-input[data-idx="' + i + '"]');
+        answers.push(inp ? inp.value : '');
+      }
+    });
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Enviando...';
+    fetch('/api/quizzes/' + courseSlug + '/module/' + moduleIndex + '/submit', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answers: answers })
+    }).then(function(r) { return r.json(); }).then(function(d) {
+      if (!d.ok) { alert(d.error || 'Falhou'); submitBtn.disabled = false; submitBtn.textContent = 'Enviar Respostas'; return; }
+      quizForm.classList.add('hidden');
+      quizResult.classList.remove('hidden');
+      var icon = d.passed ? document.getElementById('resultIcon').textContent = '🎉' : document.getElementById('resultIcon').textContent = '💪';
+      document.getElementById('resultScore').textContent = d.score + '%';
+      document.getElementById('resultDetails').textContent = d.correct + '/' + d.total + ' corretas';
+      document.getElementById('resultXp').textContent = '+' + d.earnedXp + ' XP ganhos';
+      loadAttempts();
+    }).catch(function() { alert('Erro de rede.'); submitBtn.disabled = false; submitBtn.textContent = 'Enviar Respostas'; });
+  });
+
+  if (retryBtn) retryBtn.addEventListener('click', function() {
+    quizResult.classList.add('hidden');
+    quizStart.classList.remove('hidden');
+    startBtn.disabled = false;
+    startBtn.textContent = 'Iniciar Quiz';
+  });
+
+  function escapeHtml(str) {
+    var d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+})();
+</script>

@@ -94,26 +94,6 @@ async function seedQuizzes() {
 
   const moduleCount = Object.keys(questionsByModule).length;
 
-  // Seed en course
-  const courseEn = await Course.findOne({ $or: [{ slug: "curso-completo-xanascript", lang: "en" }, { slug: "complete-xanascript", lang: "en" }] }).lean();
-  if (courseEn) {
-    const totalLessons = courseEn.lessons.length;
-    for (let modIdx = 0; modIdx < Math.ceil(totalLessons / MODULE_SIZE); modIdx++) {
-      const start = modIdx * MODULE_SIZE;
-      const end = Math.min((modIdx + 1) * MODULE_SIZE, totalLessons);
-      const lessonSlugs = courseEn.lessons.slice(start, end).map(l => l.slug);
-      const questions = questionsByModule[modIdx] || [
-        { question: `Module ${modIdx + 1} review question`, type: "text", answer: "XanaScript", points: 10 },
-      ];
-      await ModuleQuiz.findOneAndUpdate(
-        { courseId: courseEn._id, moduleIndex: modIdx },
-        { courseId: courseEn._id, moduleIndex: modIdx, title: `Module ${modIdx + 1} Quiz`, questions, lessonSlugs, passingScore: 70 },
-        { upsert: true }
-      );
-      console.log(`Quiz created for en module ${modIdx} (lessons ${start + 1}-${end})`);
-    }
-  }
-
   // Seed pt course
   const coursePt = await Course.findOne({ slug: "curso-completo-xanascript", lang: "pt" }).lean();
   if (coursePt) {

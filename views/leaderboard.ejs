@@ -1,0 +1,63 @@
+<%- include('partials/head', { lang, t, alternates }) %>
+<%- include('partials/navbar', { lang, t }) %>
+
+<section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
+  <div class="max-w-3xl mx-auto animate-fade-in">
+    <div class="flex items-center gap-3 mb-2">
+      <span class="text-2xl">🏆</span>
+      <h1 class="text-3xl font-black">Ranking</h1>
+    </div>
+    <p class="text-gray-500 mb-8">Top 100 desenvolvedores XanaScript por XP.</p>
+
+    <div id="leaderboard" class="space-y-2">
+      <div class="text-center py-16 text-gray-400">
+        <div class="text-4xl mb-4">🏆</div>
+        <p>Carregando ranking...</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(async function() {
+  var container = document.getElementById('leaderboard');
+  try {
+    var res = await fetch('/api/leaderboard');
+    var data = await res.json();
+    if (!data.ok || !data.leaderboard || data.leaderboard.length === 0) {
+      container.innerHTML = '<div class="text-center py-16 text-gray-400"><div class="text-4xl mb-4">🏆</div><p>Nenhum usuário classificado ainda. Complete uma aula para entrar no ranking!</p></div>';
+      return;
+    }
+    var html = '<div class="grid gap-2">';
+    data.leaderboard.forEach(function(u, i) {
+      var medal = '';
+      if (i === 0) medal = '🥇';
+      else if (i === 1) medal = '🥈';
+      else if (i === 2) medal = '🥉';
+      else medal = '<span class="text-gray-300 font-mono w-6 inline-block text-center">' + u.rank + '</span>';
+      html += '<div class="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 transition-all hover:border-pinky-200 hover:shadow-sm">'
+        + '<div class="w-8 text-center shrink-0 text-lg">' + medal + '</div>'
+        + '<div class="flex-1 min-w-0">'
+        + '<div class="font-semibold text-sm text-gray-800 truncate">' + escapeHtml(u.username) + '</div>'
+        + '<div class="text-xs text-gray-400">Nível ' + u.level + ' &middot; ' + u.streak + ' dias seguidos</div>'
+        + '</div>'
+        + '<div class="text-right shrink-0">'
+        + '<div class="font-black text-pinky-500">' + u.xp.toLocaleString() + '</div>'
+        + '<div class="text-xs text-gray-400">XP</div>'
+        + '</div>'
+        + '</div>';
+    });
+    html += '</div>';
+    container.innerHTML = html;
+  } catch(e) {
+    container.innerHTML = '<div class="text-center py-16 text-gray-400"><p>Falha ao carregar ranking.</p></div>';
+  }
+  function escapeHtml(str) {
+    var d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+})();
+</script>
+
+<%- include('partials/footer', { lang, t }) %>

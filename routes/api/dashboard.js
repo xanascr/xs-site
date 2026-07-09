@@ -8,7 +8,7 @@ const router = Router();
 
 router.get("/roadmap", auth, async (req, res) => {
   try {
-    const enrollments = await Enrollment.find({ userId: req.user.id }).populate("courseId", "title slug lang lessons").lean();
+    const enrollments = await Enrollment.find({ userId: req.user.id }).populate("courseId", "title slug lessons").lean();
     const recommendations = [];
 
     for (const enc of enrollments) {

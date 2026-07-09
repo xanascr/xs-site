@@ -1,0 +1,143 @@
+<%- include('partials/head', { lang, t, alternates }) %>
+<%- include('partials/navbar', { lang, t }) %>
+
+<section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen flex items-center justify-center">
+  <div class="w-full max-w-sm animate-fade-in">
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pinky-50 border border-pinky-100 text-pinky-500 text-xs font-semibold mb-4">Bem-vindo de volta</div>
+      <h1 class="text-3xl font-black">Entrar</h1>
+    </div>
+
+    <div class="xs-card p-6">
+      <form id="loginForm" class="space-y-4">
+        <input name="username" type="text" placeholder="Usuário ou email" required class="xs-input">
+        <input name="password" type="password" placeholder="Senha" required class="xs-input">
+        <div id="loginError" class="text-red-500 text-sm hidden"></div>
+        <button type="submit" class="xs-btn xs-btn-primary w-full justify-center">Entrar</button>
+        <div id="resendVerify" class="text-center hidden">
+          <button id="resendBtn" class="text-pinky-400 hover:underline text-sm">Reenviar email de verificação</button>
+          <p id="resendMsg" class="text-green-500 text-xs hidden"></p>
+        </div>
+        <p class="text-center text-sm"><a href="<%= '' %>/forgot-password" class="text-pinky-400 hover:underline">Esqueceu a senha?</a></p>
+      </form>
+    </div>
+
+    <div class="xs-card p-6 mt-4 hidden" id="twofaCard">
+      <form id="twofaForm" class="space-y-4">
+        <p class="text-sm text-gray-500 text-center">Digite o código de 6 dígitos do seu aplicativo autenticador ou um código reserva.</p>
+        <input name="code" type="text" placeholder="000000" inputmode="numeric" autocomplete="one-time-code" required class="xs-input text-center text-2xl tracking-widest">
+        <div id="twofaError" class="text-red-500 text-sm hidden"></div>
+        <button type="submit" class="xs-btn xs-btn-primary w-full justify-center">Verificar</button>
+      </form>
+    </div>
+
+    <p class="text-center text-sm text-gray-400 mt-6">Não tem conta? <a href="//signup" class="text-pinky-400 hover:underline font-semibold">Cadastre-se</a></p>
+  </div>
+</section>
+
+<script>
+(function() {
+  var loginForm = document.getElementById('loginForm');
+  var twofaForm = document.getElementById('twofaForm');
+  var loginError = document.getElementById('loginError');
+  var twofaError = document.getElementById('twofaError');
+  var tempToken = null;
+
+  loginForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var fd = new FormData(loginForm);
+    loginError.classList.add('hidden');
+    try {
+      var res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: fd.get('username'), password: fd.get('password') }),
+      });
+      var data = await res.json();
+      if (!data.ok) {
+        loginError.textContent = data.error;
+        loginError.classList.remove('hidden');
+        if (data.emailNotVerified) {
+          document.getElementById('resendVerify').classList.remove('hidden');
+        }
+        return;
+      }
+      if (data.require2fa) {
+        tempToken = data.tempToken;
+        loginForm.closest('.xs-card').classList.add('hidden');
+        document.getElementById('twofaCard').classList.remove('hidden');
+        return;
+      }
+      localStorage.setItem('xs_token', data.token);
+      localStorage.setItem('xs_user', JSON.stringify(data.user));
+      var redirect = new URLSearchParams(window.location.search).get('redirect') || '/packages/dashboard';
+      window.location.href = redirect;
+    } catch (e) {
+      loginError.textContent = 'Erro de rede';
+      loginError.classList.remove('hidden');
+    }
+  });
+
+  document.getElementById('resendBtn').addEventListener('click', async function() {
+    var fd = new FormData(loginForm);
+    var btn = document.getElementById('resendBtn');
+    var msg = document.getElementById('resendMsg');
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+    msg.classList.add('hidden');
+    try {
+      var r = await fetch('/api/auth/resend-verification-public', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: fd.get('username'), password: fd.get('password') }),
+      });
+      var d = await r.json();
+      if (d.ok) {
+        msg.textContent = 'Email de verificação enviado! Verifique sua caixa de entrada.';
+        msg.classList.remove('hidden');
+        btn.remove();
+      } else {
+        msg.textContent = d.error || 'Falha ao reenviar. Tente novamente.';
+        msg.classList.remove('hidden');
+        msg.style.color = 'red';
+        btn.disabled = false;
+        btn.textContent = 'Reenviar email de verificação';
+      }
+    } catch (e) {
+      msg.textContent = 'Erro de rede';
+      msg.classList.remove('hidden');
+      msg.style.color = 'red';
+      btn.disabled = false;
+      btn.textContent = 'Reenviar email de verificação';
+    }
+  });
+
+  twofaForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var fd = new FormData(twofaForm);
+    twofaError.classList.add('hidden');
+    try {
+      var res = await fetch('/api/auth/2fa/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tempToken: tempToken, code: fd.get('code') }),
+      });
+      var data = await res.json();
+      if (!data.ok) {
+        twofaError.textContent = data.error;
+        twofaError.classList.remove('hidden');
+        return;
+      }
+      localStorage.setItem('xs_token', data.token);
+      localStorage.setItem('xs_user', JSON.stringify(data.user));
+      var redirect = new URLSearchParams(window.location.search).get('redirect') || '/packages/dashboard';
+      window.location.href = redirect;
+    } catch (e) {
+      twofaError.textContent = 'Erro de rede';
+      twofaError.classList.remove('hidden');
+    }
+  });
+})();
+</script>
+
+<%- include('partials/footer', { lang, t }) %>

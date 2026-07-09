@@ -14,12 +14,12 @@ router.get("/", async (req, res) => {
     const results = [];
 
     // Courses
-    const courses = await Course.find({ published: true, $or: [{ title: regex }, { description: regex }, { lang: regex }] })
-      .select("title slug description lang")
+    const courses = await Course.find({ published: true, $or: [{ title: regex }, { description: regex }] })
+      .select("title slug description")
       .limit(5)
       .lean();
     courses.forEach(c => results.push({
-      type: "course", label: c.title, desc: c.description?.slice(0, 120), url: `/${c.lang || "en"}/courses/${c.slug}`,
+      type: "course", label: c.title, desc: c.description?.slice(0, 120), url: `/courses/${c.slug}`,
     }));
 
     // Lessons
@@ -31,7 +31,7 @@ router.get("/", async (req, res) => {
             type: "lesson",
             label: `${lesson.title}`,
             desc: `Lesson in ${course.title}`,
-            url: `/${course.lang || "en"}/courses/${course.slug}/lessons/${lesson.slug}`,
+            url: `/courses/${course.slug}/lessons/${lesson.slug}`,
           });
           if (results.length >= 20) break;
         }
@@ -45,7 +45,7 @@ router.get("/", async (req, res) => {
       .limit(5)
       .lean();
     packages.forEach(p => results.push({
-      type: "package", label: p.name, desc: p.description?.slice(0, 120), url: `/en/packages/${p.name}`,
+      type: "package", label: p.name, desc: p.description?.slice(0, 120), url: `/packages/${p.name}`,
     }));
 
     // Docs pages
@@ -62,7 +62,7 @@ router.get("/", async (req, res) => {
     for (const doc of docPages) {
       if (regex.test(doc.title)) {
         results.push({
-          type: "doc", label: doc.title, desc: `Documentation`, url: `/en/docs/${doc.slug}`,
+          type: "doc", label: doc.title, desc: `Documentation`, url: `/docs/${doc.slug}`,
         });
       }
     }

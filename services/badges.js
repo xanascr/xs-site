@@ -9,7 +9,7 @@ const BADGE_DEFS = [
   { slug: "streak-7", name: "Week Warrior", description: "7-day study streak", icon: "💪" },
   { slug: "streak-30", name: "Monthly Master", description: "30-day study streak", icon: "🏆" },
   { slug: "course-complete", name: "Course Graduate", description: "Complete all lessons in any course", icon: "🎓" },
-  { slug: "all-courses", name: "Polyglot", description: "Complete a course in every language", icon: "🌍" },
+  { slug: "all-courses", name: "Dedicado", description: "Complete 2 cursos", icon: "🌍" },
   { slug: "xp-500", name: "Dedicated", description: "Earn 500 XP", icon: "⭐" },
   { slug: "xp-1000", name: "Xana Scholar", description: "Earn 1000 XP", icon: "🌟" },
   { slug: "xp-2000", name: "Xana Master", description: "Earn 2000 XP", icon: "👑" },
@@ -39,10 +39,6 @@ export async function checkAndAwardBadges(userId) {
   const courseIds = enrollments.map(e => e.courseId).filter(Boolean);
   const courses = courseIds.length ? await Course.find({ _id: { $in: courseIds } }).select("lang").lean() : [];
   const completedCourseIds = enrollments.filter(e => e.completedAt).map(e => String(e.courseId));
-  const completeLangs = new Set(
-    courses.filter(c => completedCourseIds.includes(String(c._id))).map(c => c.lang)
-  );
-
   const xp = user.xp || 0;
   const streak = user.streak || 0;
 
@@ -52,7 +48,7 @@ export async function checkAndAwardBadges(userId) {
     { slug: "streak-7", earned: streak >= 7 },
     { slug: "streak-30", earned: streak >= 30 },
     { slug: "course-complete", earned: coursesDone >= 1 },
-    { slug: "all-courses", earned: completeLangs.size >= 2 },
+    { slug: "all-courses", earned: courses.filter(c => completedCourseIds.includes(String(c._id))).length >= 2 },
     { slug: "xp-500", earned: xp >= 500 },
     { slug: "xp-1000", earned: xp >= 1000 },
     { slug: "xp-2000", earned: xp >= 2000 },

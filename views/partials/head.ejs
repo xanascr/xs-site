@@ -12,12 +12,12 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="XanaScript">
 <meta property="og:title" content="<%= typeof pageTitle !== 'undefined' ? pageTitle : 'XanaScript' %>">
-<meta property="og:description" content="<%= typeof pageDesc !== 'undefined' ? pageDesc : 'XanaScript is a programming language with Portuguese syntax, optimizing compiler, built-in ORM, and WebAssembly support.' %>">
-<meta property="og:url" content="https://xanascript.xyz/<%= lang === 'en' ? '' : lang + '/' %><%= typeof page !== 'undefined' && page !== 'home' ? page : '' %>">
+<meta property="og:description" content="<%= typeof pageDesc !== 'undefined' ? pageDesc : 'Uma linguagem de programação com sintaxe em português, compilador otimizador, ORM nativo e suporte a WebAssembly.' %>">
+<meta property="og:url" content="https://xanascript.xyz/<%= typeof page !== 'undefined' && page !== 'home' ? page : '' %>">
 <meta property="og:locale" content="pt_BR">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="<%= typeof pageTitle !== 'undefined' ? pageTitle : 'XanaScript' %>">
-<meta name="twitter:description" content="<%= typeof pageDesc !== 'undefined' ? pageDesc : 'A programming language with Portuguese syntax, built-in ORM, and Wasm support.' %>">
+<meta name="twitter:description" content="<%= typeof pageDesc !== 'undefined' ? pageDesc : 'Uma linguagem de programação com sintaxe em português, ORM nativo e suporte a Wasm.' %>">
 
 <script type="application/ld+json">
 {
@@ -26,7 +26,7 @@
   "name": "XanaScript",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Windows, macOS, Linux",
-  "description": "<%= (typeof pageDesc !== 'undefined' ? pageDesc : 'A programming language with Portuguese syntax, optimizing compiler, built-in ORM, and WebAssembly support.').replace(/"/g, '\\"') %>",
+  "description": "<%= (typeof pageDesc !== 'undefined' ? pageDesc : 'Uma linguagem de programação com sintaxe em português, compilador otimizador, ORM nativo e suporte a WebAssembly.').replace(/"/g, '\\"') %>",
   "author": { "@type": "Person", "name": "flazo0" },
   "license": "Apache-2.0",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
@@ -244,11 +244,10 @@ pre::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
 <body class="bg-white text-gray-900 antialiased">
 
 <div id="cookieConsent" class="fixed bottom-0 left-0 right-0 z-50 bg-gray-900 text-white px-4 py-4 text-sm flex flex-col sm:flex-row items-center justify-between gap-3 shadow-2xl">
-  <p class="text-gray-300 text-center sm:text-left text-xs sm:text-sm">Usamos apenas cookies essenciais para autenticação. Sem rastreamento. <a href="<%= lang === 'en' ? '' : '/' + lang %>/privacy" class="text-pinky-400 hover:underline">Saiba mais</a></p>
+  <p class="text-gray-300 text-center sm:text-left text-xs sm:text-sm">Usamos apenas cookies essenciais para autenticação. Sem rastreamento. <a href="/privacy" class="text-pinky-400 hover:underline">Saiba mais</a></p>
   <button id="cookieConsentBtn" class="xs-btn xs-btn-primary">Entendi</button>
 </div>
 <%- include('search-modal') %>
-<%- include('loading-screen') %>
 
 <script>
 if (localStorage.getItem('xs_cookie_consent')) document.getElementById('cookieConsent').classList.add('hidden');

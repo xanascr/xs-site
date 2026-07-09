@@ -62,7 +62,7 @@ router.get("/hot", async (req, res) => {
     const stats = await LessonStat.find()
       .sort({ views: -1, timeSpent: -1 })
       .limit(10)
-      .populate("courseId", "title slug lang")
+      .populate("courseId", "title slug")
       .lean();
     const results = stats.map(s => ({
       courseSlug: s.courseId?.slug,

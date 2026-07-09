@@ -12,12 +12,12 @@ for (const f of fs.readdirSync(dir)) {
 }
 
 export function i18n(req, res, next) {
-  res.locals.lang = "en";
+  res.locals.lang = "pt";
   res.locals.t = (key, ...args) => {
-    let v = locales.en?.[key] ?? key;
+    let v = locales.pt?.[key] ?? key;
     args.forEach((a, i) => { v = v.replace(`{${i}}`, a); });
     return v;
   };
-  res.locals.alternates = [{ lang: "en", href: req.path }];
+  res.locals.alternates = [];
   next();
 }

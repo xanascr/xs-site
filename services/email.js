@@ -87,7 +87,7 @@ export async function send2FABackupCodes(email, username, codes) {
 export async function sendCertificateIssued(email, username, courseName, code, points) {
   const html = await renderTemplate("certificate-issued", {
     username, courseName, code, points,
-    validateLink: `${SITE_URL}/${lang || "en"}/certificates/validate`,
+    validateLink: `${SITE_URL}/certificates/validate`,
   });
   enqueue(sendMail, { to: email, subject: `Certificate issued: ${courseName}`, html });
 }
