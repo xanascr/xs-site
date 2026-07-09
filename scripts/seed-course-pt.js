@@ -4,145 +4,144 @@ import Course from "../models/Course.js";
 
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/xs-site";
 
-
 const lessons = [
-{
+  {
     slug: "o-que-e-xanascript",
-    title: "O que e XanaScript?",
+    title: "O que é XanaScript?",
     order: 1,
     points: 5,
-    bodyMd: `# What is XanaScript?
+    bodyMd: `# O que é XanaScript?
 
-XanaScript is a **full programming language** designed entirely in Brazilian Portuguese. Unlike transpilers or wrappers, every keyword, operator, and syntax construct is native Portuguese — parsed, type-checked, compiled, and executed by a custom toolchain written in JavaScript.
+XanaScript é uma **linguagem de programação completa** projetada inteiramente em português brasileiro. Diferente de transpiladores ou wrappers, cada palavra-chave, operador e construção sintática é nativa em português — analisada, verificada por tipos, compilada e executada por um toolchain personalizado escrito em JavaScript.
 
-## Key Features
+## Principais Recursos
 
-- **Multi-word keywords** like \`SE LIGA SO\`, \`CHAMA ESSE CARA\`, \`REPETE NA MORAL\` — lexed as atomic tokens
-- **Built-in ORM** (\`TABELA\`) — first-class syntax for database CRUD
-- **Optimizing compiler** — constant folding, loop unrolling, integer inference
-- **Native WebAssembly** — direct \`.wasm\` binary emission, no Emscripten
-- **Compile-time macros** — AST-level substitution, zero runtime cost
-- **LSP server** — completions, hover, diagnostics, go-to-definition
-- **Test runner** — \`TESTE\` / \`AFIRMA\` as native AST nodes
+- **Palavras-chave multipalavra** como \`SE LIGA SO\`, \`CHAMA ESSE CARA\`, \`REPETE NA MORAL\` — tokenizadas como átomos
+- **ORM nativo** (\`TABELA\`) — sintaxe de primeira classe para CRUD em banco de dados
+- **Compilador otimizador** — dobramento de constantes, desenrolamento de loops, inferência de inteiros
+- **WebAssembly nativo** — emissão direta de \`.wasm\`, sem Emscripten
+- **Macros em tempo de compilação** — substituição em nível de AST, custo zero em execução
+- **Servidor LSP** — completações, hover, diagnósticos, ir para definição
+- **Runner de testes** — \`TESTE\` / \`AFIRMA\` como nós AST nativos
 
-## The Philosophy
+## A Filosofia
 
-Code should read like it's written for humans. Every construct in XanaScript uses clear, intuitive Portuguese keywords so the intent is obvious at a glance.`,
+O código deve ser lido como se fosse escrito para humanos. Cada construção em XanaScript usa palavras-chave claras e intuitivas em português para que a intenção seja óbvia à primeira vista.`,
     challenges: [
-      { question: "What type of tokens are multi-word keywords like SE LIGA SO treated as?", answer: "atomic", points: 3 },
-      { question: "Does XanaScript use a transpiler approach or a native compiler?", answer: "native compiler", points: 3 },
-      { question: "What is the philosophy behind XanaScript?", answer: "code should read like it is written for humans", points: 5 },
+      { question: "Como são tratadas palavras-chave multipalavra como SE LIGA SO?", answer: "átomos", points: 3 },
+      { question: "O XanaScript usa uma abordagem de transpilador ou compilador nativo?", answer: "compilador nativo", points: 3 },
+      { question: "Qual é a filosofia por trás do XanaScript?", answer: "o código deve ser lido como se fosse escrito para humanos", points: 5 },
     ],
   },
   {
     slug: "instalacao-e-configuracao",
-    title: "Instalacao & Configuracao",
+    title: "Instalação e Configuração",
     order: 2,
     points: 5,
-    bodyMd: `# Installation & Setup
+    bodyMd: `# Instalação e Configuração
 
-XanaScript can be installed in two ways:
+O XanaScript pode ser instalado de duas formas:
 
-## Via npm (Cross-platform)
+## Via npm (Multiplataforma)
 
 \`\`\`bash
 npm install -g xanascript
 \`\`\`
 
-This requires Node.js 18+ and works on Windows, Linux, and macOS.
+Isso requer Node.js 18+ e funciona no Windows, Linux e macOS.
 
-## Native Binary (Standalone)
+## Binário Nativo (Independente)
 
 \`\`\`bash
 curl -fsSL https://xanascript.xyz/install.sh | bash
 \`\`\`
 
-No Node.js required — a single executable with zero dependencies.
+Não requer Node.js — um único executável com zero dependências.
 
-## Verify Installation
+## Verificar Instalação
 
 \`\`\`bash
 xs --version
 \`\`\`
 
-## VS Code Extension
+## Extensão VS Code
 
-Install \`vscode-xs\` from the marketplace for syntax highlighting, snippets, and LSP integration.`,
+Instale \`vscode-xs\` da marketplace para realce de sintaxe, snippets e integração LSP.`,
     challenges: [
-      { question: "What is the npm command to install XanaScript globally?", answer: "npm install -g xanascript", points: 3 },
-      { question: "What command verifies XanaScript is installed?", answer: "xs --version", points: 3 },
-      { question: "What VS Code extension provides XanaScript support?", answer: "vscode-xs", points: 3 },
-],
+      { question: "Qual é o comando npm para instalar o XanaScript globalmente?", answer: "npm install -g xanascript", points: 3 },
+      { question: "Qual comando verifica se o XanaScript está instalado?", answer: "xs --version", points: 3 },
+      { question: "Qual extensão VS Code fornece suporte ao XanaScript?", answer: "vscode-xs", points: 3 },
+    ],
   },
   {
     slug: "seu-primeiro-programa",
     title: "Seu Primeiro Programa",
     order: 3,
     points: 10,
-    bodyMd: `# Your First Program
+    bodyMd: `# Seu Primeiro Programa
 
-Let's write the classic "Hello, World!" in XanaScript:
+Vamos escrever o clássico "Olá, Mundo!" em XanaScript:
 
 \`\`\`xs
 SOLTA O GRITO("Hello, World!")
 \`\`\`
 
-Create a file called \`hello.xs\` and run it:
+Crie um arquivo chamado \`hello.xs\` e execute:
 
 \`\`\`bash
 xs run hello.xs
 \`\`\`
 
-## Breaking It Down
+## Detalhando
 
-- \`SOLTA O GRITO\` is the print function — literally "shout it out"
-- Parentheses \`()\` wrap the argument
-- Double quotes \`"..."\` delimit a string
+- \`SOLTA O GRITO\` é a função de impressão — literalmente "solte o grito"
+- Parênteses \`()\` envolvem o argumento
+- Aspas duplas \`"..."\` delimitam uma string
 
-## Variables
+## Variáveis
 
 \`\`\`xs
 CRIA nome = "Maria"
 CRIA idade = 25
-SOLTA O GRITO("Ola, " + nome + "! Voce tem " + idade + " anos.")
+SOLTA O GRITO("Olá, " + nome + "! Você tem " + idade + " anos.")
 \`\`\`
 
-- \`CRIA\` declares a variable ("create")
-- \`+\` concatenates strings and numbers
-- No type annotations needed — types are inferred
+- \`CRIA\` declara uma variável ("create")
+- \`+\` concatena strings e números
+- Não são necessárias anotações de tipo — os tipos são inferidos
 
 ## Comments
 
 \`\`\`xs
-// This is a single-line comment
+// Isto é um comentário de linha única
 
-/* This is a
-   multi-line comment */
+/* Isto é um
+   comentário multilinha */
 \`\`\``,
     challenges: [
-      { question: "What keyword declares a variable in XanaScript?", answer: "CRIA", points: 3 },
-      { question: "What function prints output to the console?", answer: "SOLTA O GRITO", points: 3 },
-      { question: "What command runs a .xs file?", answer: "xs run", points: 3 },
-],
+      { question: "Qual palavra-chave declara uma variável em XanaScript?", answer: "CRIA", points: 3 },
+      { question: "Qual função imprime saída no console?", answer: "SOLTA O GRITO", points: 3 },
+      { question: "Qual comando executa um arquivo .xs?", answer: "xs run", points: 3 },
+    ],
   },
   {
     slug: "variaveis-com-cria",
-    title: "Variaveis com CRIA",
+    title: "Variáveis com CRIA",
     order: 4,
     points: 10,
-    bodyMd: `# Variables with CRIA
+    bodyMd: `# Variáveis com CRIA
 
-\`CRIA\` ("create") declares a mutable variable in XanaScript:
+\`CRIA\` ("create") declara uma variável mutável em XanaScript:
 
 \`\`\`xs
-CRIA nome = "Joao"
+CRIA nome = "João"
 CRIA idade = 25
 CRIA preco = 49.99
 \`\`\`
 
-## Reassignment
+## Reatribuição
 
-Variables declared with \`CRIA\` can be reassigned:
+Variáveis declaradas com \`CRIA\` podem ser reatribuídas:
 
 \`\`\`xs
 CRIA contador = 0
@@ -151,37 +150,37 @@ contador = contador + 5
 SOLTA O GRITO(contador)  // 6
 \`\`\`
 
-## Multiple Variables
+## Múltiplas Variáveis
 
 \`\`\`xs
 CRIA a = 1, b = 2, c = 3
 SOLTA O GRITO(a + b + c)  // 6
 \`\`\`
 
-## Naming Rules
+## Regras de Nomenclatura
 
-- Must start with a letter or underscore
-- Can contain letters, numbers, and underscores
-- Case-sensitive: \`nome\` != \`Nome\`
-- Keywords cannot be used as variable names
+- Deve começar com uma letra ou sublinhado
+- Pode conter letras, números e sublinhados
+- Difere maiúsculas de minúsculas: \`nome\` != \`Nome\`
+- Palavras-chave não podem ser usadas como nomes de variáveis
 
-## Scope
+## Escopo
 
-\`CRIA\` is block-scoped. Variables declared inside a block are not accessible outside.`,
+\`CRIA\` tem escopo de bloco. Variáveis declaradas dentro de um bloco não são acessíveis fora dele.`,
     challenges: [
-      { question: "What keyword declares a mutable variable?", answer: "CRIA", points: 3 },
-      { question: "Can a CRIA variable be reassigned?", answer: "yes", points: 3 },
-      { question: "Are CRIA variables block-scoped or function-scoped?", answer: "block-scoped", points: 5 },
-],
+      { question: "Qual palavra-chave declara uma variável mutável?", answer: "CRIA", points: 3 },
+      { question: "Uma variável CRIA pode ser reatribuída?", answer: "sim", points: 3 },
+      { question: "Variáveis CRIA têm escopo de bloco ou de função?", answer: "escopo de bloco", points: 5 },
+    ],
   },
   {
     slug: "constantes-com-constante",
     title: "Constantes com CONSTANTE",
     order: 5,
     points: 10,
-    bodyMd: `# Constants with CONSTANTE
+    bodyMd: `# Constantes com CONSTANTE
 
-\`CONSTANTE\` declares an immutable, read-only binding:
+\`CONSTANTE\` declara uma ligação imutável e somente leitura:
 
 \`\`\`xs
 CONSTANTE PI = 3.14159
@@ -189,89 +188,89 @@ CONSTANTE NOME_APP = "XanaScript"
 CONSTANTE VERSAO = "1.0.0"
 \`\`\`
 
-## Reassignment is Forbidden
+## Reatribuição é Proibida
 
 \`\`\`xs
 CONSTANTE MAX_USERS = 100
-// MAX_USERS = 200  // Error! Cannot reassign a constant
+// MAX_USERS = 200  // Erro! Não é possível reatribuir uma constante
 \`\`\`
 
-## When to Use
+## Quando Usar
 
-- Values that should never change (mathematical constants, configuration)
-- API endpoints, environment names
-- Any binding to protect from accidental mutation
+- Valores que nunca devem mudar (constantes matemáticas, configuração)
+- Endpoints de API, nomes de ambiente
+- Qualquer ligação para proteger de mutação acidental
 
 ## CRIA vs CONSTANTE
 
-| Aspect | CRIA | CONSTANTE |
-|--------|------|-----------|
-| Mutable | Yes | No |
-| Reassign | Allowed | Forbidden |
+| Aspecto | CRIA | CONSTANTE |
+|---------|------|-----------|
+| Mutável | Sim | Não |
+| Reatribuir | Permitido | Proibido |
 
-## Best Practice
+## Melhor Prática
 
-Always prefer \`CONSTANTE\` by default. Only use \`CRIA\` when the value needs to change.`,
+Sempre prefira \`CONSTANTE\` por padrão. Use \`CRIA\` apenas quando o valor precisar mudar.`,
     challenges: [
-      { question: "What keyword creates an immutable variable?", answer: "CONSTANTE", points: 3 },
-      { question: "Can a CONSTANTE be reassigned?", answer: "no", points: 3 },
-      { question: "Which should you prefer by default: CRIA or CONSTANTE?", answer: "CONSTANTE", points: 5 },
-],
+      { question: "Qual palavra-chave cria uma variável imutável?", answer: "CONSTANTE", points: 3 },
+      { question: "Uma CONSTANTE pode ser reatribuída?", answer: "não", points: 3 },
+      { question: "Qual você deve preferir por padrão: CRIA ou CONSTANTE?", answer: "CONSTANTE", points: 5 },
+    ],
   },
   {
     slug: "comentarios",
-    title: "Comentarios",
+    title: "Comentários",
     order: 6,
     points: 5,
-    bodyMd: `# Comments
+    bodyMd: `# Comentários
 
-Comments are ignored by the compiler and exist only for humans reading the code.
+Comentários são ignorados pelo compilador e existem apenas para humanos que leem o código.
 
-## Single-Line Comments
+## Comentários de Linha Única
 
-Use \`//\` for single-line comments:
+Use \`//\` para comentários de linha única:
 
 \`\`\`xs
-// This is a single-line comment
-CRIA x = 10  // inline comment
+// Isto é um comentário de linha única
+CRIA x = 10  // comentário inline
 
-// Comments can span multiple lines
-// if each line starts with //
+// Comentários podem abranger várias linhas
+// se cada linha começar com //
 \`\`\`
 
-## Multi-Line Comments
+## Comentários Multilinha
 
-Use \`/* */\` for block comments:
+Use \`/* */\` para comentários em bloco:
 
 \`\`\`xs
 /*
- * This is a multi-line comment
- * Useful for documentation headers
+ * Isto é um comentário multilinha
+ * Útil para cabeçalhos de documentação
  */
 CRIA y = 20
 \`\`\`
 
-## Documentation Comments
+## Comentários de Documentação
 
-Use multi-line comments for function documentation explaining what the function does. Good comments explain "why", not "what".`,
+Use comentários multilinha para documentação de funções explicando o que a função faz. Bons comentários explicam "por que", não "o que".`,
     challenges: [
-      { question: "What symbol starts a single-line comment in XanaScript?", answer: "//", points: 3 },
-      { question: "What delimiters wrap a multi-line comment?", answer: "/* */", points: 3 },
-],
+      { question: "Qual símbolo inicia um comentário de linha única em XanaScript?", answer: "//", points: 3 },
+      { question: "Quais delimitadores envolvem um comentário multilinha?", answer: "/* */", points: 3 },
+    ],
   },
   {
     slug: "tipos-de-dados",
     title: "Tipos de Dados",
     order: 7,
     points: 10,
-    bodyMd: `# Data Types
+    bodyMd: `# Tipos de Dados
 
-XanaScript has five built-in types.
+XanaScript tem cinco tipos nativos.
 
 ## TEXTO (String)
 
 \`\`\`xs
-CRIA saudacao = "Ola, Mundo!"
+CRIA saudacao = "Olá, Mundo!"
 CRIA vazio = ""
 \`\`\`
 
@@ -303,132 +302,132 @@ CRIA flexivel = QUALQUER("pode ser qualquer coisa")
 flexivel = 42  // OK
 \`\`\`
 
-Each type serves a specific purpose. Type inference handles them automatically.`,
+Cada tipo serve a um propósito específico. A inferência de tipos lida com eles automaticamente.`,
     challenges: [
-      { question: "How many built-in data types does XanaScript have?", answer: "5", points: 3 },
-      { question: "What is the keyword for boolean true?", answer: "VERDADEIRO", points: 3 },
-      { question: "What type allows any value to be assigned?", answer: "QUALQUER", points: 3 },
-],
+      { question: "Quantos tipos de dados nativos o XanaScript possui?", answer: "5", points: 3 },
+      { question: "Qual é a palavra-chave para booleano verdadeiro?", answer: "VERDADEIRO", points: 3 },
+      { question: "Qual tipo permite que qualquer valor seja atribuído?", answer: "QUALQUER", points: 3 },
+    ],
   },
   {
     slug: "inferencia-de-tipos",
-    title: "Inferencia de Tipos",
+    title: "Inferência de Tipos",
     order: 8,
     points: 10,
-    bodyMd: `# Type Inference
+    bodyMd: `# Inferência de Tipos
 
-XanaScript automatically detects the type of a variable based on its value.
+XanaScript detecta automaticamente o tipo de uma variável com base em seu valor.
 
-## How Inference Works
+## Como a Inferência Funciona
 
 \`\`\`xs
-CRIA texto = "Ola"            // inferred as TEXTO
-CRIA numero = 42              // inferred as NUMERO
-CRIA booleano = VERDADEIRO    // inferred as BOOLEANO
-CRIA data = DATA("2026-01-01") // inferred as DATA
-CRIA qualquer = null          // inferred as QUALQUER
+CRIA texto = "Olá"            // inferido como TEXTO
+CRIA numero = 42              // inferido como NUMERO
+CRIA booleano = VERDADEIRO    // inferido como BOOLEANO
+CRIA data = DATA("2026-01-01") // inferido como DATA
+CRIA qualquer = null          // inferido como QUALQUER
 \`\`\`
 
-## Strict Types
+## Tipos Estritos
 
-Once a variable is inferred as a specific type, reassignment must match:
+Uma vez que uma variável é inferida como um tipo específico, a reatribuição deve corresponder:
 
 \`\`\`xs
 CRIA nome = "Ana"      // TEXTO
-// nome = 42           // Error! Cannot assign NUMERO to TEXTO
+// nome = 42           // Erro! Não é possível atribuir NUMERO a TEXTO
 \`\`\`
 
-## QUALQUER allows changes
+## QUALQUER permite mudanças
 
-With QUALQUER, the type can change at runtime.
+Com QUALQUER, o tipo pode mudar em tempo de execução.
 
-## Optional Annotations
+## Anotações Opcionais
 
-For clarity, you can annotate types: \`CRIA nome: TEXTO = "Joao"\`.`,
+Para clareza, você pode anotar tipos: \`CRIA nome: TEXTO = "João"\`.`,
     challenges: [
-      { question: "What type is inferred for \"CRIA x = 42\"?", answer: "NUMERO", points: 3 },
-      { question: "Can you assign a NUMERO to a TEXTO variable?", answer: "no", points: 3 },
-      { question: "What type allows dynamic changes?", answer: "QUALQUER", points: 5 },
-],
+      { question: "Qual tipo é inferido para \"CRIA x = 42\"?", answer: "NUMERO", points: 3 },
+      { question: "Você pode atribuir um NUMERO a uma variável TEXTO?", answer: "não", points: 3 },
+      { question: "Qual tipo permite mudanças dinâmicas?", answer: "QUALQUER", points: 5 },
+    ],
   },
   {
-    slug: "strings-em-detalhes",
-    title: "Strings em Detalhes",
+    slug: "strings-em-detalhe",
+    title: "Strings em Detalhe",
     order: 9,
     points: 10,
-    bodyMd: `# Strings in Depth
+    bodyMd: `# Strings em Detalhe
 
-Strings (\`TEXTO\`) are UTF-8 encoded.
+Strings (\`TEXTO\`) são codificadas em UTF-8.
 
-## String Creation
+## Criação de Strings
 
 \`\`\`xs
 CRIA simples = "Hello"
-CRIA com_aspas = 'Aspas simples tambem funcionam'
+CRIA com_aspas = 'Aspas simples também funcionam'
 \`\`\`
 
-## Concatenation
+## Concatenação
 
 \`\`\`xs
-CRIA primeiro = "Joao"
+CRIA primeiro = "João"
 CRIA ultimo = "Silva"
 CRIA completo = primeiro + " " + ultimo
-SOLTA O GRITO(completo)  // Joao Silva
+SOLTA O GRITO(completo)  // João Silva
 \`\`\`
 
-## String Methods
+## Métodos de String
 
 \`\`\`xs
-CRIA texto = "  XanaScript e Incrivel!  "
+CRIA texto = "  XanaScript é Incrível!  "
 tamanho(texto)    // length
 maiusculo(texto)  // uppercase
 minusculo(texto)  // lowercase
 aparado(texto)    // trim
-substituir(texto, "e", "eh")  // replace
+substituir(texto, "é", "eh")  // replace
 \`\`\`
 
-## Interpolation
+## Interpolação
 
-Use \`+\` to interpolate values into strings. Strings in XanaScript are immutable — methods return new strings.`,
+Use \`+\` para interpolar valores em strings. Strings em XanaScript são imutáveis — métodos retornam novas strings.`,
     challenges: [
-      { question: "What operator concatenates strings?", answer: "+", points: 3 },
-      { question: "What method returns string length?", answer: "tamanho", points: 3 },
-      { question: "What method converts a string to uppercase?", answer: "maiusculo", points: 3 },
-],
+      { question: "Qual operador concatena strings?", answer: "+", points: 3 },
+      { question: "Qual método retorna o tamanho da string?", answer: "tamanho", points: 3 },
+      { question: "Qual método converte uma string para maiúsculas?", answer: "maiusculo", points: 3 },
+    ],
   },
   {
-    slug: "numeros-em-detalhes",
-    title: "Numeros em Detalhes",
+    slug: "numeros-em-detalhe",
+    title: "Números em Detalhe",
     order: 10,
     points: 10,
-    bodyMd: `# Numbers in Depth
+    bodyMd: `# Números em Detalhe
 
-Numbers (\`NUMERO\`) cover both integers and floating-point. Values are 64-bit floats (IEEE 754).
+Números (\`NUMERO\`) cobrem tanto inteiros quanto ponto flutuante. Valores são floats de 64 bits (IEEE 754).
 
-## Integer Literals
+## Literais Inteiros
 
 \`\`\`xs
 CRIA a = 42
 CRIA b = -17
 CRIA c = 0
-CRIA d = 1_000_000  // underscores for readability
+CRIA d = 1_000_000  // sublinhados para legibilidade
 \`\`\`
 
-## Floating-Point
+## Ponto Flutuante
 
 \`\`\`xs
 CRIA pi = 3.14159
 CRIA pequeno = 0.001
-CRIA grande = 1.5e6  // scientific notation
+CRIA grande = 1.5e6  // notação científica
 \`\`\`
 
-## Arithmetic Operators
+## Operadores Aritméticos
 
 \`\`\`xs
 +   -   *   /   %   **
 \`\`\`
 
-## Increment / Decrement
+## Incremento / Decremento
 
 \`\`\`xs
 CRIA c = 0
@@ -436,7 +435,7 @@ c++  // 1
 c--  // 0
 \`\`\`
 
-## Compound Assignment
+## Atribuição Composta
 
 \`\`\`xs
 x += 5   // x = x + 5
@@ -445,23 +444,23 @@ x *= 2   // x = x * 2
 x /= 4   // x = x / 4
 \`\`\``,
     challenges: [
-      { question: "What operator computes the remainder of division?", answer: "%", points: 3 },
-      { question: "What is the exponentiation operator?", answer: "**", points: 3 },
-      { question: "What does x += 5 do?", answer: "adds 5 to x", points: 3 },
-],
+      { question: "Qual operador calcula o resto da divisão?", answer: "%", points: 3 },
+      { question: "Qual é o operador de exponenciação?", answer: "**", points: 3 },
+      { question: "O que x += 5 faz?", answer: "adiciona 5 a x", points: 3 },
+    ],
   },
   {
     slug: "booleanos",
     title: "Booleanos",
     order: 11,
     points: 5,
-    bodyMd: `# Booleans
+    bodyMd: `# Booleanos
 
-Booleans (\`BOOLEANO\`) represent truth values: \`VERDADEIRO\` (true) and \`FALSO\` (false).
+Booleanos (\`BOOLEANO\`) representam valores verdadeiros: \`VERDADEIRO\` (true) e \`FALSO\` (false).
 
-## Logical Operators
+## Operadores Lógicos
 
-Portuguese words for logical operations:
+Palavras em português para operações lógicas:
 
 \`\`\`xs
 CRIA e = a E b     // AND
@@ -469,41 +468,41 @@ CRIA ou = a OU b   // OR
 CRIA nao = NAO a   // NOT
 \`\`\`
 
-## Comparison Operators
+## Operadores de Comparação
 
 \`\`\`xs
 ==   !=   >   <   >=   <=
 \`\`\`
 
-## Truthy and Falsy
+## Truthy e Falsy
 
-Falsy values: \`FALSO\`, \`0\`, \`""\`, \`null\`, \`undefined\`, \`NaN\`. Everything else is truthy.
+Valores falsy: \`FALSO\`, \`0\`, \`""\`, \`null\`, \`undefined\`, \`NaN\`. Todo o resto é truthy.
 
 \`\`\`xs
 SE LIGA SO ("") {
-  // won't execute
+  // não executa
 } SENAO {
   SOLTA O GRITO("Falsy!")
 }
 \`\`\``,
     challenges: [
-      { question: "What is the keyword for boolean true?", answer: "VERDADEIRO", points: 3 },
-      { question: "What keyword represents logical AND?", answer: "E", points: 3 },
-      { question: "What keyword represents logical NOT?", answer: "NAO", points: 3 },
-],
+      { question: "Qual é a palavra-chave para booleano verdadeiro?", answer: "VERDADEIRO", points: 3 },
+      { question: "Qual palavra-chave representa AND lógico?", answer: "E", points: 3 },
+      { question: "Qual palavra-chave representa NOT lógico?", answer: "NAO", points: 3 },
+    ],
   },
   {
     slug: "nulo-e-indefinido",
     title: "Nulo e Indefinido",
     order: 12,
     points: 5,
-    bodyMd: `# Null and Undefined
+    bodyMd: `# Nulo e Indefinido
 
-Two special values for "no value".
+Dois valores especiais para "sem valor".
 
 ## Null
 
-\`null\` represents an intentional absence of value:
+\`null\` representa uma ausência intencional de valor:
 
 \`\`\`xs
 CRIA resultado = null
@@ -514,55 +513,55 @@ SE LIGA SO (resultado == null) {
 
 ## Undefined
 
-\`undefined\` means a variable has no assigned value:
+\`undefined\` significa que uma variável não tem valor atribuído:
 
 \`\`\`xs
 CRIA x  // undefined
 \`\`\`
 
-## Nullish Coalescing
+## Coalescência Nula
 
-\`??\` provides a default when value is null or undefined:
+\`??\` fornece um valor padrão quando o valor é nulo ou undefined:
 
 \`\`\`xs
 CRIA nome = usuario ?? "Convidado"
 \`\`\`
 
-| Value | Meaning |
-|-------|---------|
-| null | Intentional empty |
-| undefined | Uninitialized |`,
+| Valor | Significado |
+|-------|-------------|
+| null | Vazio intencional |
+| undefined | Não inicializado |`,
     challenges: [
-      { question: "What value represents an intentional empty value?", answer: "null", points: 3 },
-      { question: "What operator provides a default for null/undefined?", answer: "??", points: 3 },
-      { question: "Difference between null and undefined?", answer: "null is intentional, undefined is uninitialized", points: 5 },
-],
+      { question: "Qual valor representa um valor vazio intencional?", answer: "null", points: 3 },
+      { question: "Qual operador fornece um padrão para null/undefined?", answer: "??", points: 3 },
+      { question: "Diferença entre null e undefined?", answer: "null é intencional, undefined é não inicializado", points: 5 },
+    ],
   },
   {
     slug: "conversao-de-tipos",
-    title: "Conversao de Tipos",
+    title: "Conversão de Tipos",
     order: 13,
     points: 10,
-    bodyMd: `# Type Conversion
+    bodyMd: `# Conversão de Tipos
 
-Built-in functions for converting between types.
+Funções nativas para converter entre tipos.
 
-## To Number
+## Para Número
 
 \`\`\`xs
 CRIA n = NUMERO("42")      // 42
 CRIA pi = NUMERO("3.14")   // 3.14
-CRIA falha = NUMERO("x")   // 0 on failure
+CRIA falha = NUMERO("x")   // 0 em caso de falha
 \`\`\`
 
-## To String
+## Para String
 
 \`\`\`xs
 CRIA s = TEXTO(42)             // "42"
 CRIA b = TEXTO(VERDADEIRO)     // "VERDADEIRO"
 \`\`\`
 
-## To Boolean
+## Para Booleano
 
 \`\`\`xs
 CRIA b1 = BOOLEANO("texto")   // VERDADEIRO
@@ -571,75 +570,75 @@ CRIA b3 = BOOLEANO(42)        // VERDADEIRO
 CRIA b4 = BOOLEANO(0)         // FALSO
 \`\`\`
 
-## Implicit Conversion
+## Conversão Implícita
 
-Numeric strings are implicitly converted in arithmetic contexts.`,
+Strings numéricas são convertidas implicitamente em contextos aritméticos.`,
     challenges: [
-      { question: "What function converts a value to a number?", answer: "NUMERO()", points: 3 },
-      { question: "What function converts a value to a string?", answer: "TEXTO()", points: 3 },
-      { question: "What does BOOLEANO(0) return?", answer: "FALSO", points: 3 },
-],
+      { question: "Qual função converte um valor para número?", answer: "NUMERO()", points: 3 },
+      { question: "Qual função converte um valor para string?", answer: "TEXTO()", points: 3 },
+      { question: "O que BOOLEANO(0) retorna?", answer: "FALSO", points: 3 },
+    ],
   },
   {
     slug: "operadores",
     title: "Operadores",
     order: 14,
     points: 10,
-    bodyMd: `# Operators
+    bodyMd: `# Operadores
 
-A full set of operators for arithmetic, comparison, logic, and assignment.
+Um conjunto completo de operadores para aritmética, comparação, lógica e atribuição.
 
-## Arithmetic
+## Aritméticos
 
 \`\`\`xs
 +   -   *   /   %   **
 \`\`\`
 
-## Comparison
+## Comparação
 
 \`\`\`xs
 ==   !=   >   <   >=   <=
 \`\`\`
 
-## Logical
+## Lógicos
 
 \`\`\`xs
 E   OU   NAO   !
 \`\`\`
 
-## Assignment
+## Atribuição
 
 \`\`\`xs
 =   +=   -=   *=   /=   %=
 \`\`\`
 
-## Nullish Coalescing
+## Coalescência Nula
 
-\`??\` returns the left side if it is not null/undefined, otherwise the right side.
+\`??\` retorna o lado esquerdo se não for null/undefined, caso contrário o lado direito.
 
-## Unary
+## Unários
 
 \`\`\`xs
 -x   +x   !x   x++   x--
 \`\`\``,
     challenges: [
-      { question: "What is the modulo operator?", answer: "%", points: 3 },
-      { question: "What three Portuguese words are used for logical operators?", answer: "E OU NAO", points: 3 },
-      { question: "What does \"x ?? y\" do?", answer: "returns x if x is not null/undefined, otherwise y", points: 5 },
-],
+      { question: "Qual é o operador de módulo?", answer: "%", points: 3 },
+      { question: "Quais três palavras em português são usadas para operadores lógicos?", answer: "E OU NAO", points: 3 },
+      { question: "O que \"x ?? y\" faz?", answer: "retorna x se x não for null/undefined, senão y", points: 5 },
+    ],
   },
   {
     slug: "precedencia-de-operadores",
-    title: "Precedencia de Operadores",
+    title: "Precedência de Operadores",
     order: 15,
     points: 5,
-    bodyMd: `# Operator Precedence
+    bodyMd: `# Precedência de Operadores
 
-Determines evaluation order in expressions (highest to lowest):
+Determina a ordem de avaliação em expressões (da maior para a menor):
 
-| Level | Operators |
-|-------|-----------|
-| 1 | \`()\` grouping |
+| Nível | Operadores |
+|-------|------------|
+| 1 | \`()\` agrupamento |
 | 2 | \`**\` |
 | 3 | \`!\` \`NAO\` \`++\` \`--\` |
 | 4 | \`*\` \`/\` \`%\` |
@@ -651,31 +650,31 @@ Determines evaluation order in expressions (highest to lowest):
 | 10 | \`??\` |
 | 11 | \`=\` \`+=\` \`-=\` |
 
-## Examples
+## Exemplos
 
 \`\`\`xs
-2 + 3 * 4      // 14 (not 20)
+2 + 3 * 4      // 14 (não 20)
 (2 + 3) * 4    // 20
 VERDADEIRO OU FALSO E FALSO  // VERDADEIRO
 2 ** 3 ** 2    // 512 (2 ** 9)
 \`\`\`
 
-Use parentheses to clarify intent.`,
+Use parênteses para esclarecer a intenção.`,
     challenges: [
-      { question: "What is the result of \"2 + 3 * 4\"?", answer: "14", points: 3 },
-      { question: "Which has higher precedence: E or OU?", answer: "E", points: 3 },
-],
+      { question: "Qual é o resultado de \"2 + 3 * 4\"?", answer: "14", points: 3 },
+      { question: "Qual tem maior precedência: E ou OU?", answer: "E", points: 3 },
+    ],
   },
   {
     slug: "se-liga-so",
-    title: "SE LIGA SO (Instrucoes If)",
+    title: "SE LIGA SO (If Statements)",
     order: 16,
     points: 10,
     bodyMd: `# SE LIGA SO — If Statements
 
-\`SE LIGA SO\` ("pay attention") is XanaScript's \`if\` statement.
+\`SE LIGA SO\` ("preste atenção") é a instrução \`if\` do XanaScript.
 
-## Basic Syntax
+## Sintaxe Básica
 
 \`\`\`xs
 SE LIGA SO (idade >= 18) {
@@ -683,9 +682,7 @@ SE LIGA SO (idade >= 18) {
 }
 \`\`\`
 
-Conditions in parentheses, body in curly braces.
-
-## Compound Conditions
+## Condições Compostas
 
 \`\`\`xs
 SE LIGA SO (nota >= 70 E presenca >= 0.75) {
@@ -693,7 +690,7 @@ SE LIGA SO (nota >= 70 E presenca >= 0.75) {
 }
 \`\`\`
 
-## Nested
+## Aninhadas
 
 \`\`\`xs
 SE LIGA SO (logado) {
@@ -703,22 +700,22 @@ SE LIGA SO (logado) {
 }
 \`\`\`
 
-Always use curly braces even for single statements.`,
+Sempre use chaves mesmo para instruções únicas.`,
     challenges: [
-      { question: "What keyword starts an if statement in XanaScript?", answer: "SE LIGA SO", points: 3 },
-      { question: "Must the condition be wrapped in parentheses?", answer: "yes", points: 3 },
-],
+      { question: "Qual palavra-chave inicia um if em XanaScript?", answer: "SE LIGA SO", points: 3 },
+      { question: "A condição deve estar entre parênteses?", answer: "sim", points: 3 },
+    ],
   },
   {
     slug: "senao",
-    title: "SENAO (Clausulas Else)",
+    title: "SENAO (Else Clauses)",
     order: 17,
     points: 10,
     bodyMd: `# SENAO — Else Clauses
 
-\`SENAO\` ("otherwise") provides the alternative branch.
+\`SENAO\` ("senão") fornece o ramo alternativo.
 
-## Basic Syntax
+## Sintaxe Básica
 
 \`\`\`xs
 SE LIGA SO (idade >= 18) {
@@ -728,7 +725,7 @@ SE LIGA SO (idade >= 18) {
 }
 \`\`\`
 
-## Guard Pattern
+## Padrão de Guarda
 
 \`\`\`xs
 CHAMA ESSE CARA dividir(a, b) {
@@ -740,22 +737,22 @@ CHAMA ESSE CARA dividir(a, b) {
 }
 \`\`\`
 
-The \`SENAO\` branch runs only when the condition is false, providing a complete fork in program flow.`,
+O ramo \`SENAO\` executa apenas quando a condição é falsa.`,
     challenges: [
-      { question: "What keyword represents else in XanaScript?", answer: "SENAO", points: 3 },
-      { question: "When does the SENAO branch execute?", answer: "when the if condition is false", points: 3 },
-],
+      { question: "Qual palavra-chave representa else em XanaScript?", answer: "SENAO", points: 3 },
+      { question: "Quando o ramo SENAO executa?", answer: "quando a condição if é falsa", points: 3 },
+    ],
   },
   {
     slug: "senao-se",
-    title: "SENAO SE (Cadeias Else If)",
+    title: "SENAO SE (Else If Chains)",
     order: 18,
     points: 10,
     bodyMd: `# SENAO SE — Else If Chains
 
-\`SENAO SE\` ("otherwise if") chains multiple conditions.
+\`SENAO SE\` ("senão se") encadeia múltiplas condições.
 
-## Grade Example
+## Exemplo de Notas
 
 \`\`\`xs
 SE LIGA SO (nota >= 90) {
@@ -769,7 +766,7 @@ SE LIGA SO (nota >= 90) {
 }
 \`\`\`
 
-## Tax Example
+## Exemplo de Imposto
 
 \`\`\`xs
 SE LIGA SO (renda <= 2000) {
@@ -781,23 +778,23 @@ SE LIGA SO (renda <= 2000) {
 }
 \`\`\`
 
-Conditions are evaluated top-to-bottom. First match executes. Final SENAO is optional.`,
+Condições são avaliadas de cima para baixo. A primeira correspondente executa.`,
     challenges: [
-      { question: "What keyword starts an else-if branch?", answer: "SENAO SE", points: 3 },
-      { question: "How many branches execute in an if-else if chain?", answer: "one", points: 3 },
-      { question: "Is the final SENAO branch required?", answer: "no", points: 3 },
-],
+      { question: "Qual palavra-chave inicia um else-if?", answer: "SENAO SE", points: 3 },
+      { question: "Quantos ramos executam em uma cadeia if-else?", answer: "um", points: 3 },
+      { question: "O ramo SENAO final é obrigatório?", answer: "não", points: 3 },
+    ],
   },
   {
-    slug: "condicionais-aninhados",
-    title: "Condicionais Aninhados",
+    slug: "condicionais-aninhadas",
+    title: "Condicionais Aninhadas",
     order: 19,
     points: 10,
-    bodyMd: `# Nested Conditionals
+    bodyMd: `# Condicionais Aninhadas
 
-Place \`SE LIGA SO\` inside other \`SE LIGA SO\` blocks.
+Coloque \`SE LIGA SO\` dentro de outros blocos \`SE LIGA SO\`.
 
-## Example
+## Exemplo
 
 \`\`\`xs
 SE LIGA SO (logado) {
@@ -811,9 +808,9 @@ SE LIGA SO (logado) {
 }
 \`\`\`
 
-## Avoid Deep Nesting
+## Evite Aninhamento Profundo
 
-Use early returns to flatten code:
+Use retornos antecipados para achatar:
 
 \`\`\`xs
 SE LIGA SO (idade < 18) { VOLTA FALSO }
@@ -821,35 +818,35 @@ SE LIGA SO (!carteira) { VOLTA FALSO }
 VOLTA VERDADEIRO
 \`\`\`
 
-Indent each level by 2 spaces. Keep nesting to 3 levels or less.`,
+Mantenha o aninhamento em 3 níveis ou menos.`,
     challenges: [
-      { question: "What technique avoids deep nesting?", answer: "early returns", points: 3 },
-      { question: "How many levels of nesting is recommended maximum?", answer: "3", points: 5 },
-],
+      { question: "Qual técnica evita aninhamento profundo?", answer: "retornos antecipados", points: 3 },
+      { question: "Quantos níveis de aninhamento são recomendados no máximo?", answer: "3", points: 5 },
+    ],
   },
   {
     slug: "expressoes-ternarias",
-    title: "Expressoes Ternarias/Condicionais",
+    title: "Expressões Ternárias",
     order: 20,
     points: 10,
-    bodyMd: `# Ternary/Conditional Expressions
+    bodyMd: `# Expressões Ternárias
 
-Inline conditional using \`? :\`.
+Condicional inline usando \`? :\`.
 
-## Syntax
+## Sintaxe
 
 \`\`\`xs
 condicao ? valor_se_verdadeiro : valor_se_falso
 \`\`\`
 
-## Examples
+## Exemplos
 
 \`\`\`xs
 CRIA status = (idade >= 18) ? "Adulto" : "Menor"
 CRIA taxa = (renda > 5000) ? 0.3 : 0.15
 \`\`\`
 
-## Chained Ternary
+## Ternário Encadeado
 
 \`\`\`xs
 CRIA nota = (n >= 90) ? "A" :
@@ -857,24 +854,24 @@ CRIA nota = (n >= 90) ? "A" :
             (n >= 70) ? "C" : "F"
 \`\`\`
 
-Ternary is an **expression** (returns a value). If/else is a **statement**.
+Ternário é uma **expressão** (retorna valor). If/else é uma **instrução**.
 
-Use for simple binary choices. Avoid deep chaining.`,
+Use para escolhas binárias simples. Evite encadeamento profundo.`,
     challenges: [
-      { question: "What operator creates a conditional expression?", answer: "? :", points: 3 },
-      { question: "Is ternary an expression or a statement?", answer: "expression", points: 5 },
-],
+      { question: "Qual operador cria uma expressão condicional?", answer: "? :", points: 3 },
+      { question: "Ternário é expressão ou instrução?", answer: "expressão", points: 5 },
+    ],
   },
   {
     slug: "combina-basico",
-    title: "COMBINA Basico (Switch/Match)",
+    title: "COMBINA Básico (Switch/Match)",
     order: 21,
     points: 10,
-    bodyMd: `# COMBINA Basics
+    bodyMd: `# COMBINA Básico
 
-\`COMBINA\` is pattern matching, similar to \`switch\`/\`match\`.
+\`COMBINA\` é pattern matching, similar a \`switch\`/\`match\`.
 
-## Basic Syntax
+## Sintaxe Básica
 
 \`\`\`xs
 COMBINA (fruta) {
@@ -884,7 +881,7 @@ COMBINA (fruta) {
 }
 \`\`\`
 
-## Returning Values
+## Retornando Valores
 
 \`\`\`xs
 CRIA msg = COMBINA (fruta) {
@@ -893,30 +890,30 @@ CRIA msg = COMBINA (fruta) {
 }
 \`\`\`
 
-## Multiple Values per Case
+## Múltiplos Valores por Caso
 
 \`\`\`xs
 CASO 301, 302 => "Redirect"
-CASO 400, 401, 403 => "Client Error"
+CASO 400, 401, 403 => "Erro de Cliente"
 \`\`\`
 
-Each arm returns a value. Wildcard \`_\` matches anything.`,
+Cada braço retorna um valor. O wildcard \`_\` corresponde a qualquer coisa.`,
     challenges: [
-      { question: "What keyword starts pattern matching in XanaScript?", answer: "COMBINA", points: 3 },
-      { question: "What keyword defines a case?", answer: "CASO", points: 3 },
-      { question: "What character is the wildcard?", answer: "_", points: 3 },
-],
+      { question: "Qual palavra-chave inicia pattern matching?", answer: "COMBINA", points: 3 },
+      { question: "Qual palavra-chave define um caso?", answer: "CASO", points: 3 },
+      { question: "Qual caractere é o wildcard?", answer: "_", points: 3 },
+    ],
   },
   {
-    slug: "combina-com-intervalos",
+    slug: "combina-intervalos",
     title: "COMBINA com Intervalos",
     order: 22,
     points: 10,
-    bodyMd: `# COMBINA with Ranges
+    bodyMd: `# COMBINA com Intervalos
 
-Use comparison operators in \`CASO\` arms.
+Use operadores de comparação em braços \`CASO\`.
 
-## Numeric Ranges
+## Intervalos Numéricos
 
 \`\`\`xs
 COMBINA (nota) {
@@ -928,36 +925,36 @@ COMBINA (nota) {
 }
 \`\`\`
 
-## Order Matters
+## Ordem Importa
 
-Specific ranges must come first:
+Intervalos específicos devem vir primeiro:
 
 \`\`\`xs
-// Correct
+// Correto
 CASO >= 90 => "A"
 CASO >= 80 => "B"
 
-// Wrong: 90 never matches
-CASO >= 80 => "B"   // matches 80-100
-CASO >= 90 => "A"   // unreachable!
+// Errado: 90 nunca corresponde
+CASO >= 80 => "B"   // corresponde 80-100
+CASO >= 90 => "A"   // inalcançável!
 \`\`\`
 
-Range matching makes COMBINA far more expressive than traditional switch statements.`,
+COMBINA com intervalos é muito mais expressivo que switch tradicional.`,
     challenges: [
-      { question: "Can COMBINA use comparison operators like >= in CASO arms?", answer: "yes", points: 3 },
-      { question: "What happens if a broader range comes before a narrower one?", answer: "the narrower case becomes unreachable", points: 5 },
-],
+      { question: "COMBINA pode usar operadores de comparação como >= em CASO?", answer: "sim", points: 3 },
+      { question: "O que acontece se um intervalo amplo vem antes de um restrito?", answer: "o caso restrito se torna inalcançável", points: 5 },
+    ],
   },
   {
-    slug: "combina-curingas",
-    title: "COMBINA Curingas (_)",
+    slug: "combina-wildcards",
+    title: "COMBINA Wildcards (_)",
     order: 23,
     points: 5,
     bodyMd: `# COMBINA Wildcards
 
-The underscore \`_\` matches any value.
+O sublinhado \`_\` corresponde a qualquer valor.
 
-## Default Case
+## Caso Padrão
 
 \`\`\`xs
 COMBINA (valor) {
@@ -966,35 +963,35 @@ COMBINA (valor) {
 }
 \`\`\`
 
-## Non-Exhaustive Warning
+## Aviso de Não-Exaustão
 
-Without wildcard, you get a warning:
+Sem wildcard, você recebe um aviso:
 
 \`\`\`xs
 COMBINA (cor) {
   CASO "azul" => "Blue"
-  // Warning: non-exhaustive pattern!
+  // Aviso: padrão não-exaustivo!
 }
 \`\`\`
 
-## Placement
+## Posicionamento
 
-The wildcard must be the **last** arm because it matches everything. Always include a \`_\` wildcard to handle unexpected values gracefully.`,
+O wildcard deve ser o **último** braço porque corresponde a tudo.`,
     challenges: [
-      { question: "What character is the wildcard in COMBINA?", answer: "_", points: 3 },
-      { question: "Where must the wildcard be placed?", answer: "last", points: 3 },
-],
+      { question: "Qual caractere é o wildcard no COMBINA?", answer: "_", points: 3 },
+      { question: "Onde o wildcard deve ser colocado?", answer: "último", points: 3 },
+    ],
   },
   {
-    slug: "combina-expressoes",
-    title: "COMBINA Expressoes (Retornando Valores)",
+    slug: "expressoes-combina",
+    title: "Expressões COMBINA (Retornando Valores)",
     order: 24,
     points: 10,
-    bodyMd: `# COMBINA Expressions
+    bodyMd: `# Expressões COMBINA
 
-COMBINA is an expression, not just a statement.
+COMBINA é uma expressão, não apenas uma instrução.
 
-## Expression Form
+## Forma de Expressão
 
 \`\`\`xs
 CRIA r = COMBINA (x) {
@@ -1004,17 +1001,17 @@ CRIA r = COMBINA (x) {
 }
 \`\`\`
 
-All arms should return the same type:
+Todos os braços devem retornar o mesmo tipo:
 
 \`\`\`xs
 CRIA msg = COMBINA (cod) {
   CASO 200 => "OK"
-  CASO 404 => "Not Found"
-  CASO _ => "Unknown"
+  CASO 404 => "Nao Encontrado"
+  CASO _ => "Desconhecido"
 }
 \`\`\`
 
-## In Function Returns
+## Em Retornos de Função
 
 \`\`\`xs
 CHAMA ESSE CARA tipoDia(d) {
@@ -1026,74 +1023,74 @@ CHAMA ESSE CARA tipoDia(d) {
 }
 \`\`\`
 
-Using COMBINA as expression leads to more declarative code.`,
+Usar COMBINA como expressão leva a código mais declarativo.`,
     challenges: [
-      { question: "Is COMBINA a statement or an expression?", answer: "expression", points: 3 },
-      { question: "What should all arms of a COMBINA expression return?", answer: "the same type", points: 3 },
-],
+      { question: "COMBINA é instrução ou expressão?", answer: "expressão", points: 3 },
+      { question: "O que todos os braços de uma expressão COMBINA devem retornar?", answer: "o mesmo tipo", points: 3 },
+    ],
   },
   {
     slug: "avaliacao-de-curto-circuito",
-    title: "Avaliacao de Curto-Circuito",
+    title: "Avaliação de Curto-Circuito",
     order: 25,
     points: 5,
-    bodyMd: `# Short-Circuit Evaluation
+    bodyMd: `# Avaliação de Curto-Circuito
 
-Right operand only evaluated if necessary.
+O operando direito só é avaliado se necessário.
 
-## AND (\`E\`) Short-Circuit
+## E (\`E\`) Curto-Circuito
 
-If left is \`FALSO\`, right is skipped:
+Se o esquerdo é \`FALSO\`, o direito é ignorado:
 
 \`\`\`xs
 SE LIGA SO (user != null E user.ativo) {
-  // safe: right side skipped when null
+  // seguro: lado direito ignorado quando null
 }
 \`\`\`
 
-## OR (\`OU\`) Short-Circuit
+## OU (\`OU\`) Curto-Circuito
 
-If left is \`VERDADEIRO\`, right is skipped:
+Se o esquerdo é \`VERDADEIRO\`, o direito é ignorado:
 
 \`\`\`xs
 CRIA nome = user OU "Convidado"
 \`\`\`
 
-## Practical Patterns
+## Padrões Práticos
 
 \`\`\`xs
-// Guard against null
+// Proteção contra null
 CRIA email = user E user.email
 
-// Default value
+// Valor padrão
 CRIA display = nome OU "Visitante"
 
-// Early exit
+// Saída antecipada
 SE LIGA SO (!dados OU !dados.nome) { VOLTA FALSO }
 \`\`\``,
     challenges: [
-      { question: "What happens in E if the left operand is FALSO?", answer: "the right operand is not evaluated", points: 3 },
-      { question: "What operator would you use for a default value pattern?", answer: "OU", points: 3 },
-],
+      { question: "O que acontece em E se o operando esquerdo é FALSO?", answer: "o operando direito não é avaliado", points: 3 },
+      { question: "Qual operador usaria para valor padrão?", answer: "OU", points: 3 },
+    ],
   },
   {
     slug: "tipo-numero",
     title: "Tipo: NUMERO",
     order: 26,
     points: 5,
-    bodyMd: `# Type: NUMERO
+    bodyMd: `# Tipo: NUMERO
 
-All numbers in XanaScript are of type \`NUMERO\` — both integers and floats.
+Todos os números em XanaScript são do tipo \`NUMERO\` — inteiros e floats.
 
-## Integer Literals
+## Literais Inteiros
 
 \`\`\`xs
 CRIA x = 42
 CRIA y = -10
-CRIA z = 1_000_000  // underscores for readability
+CRIA z = 1_000_000  // underscores para legibilidade
 \`\`\`
 
-## Float Literals
+## Literais Float
 
 \`\`\`xs
 CRIA pi = 3.14159
@@ -1101,92 +1098,92 @@ CRIA avogadro = 6.022e23
 CRIA negativo = -0.001
 \`\`\`
 
-## Type Information
+## Informação de Tipo
 
-Use \`TIPO()\` to inspect the type:
+Use \`TIPO()\` para inspecionar o tipo:
 
 \`\`\`xs
 SOLTA O GRITO(TIPO(42))      // NUMERO
 SOLTA O GRITO(TIPO(3.14))    // NUMERO
 \`\`\`
 
-## Operators
+## Operadores
 
-\`+\`, \`-\`, \`*\`, \`/\`, \`%\` work with \`NUMERO\`. Division always returns a float.
+\`+\`, \`-\`, \`*\`, \`/\`, \`%\` funcionam com \`NUMERO\`. Divisão sempre retorna float.
 
 \`\`\`xs
 CRIA a = 10 / 3   // 3.333...
-CRIA b = 10 // 3  // 3 (integer division)
+CRIA b = 10 // 3  // 3 (divisão inteira)
 \`\`\`
 
-\`//\` performs integer division (floor).`,
+\`//\` executa divisão inteira (piso).`,
     challenges: [
-      { question: "What type are all numbers in XanaScript?", answer: "NUMERO", points: 3 },
-      { question: "What operator performs integer division?", answer: "//", points: 5 },
-      { question: "What function inspects a values type?", answer: "TIPO", points: 3 },
-],
+      { question: "Qual o tipo de todos os números em XanaScript?", answer: "NUMERO", points: 3 },
+      { question: "Qual operador faz divisão inteira?", answer: "//", points: 5 },
+      { question: "Qual função inspeciona o tipo de um valor?", answer: "TIPO", points: 3 },
+    ],
   },
   {
     slug: "tipo-texto",
     title: "Tipo: TEXTO",
     order: 27,
     points: 5,
-    bodyMd: `# Type: TEXTO
+    bodyMd: `# Tipo: TEXTO
 
-Strings in XanaScript use double quotes and are type \`TEXTO\`.
+Strings em XanaScript usam aspas duplas e são do tipo \`TEXTO\`.
 
-## String Literals
+## Literais de String
 
 \`\`\`xs
 CRIA nome = "Maria"
 CRIA frase = "Ola, mundo!"
 \`\`\`
 
-## Escape Sequences
+## Sequências de Escape
 
 \`\`\`xs
-CRIA s = "Linha 1\nLinha 2"  // newline
+CRIA s = "Linha 1\nLinha 2"  // nova linha
 CRIA t = "Tab\taqui"          // tab
-CRIA q = "Ela disse \"Oi\""   // quote
+CRIA q = "Ela disse \"Oi\""   // aspas
 \`\`\`
 
-## Interpolation
+## Interpolação
 
 \`\`\`xs
 CRIA nome = "Joao"
 CRIA saudacao = "Ola, \${nome}!"  // "Ola, Joao!"
 \`\`\`
 
-## Operators
+## Operadores
 
-- \`+\`: concatenation
-- \`*\`: repetition (\`"Ha" * 3\` → \`"HaHaHa"\`)
-- \`[]\`: indexing (\`"abc"[1]\` → \`"b"\`)
-- \`[::]\`: slicing (\`"abcdef"[1:4]\` → \`"bcd"\`)`,
+- \`+\`: concatenação
+- \`*\`: repetição (\`"Ha" * 3\` → \`"HaHaHa"\`)
+- \`[]\`: indexação (\`"abc"[1]\` → \`"b"\`)
+- \`[::]\`: fatiamento (\`"abcdef"[1:4]\` → \`"bcd"\`)`,
     challenges: [
-      { question: "What type name represents strings in XanaScript?", answer: "TEXTO", points: 3 },
-      { question: "How do you interpolate a variable into a string?", answer: "${variable}", points: 3 },
-      { question: "What does \"abc\" * 3 evaluate to?", answer: "abcabcabc", points: 5 },
-],
+      { question: "Qual nome de tipo representa strings em XanaScript?", answer: "TEXTO", points: 3 },
+      { question: "Como interpolar uma variável em uma string?", answer: "\${variavel}", points: 3 },
+      { question: "O que \"abc\" * 3 resulta?", answer: "abcabcabc", points: 5 },
+    ],
   },
   {
     slug: "tipo-booleano",
     title: "Tipo: BOOLEANO",
     order: 28,
     points: 5,
-    bodyMd: `# Type: BOOLEANO
+    bodyMd: `# Tipo: BOOLEANO
 
-Booleans represent logical truth values.
+Booleanos representam valores lógicos de verdade.
 
-## Values
+## Valores
 
 - \`VERDADEIRO\` (true)
 - \`FALSO\` (false)
 
-## Logical Operators
+## Operadores Lógicos
 
-| Operator | Meaning |
-|----------|--------|
+| Operador | Significado |
+|----------|-------------|
 | \`E\` | AND |
 | \`OU\` | OR |
 | \`!\` | NOT |
@@ -1194,30 +1191,30 @@ Booleans represent logical truth values.
 
 ## Truthy/Falsy
 
-Only \`FALSO\`, \`0\`, and empty strings are falsy. Everything else is truthy.
+Apenas \`FALSO\`, \`0\` e strings vazias são falsy. Todo o resto é truthy.
 
 \`\`\`xs
-SE LIGA SO ("")   { SOLTA O GRITO("falsy") }   // runs
-SE LIGA SO (" ")  { SOLTA O GRITO("truthy") }  // runs
-SE LIGA SO (0)    { SOLTA O GRITO("falsy") }   // runs
-SE LIGA SO (1)    { SOLTA O GRITO("truthy") }  // runs
+SE LIGA SO ("")   { SOLTA O GRITO("falsy") }   // executa
+SE LIGA SO (" ")  { SOLTA O GRITO("truthy") }  // executa
+SE LIGA SO (0)    { SOLTA O GRITO("falsy") }   // executa
+SE LIGA SO (1)    { SOLTA O GRITO("truthy") }  // executa
 \`\`\``,
     challenges: [
-      { question: "What are the two boolean values in XanaScript?", answer: "VERDADEIRO and FALSO", points: 3 },
-      { question: "What values are falsy in XanaScript?", answer: "FALSO, 0, and empty string", points: 5 },
-      { question: "What is the XOR operator?", answer: "XOU", points: 3 },
-],
+      { question: "Quais são os dois valores booleanos em XanaScript?", answer: "VERDADEIRO e FALSO", points: 3 },
+      { question: "Quais valores são falsy em XanaScript?", answer: "FALSO, 0 e string vazia", points: 5 },
+      { question: "Qual é o operador XOR?", answer: "XOU", points: 3 },
+    ],
   },
   {
     slug: "tipo-lista",
     title: "Tipo: LISTA",
     order: 29,
     points: 5,
-    bodyMd: `# Type: LISTA
+    bodyMd: `# Tipo: LISTA
 
-Arrays in XanaScript are called \`LISTA\`.
+Arrays em XanaScript são chamados de \`LISTA\`.
 
-## Creating Lists
+## Criando Listas
 
 \`\`\`xs
 CRIA nums = [1, 2, 3, 4, 5]
@@ -1225,44 +1222,42 @@ CRIA vazia = []
 CRIA mista = [1, "dois", VERDADEIRO]
 \`\`\`
 
-## Indexing
+## Indexação
 
-Zero-based, negative indices wrap around:
+Baseado em zero, índices negativos circulam:
 
 \`\`\`xs
 CRIA items = [10, 20, 30, 40]
 SOLTA O GRITO(items[0])    // 10
-SOLTA O GRITO(items[-1])   // 40 (last)
+SOLTA O GRITO(items[-1])   // 40 (último)
 \`\`\`
 
-## Methods
+## Métodos
 
-| Method | Description |
-|--------|-------------|
-| \`lista.empurra(x)\` | Append |
-| \`lista.tira()\` | Pop last |
-| \`lista.tamanho\` | Length |
-| \`lista.mapa(fn)\` | Map |
+| Método | Descrição |
+|--------|-----------|
+| \`lista.empurra(x)\` | Adicionar ao final |
+| \`lista.tira()\` | Remover último |
+| \`lista.tamanho\` | Tamanho |
+| \`lista.mapa(fn)\` | Mapear |
 
-## Mutability
-
-Lists declared with \`CRIA\` are mutable. Use \`CONSTANTE\` for immutable.`,
+Listas declaradas com \`CRIA\` são mutáveis. Use \`CONSTANTE\` para imutável.`,
     challenges: [
-      { question: "How do you access the last element of a list?", answer: "negative index -1", points: 3 },
-      { question: "What method appends to a list?", answer: "empurra", points: 3 },
-      { question: "What property gives the length of a list?", answer: "tamanho", points: 3 },
-],
+      { question: "Como acessar o último elemento de uma lista?", answer: "índice negativo -1", points: 3 },
+      { question: "Qual método adiciona ao final da lista?", answer: "empurra", points: 3 },
+      { question: "Qual propriedade dá o tamanho da lista?", answer: "tamanho", points: 3 },
+    ],
   },
   {
     slug: "tipo-dicionario",
     title: "Tipo: DICIONARIO",
     order: 30,
     points: 5,
-    bodyMd: `# Type: DICIONARIO
+    bodyMd: `# Tipo: DICIONARIO
 
-Dictionaries in XanaScript are key-value maps, type \`DICIONARIO\`.
+Dicionários em XanaScript são mapas chave-valor, tipo \`DICIONARIO\`.
 
-## Creating Dictionaries
+## Criando Dicionários
 
 \`\`\`xs
 CRIA user = {
@@ -1272,22 +1267,22 @@ CRIA user = {
 }
 \`\`\`
 
-## Access
+## Acesso
 
 \`\`\`xs
 SOLTA O GRITO(user["nome"])   // Maria
-SOLTA O GRITO(user.nome)      // Maria (dot notation)
+SOLTA O GRITO(user.nome)      // Maria (notação de ponto)
 \`\`\`
 
-## Mutating
+## Mutação
 
 \`\`\`xs
 user["telefone"] = "1234-5678"
 user.idade = 31
-user.tira("email")            // Remove key
+user.tira("email")            // Remove chave
 \`\`\`
 
-## Iteration
+## Iteração
 
 \`\`\`xs
 PARA CADA (chave EM user) {
@@ -1295,46 +1290,46 @@ PARA CADA (chave EM user) {
 }
 \`\`\`
 
-Keys are always strings. Values can be any type.`,
+Chaves são sempre strings. Valores podem ser qualquer tipo.`,
     challenges: [
-      { question: "What type represents key-value maps?", answer: "DICIONARIO", points: 3 },
-      { question: "Can you use dot notation to access dictionary values?", answer: "yes", points: 3 },
-      { question: "What method removes a key from a dictionary?", answer: "tira", points: 3 },
-],
+      { question: "Qual tipo representa mapas chave-valor?", answer: "DICIONARIO", points: 3 },
+      { question: "Pode usar notação de ponto para acessar valores?", answer: "sim", points: 3 },
+      { question: "Qual método remove uma chave?", answer: "tira", points: 3 },
+    ],
   },
   {
     slug: "tipo-opcional",
     title: "Tipo: OPCIONAL",
     order: 31,
     points: 5,
-    bodyMd: `# Type: OPCIONAL
+    bodyMd: `# Tipo: OPCIONAL
 
-Optional types handle nullable values safely.
+Tipos opcionais lidam com valores anuláveis de forma segura.
 
-## Declaration
+## Declaração
 
-Use \`?\` suffix for optional types:
+Use sufixo \`?\` para tipos opcionais:
 
 \`\`\`xs
 CRIA nome: TEXTO? = null
 CRIA idade: NUMERO? = 25
 \`\`\`
 
-## Safe Access
+## Acesso Seguro
 
-Use \`??\` for default values:
+Use \`??\` para valores padrão:
 
 \`\`\`xs
 CRIA display = nome ?? "Visitante"
 \`\`\`
 
-## Optional Chaining
+## Encadeamento Opcional
 
-Use \`?.\` for safe property access:
+Use \`?.\` para acesso seguro a propriedades:
 
 \`\`\`xs
 CRIA cidade = user?.endereco?.cidade
-// null if any chain part is null
+// null se qualquer parte da cadeia for null
 \`\`\`
 
 ## Pattern Matching
@@ -1346,70 +1341,70 @@ COMBINA (valor) {
 }
 \`\`\`
 
-Optionals prevent null reference errors at compile time.`,
+Optionals previnem erros de referência nula em tempo de compilação.`,
     challenges: [
-      { question: "What suffix makes a type optional?", answer: "?", points: 3 },
-      { question: "What operator provides a default for null?", answer: "??", points: 3 },
-      { question: "What operator provides safe property access?", answer: "?.", points: 5 },
-],
+      { question: "Qual sufixo torna um tipo opcional?", answer: "?", points: 3 },
+      { question: "Qual operador fornece valor padrão para null?", answer: "??", points: 3 },
+      { question: "Qual operador fornece acesso seguro a propriedades?", answer: "?.", points: 5 },
+    ],
   },
   {
-    slug: "inferencia-de-tipos",
-    title: "Inferencia de Tipos",
+    slug: "inferencia-de-tipos-2",
+    title: "Inferência de Tipos",
     order: 32,
     points: 10,
-    bodyMd: `# Type Inference
+    bodyMd: `# Inferência de Tipos
 
-XanaScript infers types automatically. Annotations are optional.
+XanaScript infere tipos automaticamente. Anotações são opcionais.
 
-## How Inference Works
-
-\`\`\`xs
-CRIA x = 42         // inferred: NUMERO
-CRIA nome = "Ana"   // inferred: TEXTO
-CRIA ativo = true   // inferred: BOOLEANO
-\`\`\`
-
-## Literal Types
-
-Constants can have literal types:
+## Como a Inferência Funciona
 
 \`\`\`xs
-CONSTANTE STATUS = "ativo"  // type: "ativo" literal
+CRIA x = 42         // inferido: NUMERO
+CRIA nome = "Ana"   // inferido: TEXTO
+CRIA ativo = true   // inferido: BOOLEANO
 \`\`\`
 
-## Function Return Inference
+## Tipos Literais
+
+Constantes podem ter tipos literais:
+
+\`\`\`xs
+CONSTANTE STATUS = "ativo"  // tipo: literal "ativo"
+\`\`\`
+
+## Inferência de Retorno de Função
 
 \`\`\`xs
 CHAMA ESSE CARA soma(a, b) {
-  VOLTA a + b  // inferred: NUMERO
+  VOLTA a + b  // inferido: NUMERO
 }
 \`\`\`
 
-## When to Annotate
+## Quando Anotar
 
-Annotate when inference is ambiguous or for documentation:
+Anote quando a inferência for ambígua ou para documentação:
 
 \`\`\`xs
 CRIA lista: LISTA<NUMERO> = []
 CHAMA ESSE CARA busca(id: NUMERO): TEXTO? { ... }
 \`\`\``,
     challenges: [
-      { question: "What type is x in: CRIA x = 42", answer: "NUMERO", points: 3 },
-      { question: "Are type annotations required in XanaScript?", answer: "no", points: 3 },
-      { question: "When should you annotate types?", answer: "when inference is ambiguous or for documentation", points: 5 },
-],
+      { question: "Qual tipo é x em: CRIA x = 42", answer: "NUMERO", points: 3 },
+      { question: "Anotações de tipo são obrigatórias em XanaScript?", answer: "não", points: 3 },
+      { question: "Quando você deve anotar tipos?", answer: "quando a inferência é ambígua ou para documentação", points: 5 },
+    ],
   },
   {
-    slug: "conversao-de-tipos",
-    title: "Conversao de Tipos",
+    slug: "conversao-de-tipos-2",
+    title: "Conversão de Tipos",
     order: 33,
     points: 10,
-    bodyMd: `# Type Conversion
+    bodyMd: `# Conversão de Tipos
 
-Explicit conversion between types uses built-in functions.
+Conversão explícita entre tipos usa funções nativas.
 
-## To Number
+## Para Número
 
 \`\`\`xs
 CRIA n = NUMERO("42")   // 42
@@ -1417,62 +1412,62 @@ CRIA f = NUMERO("3.14") // 3.14
 CRIA b = NUMERO(true)   // 1
 \`\`\`
 
-## To String
+## Para String
 
 \`\`\`xs
 CRIA s = TEXTO(42)      // "42"
 CRIA t = TEXTO(true)    // "VERDADEIRO"
 \`\`\`
 
-## To Boolean
+## Para Booleano
 
 \`\`\`xs
 CRIA b = BOOLEANO(1)    // true
 CRIA c = BOOLEANO("")   // false
 \`\`\`
 
-## Type Checking
+## Verificação de Tipo
 
 \`\`\`xs
 CRIA e_numero = TIPO(x) == NUMERO
 SOLTA O GRITO(e_numero)  // true or false
 \`\`\`
 
-## Coercion Caveats
+## Cuidados com Coerção
 
-\`+\` between string and number coerces to string:
+\`+\` entre string e número coage para string:
 
 \`\`\`xs
 CRIA r = "Total: " + 42   // "Total: 42"
 \`\`\`
 
-Always prefer explicit conversion for clarity.`,
+Sempre prefira conversão explícita para clareza.`,
     challenges: [
-      { question: "What function converts a value to a number?", answer: "NUMERO", points: 3 },
-      { question: "What does \"Total: \" + 42 produce?", answer: "Total: 42", points: 3 },
-      { question: "Should you rely on implicit coercion?", answer: "no, prefer explicit conversion", points: 5 },
-],
+      { question: "Qual função converte um valor para número?", answer: "NUMERO", points: 3 },
+      { question: "O que \"Total: \" + 42 produz?", answer: "Total: 42", points: 3 },
+      { question: "Você deve confiar em coerção implícita?", answer: "não, prefira conversão explícita", points: 5 },
+    ],
   },
   {
-    slug: "basico-de-funcoes",
-    title: "Basico de Funcoes",
+    slug: "funcoes-basico",
+    title: "Fundamentos de Funções",
     order: 34,
     points: 5,
-    bodyMd: `# Function Basics
+    bodyMd: `# Fundamentos de Funções
 
-Functions are declared with \`CHAMA ESSE CARA\` ("call this guy").
+Funções são declaradas com \`CHAMA ESSE CARA\` ("chame esse cara").
 
-## Basic Syntax
+## Sintaxe Básica
 
 \`\`\`xs
 CHAMA ESSE CARA saudacao() {
-  SOLTA O GRITO("Ola!")
+  SOLTA O GRITO("Olá!")
 }
 
-saudacao()  // Ola!
+saudacao()  // Olá!
 \`\`\`
 
-## Parameters
+## Parâmetros
 
 \`\`\`xs
 CHAMA ESSE CARA soma(a, b) {
@@ -1482,7 +1477,7 @@ CHAMA ESSE CARA soma(a, b) {
 soma(3, 4)  // 7
 \`\`\`
 
-## Type Annotations
+## Anotações de Tipo
 
 \`\`\`xs
 CHAMA ESSE CARA dividir(a: NUMERO, b: NUMERO): NUMERO {
@@ -1490,23 +1485,23 @@ CHAMA ESSE CARA dividir(a: NUMERO, b: NUMERO): NUMERO {
 }
 \`\`\`
 
-Parameters and return types can be annotated. The return type follows the parameter list with \`: Tipo\`.`,
+Parâmetros e tipos de retorno podem ser anotados. O tipo de retorno segue a lista de parâmetros com \`: Tipo\`.`,
     challenges: [
-      { question: "What keyword declares a function?", answer: "CHAMA ESSE CARA", points: 3 },
-      { question: "Where does the return type annotation go?", answer: "after the parameter list", points: 5 },
-      { question: "Can parameters have type annotations?", answer: "yes", points: 3 },
-],
+      { question: "Qual palavra-chave declara uma função?", answer: "CHAMA ESSE CARA", points: 3 },
+      { question: "Onde vai a anotação de tipo de retorno?", answer: "após a lista de parâmetros", points: 5 },
+      { question: "Parâmetros podem ter anotações de tipo?", answer: "sim", points: 3 },
+    ],
   },
   {
     slug: "valores-de-retorno",
     title: "Valores de Retorno",
     order: 35,
     points: 5,
-    bodyMd: `# Return Values
+    bodyMd: `# Valores de Retorno
 
-Use \`VOLTA\` ("return") to return a value from a function.
+Use \`VOLTA\` ("volta") para retornar um valor de uma função.
 
-## Return Syntax
+## Sintaxe de Retorno
 
 \`\`\`xs
 CHAMA ESSE CARA quadrado(x) {
@@ -1516,7 +1511,7 @@ CHAMA ESSE CARA quadrado(x) {
 CRIA r = quadrado(5)  // 25
 \`\`\`
 
-## Early Return
+## Retorno Antecipado
 
 \`\`\`xs
 CHAMA ESSE CARA validar(n) {
@@ -1527,19 +1522,19 @@ CHAMA ESSE CARA validar(n) {
 }
 \`\`\`
 
-## Implicit Return
+## Retorno Implícito
 
-If the last expression lacks a semicolon, it's returned implicitly:
+Se a última expressão não tiver ponto e vírgula, ela é retornada implicitamente:
 
 \`\`\`xs
 CHAMA ESSE CARA dobro(x) {
-  x * 2  // implicit return
+  x * 2  // retorno implícito
 }
 \`\`\`
 
-## Returning Multiple Values
+## Retornando Múltiplos Valores
 
-Return an array or object:
+Retorne um array ou objeto:
 
 \`\`\`xs
 CHAMA ESSE CARA minMax(lista) {
@@ -1547,34 +1542,34 @@ CHAMA ESSE CARA minMax(lista) {
 }
 \`\`\``,
     challenges: [
-      { question: "What keyword returns a value?", answer: "VOLTA", points: 3 },
-      { question: "What happens if the last expression has no semicolon?", answer: "it is returned implicitly", points: 5 },
-      { question: "How do you return multiple values?", answer: "return an array or object", points: 3 },
-],
+      { question: "Qual palavra-chave retorna um valor?", answer: "VOLTA", points: 3 },
+      { question: "O que acontece se a última expressão não tiver ponto e vírgula?", answer: "ela é retornada implicitamente", points: 5 },
+      { question: "Como você retorna múltiplos valores?", answer: "retorne um array ou objeto", points: 3 },
+    ],
   },
   {
     slug: "parametros-e-padroes",
-    title: "Parametros & Padroes",
+    title: "Parâmetros e Valores Padrão",
     order: 36,
     points: 5,
-    bodyMd: `# Parameters & Defaults
+    bodyMd: `# Parâmetros e Valores Padrão
 
-Functions support default parameters and rest params.
+Funções suportam parâmetros padrão e params rest.
 
-## Default Parameters
+## Parâmetros Padrão
 
 \`\`\`xs
 CHAMA ESSE CARA saudacao(nome = "Mundo") {
-  SOLTA O GRITO("Ola, " + nome)
+  SOLTA O GRITO("Olá, " + nome)
 }
 
-saudacao()          // Ola, Mundo
-saudacao("Maria")   // Ola, Maria
+saudacao()          // Olá, Mundo
+saudacao("Maria")   // Olá, Maria
 \`\`\`
 
-## Rest Parameters
+## Parâmetros Rest
 
-Use \`...\` for variable arguments:
+Use \`...\` para argumentos variáveis:
 
 \`\`\`xs
 CHAMA ESSE CARA somarTudo(...nums) {
@@ -1586,9 +1581,9 @@ CHAMA ESSE CARA somarTudo(...nums) {
 somarTudo(1, 2, 3, 4)  // 10
 \`\`\`
 
-## Named Parameters
+## Parâmetros Nomeados
 
-Pass an object for named-like behavior:
+Passe um objeto para comportamento similar a nomeados:
 
 \`\`\`xs
 CHAMA ESSE CARA configurar(opts) {
@@ -1599,25 +1594,25 @@ CHAMA ESSE CARA configurar(opts) {
 configurar({ host: "example.com", port: 8080 })
 \`\`\`
 
-## Parameter Count
+## Contagem de Parâmetros
 
-Calling with wrong argument count is a compile error.`,
+Chamar com número errado de argumentos é um erro de compilação.`,
     challenges: [
-      { question: "How do you define a default parameter?", answer: "param = valor", points: 3 },
-      { question: "What syntax captures variable arguments?", answer: "...param", points: 3 },
-      { question: "How do you simulate named parameters?", answer: "pass an object", points: 3 },
-],
+      { question: "Como você define um parâmetro padrão?", answer: "param = valor", points: 3 },
+      { question: "Qual sintaxe captura argumentos variáveis?", answer: "...param", points: 3 },
+      { question: "Como você simula parâmetros nomeados?", answer: "passe um objeto", points: 3 },
+    ],
   },
   {
     slug: "funcoes-como-primeira-classe",
-    title: "Funcoes como Primeira-Classe",
+    title: "Funções como Primeira Classe",
     order: 37,
     points: 10,
-    bodyMd: `# Functions as First-Class
+    bodyMd: `# Funções como Primeira Classe
 
-Functions are values — assign them to variables, pass as arguments.
+Funções são valores — atribua a variáveis, passe como argumentos.
 
-## Assign to Variable
+## Atribuir a Variável
 
 \`\`\`xs
 CHAMA ESSE CARA dobro(x) { VOLTA x * 2 }
@@ -1625,14 +1620,14 @@ CRIA fn = dobro
 SOLTA O GRITO(fn(5))  // 10
 \`\`\`
 
-## Anonymous Functions
+## Funções Anônimas
 
 \`\`\`xs
 CRIA quadrado = CHAMA ESSE CARA (x) { VOLTA x * x }
 SOLTA O GRITO(quadrado(4))  // 16
 \`\`\`
 
-## Passing to Higher-Order Functions
+## Passando para Funções de Alta Ordem
 
 \`\`\`xs
 CRIA nums = [1, 2, 3, 4]
@@ -1640,7 +1635,7 @@ CRIA dobrados = nums.mapa(CHAMA ESSE CARA (n) { VOLTA n * 2 })
 // [2, 4, 6, 8]
 \`\`\`
 
-## Returning Functions
+## Retornando Funções
 
 \`\`\`xs
 CHAMA ESSE CARA criarMultiplicador(fator) {
@@ -1651,44 +1646,44 @@ CRIA triplicar = criarMultiplicador(3)
 SOLTA O GRITO(triplicar(5))  // 15
 \`\`\`
 
-This enables closures and functional programming patterns.`,
+Isso permite closures e padrões de programação funcional.`,
     challenges: [
-      { question: "Can you assign a function to a variable?", answer: "yes", points: 3 },
-      { question: "What syntax creates an anonymous function?", answer: "CHAMA ESSE CARA (params) { body }", points: 3 },
-      { question: "What is a closure?", answer: "a function that captures surrounding scope", points: 5 },
-],
+      { question: "Você pode atribuir uma função a uma variável?", answer: "sim", points: 3 },
+      { question: "Qual sintaxe cria uma função anônima?", answer: "CHAMA ESSE CARA (params) { body }", points: 3 },
+      { question: "O que é um closure?", answer: "uma função que captura o escopo circundante", points: 5 },
+    ],
   },
   {
-    slug: "funcoes-flecha",
-    title: "Funcoes Flecha (=>)",
+    slug: "funcoes-arrow",
+    title: "Funções Arrow (=>)",
     order: 38,
     points: 10,
-    bodyMd: `# Arrow Functions
+    bodyMd: `# Funções Arrow
 
-Arrow functions offer a shorter syntax.
+Funções arrow oferecem uma sintaxe mais curta.
 
-## Single Expression
+## Expressão Única
 
 \`\`\`xs
 CRIA dobro = (x) => x * 2
 SOLTA O GRITO(dobro(5))  // 10
 \`\`\`
 
-## Multiple Parameters
+## Múltiplos Parâmetros
 
 \`\`\`xs
 CRIA soma = (a, b) => a + b
 \`\`\`
 
-## No Parameters
+## Sem Parâmetros
 
 \`\`\`xs
-CRIA saudacao = () => "Ola!"
+CRIA saudacao = () => "Olá!"
 \`\`\`
 
-## Block Body
+## Corpo em Bloco
 
-For multiple statements, use \`{}\`:
+Para múltiplas declarações, use \`{}\`:
 
 \`\`\`xs
 CRIA processar = (x) => {
@@ -1698,27 +1693,27 @@ CRIA processar = (x) => {
 }
 \`\`\`
 
-## Differences from Regular Functions
+## Diferenças das Funções Regulares
 
-- Arrow functions capture \`ISTO\` from surrounding scope
-- Cannot be used as constructors
-- Cannot have a name (always anonymous)`,
+- Funções arrow capturam \`ISTO\` do escopo circundante
+- Não podem ser usadas como construtores
+- Não podem ter um nome (sempre anônimas)`,
     challenges: [
-      { question: "What is the arrow function syntax?", answer: "(params) => expression", points: 3 },
-      { question: "Do arrow functions capture ISTO from the surrounding scope?", answer: "yes", points: 3 },
-      { question: "Can arrow functions be used as constructors?", answer: "no", points: 5 },
-],
+      { question: "Qual é a sintaxe da função arrow?", answer: "(params) => expressão", points: 3 },
+      { question: "Funções arrow capturam ISTO do escopo circundante?", answer: "sim", points: 3 },
+      { question: "Funções arrow podem ser usadas como construtores?", answer: "não", points: 5 },
+    ],
   },
   {
     slug: "recursao",
-    title: "Recursao",
+    title: "Recursão",
     order: 39,
     points: 10,
-    bodyMd: `# Recursion
+    bodyMd: `# Recursão
 
-Functions can call themselves — XanaScript supports recursion.
+Funções podem chamar a si mesmas — XanaScript suporta recursão.
 
-## Basic Recursion
+## Recursão Básica
 
 \`\`\`xs
 CHAMA ESSE CARA fatorial(n) {
@@ -1729,18 +1724,18 @@ CHAMA ESSE CARA fatorial(n) {
 SOLTA O GRITO(fatorial(5))  // 120
 \`\`\`
 
-## Tail Recursion
+## Recursão de Cauda
 
-The compiler optimizes tail-recursive calls into loops:
+O compilador otimiza chamadas recursivas de cauda em loops:
 
 \`\`\`xs
 CHAMA ESSE CARA fatorialTail(n, acc = 1) {
   SE LIGA SO (n <= 1) { VOLTA acc }
-  VOLTA fatorialTail(n - 1, n * acc)  // tail call
+  VOLTA fatorialTail(n - 1, n * acc)  // chamada de cauda
 }
 \`\`\`
 
-## Recursive Data Structures
+## Estruturas de Dados Recursivas
 
 \`\`\`xs
 CHAMA ESSE CARA tamanhoLista(lista) {
@@ -1749,50 +1744,50 @@ CHAMA ESSE CARA tamanhoLista(lista) {
 }
 \`\`\`
 
-## Caution
+## Cuidado
 
-Without tail recursion optimization, deep recursion can overflow the stack (>10000 calls).`,
+Sem otimização de recursão de cauda, recursão profunda pode estourar a pilha (>10000 chamadas).`,
     challenges: [
-      { question: "What optimization does the compiler apply to tail recursion?", answer: "converts to loop", points: 5 },
-      { question: "How deep can recursion go before stack overflow?", answer: "about 10000 calls", points: 3 },
-],
+      { question: "Qual otimização o compilador aplica à recursão de cauda?", answer: "converte para loop", points: 5 },
+      { question: "Quão profunda a recursão pode ir antes de estourar a pilha?", answer: "cerca de 10000 chamadas", points: 3 },
+    ],
   },
   {
     slug: "funcoes-puras",
-    title: "Funcoes Puras",
+    title: "Funções Puras",
     order: 40,
     points: 10,
-    bodyMd: `# Pure Functions
+    bodyMd: `# Funções Puras
 
-Pure functions have no side effects and always return the same output for the same input.
+Funções puras não têm efeitos colaterais e sempre retornam a mesma saída para a mesma entrada.
 
-## Pure Example
+## Exemplo Puro
 
 \`\`\`xs
 CHAMA ESSE CARA soma(a, b) {
-  VOLTA a + b  // no side effects, deterministic
+  VOLTA a + b  // sem efeitos colaterais, determinístico
 }
 \`\`\`
 
-## Impure Example
+## Exemplo Impuro
 
 \`\`\`xs
 CRIA total = 0
 CHAMA ESSE CARA adicionar(n) {
-  total += n  // modifies external state
+  total += n  // modifica estado externo
 }
 \`\`\`
 
-## Benefits of Purity
+## Benefícios da Pureza
 
-- Easier to test (no setup needed)
-- Referentially transparent (can reorder/inline)
-- Thread-safe (no shared state)
-- Memoizable (cache results)
+- Mais fácil de testar (sem necessidade de configuração)
+- Transparente referencialmente (pode reordenar/inline)
+- Thread-safe (sem estado compartilhado)
+- Memoizável (armazenar resultados em cache)
 
-## Pure Annotation
+## Anotação Pura
 
-Use \`PURO\` keyword to enforce purity at compile time:
+Use a palavra-chave \`PURO\` para impor pureza em tempo de compilação:
 
 \`\`\`xs
 CHAMA ESSE CARA PURO quadrado(x) {
@@ -1800,38 +1795,38 @@ CHAMA ESSE CARA PURO quadrado(x) {
 }
 \`\`\`
 
-The compiler rejects side effects in \`PURO\` functions.`,
+O compilador rejeita efeitos colaterais em funções \`PURO\`.`,
     challenges: [
-      { question: "What makes a function pure?", answer: "no side effects, deterministic", points: 3 },
-      { question: "What keyword enforces purity?", answer: "PURO", points: 5 },
-      { question: "Name one benefit of pure functions", answer: "easier to test / thread-safe / memoizable", points: 3 },
-],
+      { question: "O que torna uma função pura?", answer: "sem efeitos colaterais, determinística", points: 3 },
+      { question: "Qual palavra-chave impõe pureza?", answer: "PURO", points: 5 },
+      { question: "Nomeie um benefício de funções puras", answer: "mais fácil de testar / thread-safe / memoizável", points: 3 },
+    ],
   },
   {
     slug: "sobrecarga-de-funcoes",
-    title: "Sobrecarga de Funcoes",
+    title: "Sobrecarga de Funções",
     order: 41,
     points: 10,
-    bodyMd: `# Function Overloading
+    bodyMd: `# Sobrecarga de Funções
 
-Define multiple functions with the same name but different parameter types.
+Defina múltiplas funções com o mesmo nome, mas diferentes tipos de parâmetros.
 
-## Type-Based Overloading
+## Sobrecarga Baseada em Tipo
 
 \`\`\`xs
 CHAMA ESSE CARA mostrar(x: NUMERO) {
-  SOLTA O GRITO("Numero: " + x)
+  SOLTA O GRITO("Número: " + x)
 }
 
 CHAMA ESSE CARA mostrar(x: TEXTO) {
   SOLTA O GRITO("Texto: " + x)
 }
 
-mostrar(42)        // Numero: 42
-mostrar("Ola")     // Texto: Ola
+mostrar(42)        // Número: 42
+mostrar("Olá")     // Texto: Olá
 \`\`\`
 
-## Parameter Count
+## Contagem de Parâmetros
 
 \`\`\`xs
 CHAMA ESSE CARA criar() { ... }
@@ -1839,24 +1834,24 @@ CHAMA ESSE CARA criar(nome: TEXTO) { ... }
 CHAMA ESSE CARA criar(nome: TEXTO, idade: NUMERO) { ... }
 \`\`\`
 
-## Resolution
+## Resolução
 
-The compiler picks the best match. Ambiguous calls produce a compile error.
+O compilador escolhe a melhor correspondência. Chamadas ambíguas produzem erro de compilação.
 
-Overloading enables expressive APIs without different function names.`,
+Sobrecarga permite APIs expressivas sem nomes de função diferentes.`,
     challenges: [
-      { question: "Can you have multiple functions with the same name?", answer: "yes, with different parameter types", points: 3 },
-      { question: "What happens on ambiguous overload?", answer: "compile error", points: 3 },
-],
+      { question: "Você pode ter múltiplas funções com o mesmo nome?", answer: "sim, com diferentes tipos de parâmetros", points: 3 },
+      { question: "O que acontece em uma sobrecarga ambígua?", answer: "erro de compilação", points: 3 },
+    ],
   },
   {
-    slug: "operacoes-com-lista",
-    title: "Operacoes com Lista",
+    slug: "operacoes-com-listas",
+    title: "Operações com Listas",
     order: 42,
     points: 5,
-    bodyMd: `# List Operations
+    bodyMd: `# Operações com Listas
 
-Core operations for working with lists.
+Operações principais para trabalhar com listas.
 
 ## map, filter, reduce
 
@@ -1875,14 +1870,14 @@ CRIA temNegativo = nums.algum((n) => n < 0)
 CRIA todosPositivos = nums.todos((n) => n > 0)
 \`\`\`
 
-## Sorting
+## Ordenação
 
 \`\`\`xs
 CRIA ordenado = nums.ordena()
 CRIA reverso = nums.ordena((a, b) => b - a)
 \`\`\`
 
-## Chaining
+## Encadeamento
 
 \`\`\`xs
 CRIA resultado = nums
@@ -1891,77 +1886,77 @@ CRIA resultado = nums
   .reduz((a, n) => a + n, 0)
 \`\`\`
 
-Methods return new lists — original is unchanged.`,
+Métodos retornam novas listas — a original não é alterada.`,
     challenges: [
-      { question: "What method transforms each element?", answer: "mapa", points: 3 },
-      { question: "What method filters elements?", answer: "filtra", points: 3 },
-      { question: "Can list methods be chained?", answer: "yes", points: 3 },
-],
+      { question: "Qual método transforma cada elemento?", answer: "mapa", points: 3 },
+      { question: "Qual método filtra elementos?", answer: "filtra", points: 3 },
+      { question: "Métodos de lista podem ser encadeados?", answer: "sim", points: 3 },
+    ],
   },
   {
-    slug: "compreensao-de-lista",
-    title: "Compreensao de Lista",
+    slug: "compreensao-de-listas",
+    title: "Compreensão de Listas",
     order: 43,
     points: 10,
-    bodyMd: `# List Comprehensions
+    bodyMd: `# Compreensão de Listas
 
-Build new lists with a declarative syntax.
+Construa novas listas com uma sintaxe declarativa.
 
-## Basic Comprehension
+## Compreensão Básica
 
 \`\`\`xs
 CRIA quadrados = [n * n PARA n EM nums]
 \`\`\`
 
-## With Filter
+## Com Filtro
 
 \`\`\`xs
 CRIA paresDobrados = [n * 2 PARA n EM nums SE n % 2 == 0]
 \`\`\`
 
-## Nested Loops
+## Loops Aninhados
 
 \`\`\`xs
 CRIA pares = [(x, y) PARA x EM [1,2] PARA y EM [3,4]]
 // [(1,3), (1,4), (2,3), (2,4)]
 \`\`\`
 
-## Comprehension vs Methods
+## Compreensão vs Métodos
 
-Use comprehensions for readability, \`mapa\`/\`filtra\` for complex transformations.
+Use compreensões para legibilidade, \`mapa\`/\`filtra\` para transformações complexas.
 
-Comprehensions compile efficiently — similar performance to manual loops.`,
+Compreensões compilam eficientemente — desempenho similar a loops manuais.`,
     challenges: [
-      { question: "What syntax creates a list comprehension?", answer: "[expr PARA var EM list]", points: 3 },
-      { question: "How do you add a filter to a comprehension?", answer: "SE condicao at the end", points: 3 },
-      { question: "Can comprehensions have nested loops?", answer: "yes", points: 3 },
-],
+      { question: "Qual sintaxe cria uma compreensão de lista?", answer: "[expr PARA var EM list]", points: 3 },
+      { question: "Como você adiciona um filtro a uma compreensão?", answer: "SE condicao no final", points: 3 },
+      { question: "Compreensões podem ter loops aninhados?", answer: "sim", points: 3 },
+    ],
   },
   {
     slug: "tipo-conjunto",
     title: "Tipo: CONJUNTO",
     order: 44,
     points: 5,
-    bodyMd: `# Type: CONJUNTO
+    bodyMd: `# Tipo: CONJUNTO
 
-Sets are unordered collections of unique values.
+Conjuntos são coleções não ordenadas de valores únicos.
 
-## Creating Sets
+## Criando Conjuntos
 
 \`\`\`xs
 CRIA cores = CONJUNTO{"azul", "verde", "vermelho"}
 CRIA vazio = CONJUNTO{}
 \`\`\`
 
-## Operations
+## Operações
 
 \`\`\`xs
 cores.insere("amarelo")       // add
 cores.remove("azul")           // remove
-CRIA existe = cores.tem("verde")  // membership
+CRIA existe = cores.tem("verde")  // pertinência
 \`\`\`
 
-## Set Theory
+## Teoria dos Conjuntos
 
 \`\`\`xs
 CRIA a = CONJUNTO{1, 2, 3}
@@ -1971,7 +1966,7 @@ CRIA intersec = a * b        // {2, 3}
 CRIA diferenca = a - b       // {1}
 \`\`\`
 
-## Iteration
+## Iteração
 
 \`\`\`xs
 PARA CADA (cor EM cores) {
@@ -1979,72 +1974,72 @@ PARA CADA (cor EM cores) {
 }
 \`\`\``,
     challenges: [
-      { question: "What type represents a set?", answer: "CONJUNTO", points: 3 },
-      { question: "What operator computes union of two sets?", answer: "+", points: 3 },
-      { question: "What operator computes intersection?", answer: "*", points: 5 },
-],
+      { question: "Qual tipo representa um conjunto?", answer: "CONJUNTO", points: 3 },
+      { question: "Qual operador calcula a união de dois conjuntos?", answer: "+", points: 3 },
+      { question: "Qual operador calcula a interseção?", answer: "*", points: 5 },
+    ],
   },
   {
     slug: "tipo-tupla",
     title: "Tipo: TUPLA",
     order: 45,
     points: 5,
-    bodyMd: `# Type: TUPLA
+    bodyMd: `# Tipo: TUPLA
 
-Tuples are fixed-size ordered collections with position types.
+Tuplas são coleções ordenadas de tamanho fixo com tipos por posição.
 
-## Creating Tuples
+## Criando Tuplas
 
 \`\`\`xs
 CRIA ponto = (10, 20)
 CRIA usuario = ("Maria", 30, true)
 \`\`\`
 
-## Access by Position
+## Acesso por Posição
 
 \`\`\`xs
 CRIA x = ponto[0]  // 10
 CRIA y = ponto[1]  // 20
 \`\`\`
 
-## Destructuring
+## Desestruturação
 
 \`\`\`xs
 CRIA (nome, idade, ativo) = usuario
 SOLTA O GRITO(nome)  // Maria
 \`\`\`
 
-## Typed Tuples
+## Tuplas Tipadas
 
 \`\`\`xs
 CRIA par: (TEXTO, NUMERO) = ("chave", 42)
 \`\`\`
 
-Tuples are immutable by default. Use them for returning multiple values from functions.`,
+Tuplas são imutáveis por padrão. Use-as para retornar múltiplos valores de funções.`,
     challenges: [
-      { question: "How do you destructure a tuple?", answer: "(var1, var2) = tuple", points: 3 },
-      { question: "Are tuples mutable by default?", answer: "no", points: 3 },
-      { question: "When should you use a tuple over a list?", answer: "for fixed-size collections with position-typed elements", points: 5 },
-],
+      { question: "Como você desestrutura uma tupla?", answer: "(var1, var2) = tupla", points: 3 },
+      { question: "Tuplas são mutáveis por padrão?", answer: "não", points: 3 },
+      { question: "Quando usar uma tupla em vez de uma lista?", answer: "para coleções de tamanho fixo com elementos tipados por posição", points: 5 },
+    ],
   },
   {
     slug: "tipo-intervalo",
     title: "Tipo: INTERVALO",
     order: 46,
     points: 5,
-    bodyMd: `# Type: INTERVALO
+    bodyMd: `# Tipo: INTERVALO
 
-Ranges represent a sequence of values.
+Intervalos representam uma sequência de valores.
 
-## Creating Ranges
+## Criando Intervalos
 
 \`\`\`xs
 CRIA r1 = 1..5        // 1, 2, 3, 4, 5
-CRIA r2 = 1..<5       // 1, 2, 3, 4 (exclusive end)
-CRIA r3 = 0..10..2    // 0, 2, 4, 6, 8, 10 (step)
+CRIA r2 = 1..<5       // 1, 2, 3, 4 (final exclusivo)
+CRIA r3 = 0..10..2    // 0, 2, 4, 6, 8, 10 (passo)
 \`\`\`
 
-## Using Ranges
+## Usando Intervalos
 
 \`\`\`xs
 PARA CADA (i EM 1..5) {
@@ -2052,48 +2047,48 @@ PARA CADA (i EM 1..5) {
 }
 \`\`\`
 
-## Membership
+## Pertinência
 
 \`\`\`xs
 CRIA dentro = 3 EM 1..10  // true
 CRIA fora = 20 EM 1..10   // false
 \`\`\`
 
-## Slicing
+## Fatiamento
 
-Use ranges for list slicing:
+Use intervalos para fatiar listas:
 
 \`\`\`xs
 CRIA items = [0, 1, 2, 3, 4, 5]
 CRIA slice = items[1..4]  // [1, 2, 3, 4]
 \`\`\`
 
-Ranges are lazy — elements are computed on demand.`,
+Intervalos são preguiçosos — elementos são computados sob demanda.`,
     challenges: [
-      { question: "How do you create an inclusive range from 1 to 5?", answer: "1..5", points: 3 },
-      { question: "How do you create a range with a step?", answer: "start..end..step", points: 3 },
-      { question: "What operator checks membership in a range?", answer: "EM", points: 3 },
-],
+      { question: "Como você cria um intervalo inclusivo de 1 a 5?", answer: "1..5", points: 3 },
+      { question: "Como você cria um intervalo com passo?", answer: "inicio..fim..passo", points: 3 },
+      { question: "Qual operador verifica pertinência em um intervalo?", answer: "EM", points: 3 },
+    ],
   },
   {
     slug: "loop-para-cada",
     title: "Loop PARA CADA",
     order: 47,
     points: 5,
-    bodyMd: `# PARA CADA Loop
+    bodyMd: `# Loop PARA CADA
 
-Iterate over collections with a clean syntax.
+Itere sobre coleções com uma sintaxe limpa.
 
-## Basic Syntax
+## Sintaxe Básica
 
 \`\`\`xs
-CRIA frutas = ["maca", "banana", "cereja"]
+CRIA frutas = ["maçã", "banana", "cereja"]
 PARA CADA (fruta EM frutas) {
   SOLTA O GRITO(fruta)
 }
 \`\`\`
 
-## Index Access
+## Acesso ao Índice
 
 \`\`\`xs
 PARA CADA ((i, fruta) EM frutas.comIndice()) {
@@ -2101,7 +2096,7 @@ PARA CADA ((i, fruta) EM frutas.comIndice()) {
 }
 \`\`\`
 
-## Iterating Dictionaries
+## Iterando Dicionários
 
 \`\`\`xs
 PARA CADA (chave EM dict) {
@@ -2109,7 +2104,7 @@ PARA CADA (chave EM dict) {
 }
 \`\`\`
 
-## Breaking Early
+## Interrompendo Antecipadamente
 
 \`\`\`xs
 PARA CADA (n EM nums) {
@@ -2118,23 +2113,23 @@ PARA CADA (n EM nums) {
 }
 \`\`\`
 
-\`INTERROMPE\` breaks out of the loop.`,
+\`INTERROMPE\` sai do loop.`,
     challenges: [
-      { question: "What keyword iterates over a collection?", answer: "PARA CADA", points: 3 },
-      { question: "How do you access the index in PARA CADA?", answer: "destructure (i, item) with comIndice()", points: 5 },
-      { question: "What keyword breaks out of a loop?", answer: "INTERROMPE", points: 3 },
-],
+      { question: "Qual palavra-chave itera sobre uma coleção?", answer: "PARA CADA", points: 3 },
+      { question: "Como você acessa o índice no PARA CADA?", answer: "desestruturar (i, item) com comIndice()", points: 5 },
+      { question: "Qual palavra-chave sai de um loop?", answer: "INTERROMPE", points: 3 },
+    ],
   },
   {
     slug: "loop-enquanto",
     title: "Loop ENQUANTO",
     order: 48,
     points: 5,
-    bodyMd: `# ENQUANTO Loop
+    bodyMd: `# Loop ENQUANTO
 
-Loop while a condition is true.
+Loop enquanto uma condição for verdadeira.
 
-## Basic Syntax
+## Sintaxe Básica
 
 \`\`\`xs
 CRIA contador = 0
@@ -2144,7 +2139,7 @@ ENQUANTO (contador < 5) {
 }
 \`\`\`
 
-## Infinite Loop
+## Loop Infinito
 
 \`\`\`xs
 ENQUANTO (VERDADEIRO) {
@@ -2163,28 +2158,28 @@ FAZ {
 } ENQUANTO (n != 0)
 \`\`\`
 
-Use \`ENQUANTO\` when the number of iterations is unknown. Use \`PARA CADA\` for iterating collections.`,
+Use \`ENQUANTO\` quando o número de iterações for desconhecido. Use \`PARA CADA\` para iterar coleções.`,
     challenges: [
-      { question: "What keyword starts a while loop?", answer: "ENQUANTO", points: 3 },
-      { question: "What is the do-while syntax?", answer: "FAZ { ... } ENQUANTO (cond)", points: 5 },
-      { question: "When should you use ENQUANTO over PARA CADA?", answer: "when iteration count is unknown", points: 3 },
-],
+      { question: "Qual palavra-chave inicia um loop while?", answer: "ENQUANTO", points: 3 },
+      { question: "Qual é a sintaxe do do-while?", answer: "FAZ { ... } ENQUANTO (cond)", points: 5 },
+      { question: "Quando usar ENQUANTO em vez de PARA CADA?", answer: "quando o número de iterações é desconhecido", points: 3 },
+    ],
   },
   {
     slug: "controle-de-loop",
-    title: "Controle de Loop: CONTINUE & INTERROMPE",
+    title: "Controle de Loop: CONTINUE e INTERROMPE",
     order: 49,
     points: 5,
-    bodyMd: `# Loop Control
+    bodyMd: `# Controle de Loop
 
-\`CONTINUE\` skips to the next iteration. \`INTERROMPE\` exits the loop.
+\`CONTINUE\` pula para a próxima iteração. \`INTERROMPE\` sai do loop.
 
 ## CONTINUE
 
 \`\`\`xs
 PARA CADA (n EM 1..10) {
   SE LIGA SO (n % 2 == 0) { CONTINUE }
-  SOLTA O GRITO(n)  // prints odd numbers
+  SOLTA O GRITO(n)  // imprime números ímpares
 }
 \`\`\`
 
@@ -2199,9 +2194,9 @@ PARA CADA (n EM nums) {
 }
 \`\`\`
 
-## Labeled Control
+## Controle Rotulado
 
-Break/continue to outer loops:
+Break/continue para loops externos:
 
 \`\`\`xs
 EXTERNO: PARA CADA (i EM 1..3) {
@@ -2212,23 +2207,23 @@ EXTERNO: PARA CADA (i EM 1..3) {
 }
 \`\`\`
 
-Labels make complex loop control readable and precise.`,
+Rótulos tornam o controle complexo de loop legível e preciso.`,
     challenges: [
-      { question: "What skips to the next iteration?", answer: "CONTINUE", points: 3 },
-      { question: "What exits the loop entirely?", answer: "INTERROMPE", points: 3 },
-      { question: "How do you break from an outer loop?", answer: "label: INTERROMPE label", points: 5 },
-],
+      { question: "O que pula para a próxima iteração?", answer: "CONTINUE", points: 3 },
+      { question: "O que sai do loop completamente?", answer: "INTERROMPE", points: 3 },
+      { question: "Como você sai de um loop externo?", answer: "rotulo: INTERROMPE rotulo", points: 5 },
+    ],
   },
   {
-    slug: "basico-de-classes",
-    title: "Basico de Classes com CLASSE",
+    slug: "classes-basico",
+    title: "Fundamentos de Classes com CLASSE",
     order: 50,
     points: 5,
-    bodyMd: `# Class Basics
+    bodyMd: `# Fundamentos de Classes
 
-Classes are defined with \`CLASSE\`.
+Classes são definidas com \`CLASSE\`.
 
-## Class Definition
+## Definição de Classe
 
 \`\`\`xs
 CLASSE Pessoa {
@@ -2241,39 +2236,39 @@ CLASSE Pessoa {
   }
 
   CHAMA ESSE CARA saudacao() {
-    SOLTA O GRITO("Ola, sou " + ISTO.nome)
+    SOLTA O GRITO("Olá, sou " + ISTO.nome)
   }
 }
 \`\`\`
 
-## Creating Instances
+## Criando Instâncias
 
 \`\`\`xs
 CRIA p = Pessoa.novo("Maria", 30)
-p.saudacao()  // Ola, sou Maria
+p.saudacao()  // Olá, sou Maria
 \`\`\`
 
-## Properties
+## Propriedades
 
-Properties are declared with \`CRIA\` inside the class body. Use \`ISTO\` to refer to the current instance.
+Propriedades são declaradas com \`CRIA\` dentro do corpo da classe. Use \`ISTO\` para se referir à instância atual.
 
-The \`init\` method acts as the constructor.`,
+O método \`init\` atua como construtor.`,
     challenges: [
-      { question: "What keyword defines a class?", answer: "CLASSE", points: 3 },
-      { question: "What keyword refers to the current instance?", answer: "ISTO", points: 3 },
-      { question: "What method acts as the constructor?", answer: "init", points: 3 },
-],
+      { question: "Qual palavra-chave define uma classe?", answer: "CLASSE", points: 3 },
+      { question: "Qual palavra-chave se refere à instância atual?", answer: "ISTO", points: 3 },
+      { question: "Qual método atua como construtor?", answer: "init", points: 3 },
+    ],
   },
   {
     slug: "construtores-de-classe",
     title: "Construtores de Classe",
     order: 51,
     points: 5,
-    bodyMd: `# Class Constructors
+    bodyMd: `# Construtores de Classe
 
-The \`init\` method initializes a new instance.
+O método \`init\` inicializa uma nova instância.
 
-## Constructor Pattern
+## Padrão de Construtor
 
 \`\`\`xs
 CLASSE Produto {
@@ -2287,9 +2282,9 @@ CLASSE Produto {
 }
 \`\`\`
 
-## Multiple Constructors
+## Múltiplos Construtores
 
-Use overloading:
+Use sobrecarga:
 
 \`\`\`xs
 CLASSE User {
@@ -2307,9 +2302,9 @@ CLASSE User {
 }
 \`\`\`
 
-## Factory Methods
+## Métodos de Fábrica
 
-Static methods that create instances:
+Métodos estáticos que criam instâncias:
 
 \`\`\`xs
 CLASSE User {
@@ -2319,25 +2314,25 @@ CLASSE User {
 }
 \`\`\`
 
-\`ESTATICO\` defines a static method.`,
+\`ESTATICO\` define um método estático.`,
     challenges: [
-      { question: "What method is the constructor?", answer: "init", points: 3 },
-      { question: "Can a class have multiple constructors?", answer: "yes, via overloading", points: 5 },
-      { question: "What keyword defines a static method?", answer: "ESTATICO", points: 3 },
-],
+      { question: "Qual método é o construtor?", answer: "init", points: 3 },
+      { question: "Uma classe pode ter múltiplos construtores?", answer: "sim, via sobrecarga", points: 5 },
+      { question: "Qual palavra-chave define um método estático?", answer: "ESTATICO", points: 3 },
+    ],
   },
   {
-    slug: "metodos-de-classe",
-    title: "Metodos de Instancia & Estaticos",
+    slug: "metodos-de-instancia-e-estaticos",
+    title: "Métodos de Instância e Estáticos",
     order: 52,
     points: 5,
-    bodyMd: `# Instance & Static Methods
+    bodyMd: `# Métodos de Instância e Estáticos
 
-Methods can be instance-level or class-level.
+Métodos podem ser de nível de instância ou de classe.
 
-## Instance Methods
+## Métodos de Instância
 
-Operate on an instance via \`ISTO\`:
+Operam em uma instância via \`ISTO\`:
 
 \`\`\`xs
 CLASSE Conta {
@@ -2349,9 +2344,9 @@ CLASSE Conta {
 }
 \`\`\`
 
-## Static Methods
+## Métodos Estáticos
 
-Belong to the class, not instances:
+Pertencem à classe, não às instâncias:
 
 \`\`\`xs
 CLASSE Math {
@@ -2363,7 +2358,7 @@ CLASSE Math {
 SOLTA O GRITO(Math.max(10, 20))  // 20
 \`\`\`
 
-## Property Getters/Setters
+## Getters/Setters de Propriedade
 
 \`\`\`xs
 CLASSE Pessoa {
@@ -2374,43 +2369,43 @@ CLASSE Pessoa {
 }
 \`\`\`
 
-\`PEGA\` (get) and \`COLOCA\` (set) define computed properties.`,
+\`PEGA\` (get) e \`COLOCA\` (set) definem propriedades computadas.`,
     challenges: [
-      { question: "What keyword defines a static method?", answer: "ESTATICO", points: 3 },
-      { question: "What keyword defines a getter?", answer: "PEGA", points: 3 },
-      { question: "What keyword defines a setter?", answer: "COLOCA", points: 5 },
-],
+      { question: "Qual palavra-chave define um método estático?", answer: "ESTATICO", points: 3 },
+      { question: "Qual palavra-chave define um getter?", answer: "PEGA", points: 3 },
+      { question: "Qual palavra-chave define um setter?", answer: "COLOCA", points: 5 },
+    ],
   },
   {
     slug: "encapsulamento",
     title: "Encapsulamento",
     order: 53,
     points: 5,
-    bodyMd: `# Encapsulation
+    bodyMd: `# Encapsulamento
 
-Control access to class members.
+Controle o acesso aos membros da classe.
 
-## Private Members
+## Membros Privados
 
-Prefix with underscore:
+Prefixe com sublinhado:
 
 \`\`\`xs
 CLASSE Banco {
-  CRIA _saldo = 0  // private by convention
+  CRIA _saldo = 0  // privado por convenção
   CRIA _extrato = []
 
   CHAMA ESSE CARA depositar(v) {
     ISTO._saldo += v
-    ISTO._extrato.empurra("Deposito: " + v)
+    ISTO._extrato.empurra("Depósito: " + v)
   }
 
   PEGA saldo() { VOLTA ISTO._saldo }
 }
 \`\`\`
 
-## Private Keyword
+## Palavra-chave Privada
 
-Use \`PRIVADO\` for enforced privacy:
+Use \`PRIVADO\` para privacidade forçada:
 
 \`\`\`xs
 CLASSE Conta {
@@ -2419,34 +2414,34 @@ CLASSE Conta {
 }
 \`\`\`
 
-## Public API
+## API Pública
 
-Expose only what's needed:
+Exponha apenas o necessário:
 
 \`\`\`xs
 CLASSE API {
   CRIA PRIVADO _url
 
-  CHAMA ESSE CARA buscar() { ... }   // public
+  CHAMA ESSE CARA buscar() { ... }   // público
   PRIVADO CHAMA ESSE CARA _parse() { ... }
 }
 \`\`\`
 
-Encapsulation reduces coupling and prevents misuse.`,
+Encapsulamento reduz acoplamento e previne mau uso.`,
     challenges: [
-      { question: "What prefix conventionally marks private members?", answer: "_", points: 3 },
-      { question: "What keyword enforces private access?", answer: "PRIVADO", points: 5 },
-      { question: "What is a benefit of encapsulation?", answer: "reduces coupling / prevents misuse", points: 3 },
-],
+      { question: "Qual prefixo convencional marca membros privados?", answer: "_", points: 3 },
+      { question: "Qual palavra-chave impõe acesso privado?", answer: "PRIVADO", points: 5 },
+      { question: "Qual é um benefício do encapsulamento?", answer: "reduz acoplamento / previne mau uso", points: 3 },
+    ],
   },
   {
     slug: "propriedades-computadas",
     title: "Propriedades Computadas",
     order: 54,
     points: 10,
-    bodyMd: `# Computed Properties
+    bodyMd: `# Propriedades Computadas
 
-Properties with custom get/set logic.
+Propriedades com lógica personalizada de get/set.
 
 ## Getter
 
@@ -2480,7 +2475,7 @@ CLASSE Temperatura {
 }
 \`\`\`
 
-## Usage
+## Uso
 
 \`\`\`xs
 CRIA t = Temperatura.novo()
@@ -2488,23 +2483,23 @@ t.fahrenheit = 212
 SOLTA O GRITO(t._celsius)  // 100
 \`\`\`
 
-Computed properties look like fields but execute code on access.`,
+Propriedades computadas parecem campos, mas executam código no acesso.`,
     challenges: [
-      { question: "What defines a getter?", answer: "PEGA", points: 3 },
-      { question: "What defines a setter?", answer: "COLOCA", points: 3 },
-      { question: "Can computed properties have both get and set?", answer: "yes", points: 3 },
-],
+      { question: "O que define um getter?", answer: "PEGA", points: 3 },
+      { question: "O que define um setter?", answer: "COLOCA", points: 3 },
+      { question: "Propriedades computadas podem ter get e set?", answer: "sim", points: 3 },
+    ],
   },
   {
     slug: "sobrecarga-de-operadores",
     title: "Sobrecarga de Operadores",
     order: 55,
     points: 10,
-    bodyMd: `# Operator Overloading
+    bodyMd: `# Sobrecarga de Operadores
 
-Define custom behavior for operators on your classes.
+Defina comportamento personalizado para operadores em suas classes.
 
-## Overloadable Operators
+## Operadores Sobrecarregáveis
 
 \`\`\`xs
 CLASSE Vetor {
@@ -2532,7 +2527,7 @@ CLASSE Vetor {
 }
 \`\`\`
 
-## Usage
+## Uso
 
 \`\`\`xs
 CRIA v1 = Vetor.novo(1, 2)
@@ -2540,23 +2535,23 @@ CRIA v2 = Vetor.novo(3, 4)
 CRIA soma = v1 + v2  // Vetor(4, 6)
 \`\`\`
 
-Operators make custom types feel native.`,
+Operadores fazem tipos personalizados parecerem nativos.`,
     challenges: [
-      { question: "What keyword defines operator overloading?", answer: "OPERADOR", points: 3 },
-      { question: "Which operator can you use for string conversion?", answer: "OPERADOR TEXTO", points: 5 },
-      { question: "Can overloading make code more readable?", answer: "yes", points: 3 },
-],
+      { question: "Qual palavra-chave define sobrecarga de operador?", answer: "OPERADOR", points: 3 },
+      { question: "Qual operador você pode usar para conversão de string?", answer: "OPERADOR TEXTO", points: 5 },
+      { question: "A sobrecarga pode tornar o código mais legível?", answer: "sim", points: 3 },
+    ],
   },
   {
     slug: "composicao-vs-heranca",
-    title: "Composicao vs Heranca",
+    title: "Composição vs Herança",
     order: 56,
     points: 10,
-    bodyMd: `# Composition vs Inheritance
+    bodyMd: `# Composição vs Herança
 
-Prefer composition over inheritance.
+Prefira composição sobre herança.
 
-## Composition Example
+## Exemplo de Composição
 
 \`\`\`xs
 CLASSE Motor {
@@ -2576,38 +2571,38 @@ CLASSE Carro {
 }
 \`\`\`
 
-## When to Use Inheritance
+## Quando Usar Herança
 
-Use when there is a clear "is-a" relationship:
+Use quando houver uma clara relação "é-um":
 
 \`\`\`xs
 CLASSE Animal { ... }
 CLASSE Cachorro EXTENDE Animal { ... }
 \`\`\`
 
-## Favor Composition
+## Favoreça Composição
 
-- More flexible (swap components at runtime)
-- Easier to test (mock components)
-- Avoids deep hierarchy issues
+- Mais flexível (troque componentes em tempo de execução)
+- Mais fácil de testar (simule componentes)
+- Evita problemas de hierarquia profunda
 
-Use \`EXTENDE\` for true subtype relationships, composition for code reuse.`,
+Use \`EXTENDE\` para verdadeiras relações de subtipo, composição para reuso de código.`,
     challenges: [
-      { question: "Should you prefer composition or inheritance?", answer: "composition", points: 3 },
-      { question: "When is inheritance appropriate?", answer: "when there is a clear is-a relationship", points: 5 },
-      { question: "What keyword extends a class?", answer: "EXTENDE", points: 3 },
-],
+      { question: "Você deve preferir composição ou herança?", answer: "composição", points: 3 },
+      { question: "Quando a herança é apropriada?", answer: "quando há uma clara relação é-um", points: 5 },
+      { question: "Qual palavra-chave estende uma classe?", answer: "EXTENDE", points: 3 },
+    ],
   },
   {
-    slug: "membros-estaticos",
-    title: "Membros Estaticos & Singleton",
+    slug: "membros-estaticos-e-singleton",
+    title: "Membros Estáticos e Singleton",
     order: 57,
     points: 10,
-    bodyMd: `# Static Members & Singleton
+    bodyMd: `# Membros Estáticos e Singleton
 
-Class-level members shared across all instances.
+Membros de nível de classe compartilhados entre todas as instâncias.
 
-## Static Properties
+## Propriedades Estáticas
 
 \`\`\`xs
 CLASSE Config {
@@ -2625,7 +2620,7 @@ CLASSE Config {
 SOLTA O GRITO(Config.versao)  // 2.0
 \`\`\`
 
-## Singleton Pattern
+## Padrão Singleton
 
 \`\`\`xs
 CLASSE DatabasePool {
@@ -2639,28 +2634,28 @@ CLASSE DatabasePool {
   }
 
   PRIVADO CHAMA ESSE CARA init() {
-    // private constructor
+    // construtor privado
   }
 }
 \`\`\`
 
-Static members are initialized lazily.`,
+Membros estáticos são inicializados preguiçosamente.`,
     challenges: [
-      { question: "What keyword makes a member static?", answer: "ESTATICO", points: 3 },
-      { question: "Are static properties shared across instances?", answer: "yes", points: 3 },
-      { question: "Can the init constructor be private?", answer: "yes, with PRIVADO", points: 3 },
-],
+      { question: "Qual palavra-chave torna um membro estático?", answer: "ESTATICO", points: 3 },
+      { question: "Propriedades estáticas são compartilhadas entre instâncias?", answer: "sim", points: 3 },
+      { question: "O construtor init pode ser privado?", answer: "sim, com PRIVADO", points: 3 },
+    ],
   },
   {
     slug: "heranca-com-extende",
-    title: "Heranca com EXTENDE",
+    title: "Herança com EXTENDE",
     order: 58,
     points: 5,
-    bodyMd: `# Inheritance Basics
+    bodyMd: `# Herança com EXTENDE
 
-A class can extend another class with \`EXTENDE\`.
+Uma classe pode estender outra classe com \`EXTENDE\`.
 
-## Syntax
+## Sintaxe
 
 \`\`\`xs
 CLASSE Animal {
@@ -2677,13 +2672,13 @@ CLASSE Cachorro EXTENDE Animal {
 }
 
 CRIA rex = Cachorro.novo("Rex")
-SOLTA O GRITO(rex.nome)  // Rex (inherited)
-rex.som()                // Au au! (overridden)
+SOLTA O GRITO(rex.nome)  // Rex (herdado)
+rex.som()                // Au au! (sobrescrito)
 \`\`\`
 
-## Super Keyword
+## Palavra-chave Super
 
-Call parent methods with \`SUPER\`:
+Chame métodos pai com \`SUPER\`:
 
 \`\`\`xs
 CLASSE Gato EXTENDE Animal {
@@ -2694,21 +2689,21 @@ CLASSE Gato EXTENDE Animal {
 }
 \`\`\``,
     challenges: [
-      { question: "What keyword extends a class?", answer: "EXTENDE", points: 3 },
-      { question: "How do you call a parent method?", answer: "SUPER.metodo()", points: 3 },
-      { question: "Can a child class inherit properties?", answer: "yes", points: 3 },
-],
+      { question: "Qual palavra-chave estende uma classe?", answer: "EXTENDE", points: 3 },
+      { question: "Como você chama um método pai?", answer: "SUPER.metodo()", points: 3 },
+      { question: "Uma classe filha pode herdar propriedades?", answer: "sim", points: 3 },
+    ],
   },
   {
     slug: "sobrescrita-de-metodos",
-    title: "Sobrescrita de Metodos",
+    title: "Sobrescrita de Métodos",
     order: 59,
     points: 5,
-    bodyMd: `# Method Overriding
+    bodyMd: `# Sobrescrita de Métodos
 
-Child classes can override methods from the parent.
+Classes filhas podem sobrescrever métodos da classe pai.
 
-## Override Rules
+## Regras de Sobrescrita
 
 \`\`\`xs
 CLASSE Forma {
@@ -2720,15 +2715,15 @@ CLASSE Retangulo EXTENDE Forma {
 
   CHAMA ESSE CARA init(l, a) { ISTO.largura = l; ISTO.altura = a }
 
-  CHAMA ESSE CARA area() {  // override
+  CHAMA ESSE CARA area() {  // sobrescrita
     VOLTA ISTO.largura * ISTO.altura
   }
 }
 \`\`\`
 
-## Preventing Override
+## Prevenindo Sobrescrita
 
-Use \`FINAL\` to prevent overriding:
+Use \`FINAL\` para prevenir sobrescrita:
 
 \`\`\`xs
 CLASSE Base {
@@ -2736,33 +2731,33 @@ CLASSE Base {
 }
 \`\`\`
 
-## Abstract Methods
+## Métodos Abstratos
 
-Define method signatures without implementation:
+Defina assinaturas de método sem implementação:
 
 \`\`\`xs
 CLASSE Abstrata Forma {
-  CHAMA ESSE CARA area()  // abstract — no body
+  CHAMA ESSE CARA area()  // abstrato — sem corpo
 }
 \`\`\`
 
-\`FINAL\` prevents override. Methods without a body are abstract.`,
+\`FINAL\` previne sobrescrita. Métodos sem corpo são abstratos.`,
     challenges: [
-      { question: "What keyword prevents method overriding?", answer: "FINAL", points: 3 },
-      { question: "How do you define an abstract method?", answer: "declare without a body", points: 5 },
-      { question: "Can abstract classes be instantiated?", answer: "no", points: 3 },
-],
+      { question: "Qual palavra-chave previne sobrescrita de método?", answer: "FINAL", points: 3 },
+      { question: "Como você define um método abstrato?", answer: "declare sem corpo", points: 5 },
+      { question: "Classes abstratas podem ser instanciadas?", answer: "não", points: 3 },
+    ],
   },
   {
     slug: "polimorfismo",
     title: "Polimorfismo",
     order: 60,
     points: 10,
-    bodyMd: `# Polymorphism
+    bodyMd: `# Polimorfismo
 
-Objects of different types respond to the same interface.
+Objetos de diferentes tipos respondem à mesma interface.
 
-## Polymorphic Behavior
+## Comportamento Polimórfico
 
 \`\`\`xs
 CLASSE Passaro {
@@ -2774,14 +2769,14 @@ CLASSE Peixe {
 }
 
 CHAMA ESSE CARA fazerMover(animal) {
-  animal.mover()  // works for any object with mover()
+  animal.mover()  // funciona para qualquer objeto com mover()
 }
 
 fazerMover(Passaro.novo())  // Voando
 fazerMover(Peixe.novo())    // Nadando
 \`\`\`
 
-## With Inheritance
+## Com Herança
 
 \`\`\`xs
 CLASSE Veiculo {
@@ -2792,29 +2787,29 @@ CLASSE Carro EXTENDE Veiculo { CHAMA ESSE CARA mover() { ... } }
 CLASSE Bicicleta EXTENDE Veiculo { CHAMA ESSE CARA mover() { ... } }
 \`\`\`
 
-Polymorphism enables flexible, extensible designs without conditionals.`,
+Polimorfismo permite designs flexíveis e extensíveis sem condicionais.`,
     challenges: [
-      { question: "What is polymorphism?", answer: "objects of different types respond to the same interface", points: 3 },
-      { question: "Does polymorphism require inheritance?", answer: "no, duck typing works too", points: 5 },
-      { question: "What is a benefit of polymorphism?", answer: "reduces conditionals, enables extensibility", points: 3 },
-],
+      { question: "O que é polimorfismo?", answer: "objetos de diferentes tipos respondem à mesma interface", points: 3 },
+      { question: "Polimorfismo requer herança?", answer: "não, duck typing também funciona", points: 5 },
+      { question: "Qual é um benefício do polimorfismo?", answer: "reduz condicionais, permite extensibilidade", points: 3 },
+    ],
   },
   {
     slug: "classes-abstratas",
     title: "Classes Abstratas",
     order: 61,
     points: 10,
-    bodyMd: `# Abstract Classes
+    bodyMd: `# Classes Abstratas
 
-Abstract classes define a template with some methods unimplemented.
+Classes abstratas definem um template com alguns métodos não implementados.
 
-## Defining Abstract Class
+## Definindo Classe Abstrata
 
 \`\`\`xs
 CLASSE Abstrata Forma {
-  CHAMA ESSE CARA area()  // abstract — no body
+  CHAMA ESSE CARA area()  // abstrato — sem corpo
   CHAMA ESSE CARA descrever() {
-    SOLTA O GRITO("Area: " + ISTO.area())
+    SOLTA O GRITO("Área: " + ISTO.area())
   }
 }
 
@@ -2825,18 +2820,18 @@ CLASSE Quadrado EXTENDE Forma {
 }
 \`\`\`
 
-## Rules
+## Regras
 
-- Cannot instantiate abstract classes directly
-- Child classes must implement all abstract methods
-- Use \`Abstrata\` annotation on the class
+- Não é possível instanciar classes abstratas diretamente
+- Classes filhas devem implementar todos os métodos abstratos
+- Use a anotação \`Abstrata\` na classe
 
-Abstract classes provide a contract plus shared implementation.`,
+Classes abstratas fornecem um contrato mais implementação compartilhada.`,
     challenges: [
-      { question: "Can you instantiate an abstract class?", answer: "no", points: 3 },
-      { question: "What annotation makes a class abstract?", answer: "Abstrata", points: 5 },
-      { question: "Must child classes implement all abstract methods?", answer: "yes", points: 3 },
-],
+      { question: "Você pode instanciar uma classe abstrata?", answer: "não", points: 3 },
+      { question: "Qual anotação torna uma classe abstrata?", answer: "Abstrata", points: 5 },
+      { question: "Classes filhas devem implementar todos os métodos abstratos?", answer: "sim", points: 3 },
+    ],
   },
   {
     slug: "interfaces-com-protocolo",
@@ -2845,9 +2840,9 @@ Abstract classes provide a contract plus shared implementation.`,
     points: 10,
     bodyMd: `# Interfaces (PROTOCOLO)
 
-Define a contract without implementation.
+Defina um contrato sem implementação.
 
-## Protocol Definition
+## Definição de Protocolo
 
 \`\`\`xs
 PROTOCOLO Imprimivel {
@@ -2856,7 +2851,7 @@ PROTOCOLO Imprimivel {
 }
 \`\`\`
 
-## Implementing a Protocol
+## Implementando um Protocolo
 
 \`\`\`xs
 CLASSE Documento IMPLEMENTA Imprimivel {
@@ -2873,29 +2868,29 @@ CLASSE Documento IMPLEMENTA Imprimivel {
 }
 \`\`\`
 
-## Multiple Protocols
+## Múltiplos Protocolos
 
 \`\`\`xs
 CLASSE Relatorio IMPLEMENTA Imprimivel, Exportavel { ... }
 \`\`\`
 
-Protocols support multiple inheritance of contracts without the diamond problem.`,
+Protocolos suportam herança múltipla de contratos sem o problema do diamante.`,
     challenges: [
-      { question: "What keyword defines an interface?", answer: "PROTOCOLO", points: 3 },
-      { question: "What keyword implements a protocol?", answer: "IMPLEMENTA", points: 3 },
-      { question: "Can a class implement multiple protocols?", answer: "yes", points: 3 },
-],
+      { question: "Qual palavra-chave define uma interface?", answer: "PROTOCOLO", points: 3 },
+      { question: "Qual palavra-chave implementa um protocolo?", answer: "IMPLEMENTA", points: 3 },
+      { question: "Uma classe pode implementar múltiplos protocolos?", answer: "sim", points: 3 },
+    ],
   },
   {
-    slug: "heranca-multipla",
-    title: "Heranca Multipla via Protocolos",
+    slug: "heranca-multipla-via-protocolos",
+    title: "Herança Múltipla via Protocolos",
     order: 63,
     points: 10,
-    bodyMd: `# Multiple Inheritance
+    bodyMd: `# Herança Múltipla
 
-Protocols allow inheriting multiple contracts.
+Protocolos permitem herdar múltiplos contratos.
 
-## Combining Protocols
+## Combinando Protocolos
 
 \`\`\`xs
 PROTOCOLO Salvavel {
@@ -2912,58 +2907,58 @@ CLASSE Arquivo IMPLEMENTA Salvavel, Carregavel {
   CHAMA ESSE CARA init(c) { ISTO.caminho = c }
 
   CHAMA ESSE CARA salvar() {
-    // implementation
+    // implementação
   }
 
   CHAMA ESSE CARA carregar(dados) {
-    // implementation
+    // implementação
   }
 }
 \`\`\`
 
-## Nominal vs Structural
+## Nominal vs Estrutural
 
-Protocols are nominal — you must explicitly declare \`IMPLEMENTA\`. This ensures intent is clear.
+Protocolos são nominais — você deve declarar explicitamente \`IMPLEMENTA\`. Isso garante que a intenção seja clara.
 
-## When to Use
+## Quando Usar
 
-Use protocols when different classes share capabilities but not hierarchy.`,
+Use protocolos quando classes diferentes compartilham capacidades, mas não hierarquia.`,
     challenges: [
-      { question: "Can a class implement two protocols?", answer: "yes", points: 3 },
-      { question: "Are XanaScript protocols nominal or structural?", answer: "nominal", points: 5 },
-      { question: "Why use protocols over abstract classes?", answer: "when sharing capabilities across unrelated hierarchies", points: 3 },
-],
+      { question: "Uma classe pode implementar dois protocolos?", answer: "sim", points: 3 },
+      { question: "Os protocolos do XanaScript são nominais ou estruturais?", answer: "nominais", points: 5 },
+      { question: "Por que usar protocolos em vez de classes abstratas?", answer: "para compartilhar capacidades entre hierarquias não relacionadas", points: 3 },
+    ],
   },
   {
     slug: "injecao-de-dependencia",
-    title: "Injecao de Dependencia",
+    title: "Injeção de Dependência",
     order: 64,
     points: 10,
-    bodyMd: `# Dependency Injection
+    bodyMd: `# Injeção de Dependência
 
-Pass dependencies rather than creating them internally.
+Passe dependências em vez de criá-las internamente.
 
-## Without DI (Tight Coupling)
+## Sem DI (Acoplamento Forte)
 
 \`\`\`xs
 CLASSE Servico {
-  CRIA repo = Repositorio.novo()  // hard dependency
+  CRIA repo = Repositorio.novo()  // dependência fixa
 }
 \`\`\`
 
-## With DI (Loose Coupling)
+## Com DI (Acoplamento Fraco)
 
 \`\`\`xs
 CLASSE Servico {
   CRIA repo
 
   CHAMA ESSE CARA init(repo) {
-    ISTO.repo = repo  // injected
+    ISTO.repo = repo  // injetado
   }
 }
 \`\`\`
 
-## Using Interfaces
+## Usando Interfaces
 
 \`\`\`xs
 PROTOCOLO RepoUsuario {
@@ -2979,71 +2974,71 @@ CLASSE Servico {
 }
 \`\`\`
 
-DI enables testing with mocks and swapping implementations.`,
+DI permite testar com mocks e trocar implementações.`,
     challenges: [
-      { question: "What is dependency injection?", answer: "passing dependencies rather than creating them internally", points: 3 },
-      { question: "What is a benefit of DI?", answer: "easier testing and swapping implementations", points: 5 },
-      { question: "Does DI work well with protocols?", answer: "yes", points: 3 },
-],
+      { question: "O que é injeção de dependência?", answer: "passar dependências em vez de criá-las internamente", points: 3 },
+      { question: "Qual é um benefício da DI?", answer: "testes mais fáceis e troca de implementações", points: 5 },
+      { question: "DI funciona bem com protocolos?", answer: "sim", points: 3 },
+    ],
   },
   {
     slug: "principios-solid",
-    title: "Principios SOLID",
+    title: "Princípios SOLID",
     order: 65,
     points: 10,
-    bodyMd: `# SOLID Principles
+    bodyMd: `# Princípios SOLID
 
-Five principles for maintainable OOP.
+Cinco princípios para OOP sustentável.
 
-## S — Single Responsibility
+## S — Responsabilidade Única
 
-A class should have one reason to change:
+Uma classe deve ter um motivo para mudar:
 
 \`\`\`xs
-// Bad: both report and save
+// Ruim: relatório e salvar juntos
 CLASSE Relatorio {
   CHAMA ESSE CARA gerar() { ... }
   CHAMA ESSE CARA salvar() { ... }
 }
 
-// Good: separate concerns
+// Bom: separar responsabilidades
 CLASSE Relatorio { CHAMA ESSE CARA gerar() { ... } }
 CLASSE Repositorio { CHAMA ESSE CARA salvar(r) { ... } }
 \`\`\`
 
-## O — Open/Closed
+## O — Aberto/Fechado
 
-Open for extension, closed for modification.
+Aberto para extensão, fechado para modificação.
 
-## L — Liskov Substitution
+## L — Substituição de Liskov
 
-Subtypes must be substitutable for base types.
+Subtipos devem ser substituíveis por tipos base.
 
-## I — Interface Segregation
+## I — Segregação de Interface
 
-Keep protocols focused.
+Mantenha protocolos focados.
 
-## D — Dependency Inversion
+## D — Inversão de Dependência
 
-Depend on abstractions, not concretions.
+Dependa de abstrações, não de concreções.
 
-Following SOLID yields maintainable, testable code.`,
+Seguir SOLID produz código sustentável e testável.`,
     challenges: [
-      { question: "What does the S in SOLID stand for?", answer: "Single Responsibility", points: 3 },
-      { question: "What does the D in SOLID stand for?", answer: "Dependency Inversion", points: 3 },
-      { question: "What does Liskov Substitution mean?", answer: "subtypes must be substitutable for base types", points: 5 },
-],
+      { question: "O que significa o S em SOLID?", answer: "Responsabilidade Única", points: 3 },
+      { question: "O que significa o D em SOLID?", answer: "Inversão de Dependência", points: 3 },
+      { question: "O que significa Substituição de Liskov?", answer: "subtipos devem ser substituíveis por tipos base", points: 5 },
+    ],
   },
   {
     slug: "tratamento-de-erros-com-tente",
     title: "Tratamento de Erros com TENTE",
     order: 66,
     points: 5,
-    bodyMd: `# Error Handling
+    bodyMd: `# Tratamento de Erros
 
-Errors are handled with \`TENTE\` (try), \`CAPTURA\` (catch), \`FINALLY\` (finally).
+Erros são tratados com \`TENTE\` (try), \`CAPTURA\` (catch), \`FINALLY\` (finally).
 
-## Basic Try/Catch
+## Try/Catch Básico
 
 \`\`\`xs
 TENTE {
@@ -3054,9 +3049,9 @@ TENTE {
 }
 \`\`\`
 
-## Finally Block
+## Bloco Finally
 
-Always executes, even on error:
+Sempre executa, mesmo em erro:
 
 \`\`\`xs
 TENTE {
@@ -3069,85 +3064,85 @@ TENTE {
 }
 \`\`\`
 
-## Multiple Catch
+## Múltiplos Catch
 
 \`\`\`xs
 CAPTURA (erro: ErroValidacao) { ... }
 CAPTURA (erro: ErroBanco) { ... }
-CAPTURA (erro) { ... }  // default
+CAPTURA (erro) { ... }  // padrão
 \`\`\`
 
-Use \`TENTE\` for operations that may fail.`,
+Use \`TENTE\` para operações que podem falhar.`,
     challenges: [
-      { question: "What keyword starts a try block?", answer: "TENTE", points: 3 },
-      { question: "What keyword catches an error?", answer: "CAPTURA", points: 3 },
-      { question: "What block always executes?", answer: "FINALLY", points: 3 },
-],
+      { question: "Qual palavra-chave inicia um bloco try?", answer: "TENTE", points: 3 },
+      { question: "Qual palavra-chave captura um erro?", answer: "CAPTURA", points: 3 },
+      { question: "Qual bloco sempre executa?", answer: "FINALLY", points: 3 },
+    ],
   },
   {
     slug: "lancando-erros",
-    title: "Lancando Erros",
+    title: "Lançando Erros",
     order: 67,
     points: 5,
-    bodyMd: `# Throwing Errors
+    bodyMd: `# Lançando Erros
 
-Use \`JOGAR\` (throw) to raise an error.
+Use \`JOGAR\` (throw) para levantar um erro.
 
-## Basic Throw
+## Throw Básico
 
 \`\`\`xs
 CHAMA ESSE CARA dividir(a, b) {
   SE LIGA SO (b == 0) {
-    JOGAR "Divisao por zero"
+    JOGAR "Divisão por zero"
   }
   VOLTA a / b
 }
 \`\`\`
 
-## Custom Error Messages
+## Mensagens de Erro Personalizadas
 
 \`\`\`xs
 SE LIGA SO (!usuario) {
-  JOGAR "Usuario nao encontrado"
+  JOGAR "Usuário não encontrado"
 }
 
 SE LIGA SO (saldo < valor) {
-  JOGAR "Saldo insuficiente. Disponivel: " + saldo
+  JOGAR "Saldo insuficiente. Disponível: " + saldo
 }
 \`\`\`
 
-## Error Objects
+## Objetos de Erro
 
 \`\`\`xs
-JOGAR Erro.novo("Validacao", "Campo obrigatorio")
+JOGAR Erro.novo("Validacao", "Campo obrigatório")
 \`\`\`
 
-## Rethrowing
+## Relançamento
 
 \`\`\`xs
 CAPTURA (erro) {
   SOLTA O GRITO("Log: " + erro)
-  JOGAR erro  // rethrow
+  JOGAR erro  // relançar
 }
 \`\`\`
 
-Only throw errors for exceptional situations, not control flow.`,
+Apenas lance erros para situações excepcionais, não para fluxo de controle.`,
     challenges: [
-      { question: "What keyword throws an error?", answer: "JOGAR", points: 3 },
-      { question: "Can you throw a string?", answer: "yes", points: 3 },
-      { question: "What pattern rethrows a caught error?", answer: "JOGAR erro inside CAPTURA", points: 3 },
-],
+      { question: "Qual palavra-chave lança um erro?", answer: "JOGAR", points: 3 },
+      { question: "Você pode lançar uma string?", answer: "sim", points: 3 },
+      { question: "Qual padrão relança um erro capturado?", answer: "JOGAR erro dentro de CAPTURA", points: 3 },
+    ],
   },
   {
     slug: "classes-de-erro-personalizadas",
     title: "Classes de Erro Personalizadas",
     order: 68,
     points: 10,
-    bodyMd: `# Custom Error Classes
+    bodyMd: `# Classes de Erro Personalizadas
 
-Create domain-specific errors by extending the base error class.
+Crie erros específicos de domínio estendendo a classe de erro base.
 
-## Defining Custom Errors
+## Definindo Erros Personalizados
 
 \`\`\`xs
 CLASSE ErroAutenticacao EXTENDE Erro {
@@ -3170,11 +3165,11 @@ CLASSE ErroValidacao EXTENDE Erro {
 }
 \`\`\`
 
-## Usage
+## Uso
 
 \`\`\`xs
 SE LIGA SO (!senha) {
-  JOGAR ErroValidacao.novo("Senha obrigatoria", "senha")
+  JOGAR ErroValidacao.novo("Senha obrigatória", "senha")
 }
 
 CAPTURA (erro: ErroValidacao) {
@@ -3182,38 +3177,38 @@ CAPTURA (erro: ErroValidacao) {
 }
 \`\`\`
 
-Custom errors enable precise error handling with domain-specific data.`,
+Erros personalizados permitem tratamento preciso com dados específicos de domínio.`,
     challenges: [
-      { question: "How do you create a custom error?", answer: "extend Erro class", points: 3 },
-      { question: "Why use custom errors?", answer: "for domain-specific error data and precise handling", points: 5 },
-],
+      { question: "Como você cria um erro personalizado?", answer: "estendendo a classe Erro", points: 3 },
+      { question: "Por que usar erros personalizados?", answer: "para dados de erro específicos de domínio e tratamento preciso", points: 5 },
+    ],
   },
   {
-    slug: "padroes-de-tratamento-de-erro",
-    title: "Padroes de Tratamento de Erro",
+    slug: "padroes-de-tratamento-de-erros",
+    title: "Padrões de Tratamento de Erros",
     order: 69,
     points: 10,
-    bodyMd: `# Error Handling Patterns
+    bodyMd: `# Padrões de Tratamento de Erros
 
-Common patterns for robust error handling.
+Padrões comuns para tratamento robusto de erros.
 
-## Guard Clause
+## Cláusula de Guarda
 
-Check early, throw immediately:
+Verifique cedo, lance imediatamente:
 
 \`\`\`xs
 CHAMA ESSE CARA buscarUsuario(id) {
-  SE LIGA SO (!id) { JOGAR "ID obrigatorio" }
-  SE LIGA SO (id < 0) { JOGAR "ID invalido" }
+  SE LIGA SO (!id) { JOGAR "ID obrigatório" }
+  SE LIGA SO (id < 0) { JOGAR "ID inválido" }
 
   CRIA user = repo.busca(id)
-  SE LIGA SO (!user) { JOGAR "Nao encontrado" }
+  SE LIGA SO (!user) { JOGAR "Não encontrado" }
 
   VOLTA user
 }
 \`\`\`
 
-## Result Pattern (Without Exceptions)
+## Padrão Resultado (Sem Exceções)
 
 \`\`\`xs
 CLASSE Resultado {
@@ -3229,7 +3224,7 @@ CLASSE Resultado {
 }
 \`\`\`
 
-## Using Result
+## Usando Resultado
 
 \`\`\`xs
 CRIA r = operacao()
@@ -3240,21 +3235,21 @@ SE LIGA SO (r.sucesso) {
 }
 \`\`\``,
     challenges: [
-      { question: "What pattern checks conditions early?", answer: "guard clause", points: 3 },
-      { question: "What is an alternative to exceptions?", answer: "Result pattern", points: 5 },
-      { question: "What type does a guard clause use?", answer: "JOGAR / throw", points: 3 },
-],
+      { question: "Qual padrão verifica condições antecipadamente?", answer: "cláusula de guarda", points: 3 },
+      { question: "Qual é uma alternativa às exceções?", answer: "padrão Resultado", points: 5 },
+      { question: "O que uma cláusula de guarda usa?", answer: "JOGAR / throw", points: 3 },
+    ],
   },
   {
     slug: "validacao-de-entrada",
-    title: "Validacao de Entrada",
+    title: "Validação de Entrada",
     order: 70,
     points: 5,
-    bodyMd: `# Input Validation
+    bodyMd: `# Validação de Entrada
 
-Validate inputs before processing.
+Valide entradas antes de processar.
 
-## Basic Validation
+## Validação Básica
 
 \`\`\`xs
 CHAMA ESSE CARA cadastrarUsuario(dados) {
@@ -3263,20 +3258,20 @@ CHAMA ESSE CARA cadastrarUsuario(dados) {
   }
 
   SE LIGA SO (!dados.email OU !dados.email.tem("@")) {
-    JOGAR "Email invalido"
+    JOGAR "Email inválido"
   }
 
   SE LIGA SO (dados.idade < 18) {
-    JOGAR "Menor de idade nao permitido"
+    JOGAR "Menor de idade não permitido"
   }
 
-  // process
+  // processar
 }
 \`\`\`
 
-## Validation Library
+## Biblioteca de Validação
 
-XanaScript provides built-in validation helpers:
+XanaScript fornece auxiliares de validação nativos:
 
 \`\`\`xs
 import { valida, regra } from "xs:validacao"
@@ -3290,23 +3285,23 @@ CRIA regras = [
 CRIA erros = valida(dados, regras)
 \`\`\`
 
-Always validate external input before processing.`,
+Sempre valide entrada externa antes de processar.`,
     challenges: [
-      { question: "Should you validate inputs before processing?", answer: "yes", points: 3 },
-      { question: "What is a validation rule?", answer: "a condition that input must satisfy", points: 3 },
-      { question: "Where should validation happen?", answer: "at system boundaries (API, forms)", points: 3 },
-],
+      { question: "Você deve validar entradas antes de processar?", answer: "sim", points: 3 },
+      { question: "O que é uma regra de validação?", answer: "uma condição que a entrada deve satisfazer", points: 3 },
+      { question: "Onde a validação deve ocorrer?", answer: "nas fronteiras do sistema (API, formulários)", points: 3 },
+    ],
   },
   {
     slug: "registro-de-erros",
-    title: "Registro de Erros",
+    title: "Registro de Erros (Logging)",
     order: 71,
     points: 5,
-    bodyMd: `# Error Logging
+    bodyMd: `# Registro de Erros
 
-Log errors for debugging and monitoring.
+Registre erros para depuração e monitoramento.
 
-## Basic Logging
+## Logging Básico
 
 \`\`\`xs
 TENTE {
@@ -3317,7 +3312,7 @@ TENTE {
 }
 \`\`\`
 
-## Structured Logging
+## Logging Estruturado
 
 \`\`\`xs
 CLASSE Logger {
@@ -3332,34 +3327,34 @@ CLASSE Logger {
   }
 }
 
-// Usage
+// Uso
 Logger.erro("Falha no banco", { db: "usuarios", erro: err })
 \`\`\`
 
-## Log Levels
+## Níveis de Log
 
-- \`DEBUG\`: development details
-- \`INFO\`: normal operations
-- \`AVISO\`: warnings
-- \`ERRO\`: errors
+- \`DEBUG\`: detalhes de desenvolvimento
+- \`INFO\`: operações normais
+- \`AVISO\`: avisos
+- \`ERRO\`: erros
 
-Log enough to diagnose problems, not so much that logs are noise.`,
+Registre o suficiente para diagnosticar problemas, não tanto que os logs sejam ruído.`,
     challenges: [
-      { question: "What log level is for errors?", answer: "ERRO", points: 3 },
-      { question: "Why use structured logging?", answer: "for machine-parseable, searchable logs", points: 5 },
-      { question: "What is the trade-off with logging?", answer: "too much = noise, too little = undiagnosable", points: 3 },
-],
+      { question: "Qual nível de log é para erros?", answer: "ERRO", points: 3 },
+      { question: "Por que usar logging estruturado?", answer: "para logs legíveis por máquina e pesquisáveis", points: 5 },
+      { question: "Qual é o trade-off do logging?", answer: "muito = ruído, pouco = não diagnosticável", points: 3 },
+    ],
   },
   {
     slug: "estrategias-de-recuperacao",
-    title: "Estrategias de Recuperacao de Erros",
+    title: "Estratégias de Recuperação de Erros",
     order: 72,
     points: 10,
-    bodyMd: `# Error Recovery
+    bodyMd: `# Recuperação de Erros
 
-Strategies for recovering from failures.
+Estratégias para se recuperar de falhas.
 
-## Retry Pattern
+## Padrão de Retry
 
 \`\`\`xs
 CHAMA ESSE CARA tentarComRetry(fn, tentativas = 3) {
@@ -3368,7 +3363,7 @@ CHAMA ESSE CARA tentarComRetry(fn, tentativas = 3) {
       VOLTA fn()
     } CAPTURA (erro) {
       SE LIGA SO (i == tentativas) { JOGAR erro }
-      SOLTA O GRITO("Tentativa " + i + " falhou. Retentando...")
+      SOLTA O GRITO("Tentativa " + i + " falhou. Tentando novamente...")
       esperar(1000 * i)
     }
   }
@@ -3377,7 +3372,7 @@ CHAMA ESSE CARA tentarComRetry(fn, tentativas = 3) {
 
 ## Circuit Breaker
 
-Stop calling a failing service temporarily:
+Pare de chamar um serviço com falha temporariamente:
 
 \`\`\`xs
 CLASSE CircuitBreaker {
@@ -3400,75 +3395,75 @@ CLASSE CircuitBreaker {
 }
 \`\`\`
 
-Choose recovery strategy based on error type and system requirements.`,
+Escolha a estratégia de recuperação baseada no tipo de erro e requisitos do sistema.`,
     challenges: [
-      { question: "What pattern retries a failed operation?", answer: "retry pattern", points: 3 },
-      { question: "What pattern stops calling a failing service?", answer: "circuit breaker", points: 5 },
-      { question: "Should all errors be retried?", answer: "no, only transient errors", points: 3 },
-],
+      { question: "Qual padrão tenta novamente uma operação com falha?", answer: "padrão retry", points: 3 },
+      { question: "Qual padrão para de chamar um serviço com falha?", answer: "circuit breaker", points: 5 },
+      { question: "Todos os erros devem ser repetidos?", answer: "não, apenas erros transitórios", points: 3 },
+    ],
   },
   {
-    slug: "melhores-praticas-de-erro",
-    title: "Melhores Praticas de Tratamento de Erros",
+    slug: "melhores-praticas-de-erros",
+    title: "Melhores Práticas de Tratamento de Erros",
     order: 73,
     points: 10,
-    bodyMd: `# Best Practices
+    bodyMd: `# Melhores Práticas
 
-Guidelines for robust error handling.
+Diretrizes para tratamento robusto de erros.
 
-## 1. Fail Fast
+## 1. Falhe Rápido
 
-Detect errors as early as possible:
+Detecte erros o mais cedo possível:
 
 \`\`\`xs
 CHAMA ESSE CARA processar(dados) {
-  SE LIGA SO (!dados) { JOGAR "Dados obrigatorios" }
+  SE LIGA SO (!dados) { JOGAR "Dados obrigatórios" }
   // continue...
 }
 \`\`\`
 
-## 2. Don't Swallow Errors
+## 2. Não Engula Erros
 
 \`\`\`xs
-// Bad
-CAPTURA (e) { /* do nothing */ }
+// Ruim
+CAPTURA (e) { /* não faz nada */ }
 
-// Good
+// Bom
 CAPTURA (e) {
   Logger.erro(e)
-  JOGAR  // or handle appropriately
+  JOGAR  // ou trate adequadamente
 }
 \`\`\`
 
-## 3. Use Specific Errors
+## 3. Use Erros Específicos
 
-Catch specific types, not generic errors.
+Capture tipos específicos, não erros genéricos.
 
-## 4. Clean Up Resources
+## 4. Limpe Recursos
 
-Use \`FINALLY\` for cleanup.
+Use \`FINALLY\` para limpeza.
 
-## 5. Document Error Conditions
+## 5. Documente Condições de Erro
 
-Document what errors a function can throw.
+Documente quais erros uma função pode lançar.
 
-Following these practices prevents silent failures and data corruption.`,
+Seguir estas práticas previne falhas silenciosas e corrupção de dados.`,
     challenges: [
-      { question: "What does fail fast mean?", answer: "detect errors as early as possible", points: 3 },
-      { question: "Is it OK to swallow errors?", answer: "no", points: 3 },
-      { question: "Where should cleanup code go?", answer: "FINALLY block", points: 3 },
-],
+      { question: "O que significa falhar rápido?", answer: "detectar erros o mais cedo possível", points: 3 },
+      { question: "É OK engolir erros?", answer: "não", points: 3 },
+      { question: "Onde o código de limpeza deve ir?", answer: "bloco FINALLY", points: 3 },
+    ],
   },
   {
-    slug: "basico-de-modulos",
-    title: "Basico de Modulos",
+    slug: "modulos-basico",
+    title: "Fundamentos de Módulos",
     order: 74,
     points: 5,
-    bodyMd: `# Module Basics
+    bodyMd: `# Fundamentos de Módulos
 
-Organize code into reusable modules.
+Organize código em módulos reutilizáveis.
 
-## Exporting
+## Exportando
 
 \`\`\`xs
 // math.xs
@@ -3478,7 +3473,7 @@ export CHAMA ESSE CARA multiplicar(a, b) { VOLTA a * b }
 export CONSTANTE PI = 3.14159
 \`\`\`
 
-## Importing
+## Importando
 
 \`\`\`xs
 // main.xs
@@ -3488,7 +3483,7 @@ SOLTA O GRITO(soma(2, 3))     // 5
 SOLTA O GRITO(PI)             // 3.14159
 \`\`\`
 
-## Default Export
+## Exportação Padrão
 
 \`\`\`xs
 // utils.xs
@@ -3497,30 +3492,30 @@ export default CHAMA ESSE CARA log(msg) {
 }
 \`\`\`
 
-## Default Import
+## Importação Padrão
 
 \`\`\`xs
 import log from "./utils.xs"
 log("teste")  // [LOG] teste
 \`\`\`
 
-Every file can have one default export and multiple named exports.`,
+Cada arquivo pode ter uma exportação padrão e múltiplas exportações nomeadas.`,
     challenges: [
-      { question: "What keyword exports a value?", answer: "export", points: 3 },
-      { question: "What keyword imports a value?", answer: "import", points: 3 },
-      { question: "How many default exports can a module have?", answer: "one", points: 3 },
-],
+      { question: "Qual palavra-chave exporta um valor?", answer: "export", points: 3 },
+      { question: "Qual palavra-chave importa um valor?", answer: "import", points: 3 },
+      { question: "Quantas exportações padrão um módulo pode ter?", answer: "uma", points: 3 },
+    ],
   },
   {
-    slug: "importacoes-exportacoes-nomeadas",
-    title: "Importacoes/Exportacoes Nomeadas",
+    slug: "imports-exports-nomeados",
+    title: "Imports/Exports Nomeados",
     order: 75,
     points: 5,
-    bodyMd: `# Named Imports/Exports
+    bodyMd: `# Imports/Exports Nomeados
 
-Import and export specific names.
+Importe e exporte nomes específicos.
 
-## Named Exports
+## Exports Nomeados
 
 \`\`\`xs
 // shapes.xs
@@ -3529,7 +3524,7 @@ export CLASSE Quadrado { ... }
 export CHAMA ESSE CARA areaTotal(...formas) { ... }
 \`\`\`
 
-## Named Imports
+## Imports Nomeados
 
 \`\`\`xs
 import { Circulo, areaTotal } from "./shapes.xs"
@@ -3537,91 +3532,91 @@ import { Circulo, areaTotal } from "./shapes.xs"
 
 ## Aliases
 
-Rename imports to avoid conflicts:
+Renomeie imports para evitar conflitos:
 
 \`\`\`xs
 import { Circulo as Circ, Quadrado as Quad } from "./shapes.xs"
 CRIA c = Circ.novo(5)
 \`\`\`
 
-## Re-exporting
+## Re-exportação
 
 \`\`\`xs
 export { soma, multiplicar } from "./math.xs"
 \`\`\`
 
-## Namespace Import
+## Importação de Namespace
 
 \`\`\`xs
 import * as Math from "./math.xs"
 SOLTA O GRITO(Math.soma(1, 2))
 \`\`\`
 
-Named imports are explicit and enable tree-shaking.`,
+Imports nomeados são explícitos e permitem tree-shaking.`,
     challenges: [
-      { question: "How do you alias an import?", answer: "import { Original as Alias }", points: 3 },
-      { question: "How do you import everything from a module?", answer: "import * as name", points: 3 },
-      { question: "What is the main benefit of named imports?", answer: "tree-shaking and explicit dependencies", points: 5 },
-],
+      { question: "Como você cria um alias para um import?", answer: "import { Original as Alias }", points: 3 },
+      { question: "Como você importa tudo de um módulo?", answer: "import * as nome", points: 3 },
+      { question: "Qual é o principal benefício dos imports nomeados?", answer: "tree-shaking e dependências explícitas", points: 5 },
+    ],
   },
   {
     slug: "resolucao-de-modulos",
-    title: "Resolucao de Modulos",
+    title: "Resolução de Módulos",
     order: 76,
     points: 5,
-    bodyMd: `# Module Resolution
+    bodyMd: `# Resolução de Módulos
 
-How XanaScript finds imported modules.
+Como o XanaScript encontra módulos importados.
 
-## Relative Paths
+## Caminhos Relativos
 
-Start with \`./\` or \`../\`:
+Comece com \`./\` ou \`../\`:
 
 \`\`\`xs
 import { x } from "./utils.xs"
 import { y } from "../lib/helper.xs"
 \`\`\`
 
-## Package Names
+## Nomes de Pacotes
 
-Without a path prefix, resolves from \`node_modules\`:
+Sem prefixo de caminho, resolve de \`node_modules\`:
 
 \`\`\`xs
 import { express } from "express"
 \`\`\`
 
-## Built-in Modules
+## Módulos Nativos
 
-Use \`xs:\` prefix for standard library:
+Use prefixo \`xs:\` para biblioteca padrão:
 
 \`\`\`xs
 import { readFile, writeFile } from "xs:fs"
 import { serve } from "xs:http"
 \`\`\`
 
-## Resolution Order
+## Ordem de Resolução
 
-1. Built-in (\`xs:*)
-2. Relative (\`./\`, \`../\`)
-3. Package (node_modules)
+1. Nativo (\`xs:*\`)
+2. Relativo (\`./\`, \`../\`)
+3. Pacote (node_modules)
 
-The compiler caches resolved paths for fast recompilation.`,
+O compilador armazena em cache caminhos resolvidos para recompilação rápida.`,
     challenges: [
-      { question: "What prefix denotes a relative import?", answer: "./ or ../", points: 3 },
-      { question: "What prefix denotes built-in modules?", answer: "xs:", points: 3 },
-      { question: "Where does the compiler look for package imports?", answer: "node_modules", points: 3 },
-],
+      { question: "Qual prefixo denota um import relativo?", answer: "./ ou ../", points: 3 },
+      { question: "Qual prefixo denota módulos nativos?", answer: "xs:", points: 3 },
+      { question: "Onde o compilador procura por imports de pacote?", answer: "node_modules", points: 3 },
+    ],
   },
   {
     slug: "dependencias-circulares",
-    title: "Dependencias Circulares",
+    title: "Dependências Circulares",
     order: 77,
     points: 10,
-    bodyMd: `# Circular Dependencies
+    bodyMd: `# Dependências Circulares
 
-When module A imports from B and B imports from A.
+Quando o módulo A importa de B e B importa de A.
 
-## The Problem
+## O Problema
 
 \`\`\`xs
 // a.xs
@@ -3633,42 +3628,42 @@ import { aFn } from "./a.xs"
 export CHAMA ESSE CARA bFn() { aFn() }
 \`\`\`
 
-## How XanaScript Handles It
+## Como o XanaScript Lida
 
-The compiler detects cycles and allows them if they don't cause infinite initialization:
+O compilador detecta ciclos e permite se não causarem inicialização infinita:
 
-- Exports are hoisted (available before initialization)
-- Runtime error if a circular import is used before its exports resolve
+- Exports são içados (disponíveis antes da inicialização)
+- Erro em tempo de execução se um import circular for usado antes de suas exports resolverem
 
-## Best Practices
+## Melhores Práticas
 
-Avoid cycles by:
+Evite ciclos:
 
-- Extracting shared logic into a third module
-- Using dependency injection
-- Restructuring to one-directional flow
+- Extraindo lógica compartilhada em um terceiro módulo
+- Usando injeção de dependência
+- Reestruturando para fluxo unidirecional
 
 \`\`\`xs
-// shared.xs (extracted common code)
+// shared.xs (código comum extraído)
 export CHAMA ESSE CARA util() { ... }
 \`\`\`
 
-Cycles are sometimes unavoidable but should be minimized.`,
+Ciclos são às vezes inevitáveis, mas devem ser minimizados.`,
     challenges: [
-      { question: "Can XanaScript handle circular dependencies?", answer: "yes, with hoisted exports", points: 3 },
-      { question: "What is the best way to resolve cycles?", answer: "extract shared logic into a third module", points: 5 },
-],
+      { question: "XanaScript pode lidar com dependências circulares?", answer: "sim, com exports içados", points: 3 },
+      { question: "Qual é a melhor forma de resolver ciclos?", answer: "extrair lógica compartilhada em um terceiro módulo", points: 5 },
+    ],
   },
   {
     slug: "criando-pacotes",
     title: "Criando Pacotes",
     order: 78,
     points: 10,
-    bodyMd: `# Creating Packages
+    bodyMd: `# Criando Pacotes
 
-Package your modules for distribution.
+Empacote seus módulos para distribuição.
 
-## Package Structure
+## Estrutura do Pacote
 
 \`\`\`
 meu-pacote/
@@ -3692,7 +3687,7 @@ meu-pacote/
 }
 \`\`\`
 
-## Entry Point
+## Ponto de Entrada
 
 \`\`\`xs
 // src/index.xs
@@ -3700,4190 +3695,5026 @@ export { soma } from "./utils.xs"
 export { Cliente } from "./cliente.xs"
 \`\`\`
 
-## Publishing
+## Publicando
 
 \`\`\`bash
 xs publish
 \`\`\`
 
-Or via npm:
+Ou via npm:
 
 \`\`\`bash
 npm publish
 \`\`\`
 
-Packages enable code sharing across projects and with the community.`,
+Pacotes permitem compartilhamento de código entre projetos e com a comunidade.`,
     challenges: [
-      { question: "What file configures a package?", answer: "package.json", points: 3 },
-      { question: "What field specifies the entry point?", answer: "main or xs.entry", points: 3 },
-      { question: "How do you publish a package?", answer: "xs publish or npm publish", points: 3 },
-],
+      { question: "Qual arquivo configura um pacote?", answer: "package.json", points: 3 },
+      { question: "Qual campo especifica o ponto de entrada?", answer: "main ou xs.entry", points: 3 },
+      { question: "Como você publica um pacote?", answer: "xs publish ou npm publish", points: 3 },
+    ],
   },
   {
-    slug: "carregamento-preguicoso",
-    title: "Carregamento Preguicoso",
+    slug: "ecossistema-de-pacotes",
+    title: "Ecossistema de Pacotes",
     order: 79,
-    points: 10,
-    bodyMd: `# Lazy Loading
+    points: 5,
+    bodyMd: `# Ecossistema de Pacotes
 
-Load modules on demand to improve startup time.
+Visão geral das ferramentas de pacotes XanaScript.
 
-## Dynamic Import
+## Registro
 
-\`\`\`xs
-CHAMA ESSE CARA carregarModulo(nome) {
-  CRIA mod = await import("./" + nome + ".xs")
-  mod.executar()
+O registro oficial de pacotes XanaScript hospeda milhares de pacotes.
+
+## Ferramentas CLI
+
+\`\`\`bash
+# Instalar um pacote
+xs install nome-do-pacote
+
+# Remover um pacote
+xs remove nome-do-pacote
+
+# Listar pacotes instalados
+xs list
+
+# Atualizar pacotes
+xs update
+\`\`\`
+
+## Gerenciamento de Versão
+
+\`\`\`bash
+xs install pacote@1.2.3
+xs install pacote@^1.0.0
+\`\`\`
+
+## Scripts
+
+\`\`\`json
+{
+  "scripts": {
+    "build": "xs build",
+    "test": "xs test",
+    "start": "xs run src/main.xs"
+  }
 }
 \`\`\`
 
-## Conditional Loading
-
-\`\`\`xs
-SE LIGA SO (processo.OS == "windows") {
-  CRIA win = await import("./windows.xs")
-  win.configurar()
-} SENAO {
-  CRIA unix = await import("./unix.xs")
-  unix.configurar()
-}
-\`\`\`
-
-## Lazy vs Eager
-
-- Eager: all code loaded at startup
-- Lazy: code loaded when needed
-
-## Benefits
-
-- Faster startup
-- Lower memory usage
-- Code splitting for large apps
-
-Use lazy loading for rarely-used features or platform-specific code.`,
+O ecossistema fornece ferramentas para descoberta, instalação e atualização de pacotes.`,
     challenges: [
-      { question: "What function dynamically imports a module?", answer: "import()", points: 3 },
-      { question: "What is a benefit of lazy loading?", answer: "faster startup / lower memory", points: 3 },
-      { question: "When should you use lazy loading?", answer: "for rarely-used features or platform-specific code", points: 3 },
-],
+      { question: "Qual comando instala um pacote?", answer: "xs install", points: 3 },
+      { question: "Qual comando remove um pacote?", answer: "xs remove", points: 3 },
+      { question: "Onde os pacotes XanaScript são hospedados?", answer: "no registro oficial XanaScript", points: 3 },
+    ],
   },
   {
-    slug: "escopo-de-modulo",
-    title: "Escopo de Modulo",
+    slug: "coleta-de-lixo",
+    title: "Coleta de Lixo em XanaScript",
     order: 80,
     points: 5,
-    bodyMd: `# Module Scope
+    bodyMd: `# Coleta de Lixo
 
-Each module has its own scope.
+XanaScript possui coleta de lixo automática.
 
-## Top-Level Scope
+## Como Funciona
 
-Variables declared at the top level are module-scoped (not global):
-
-\`\`\`xs
-// config.xs
-CRIA _senha = "secreta"  // only visible in this module
-export CRIA versao = "1.0"
-\`\`\`
-
-## Global Variables
-
-Use \`global\` for cross-module state:
+O coletor de lixo recupera automaticamente a memória que não é mais referenciada.
 
 \`\`\`xs
-// globals.xs
-global.appName = "MeuApp"
-global.version = "1.0"
+CHAMA ESSE CARA criarArray() {
+  CRIA arr = [1, 2, 3]
+  VOLTA arr
+}
+// arr não é mais acessível após a função retornar (se não atribuído)
 \`\`\`
 
-## Import Side Effects
+## Coleta Gerenciada
 
-Importing a module executes its top-level code once:
+- Objetos são alocados no heap
+- GC rastreia referências
+- Memória é liberada quando não referenciada
+
+## Referências Fracas
 
 \`\`\`xs
-// Executes once when first imported
-import "./config.xs"
+CRIA cache = new MapFino()
+cache.set("key", { dados: "teste" })
+// O valor pode ser coletado se não houver outras referências
 \`\`\`
 
-## Module Caching
+## Boas Práticas
 
-Modules are cached after first import. Subsequent imports use the cached instance.
+- Não confie em GC para limpeza de recursos (use FINALLY)
+- Nullifique referências para liberar mais cedo
+- Evite vazamentos de memória com listeners
 
-Module scope prevents naming collisions and encourages encapsulation.`,
+A GC torna a gestão de memória automática, mas entenda suas implicações.`,
     challenges: [
-      { question: "Are top-level variables automatically global?", answer: "no, they are module-scoped", points: 3 },
-      { question: "What keyword creates a cross-module global?", answer: "global", points: 3 },
-      { question: "Are modules cached after first import?", answer: "yes", points: 3 },
-],
+      { question: "XanaScript possui GC automática?", answer: "sim", points: 3 },
+      { question: "O que a GC recupera?", answer: "memória não referenciada", points: 3 },
+      { question: "GC substitui limpeza manual de recursos?", answer: "não", points: 5 },
+    ],
   },
   {
-    slug: "padroes-de-modulo",
-    title: "Padroes de Modulo",
+    slug: "consideracoes-de-desempenho",
+    title: "Considerações de Desempenho",
     order: 81,
-    points: 5,
-    bodyMd: `# Module Standards
-
-Conventions for organizing modules.
-
-## File Naming
-
-- Use \`kebab-case.xs\` for filenames
-- One main export per file
-- Index files for barrel exports
-
-## Directory Structure
-
-\`\`\`
-src/
-  index.xs           // main entry
-  components/        // UI components
-    button.xs
-    input.xs
-  services/          // business logic
-    auth.xs
-    api.xs
-  utils/             // helpers
-    format.xs
-    validacao.xs
-\`\`\`
-
-## Barrel Exports
-
-\`\`\`xs
-// src/components/index.xs
-export { Button } from "./button.xs"
-export { Input } from "./input.xs"
-\`\`\`
-
-## Module Responsibility
-
-Each module should:
-- Do one thing well
-- Have a clear public API
-- Minimize dependencies
-
-Consistent structure makes navigation predictable.`,
-    challenges: [
-      { question: "What naming convention is recommended for .xs files?", answer: "kebab-case", points: 3 },
-      { question: "What is a barrel export?", answer: "re-exports from multiple files in one index", points: 3 },
-      { question: "What should each module do?", answer: "one thing well with a clear API", points: 3 },
-],
-  },
-  {
-    slug: "leitura-de-arquivos",
-    title: "Leitura de Arquivos",
-    order: 82,
-    points: 5,
-    bodyMd: `# Reading Files
-
-Use \`xs:fs\` module for file operations.
-
-## Read File (Sync)
-
-\`\`\`xs
-import { readFile } from "xs:fs"
-
-CRIA conteudo = readFile("dados.txt", "utf8")
-SOLTA O GRITO(conteudo)
-\`\`\`
-
-## Read File (Async)
-
-\`\`\`xs
-import { readFileAsync } from "xs:fs"
-
-CRIA conteudo = await readFileAsync("dados.txt")
-SOLTA O GRITO(conteudo)
-\`\`\`
-
-## Read Lines
-
-\`\`\`xs
-import { readLines } from "xs:fs"
-
-PARA CADA (linha EM readLines("dados.txt")) {
-  SOLTA O GRITO(linha)
-}
-\`\`\`
-
-## File Info
-
-\`\`\`xs
-import { stat } from "xs:fs"
-
-CRIA info = stat("arquivo.txt")
-SOLTA O GRITO(info.tamanho)
-SOLTA O GRITO(info.modified)
-\`\`\`
-
-Always handle errors when reading files.`,
-    challenges: [
-      { question: "What module provides file operations?", answer: "xs:fs", points: 3 },
-      { question: "What function reads a file synchronously?", answer: "readFile", points: 3 },
-      { question: "How do you read a file asynchronously?", answer: "readFileAsync with await", points: 3 },
-],
-  },
-  {
-    slug: "escrita-de-arquivos",
-    title: "Escrita de Arquivos",
-    order: 83,
-    points: 5,
-    bodyMd: `# Writing Files
-
-Write content to files using \`xs:fs\`.
-
-## Write File
-
-\`\`\`xs
-import { writeFile } from "xs:fs"
-
-writeFile("saida.txt", "Conteudo do arquivo", "utf8")
-\`\`\`
-
-## Append to File
-
-\`\`\`xs
-import { appendFile } from "xs:fs"
-
-appendFile("log.txt", "Nova linha\n")
-\`\`\`
-
-## Async Write
-
-\`\`\`xs
-await writeFileAsync("dados.json", JSON.serializa(objeto))
-\`\`\`
-
-## Create Directory
-
-\`\`\`xs
-import { mkdir } from "xs:fs"
-mkdir("novo-diretorio", { recursivo: true })
-\`\`\`
-
-## Check Existence
-
-\`\`\`xs
-import { exists } from "xs:fs"
-SE LIGA SO (exists("arquivo.txt")) {
-  // safe to read
-}
-\`\`\`
-
-Always close resources and handle write errors.`,
-    challenges: [
-      { question: "What function writes to a file?", answer: "writeFile", points: 3 },
-      { question: "What function appends to a file?", answer: "appendFile", points: 3 },
-      { question: "What flag creates parent directories?", answer: "recursivo: true", points: 3 },
-],
-  },
-  {
-    slug: "manipulacao-de-json",
-    title: "Manipulacao de JSON",
-    order: 84,
     points: 10,
-    bodyMd: `# JSON File Handling
+    bodyMd: `# Desempenho
 
-Read and write JSON data.
+Escreva código XanaScript eficiente.
 
-## Reading JSON
+## Alocação no Hot Path
 
-\`\`\`xs
-import { readFile } from "xs:fs"
-
-CRIA raw = readFile("config.json", "utf8")
-CRIA config = JSON.parse(raw)
-SOLTA O GRITO(config.host)
-\`\`\`
-
-## Writing JSON
+Evite alocações desnecessárias em loops:
 
 \`\`\`xs
-import { writeFile } from "xs:fs"
-
-CRIA dados = {
-  nome: "Maria",
-  idade: 30,
-  ativo: true
+// Ruim: cria novo array a cada iteração
+PARA CADA (i EM range(1000)) {
+  CRIA temp = [i, i * 2]
 }
 
-writeFile("user.json", JSON.serializa(dados, null, 2))
-\`\`\`
-
-## JSON.parse Options
-
-\`\`\`xs
-// Reviver function transforms values
-CRIA data = JSON.parse(raw, (chave, valor) => {
-  SE LIGA SO (chave == "data") { VOLTA new Data(valor) }
-  VOLTA valor
-})
-\`\`\`
-
-## Error Handling
-
-\`\`\`xs
-TENTE {
-  CRIA config = JSON.parse(raw)
-} CAPTURA (e) {
-  SOLTA O GRITO("JSON invalido: " + e)
+// Bom: alocar uma vez
+CRIA temp = []
+PARA CADA (i EM range(1000)) {
+  temp[0] = i
+  temp[1] = i * 2
 }
 \`\`\`
 
-JSON is the standard format for structured data exchange.`,
-    challenges: [
-      { question: "What function parses a JSON string?", answer: "JSON.parse", points: 3 },
-      { question: "What function serializes to JSON?", answer: "JSON.serializa", points: 3 },
-      { question: "Why handle JSON parse errors?", answer: "because input may be malformed", points: 3 },
-],
-  },
-  {
-    slug: "fluxos-de-arquivo",
-    title: "Fluxos de Arquivo",
-    order: 85,
-    points: 10,
-    bodyMd: `# File Streams
+## Cache de Tamanhos
 
-Process large files without loading entirely into memory.
-
-## Reading Stream
-
-\`\`\`xs
-import { createReadStream } from "xs:fs"
-
-CRIA stream = createReadStream("grande.txt")
-
-stream.em("dados", (chunk) => {
-  processaChunk(chunk)
-})
-
-stream.em("fim", () => {
-  SOLTA O GRITO("Leitura concluida")
-})
-\`\`\`
-
-## Writing Stream
-
-\`\`\`xs
-import { createWriteStream } from "xs:fs"
-
-CRIA out = createWriteStream("saida.txt")
-PARA CADA (item EM dados) {
-  out.escreve(item + "\n")
-}
-out.fecha()
-\`\`\`
-
-## Piping
-
-\`\`\`xs
-import { createReadStream, createWriteStream } from "xs:fs"
-
-CRIA origem = createReadStream("origem.txt")
-CRIA destino = createWriteStream("destino.txt")
-origem.pipe(destino)
-\`\`\`
-
-Streams prevent memory issues with files larger than available RAM.`,
-    challenges: [
-      { question: "Why use streams for large files?", answer: "to avoid loading entire file into memory", points: 5 },
-      { question: "What event provides data chunks?", answer: "dados", points: 3 },
-      { question: "What method connects read to write stream?", answer: "pipe", points: 3 },
-],
-  },
-  {
-    slug: "manipulacao-de-caminhos",
-    title: "Manipulacao de Caminhos",
-    order: 86,
-    points: 5,
-    bodyMd: `# Path Manipulation
-
-Work with file paths using \`xs:path\`.
-
-## Path Operations
-
-\`\`\`xs
-import { join, resolve, dirname, basename, extname } from "xs:path"
-
-CRIA full = join("pasta", "sub", "arquivo.xs")
-CRIA abs = resolve("./relativo.txt")
-CRIA dir = dirname("/a/b/c.txt")  // /a/b
-CRIA base = basename("/a/b/c.txt") // c.txt
-CRIA ext = extname("arquivo.xs")   // .xs
-\`\`\`
-
-## Platform Independence
-
-\`join\` uses the correct separator for the platform:
-
-\`\`\`xs
-// Windows: pasta\sub\arquivo
-// Linux: pasta/sub/arquivo
-CRIA path = join("pasta", "sub", "arquivo")
-\`\`\`
-
-## Relative Paths
-
-\`\`\`xs
-import { relative } from "xs:path"
-CRIA rel = relative("/a/b/c", "/a/d/e")  // ../../d/e
-\`\`\`
-
-Always use \`xs:path\` instead of string concatenation for paths.`,
-    challenges: [
-      { question: "What module provides path utilities?", answer: "xs:path", points: 3 },
-      { question: "What function joins path segments?", answer: "join", points: 3 },
-      { question: "Why use join instead of string concatenation?", answer: "for platform-independent path separators", points: 3 },
-],
-  },
-  {
-    slug: "operacoes-com-diretorios",
-    title: "Operacoes com Diretorios",
-    order: 87,
-    points: 5,
-    bodyMd: `# Directory Operations
-
-List, create, and remove directories.
-
-## List Directory
-
-\`\`\`xs
-import { readdir } from "xs:fs"
-
-CRIA arquivos = readdir("./pasta")
-PARA CADA (arquivo EM arquivos) {
-  SOLTA O GRITO(arquivo)
-}
-\`\`\`
-
-## Recursive Listing
-
-\`\`\`xs
-import { glob } from "xs:fs"
-
-CRIA todos = glob("src/**/*.xs")
-SOLTA O GRITO(todos)  // all .xs files recursively
-\`\`\`
-
-## Remove Directory
-
-\`\`\`xs
-import { rmdir, remove } from "xs:fs"
-
-rmdir("pasta-vazia")
-remove("pasta-com-tudo")  // recursive remove
-\`\`\`
-
-## Watch Directory
-
-\`\`\`xs
-import { watch } from "xs:fs"
-
-watch("./src", (evento, arquivo) => {
-  SOLTA O GRITO(arquivo + " foi " + evento)
-})
-\`\`\`
-
-Directory operations support building tools like file watchers and build systems.`,
-    challenges: [
-      { question: "What function lists a directory?", answer: "readdir", points: 3 },
-      { question: "What function finds files by pattern?", answer: "glob", points: 3 },
-      { question: "What function watches for file changes?", answer: "watch", points: 3 },
-],
-  },
-  {
-    slug: "arquivos-temporarios",
-    title: "Arquivos Temporarios",
-    order: 88,
-    points: 5,
-    bodyMd: `# Temporary Files
-
-Create and manage temporary files.
-
-## Temp File
-
-\`\`\`xs
-import { tmpFile, tmpDir } from "xs:fs"
-
-CRIA arquivo = tmpFile({ prefix: "meuapp-", suffix: ".txt" })
-arquivo.escreve("dados temporarios")
-// arquivo.caminho -> /tmp/meuapp-XXXXX.txt
-\`\`\`
-
-## Temp Directory
-
-\`\`\`xs
-CRIA dir = tmpDir({ prefix: "build-" })
-// dir.caminho -> /tmp/build-XXXXX/
-\`\`\`
-
-## Auto Cleanup
-
-\`\`\`xs
-CHAMA ESSE CARA processarArquivo() {
-  CRIA tmp = tmpFile()
-  TENTE {
-    // use file
-  } FINALLY {
-    tmp.remove()  // clean up
-  }
-}
-\`\`\`
-
-Temporary files isolate operations and prevent permanent clutter.`,
-    challenges: [
-      { question: "What function creates a temporary file?", answer: "tmpFile", points: 3 },
-      { question: "Should you clean up temporary files?", answer: "yes, in FINALLY block", points: 3 },
-      { question: "What option sets the filename prefix?", answer: "prefix", points: 3 },
-],
-  },
-  {
-    slug: "codificacao-de-arquivos",
-    title: "Codificacao de Arquivos",
-    order: 89,
-    points: 5,
-    bodyMd: `# File Encodings
-
-Handle different text encodings.
-
-## Encoding Options
-
-\`\`\`xs
-import { readFile } from "xs:fs"
-
-CRIA utf8 = readFile("texto.txt", "utf8")
-CRIA latin1 = readFile("antigo.txt", "latin1")
-CRIA bin = readFile("dados.bin", "binary")
-\`\`\`
-
-## Binary Data
-
-\`\`\`xs
-CRIA buffer = readFile("imagem.png", "binary")
-SOLTA O GRITO(buffer.length)  // bytes
-\`\`\`
-
-## Writing with Encoding
-
-\`\`\`xs
-writeFile("saida.txt", "Conteudo", "utf8")
-writeFile("saida.bin", Buffer.de([0xFF, 0xFE]), "binary")
-\`\`\`
-
-## BOM Handling
-
-UTF-8 BOM is automatically stripped on read, added on write.
-
-## Detecting Encoding
-
-\`\`\`xs
-import { detectEncoding } from "xs:fs"
-CRIA enc = detectEncoding("arquivo.txt")
-\`\`\`
-
-Using the correct encoding prevents data corruption with special characters.`,
-    challenges: [
-      { question: "What encoding is default for text files?", answer: "utf8", points: 3 },
-      { question: "What mode reads raw bytes?", answer: "binary", points: 3 },
-      { question: "What function detects file encoding?", answer: "detectEncoding", points: 3 },
-],
-  },
-  {
-    slug: "basico-de-assincrono-com-prometa",
-    title: "Basico de Assincrono com PROMETA",
-    order: 90,
-    points: 5,
-    bodyMd: `# Async Basics
-
-Promises in XanaScript use \`PROMETA\` (promise).
-
-## Creating a Promise
-
-\`\`\`xs
-CRIA promessa = PROMETA.novo((resolver, rejeitar) => {
-  SE LIGA SO (sucesso) {
-    resolver("Funcionou!")
-  } SENAO {
-    rejeitar("Falhou!")
-  }
-})
-\`\`\`
-
-## Consuming
-
-\`\`\`xs
-promessa
-  .entao((valor) => { SOLTA O GRITO(valor) })
-  .captura((erro) => { SOLTA O GRITO(erro) })
-\`\`\`
-
-## Promise States
-
-- \`Pendente\`: initial state
-- \`Resolvida\`: completed successfully
-- \`Rejeitada\`: failed
-
-\`PROMETA\` enables non-blocking async operations.`,
-    challenges: [
-      { question: "What class creates promises?", answer: "PROMETA", points: 3 },
-      { question: "What method handles success?", answer: "entao", points: 3 },
-      { question: "What method handles failure?", answer: "captura", points: 3 },
-],
-  },
-  {
-    slug: "async-await",
-    title: "Async/Await",
-    order: 91,
-    points: 10,
-    bodyMd: `# Async/Await
-
-Write async code that reads like synchronous code.
-
-## Async Function
-
-\`\`\`xs
-CHAMA ESSE CARA ASSINCRONO buscarDados() {
-  CRIA resposta = await fetch("https://api.exemplo.com")
-  CRIA dados = await resposta.json()
-  VOLTA dados
-}
-\`\`\`
-
-## Await
-
-\`await\` pauses execution until the promise resolves:
-
-\`\`\`xs
-CHAMA ESSE CARA ASSINCRONO main() {
-  SOLTA O GRITO("Iniciando...")
-  CRIA resultado = await operacaoLenta()
-  SOLTA O GRITO("Concluido: " + resultado)
-}
-\`\`\`
-
-## Error Handling
-
-\`\`\`xs
-CHAMA ESSE CARA ASSINCRONO seguro() {
-  TENTE {
-    CRIA r = await operacaoRiscada()
-    SOLTA O GRITO(r)
-  } CAPTURA (e) {
-    SOLTA O GRITO("Erro: " + e)
-  }
-}
-\`\`\`
-
-\`await\` can only be used in \`ASSINCRONO\` functions.`,
-    challenges: [
-      { question: "What keyword makes a function async?", answer: "ASSINCRONO", points: 3 },
-      { question: "What keyword awaits a promise?", answer: "await", points: 3 },
-      { question: "Can await be used in non-async functions?", answer: "no", points: 3 },
-],
-  },
-  {
-    slug: "execucao-paralela",
-    title: "Execucao Paralela",
-    order: 92,
-    points: 10,
-    bodyMd: `# Parallel Execution
-
-Run multiple async operations concurrently.
-
-## Promise.all
-
-\`\`\`xs
-CRIA [a, b, c] = await PROMETA.tudo([
-  buscarUsuario(1),
-  buscarUsuario(2),
-  buscarUsuario(3)
-])
-\`\`\`
-
-## Promise.allSettled
-
-Wait for all, regardless of failures:
-
-\`\`\`xs
-CRIA resultados = await PROMETA.tudoResolvido([
-  operacao1(),
-  operacao2()
-])
-
-PARA CADA (r EM resultados) {
-  SE LIGA SO (r.status == "resolvida") {
-    SOLTA O GRITO(r.valor)
-  } SENAO {
-    SOLTA O GRITO("Falhou: " + r.motivo)
-  }
-}
-\`\`\`
-
-## Promise.race
-
-First to resolve/reject wins:
-
-\`\`\`xs
-CRIA resultado = await PROMETA.corrida([
-  buscarDados(),
-  timeout(5000)
-])
-\`\`\`
-
-Parallel execution speeds up independent operations.`,
-    challenges: [
-      { question: "What function waits for all promises?", answer: "PROMETA.tudo", points: 3 },
-      { question: "What function waits for all regardless of outcome?", answer: "PROMETA.tudoResolvido", points: 5 },
-      { question: "What function returns the first settled promise?", answer: "PROMETA.corrida", points: 3 },
-],
-  },
-  {
-    slug: "fila-assincrona",
-    title: "Fila Assincrona & Throttling",
-    order: 93,
-    points: 10,
-    bodyMd: `# Async Queue
-
-Control concurrency with queues.
-
-## Simple Queue
-
-\`\`\`xs
-CLASSE Fila {
-  PRIVADO CRIA _tarefas = []
-  PRIVADO CRIA _emProgresso = 0
-  PRIVADO CRIA _limite
-
-  CHAMA ESSE CARA init(limite = 5) { ISTO._limite = limite }
-
-  CHAMA ESSE CARA adicionar(fn) {
-    VOLTA PROMETA.novo((resolver) => {
-      ISTO._tarefas.empurra({ fn, resolver })
-      ISTO._processar()
-    })
-  }
-
-  PRIVADO CHAMA ESSE CARA _processar() {
-    ENQUANTO (ISTO._emProgresso < ISTO._limite E ISTO._tarefas.tamanho > 0) {
-      CRIA { fn, resolver } = ISTO._tarefas.tira()
-      ISTO._emProgresso += 1
-      fn().entao((r) => {
-        ISTO._emProgresso -= 1
-        resolver(r)
-        ISTO._processar()
-      })
-    }
-  }
-}
-\`\`\`
-
-Limiting concurrency prevents overwhelming resources.`,
-    challenges: [
-      { question: "What is a queue used for in async?", answer: "controlling concurrency", points: 3 },
-      { question: "Why limit concurrent operations?", answer: "to prevent overwhelming resources", points: 5 },
-],
-  },
-  {
-    slug: "timers-e-intervalos",
-    title: "Timers & Intervalos",
-    order: 94,
-    points: 5,
-    bodyMd: `# Timers & Intervals
-
-Schedule delayed or repeated execution.
-
-## setTimeout
-
-\`\`\`xs
-import { setTimeout } from "xs:timers"
-
-CRIA timer = setTimeout(() => {
-  SOLTA O GRITO("Passaram 2 segundos")
-}, 2000)
-\`\`\`
-
-## setInterval
-
-\`\`\`xs
-CRIA contador = 0
-CRIA intervalo = setInterval(() => {
-  contador += 1
-  SOLTA O GRITO("Tick: " + contador)
-
-  SE LIGA SO (contador >= 5) {
-    clearInterval(intervalo)
-  }
-}, 1000)
-\`\`\`
-
-## Promise-Based Delay
-
-\`\`\`xs
-CHAMA ESSE CARA ASSINCRONO esperar(ms) {
-  VOLTA PROMETA.novo((resolver) => setTimeout(resolver, ms))
-}
-
-await esperar(3000)
-\`\`\`
-
-## Clearing
-
-\`\`\`xs
-clearTimeout(timer)
-clearInterval(intervalo)
-\`\`\`
-
-Always clear timers when no longer needed.`,
-    challenges: [
-      { question: "What function schedules a one-time callback?", answer: "setTimeout", points: 3 },
-      { question: "What function schedules repeated callbacks?", answer: "setInterval", points: 3 },
-      { question: "How do you stop an interval?", answer: "clearInterval", points: 3 },
-],
-  },
-  {
-    slug: "web-workers",
-    title: "Web Workers / Threads",
-    order: 95,
-    points: 10,
-    bodyMd: `# Web Workers
-
-Run CPU-intensive tasks in separate threads.
-
-## Creating a Worker
-
-\`\`\`xs
-import { Worker } from "xs:workers"
-
-CRIA worker = Worker.novo("./heavy-task.xs")
-
-worker.em("mensagem", (dados) => {
-  SOLTA O GRITO("Resultado: " + dados)
-})
-
-worker.envia({ acao: "processar", dados: [...] })
-\`\`\`
-
-## Worker File
-
-\`\`\`xs
-// heavy-task.xs
-self.em("mensagem", (msg) => {
-  CRIA resultado = executarTarefaPesada(msg.dados)
-  self.envia(resultado)
-})
-\`\`\`
-
-## Thread Pool
-
-\`\`\`xs
-import { ThreadPool } from "xs:workers"
-
-CRIA pool = ThreadPool.novo(4)  // 4 threads
-CRIA resultados = await pool.executar(
-  itens,
-  (item) => processar(item)
-)
-\`\`\`
-
-Workers enable true parallelism for CPU-bound work.`,
-    challenges: [
-      { question: "What module provides workers?", answer: "xs:workers", points: 3 },
-      { question: "How do workers communicate?", answer: "via mensagem events / envia()", points: 3 },
-      { question: "Why use a thread pool?", answer: "to limit concurrent threads and reuse them", points: 5 },
-],
-  },
-  {
-    slug: "emissor-de-eventos",
-    title: "Emissor de Eventos",
-    order: 96,
-    points: 5,
-    bodyMd: `# Event Emitter
-
-Publish/subscribe pattern for decoupled communication.
-
-## Creating Emitter
-
-\`\`\`xs
-import { EventEmitter } from "xs:events"
-
-CRIA emissor = EventEmitter.novo()
-
-emissor.em("dados", (payload) => {
-  SOLTA O GRITO("Recebido: " + payload)
-})
-
-emissor.emite("dados", { id: 1, nome: "Maria" })
-\`\`\`
-
-## Once
-
-\`\`\`xs
-emissor.once("conexao", () => {
-  SOLTA O GRITO("Primeira conexao (unica vez)")
-})
-\`\`\`
-
-## Remove Listener
-
-\`\`\`xs
-CHAMA ESSE CARA handler(d) { SOLTA O GRITO(d) }
-emissor.em("evento", handler)
-emissor.removeListener("evento", handler)
-\`\`\`
-
-## Custom Events
-
-\`\`\`xs
-CLASSE MeuServico EXTENDE EventEmitter {
-  CHAMA ESSE CARA buscarDados() {
-    // ... fetch data ...
-    ISTO.emite("completo", dados)
-  }
-}
-\`\`\`
-
-Event emitters enable loose coupling between components.`,
-    challenges: [
-      { question: "What method subscribes to an event?", answer: "em", points: 3 },
-      { question: "What method emits an event?", answer: "emite", points: 3 },
-      { question: "What method subscribes for a single event?", answer: "once", points: 3 },
-],
-  },
-  {
-    slug: "padroes-assincronos",
-    title: "Padroes Assincronos",
-    order: 97,
-    points: 10,
-    bodyMd: `# Async Patterns
-
-Common patterns for robust async code.
-
-## Retry with Backoff
-
-\`\`\`xs
-CHAMA ESSE CARA ASSINCRONO tentarComBackoff(fn, maxTentativas = 3) {
-  PARA CADA (i EM 1..maxTentativas) {
-    TENTE {
-      VOLTA await fn()
-    } CAPTURA (e) {
-      SE LIGA SO (i == maxTentativas) { JOGAR e }
-      await esperar(1000 * Math.pow(2, i))
-    }
-  }
-}
-\`\`\`
-
-## Timeout
-
-\`\`\`xs
-CHAMA ESSE CARA ASSINCRONO comTimeout(promessa, ms) {
-  CRIA timeout = PROMETA.novo((_, rej) =>
-    setTimeout(() => rej("Timeout"), ms)
-  )
-  VOLTA PROMETA.corrida([promessa, timeout])
-}
-\`\`\`
-
-## Sequential vs Parallel
-
-\`\`\`xs
-// Sequential (slower, ordered)
-PARA CADA (item EM items) {
-  CRIA r = await processar(item)
-}
-
-// Parallel (faster, unordered)
-CRIA resultados = await PROMETA.tudo(
-  items.mapa((item) => processar(item))
-)
-\`\`\`
-
-Choose the right pattern for your use case.`,
-    challenges: [
-      { question: "What is exponential backoff?", answer: "increasing delay between retries", points: 3 },
-      { question: "How do you add a timeout to a promise?", answer: "Promise.race with a rejection timer", points: 5 },
-      { question: "When should you use parallel execution?", answer: "when order does not matter", points: 3 },
-],
-  },
-  {
-    slug: "tipos-uniao",
-    title: "Tipos Uniao",
-    order: 98,
-    points: 5,
-    bodyMd: `# Union Types
-
-A value can be one of several types.
-
-## Union Syntax
-
-\`\`\`xs
-CRIA id: NUMERO | TEXTO = 42
-id = "abc123"  // also valid
-\`\`\`
-
-## Type Narrowing
-
-\`\`\`xs
-CHAMA ESSE CARA processarId(id: NUMERO | TEXTO) {
-  SE LIGA SO (TIPO(id) == NUMERO) {
-    SOLTA O GRITO("Numerico: " + id)
-  } SENAO {
-    SOLTA O GRITO("Texto: " + id)
-  }
-}
-\`\`\`
-
-## Union in Function Params
-
-\`\`\`xs
-CHAMA ESSE CARA exibir(valor: TEXTO | NUMERO | BOOLEANO) {
-  SOLTA O GRITO(TEXTO(valor))
-}
-\`\`\`
-
-## Pattern Matching with Unions
-
-\`\`\`xs
-COMBINA (id) {
-  CASO TIPO NUMERO => buscaPorNumero(id)
-  CASO TIPO TEXTO => buscaPorTexto(id)
-}
-\`\`\`
-
-Unions express "this or that" without class hierarchies.`,
-    challenges: [
-      { question: "What operator creates a union type?", answer: "|", points: 3 },
-      { question: "What technique checks which union variant?", answer: "type narrowing / TIPO()", points: 3 },
-      { question: "How do you match union variants?", answer: "COMBINA with CASO TIPO", points: 5 },
-],
-  },
-  {
-    slug: "tipos-intersecao",
-    title: "Tipos Intersecao",
-    order: 99,
-    points: 5,
-    bodyMd: `# Intersection Types
-
-Combine multiple types into one.
-
-## Intersection Syntax
-
-\`\`\`xs
-CRIA obj: TipoA & TipoB = {
-  // must have all properties of both
-}
-\`\`\`
-
-## Named Intersection
-
-\`\`\`xs
-TIPO UsuarioAdmin = Usuario & Admin
-
-CRIA user: UsuarioAdmin = {
-  // from Usuario
-  nome: "Maria",
-  email: "maria@email.com",
-  // from Admin
-  permissoes: ["ler", "escrever"],
-  nivel: 5
-}
-\`\`\`
-
-## Mixin Pattern
-
-\`\`\`xs
-TIPO ComNome = { nome: TEXTO }
-TIPO ComIdade = { idade: NUMERO }
-TIPO Pessoa = ComNome & ComIdade
-\`\`\`
-
-## Intersection vs Inheritance
-
-Intersection is structural — no class hierarchy needed. More flexible for composing behaviors.
-
-Use \`&\` to merge type requirements.`,
-    challenges: [
-      { question: "What operator creates an intersection type?", answer: "&", points: 3 },
-      { question: "What keyword defines a type alias?", answer: "TIPO", points: 3 },
-      { question: "Is intersection structural or nominal?", answer: "structural", points: 3 },
-],
-  },
-  {
-    slug: "genericos",
-    title: "Genericos",
-    order: 100,
-    points: 10,
-    bodyMd: `# Generics
-
-Parameterize types with type variables.
-
-## Generic Function
-
-\`\`\`xs
-CHAMA ESSE CARA primeiro<T>(lista: LISTA<T>): T | null {
-  SE LIGA SO (lista.tamanho > 0) { VOLTA lista[0] }
-  VOLTA null
-}
-
-CRIA n = primeiro<NUMERO>([1, 2, 3])
-CRIA s = primeiro<TEXTO>(["a", "b"])
-\`\`\`
-
-## Generic Class
-
-\`\`\`xs
-CLASSE Caixa<T> {
-  CRIA conteudo: T
-
-  CHAMA ESSE CARA init(valor: T) { ISTO.conteudo = valor }
-  PEGA valor(): T { VOLTA ISTO.conteudo }
-}
-
-CRIA cx = Caixa<NUMERO>.novo(42)
-SOLTA O GRITO(cx.valor)
-\`\`\`
-
-## Constraints
-
-\`\`\`xs
-TIPO Comparavel = { CHAMA ESSE CARA comparar(outro): NUMERO }
-
-CHAMA ESSE CARA max<T: Comparavel>(a: T, b: T): T {
-  VOLTA a.comparar(b) > 0 ? a : b
-}
-\`\`\`
-
-Generics enable type-safe reusable code.`,
-    challenges: [
-      { question: "What syntax declares a generic type parameter?", answer: "<T>", points: 3 },
-      { question: "Can you constrain type parameters?", answer: "yes, with T: Constraint", points: 5 },
-      { question: "What is a benefit of generics?", answer: "type-safe reusable code", points: 3 },
-],
-  },
-  {
-    slug: "tipos-mapeados",
-    title: "Tipos Mapeados",
-    order: 101,
-    points: 10,
-    bodyMd: `# Mapped Types
-
-Transform types by mapping over their properties.
-
-## Making Properties Optional
-
-\`\`\`xs
-TIPO Opcional<T> = {
-  [K EM chaves<T>]?: T[K]
-}
-
-CRIA user: Opcional<Usuario> = {}  // all optional
-\`\`\`
-
-## Readonly
-
-\`\`\`xs
-TIPO Imutavel<T> = {
-  readonly [K EM chaves<T>]: T[K]
-}
-\`\`\`
-
-## Property Value Transformation
-
-\`\`\`xs
-TIPO ComoTexto<T> = {
-  [K EM chaves<T>]: TEXTO
-}
-\`\`\`
-
-## Practical Use
-
-\`\`\`xs
-TIPO FormErrors<T> = {
-  [K EM chaves<T>]: TEXTO | null
-}
-\`\`\`
-
-Mapped types reduce boilerplate in type definitions.`,
-    challenges: [
-      { question: "What syntax maps over type keys?", answer: "[K in chaves<T>]", points: 3 },
-      { question: "Can you make all properties optional with a mapped type?", answer: "yes", points: 5 },
-      { question: "What keyword makes properties readonly?", answer: "readonly", points: 3 },
-],
-  },
-  {
-    slug: "tipos-condicionais",
-    title: "Tipos Condicionais",
-    order: 102,
-    points: 10,
-    bodyMd: `# Conditional Types
-
-Types that depend on a condition.
-
-## Basic Conditional
-
-\`\`\`xs
-TIPO TipoResultado<T> = T EXTENDE NUMERO ? "numerico" : "outro"
-
-CRIA a: TipoResultado<NUMERO>  // "numerico"
-CRIA b: TipoResultado<TEXTO>   // "outro"
-\`\`\`
-
-## Nested Conditions
-
-\`\`\`xs
-TIPO TipoExato<T> =
-  T EXTENDE NUMERO ? "numero" :
-  T EXTENDE TEXTO ? "texto" :
-  T EXTENDE BOOLEANO ? "booleano" :
-  "outro"
-\`\`\`
-
-## Extract Array Type
-
-\`\`\`xs
-TIPO TipoElemento<T> = T EXTENDE LISTA<infer U> ? U : T
-
-CRIA a: TipoElemento<LISTA<NUMERO>>  // NUMERO
-CRIA b: TipoElemento<TEXTO>          // TEXTO
-\`\`\`
-
-## Practical: Function Return Type
-
-\`\`\`xs
-TIPO Retorno<T> = T EXTENDE CHAMA ESSE CARA (...args: any[]) => infer R ? R : never
-\`\`\`
-
-Conditional types enable high-level type transformations.`,
-    challenges: [
-      { question: "What syntax checks a type condition?", answer: "T EXTENDE U ? A : B", points: 3 },
-      { question: "What keyword infers a type in a conditional?", answer: "infer", points: 5 },
-      { question: "What is a practical use of conditional types?", answer: "extracting return types or element types", points: 3 },
-],
-  },
-  {
-    slug: "tipos-literais-de-template",
-    title: "Tipos Literais de Template",
-    order: 103,
-    points: 10,
-    bodyMd: `# Template Literal Types
-
-Create string types from templates.
-
-## Basic Template
-
-\`\`\`xs
-TIPO Saudacao = "ola, " + TEXTO
-CRIA msg: Saudacao = "ola, Maria"  // OK
-\`\`\`
-
-## Union Combinations
-
-\`\`\`xs
-TIPO Evento = "click" | "focus" | "blur"
-TIPO Handler = "on" + Evento  // "onclick" | "onfocus" | "onblur"
-\`\`\`
-
-## Pattern Matching
-
-\`\`\`xs
-TIPO MatchEvento<T> = T EXTENDE \`on\${infer E}\` ? E : never
-
-CRIA tipo: MatchEvento<"onclick">  // "click"
-\`\`\`
-
-## Validation Use
-
-\`\`\`xs
-TIPO Rota = \`/\${TEXTO}/\${TEXTO}
-CRIA r: Rota = "/usuario/42"  // OK
-\`\`\`
-
-Template literal types enable compile-time string validation.`,
-    challenges: [
-      { question: "What types can template literal types work with?", answer: "string types and unions", points: 3 },
-      { question: "Can template literal types parse string patterns?", answer: "yes, with infer", points: 5 },
-      { question: "What is a use case?", answer: "type-safe event handlers and routes", points: 3 },
-],
-  },
-  {
-    slug: "tipos-marcados",
-    title: "Tipos Marcados / Nominais",
-    order: 104,
-    points: 10,
-    bodyMd: `# Branded Types
-
-Simulate nominal typing with brands.
-
-## Brand Pattern
-
-\`\`\`xs
-TIPO UserId = TEXTO & { readonly __brand: "UserId" }
-TIPO ProductId = TEXTO & { readonly __brand: "ProductId" }
-
-CHAMA ESSE CARA criarUserId(id: TEXTO): UserId {
-  VOLTA id as UserId
-}
-
-CHAMA ESSE CARA buscarUsuario(id: UserId) { ... }
-CHAMA ESSE CARA buscarProduto(id: ProductId) { ... }
-\`\`\`
-
-## Safety
-
-\`\`\`xs
-CRIA uid = criarUserId("abc")
-CRIA pid = "xyz" as ProductId
-
-buscarUsuario(uid)   // OK
-buscarUsuario(pid)   // Type error!
-\`\`\`
-
-## When to Use
-
-- IDs of different entities
-- Currency amounts (Dolar vs Euro)
-- Units (Metros vs Centimetros)
-
-Branded types prevent mixing semantically different values of the same primitive type.`,
-    challenges: [
-      { question: "What technique creates nominal typing?", answer: "brand pattern with __brand", points: 3 },
-      { question: "Can you pass a ProductId where UserId is expected?", answer: "no, type error", points: 5 },
-      { question: "When are branded types useful?", answer: "distinguishing IDs, currencies, units", points: 3 },
-],
-  },
-  {
-    slug: "operador-satisfaz",
-    title: "Operador Satisfaz",
-    order: 105,
-    points: 10,
-    bodyMd: `# Satisfies Operator
-
-Check a value satisfies a type without widening.
-
-## Basic Usage
-
-\`\`\`xs
-CRIA config = {
-  host: "localhost",
-  port: 3000
-} SATISFAZ Config
-
-// config.host type is "localhost" literal, not TEXTO
-// config.port type is 3000 literal, not NUMERO
-\`\`\`
-
-## Without Satisfies
-
-\`\`\`xs
-CRIA config: Config = {
-  host: "localhost",  // type widens to TEXTO
-  port: 3000          // type widens to NUMERO
-}
-\`\`\`
-
-## Benefits
-
-- Preserves literal types for inference
-- Validates shape matches interface
-- Enables narrower types elsewhere
-
-\`SATISFAZ\` gives you the best of both worlds: validation + narrow types.`,
-    challenges: [
-      { question: "What operator checks a type without widening?", answer: "SATISFAZ", points: 3 },
-      { question: "What is the benefit over type annotation?", answer: "preserves literal types", points: 5 },
-      { question: "Does SATISFAZ validate the shape?", answer: "yes", points: 3 },
-],
-  },
-  {
-    slug: "reflexao-com-tipo-e-reflete",
-    title: "Reflexao com TIPO & REFLETE",
-    order: 106,
-    points: 5,
-    bodyMd: `# Reflection
-
-Inspect types and properties at runtime.
-
-## TIPO() Function
-
-\`\`\`xs
-CRIA x = 42
-SOLTA O GRITO(TIPO(x))  // NUMERO
-
-CRIA s = "texto"
-SOLTA O GRITO(TIPO(s))  // TEXTO
-\`\`\`
-
-## REFLETE Module
-
-\`\`\`xs
-import { typeInfo, properties, methods } from "xs:reflect"
-
-CRIA info = typeInfo(MinhaClasse)
-SOLTA O GRITO(info.nome)      // MinhaClasse
-SOLTA O GRITO(info.propriedades)
-SOLTA O GRITO(info.metodos)
-\`\`\`
-
-## Property Inspection
-
-\`\`\`xs
-CRIA props = properties(objeto)
-PARA CADA (p EM props) {
-  SOLTA O GRITO(p.nome + ": " + p.tipo)
-}
-\`\`\`
-
-## Check Inheritance
-
-\`\`\`xs
-CRIA ehFilho = REFLETE.extends(Cachorro, Animal)
-\`\`\`
-
-Reflection enables tools like serializers, ORMs, and DI containers.`,
-    challenges: [
-      { question: "What function returns a values type?", answer: "TIPO", points: 3 },
-      { question: "What module provides reflection?", answer: "xs:reflect", points: 3 },
-      { question: "What function checks class inheritance?", answer: "REFLETE.extends", points: 5 },
-],
-  },
-  {
-    slug: "proxies",
-    title: "Proxies",
-    order: 107,
-    points: 10,
-    bodyMd: `# Proxies
-
-Intercept operations on objects.
-
-## Creating a Proxy
-
-\`\`\`xs
-import { Proxy } from "xs:reflect"
-
-CRIA alvo = { nome: "Maria" }
-CRIA manipulador = {
-  PEGA: (obj, prop) => {
-    SOLTA O GRITO("Acessando: " + prop)
-    VOLTA obj[prop]
-  },
-  COLOCA: (obj, prop, valor) => {
-    SOLTA O GRITO("Modificando: " + prop + " = " + valor)
-    obj[prop] = valor
-    VOLTA true
-  }
-}
-
-CRIA proxy = Proxy.novo(alvo, manipulador)
-SOLTA O GRITO(proxy.nome)  // Acessando: nome -> Maria
-proxy.idade = 30            // Modificando: idade = 30
-\`\`\`
-
-## Use Cases
-
-- Logging
-- Validation
-- Lazy loading
-- Reactive programming
-
-Proxies enable metaprogramming without modifying the original object.`,
-    challenges: [
-      { question: "What class creates an interception layer?", answer: "Proxy", points: 3 },
-      { question: "What trap intercepts property reads?", answer: "PEGA (get)", points: 3 },
-      { question: "What is a common proxy use case?", answer: "logging, validation, lazy loading", points: 3 },
-],
-  },
-  {
-    slug: "decoradores",
-    title: "Decoradores",
-    order: 108,
-    points: 10,
-    bodyMd: `# Decorators
-
-Annotate and modify classes, methods, and properties.
-
-## Method Decorator
-
-\`\`\`xs
-CHAMA ESSE CARA logMetodo(alvo, nome, descritor) {
-  CRIA original = descritor.valor
-  descritor.valor = (...args) => {
-    SOLTA O GRITO("Chamando " + nome)
-    VOLTA original(...args)
-  }
-  VOLTA descritor
-}
-
-CLASSE Servico {
-  @logMetodo
-  CHAMA ESSE CARA processar() {
-    SOLTA O GRITO("Processando...")
-  }
-}
-\`\`\`
-
-## Class Decorator
-
-\`\`\`xs
-CHAMA ESSE CARA selavel(alvo) {
-  alvo.selado = true
-}
-
-@selavel
-CLASSE Config { ... }
-\`\`\`
-
-## Property Decorator
-
-\`\`\`xs
-CHAMA ESSE CARA obrigatorio(alvo, nome) {
-  // validate property
-}
-\`\`\`
-
-Decorate with the \`@\` syntax. Decorators are functions that receive metadata.`,
-    challenges: [
-      { question: "What syntax applies a decorator?", answer: "@nomeDoDecorator", points: 3 },
-      { question: "Can decorators modify method behavior?", answer: "yes, via the descriptor", points: 5 },
-      { question: "What are decorators useful for?", answer: "logging, validation, metadata", points: 3 },
-],
-  },
-  {
-    slug: "simbolos",
-    title: "Simbolos & Metaprogramacao",
-    order: 109,
-    points: 10,
-    bodyMd: `# Symbols
-
-Unique, immutable identifiers for metaprogramming.
-
-## Creating Symbols
-
-\`\`\`xs
-CRIA SIMBOLO id = SIMBOLO()
-CRIA SIMBOLO chave = SIMBOLO("descricao")
-\`\`\`
-
-## Well-Known Symbols
-
-\`\`\`xs
-CRIA SIMBOLO iterator = SIMBOLO.iterator
-CRIA SIMBOLO toString = SIMBOLO.toStringTag
-\`\`\`
-
-## Hidden Properties
-
-\`\`\`xs
-CRIA SIMBOLO _privado = SIMBOLO()
-
-CRIA obj = {
-  [_privado]: "secreto",
-  publico: "visivel"
-}
-
-SOLTA O GRITO(obj.publico)    // visivel
-SOLTA O GRITO(obj[_privado])  // secreto (if you have the symbol)
-\`\`\`
-
-## Custom Iteration
-
-\`\`\`xs
-CLASSE Colecao {
-  CRIA items = []
-
-  CHAMA ESSE CARA [SIMBOLO.iterator]() {
-    VOLTA ISTO.items.iterator()
-  }
-}
-\`\`\`
-
-Symbols prevent property name collisions.`,
-    challenges: [
-      { question: "What function creates a symbol?", answer: "SIMBOLO", points: 3 },
-      { question: "Can symbol-keyed properties be accessed by string?", answer: "no", points: 3 },
-      { question: "What well-known symbol controls iteration?", answer: "SIMBOLO.iterator", points: 5 },
-],
-  },
-  {
-    slug: "geracao-de-codigo",
-    title: "Geracao de Codigo",
-    order: 110,
-    points: 10,
-    bodyMd: `# Code Generation
-
-Generate XanaScript code programmatically.
-
-## AST Building
-
-\`\`\`xs
-import { AST } from "xs:compiler"
-
-CRIA programa = AST.Programa({
-  corpo: [
-    AST.Expressao({
-      tipo: "ChamadaFuncao",
-      nome: "SOLTA O GRITO",
-      args: [AST.Literal("Ola gerado!")]
-    })
-  ]
-})
-\`\`\`
-
-## Generate Source
-
-\`\`\`xs
-import { generate } from "xs:compiler"
-
-CRIA codigo = generate(programa)
-// SOLTA O GRITO("Ola gerado!")
-\`\`\`
-
-## Compile String
-
-\`\`\`xs
-import { compile } from "xs:compiler"
-
-CRIA bytecode = compile("CRIA x = 42")
-\`\`\`
-
-## Eval
-
-\`\`\`xs
-import { eval } from "xs:runtime"
-
-CRIA resultado = eval("1 + 2")
-// 3
-\`\`\`
-
-Code generation enables macros and build tools.`,
-    challenges: [
-      { question: "What module provides AST building?", answer: "xs:compiler", points: 3 },
-      { question: "What function generates source from AST?", answer: "generate", points: 3 },
-      { question: "What function compiles a string?", answer: "compile", points: 3 },
-],
-  },
-  {
-    slug: "serializacao",
-    title: "Serializacao",
-    order: 111,
-    points: 10,
-    bodyMd: `# Serialization
-
-Convert objects to and from different formats.
-
-## JSON Serialization
-
-\`\`\`xs
-CRIA objeto = { nome: "Maria", idade: 30 }
-CRIA json = JSON.serializa(objeto)
-CRIA deVolta = JSON.parse(json)
-\`\`\`
-
-## Custom Serialization
-
-\`\`\`xs
-CLASSE Usuario {
-  CRIA nome, senha
-
-  CHAMA ESSE CARA paraJSON() {
-    VOLTA {
-      nome: ISTO.nome,
-      // exclude senha from serialization
-    }
-  }
-}
-\`\`\`
-
-## YAML
-
-\`\`\`xs
-import { parse, serialize } from "xs:yaml"
-CRIA dados = parse(yamlString)
-\`\`\`
-
-## Binary Serialization
-
-\`\`\`xs
-import { encode, decode } from "xs:binary"
-
-CRIA buffer = encode(objeto)
-CRIA original = decode(buffer)
-\`\`\`
-
-## Custom Format
-
-Implement \`paraJSON\` on classes to control serialization.`,
-    challenges: [
-      { question: "What function serializes to JSON?", answer: "JSON.serializa", points: 3 },
-      { question: "How do you customize serialization?", answer: "implement paraJSON method", points: 3 },
-      { question: "What modules handle non-JSON formats?", answer: "xs:yaml, xs:binary", points: 3 },
-],
-  },
-  {
-    slug: "anotacoes-e-metadados",
-    title: "Anotacoes de Tipo & Metadados",
-    order: 112,
-    points: 10,
-    bodyMd: `# Type Annotations & Metadata
-
-Access and manipulate type metadata.
-
-## Runtime Type Info
-
-\`\`\`xs
-CHAMA ESSE CARA mostrarTipo(valor) {
-  CRIA tipo = TIPO(valor)
-
-  COMBINA (tipo) {
-    CASO NUMERO => SOLTA O GRITO("E um numero")
-    CASO TEXTO => SOLTA O GRITO("E um texto")
-    CASO _ => SOLTA O GRITO("Tipo: " + tipo)
-  }
-}
-\`\`\`
-
-## instanceof
-
-\`\`\`xs
-SE LIGA SO (objeto INSTANCIA DE Classe) {
-  // object is instance
-}
-\`\`\`
-
-## Metadata Annotations
-
-\`\`\`xs
-import { Metadata } from "xs:reflect"
-
-CLASSE Controller {
-  @Metadata({ rota: "/api/users", metodo: "GET" })
-  CHAMA ESSE CARA listar() { ... }
-}
-\`\`\`
-
-## Reading Metadata
-
-\`\`\`xs
-CRIA meta = Metadata.get(Controller.prototype, "listar")
-SOLTA O GRITO(meta.rota)  // /api/users
-\`\`\`
-
-Metadata enables frameworks and decorator-based architectures.`,
-    challenges: [
-      { question: "What operator checks instanceof?", answer: "INSTANCIA DE", points: 3 },
-      { question: "How do you attach metadata?", answer: "@Metadata({...}) decorator", points: 5 },
-      { question: "What function reads metadata?", answer: "Metadata.get", points: 3 },
-],
-  },
-  {
-    slug: "metaprogramacao-avancada",
-    title: "Metaprogramacao Avancada",
-    order: 113,
-    points: 10,
-    bodyMd: `# Advanced Metaprogramming
-
-Techniques for dynamic code behavior.
-
-## Dynamic Dispatch
-
-\`\`\`xs
-CRIA metodos = {
-  soma: (a, b) => a + b,
-  mult: (a, b) => a * b
-}
-
-CRIA operacao = "soma"
-CRIA resultado = metodos[operacao](2, 3)  // 5
-\`\`\`
-
-## Method Missing
-
-\`\`\`xs
-CLASSE Delegador {
-  CHAMA ESSE CARA metodoFaltando(nome, args) {
-    SOLTA O GRITO("Metodo '" + nome + "' nao existe")
-  }
-}
-\`\`\`
-
-## Object Extend
-
-\`\`\`xs
-CRIA base = { a: 1 }
-CRIA extensao = { b: 2 }
-CRIA combinado = { ...base, ...extensao }  // { a: 1, b: 2 }
-\`\`\`
-
-## Function Composition
-
-\`\`\`xs
-CHAMA ESSE CARA compor(...fns) {
-  VOLTA (x) => fns.reduz((acc, fn) => fn(acc), x)
-}
-
-CRIA fn = compor((x) => x * 2, (x) => x + 1)
-SOLTA O GRITO(fn(5))  // 11
-\`\`\`
-
-Metaprogramming enables flexible, dynamic architectures.`,
-    challenges: [
-      { question: "What pattern dispatches methods dynamically?", answer: "dynamic dispatch with object lookup", points: 3 },
-      { question: "What operator spreads object properties?", answer: "...", points: 3 },
-      { question: "What is a benefit of metaprogramming?", answer: "flexible, dynamic architectures", points: 3 },
-],
-  },
-  {
-    slug: "gerenciamento-de-memoria",
-    title: "Gerenciamento de Memoria",
-    order: 114,
-    points: 5,
-    bodyMd: `# Memory Management
-
-XanaScript uses automatic garbage collection.
-
-## GC Strategy
-
-Generational garbage collection:
-- Young generation: frequent, small collections
-- Old generation: infrequent, full collections
-
-## Allocation
-
-\`\`\`xs
-CRIA obj = { dados: "..." }  // heap allocated
-CRIA num = 42                  // stack allocated (small ints)
-\`\`\`
-
-## GC Hints
-
-\`\`\`xs
-import { gc } from "xs:runtime"
-
-gc.coletar()          // force collection
-gc.desabilitar()      // pause GC
-gc.habilitar()        // resume GC
-\`\`\`
-
-## Weak References
-
-\`\`\`xs
-import { WeakRef } from "xs:runtime"
-
-CRIA ref = WeakRef.novo(objeto)
-CRIA obj = ref.deref()  // null if collected
-\`\`\`
-
-Understanding GC helps optimize memory-intensive applications.`,
-    challenges: [
-      { question: "What strategy does the GC use?", answer: "generational collection", points: 3 },
-      { question: "Are small integers stack or heap allocated?", answer: "stack", points: 3 },
-      { question: "What is a WeakRef?", answer: "a reference that does not prevent GC", points: 5 },
-],
-  },
-  {
-    slug: "prevencao-de-vazamentos",
-    title: "Prevencao de Vazamentos de Memoria",
-    order: 115,
-    points: 10,
-    bodyMd: `# Memory Leak Prevention
-
-Common leaks and how to avoid them.
-
-## Event Listener Leaks
-
-\`\`\`xs
-// Bad: listener never removed
-CRIA emissor = EventEmitter.novo()
-emissor.em("dados", handler)
-
-// Good: remove when done
-emissor.removeListener("dados", handler)
-\`\`\`
-
-## Closure Leaks
-
-\`\`\`xs
-CHAMA ESSE CARA criarGrande() {
-  CRIA grande = alocarGrande()  // held by closure
-
-  VOLTA () => {
-    SOLTA O GRITO("usando closure")
-    // reference to grande keeps it alive
-  }
-}
-\`\`\`
-
-## Timer Leaks
-
-\`\`\`xs
-CRIA timer = setInterval(() => {
-  // ...
-}, 1000)
-
-// Always clear when done
-clearInterval(timer)
-\`\`\`
-
-## Circular References
-
-\`\`\`xs
-// Modern GC handles cycles
-// But break explicit refs when possible
-objeto.ref = null
-\`\`\`
-
-Use heap snapshots and profiling tools to detect leaks.`,
-    challenges: [
-      { question: "What causes event listener leaks?", answer: "listeners not removed", points: 3 },
-      { question: "What causes closure leaks?", answer: "large objects captured in closure scope", points: 5 },
-      { question: "How do you prevent timer leaks?", answer: "clearInterval/clearTimeout when done", points: 3 },
-],
-  },
-  {
-    slug: "perfilamento",
-    title: "Perfilamento",
-    order: 116,
-    points: 10,
-    bodyMd: `# Profiling
-
-Measure and analyze performance.
-
-## Timing
-
-\`\`\`xs
-import { now, hrTime } from "xs:runtime"
-
-CRIA inicio = hrTime()
-// ... code to measure ...
-CRIA fim = hrTime()
-SOLTA O GRITO("Durou: " + (fim - inicio) + "ns")
-\`\`\`
-
-## Built-in Profiler
-
-\`\`\`xs
-import { profiler } from "xs:runtime"
-
-profiler.iniciar()
-// ... code ...
-CRIA relatorio = profiler.parar()
-SOLTA O GRITO(relatorio)
-\`\`\`
-
-## Memory Profile
-
-\`\`\`xs
-import { memory } from "xs:runtime"
-
-CRIA uso = memory.usado()
-SOLTA O GRITO("Heap: " + uso.heap + " bytes")
-SOLTA O GRITO("Objetos: " + uso.objetos)
-\`\`\`
-
-## Profiling Compiler Output
-
-\`\`\`xs
-xs run --profile meu-arquivo.xs
-\`\`\`
-
-Profile before optimizing to focus on actual bottlenecks.`,
-    challenges: [
-      { question: "What function returns high-resolution time?", answer: "hrTime", points: 3 },
-      { question: "What command profiles execution?", answer: "xs run --profile", points: 3 },
-      { question: "What should you do before optimizing?", answer: "profile to find actual bottlenecks", points: 5 },
-],
-  },
-  {
-    slug: "tecnicas-de-otimizacao",
-    title: "Tecnicas de Otimizacao",
-    order: 117,
-    points: 10,
-    bodyMd: `# Optimization Techniques
-
-Write performant XanaScript code.
-
-## Loop Optimization
-
 \`\`\`xs
-// Slow: property lookup each iteration
-PARA CADA (i EM 0..arr.tamanho-1) { ... }
+// Ruim
+PARA CADA (i EM range(arr.tamanho)) { }
 
-// Fast: cache length
+// Bom
 CRIA len = arr.tamanho
-PARA CADA (i EM 0..len-1) { processar(arr[i]) }
+PARA CADA (i EM range(len)) { }
 \`\`\`
 
-## Avoid Allocations in Loops
+## Acesso a Propriedades
 
 \`\`\`xs
-// Bad: creates new object each iteration
-PARA CADA (i EM 0..10000) {
-  CRIA tmp = { a: i, b: i * 2 }
-}
-
-// Good: reuse
-CRIA tmp = { a: 0, b: 0 }
-PARA CADA (i EM 0..10000) {
-  tmp.a = i
-  tmp.b = i * 2
-}
+// Cache de acesso a propriedade
+CRIA nome = obj.nome
+SOLTA O GRITO(nome)
+SOLTA O GRITO(nome)
 \`\`\`
 
-## Type Stability
+## Perfilamento
 
-Keep variable types consistent (helps JIT):
+Use \`xs prof\` para perfilamento de código:
 
-\`\`\`xs
-// Stable
-CRIA x = 0
-PARA CADA (i EM 0..100) { x += i }
-
-// Unstable (deoptimizes)
-CRIA y = 0
-PARA CADA (i EM 0..100) { y = i > 50 ? i : "texto" }
+\`\`\`bash
+xs prof --cpu --heap src/main.xs
 \`\`\`
 
-## Use Native Methods
-
-Built-in methods are optimized in C++: prefer them over manual loops.`,
+Perfile antes de otimizar. Nunca otimize prematuramente.`,
     challenges: [
-      { question: "Should you allocate objects inside loops?", answer: "no, reuse when possible", points: 3 },
-      { question: "Why keep variable types consistent?", answer: "avoids JIT deoptimization", points: 5 },
-      { question: "Are native methods faster than manual loops?", answer: "yes", points: 3 },
-],
+      { question: "O que evitar em hot paths de loops?", answer: "alocações desnecessárias", points: 5 },
+      { question: "Qual comando cria perfil de código?", answer: "xs prof", points: 3 },
+      { question: "Quando você deve otimizar?", answer: "depois de perfilar e identificar gargalos", points: 5 },
+    ],
   },
   {
     slug: "otimizacoes-do-compilador",
-    title: "Otimizacoes do Compilador",
-    order: 118,
+    title: "Otimizações do Compilador",
+    order: 82,
     points: 10,
-    bodyMd: `# Compiler Optimizations
+    bodyMd: `# Otimizações do Compilador
 
-What the XanaScript compiler does automatically.
+Entenda como o compilador otimiza seu código.
 
-## Constant Folding
+## Inline de Funções
+
+Funções pequenas são inlineadas para evitar overhead de chamada:
 
 \`\`\`xs
-CRIA x = 5 * 10   // compiled as: CRIA x = 50
+// Pode ser inlineada
+CHAMA ESSE CARA dobrar(x) { VOLTA x * 2 }
 \`\`\`
 
-## Dead Code Elimination
+## Eliminação de Código Morto
+
+Código inalcançável é removido:
 
 \`\`\`xs
-CHAMA ESSE CARA teste() {
-  VOLTA 1
-  SOLTA O GRITO("nunca executado")  // removed
-}
-\`\`\`
-
-## Inlining
-
-Small functions are inlined at call sites:
-
-\`\`\`xs
-CHAMA ESSE CARA dobro(x) { VOLTA x * 2 }
-CRIA r = dobro(5)  // compiled as: CRIA r = 5 * 2
-\`\`\`
-
-## Loop Unrolling
-
-\`\`\`xs
-// Short loops are unrolled
-PARA CADA (i EM 0..3) { arr[i] = i }
-// becomes:
-// arr[0] = 0; arr[1] = 1; arr[2] = 2; arr[3] = 3;
-\`\`\`
-
-## Integer Inference
-
-\`NUMERO\` without decimals is inferred as integer, enabling integer-only optimizations.`,
-    challenges: [
-      { question: "What optimization evaluates expressions at compile time?", answer: "constant folding", points: 3 },
-      { question: "What optimization removes unreachable code?", answer: "dead code elimination", points: 3 },
-      { question: "What optimization replaces function calls with body?", answer: "inlining", points: 3 },
-],
-  },
-  {
-    slug: "otimizacao-de-memoria",
-    title: "Otimizacao de Memoria",
-    order: 119,
-    points: 10,
-    bodyMd: `# Memory Optimization
-
-Reduce memory usage.
-
-## Object Pooling
-
-\`\`\`xs
-CLASSE Pool<T> {
-  CRIA _disponiveis = []
-  CRIA _fabrica
-
-  CHAMA ESSE CARA init(fabrica) { ISTO._fabrica = fabrica }
-
-  CHAMA ESSE CARA adquirir() {
-    SE LIGA SO (ISTO._disponiveis.tamanho > 0) {
-      VOLTA ISTO._disponiveis.tira()
-    }
-    VOLTA ISTO._fabrica()
-  }
-
-  CHAMA ESSE CARA devolver(obj) {
-    ISTO._disponiveis.empurra(obj)
-  }
-}
-\`\`\`
-
-## Typed Arrays
-
-\`\`\`xs
-import { Int32Array, Float64Array } from "xs:binary"
-
-CRIA buffer = Int32Array.novo(1000)  // contiguous, no overhead
-\`\`\`
-
-## Lazy Initialization
-
-\`\`\`xs
-PEGA dadosCaros() {
-  SE LIGA SO (!ISTO._cache) {
-    ISTO._cache = calcularDados()
-  }
-  VOLTA ISTO._cache
-}
-\`\`\`
-
-## Data Structure Choice
-
-- Lists: general purpose
-- Typed arrays: numeric data, low overhead
-- Objects with predefined keys: faster than dictionaries`,
-    challenges: [
-      { question: "What pattern reuses objects?", answer: "object pooling", points: 3 },
-      { question: "What data structure is best for numeric arrays?", answer: "Int32Array / Float64Array", points: 5 },
-      { question: "When should you use lazy initialization?", answer: "for expensive operations not always needed", points: 3 },
-],
-  },
-  {
-    slug: "performance-assincrona",
-    title: "Performance Assincrona",
-    order: 120,
-    points: 10,
-    bodyMd: `# Async Performance
-
-Optimize asynchronous code.
-
-## Avoid Promise Overhead
-
-\`\`\`xs
-// Bad: unnecessary promise wrapper
-CHAMA ESSE CARA ASSINCRONO getValor() {
-  VOLTA 42  // unnecessary async
-}
-
-// Good: sync is fine
-CHAMA ESSE CARA getValor() {
+CHAMA ESSE CARA exemplo() {
   VOLTA 42
+  // Este código é removido
+  SOLTA O GRITO("nunca executado")
 }
 \`\`\`
 
-## Batch Processing
+## Tree Shaking
 
-\`\`\`xs
-// Slow: one at a time
-PARA CADA (item EM items) {
-  await processar(item)
-}
+Módulos não utilizados são removidos do bundle final.
 
-// Fast: parallel with limit
-CRIA pool = Fila.novo(5)
-await PROMETA.tudo(items.mapa((i) => pool.adicionar(() => processar(i))))
+## Especialização de Tipo
+
+Código é otimizado baseado em tipos conhecidos.
+
+## Compilação Adequada
+
+\`\`\`bash
+# Compilação de produção com otimizações
+xs build --otimizar
 \`\`\`
 
-## Avoid Promise.all with Too Many
-
-\`\`\`xs
-// Bad: 10000 concurrent promises
-await PROMETA.tudo(itens.mapa(processar))
-
-// Good: chunked
-PARA CADA (lote EM chunk(itens, 100)) {
-  await PROMETA.tudo(lote.mapa(processar))
-}
-\`\`\`
-
-## Microtask Queues
-
-Await yields to the microtask queue — use for splitting CPU work.`,
+O compilador aplica otimizações agressivas mantendo comportamento correto.`,
     challenges: [
-      { question: "Should you mark sync functions as async?", answer: "no, avoid unnecessary async", points: 3 },
-      { question: "What is a risk of PROMETA.tudo with many items?", answer: "excessive concurrent execution", points: 5 },
-      { question: "How do you limit async concurrency?", answer: "queue with batch processing", points: 3 },
-],
+      { question: "O que é inline de funções?", answer: "substituir chamada por corpo da função", points: 3 },
+      { question: "O que tree shaking remove?", answer: "módulos não utilizados", points: 5 },
+      { question: "Qual flag otimiza para produção?", answer: "--otimizar", points: 3 },
+    ],
   },
   {
-    slug: "melhores-praticas-de-performance",
-    title: "Melhores Praticas de Performance",
-    order: 121,
-    points: 10,
-    bodyMd: `# Performance Best Practices
-
-Summary guidelines for performant code.
-
-## 1. Measure First
-
-Never guess — profile to find real bottlenecks.
-
-## 2. Avoid Premature Optimization
-
-Write clean code first, then optimize bottlenecks.
-
-## 3. Minimize Allocations
-
-- Reuse objects
-- Pool expensive resources
-- Use stack-allocated types when possible
-
-## 4. Choose Right Data Structures
-
-\`\`\`xs
-// Frequent lookups: DICIONARIO
-CRIA dict = {}
-
-// Order matters: LISTA
-CRIA list = []
-
-// Unique values: CONJUNTO
-CRIA set = CONJUNTO{}
-\`\`\`
-
-## 5. Batch I/O
-
-- Read/write in chunks
-- Use streams for large files
-- Buffer network operations
-
-## 6. Leverage Compiler Optimizations
-
-Write idiomatic code — the compiler optimizes common patterns.
-
-Consistent, measurable optimization beats guesswork.`,
-    challenges: [
-      { question: "What is the first step in optimization?", answer: "measure/profile to find bottlenecks", points: 3 },
-      { question: "Should you optimize before measuring?", answer: "no, avoid premature optimization", points: 3 },
-      { question: "Should you batch I/O operations?", answer: "yes", points: 3 },
-],
-  },
-  {
-    slug: "testes-com-teste",
-    title: "Testes com TESTE",
-    order: 122,
+    slug: "perfilamento-e-debugging",
+    title: "Perfilamento e Depuração",
+    order: 83,
     points: 5,
-    bodyMd: `# Testing Basics
+    bodyMd: `# Perfilamento e Depuração
 
-XanaScript has a built-in test framework.
+Ferramentas para perfilar e depurar código XanaScript.
 
-## Test Syntax
+## Depurador
 
-\`\`\`xs
-TESTE "soma de dois numeros" {
-  CRIA resultado = 2 + 3
-  AFIRMA(resultado == 5)
-}
+\`\`\`bash
+xs debug src/main.xs
 \`\`\`
 
-## Assertions
+Comandos do depurador:
+
+- \`c\` / \`continuar\` – continuar execução
+- \`n\` / \`proximo\` – próxima linha
+- \`s\` / \`entrar\` – entrar na função
+- \`p\` / \`print <expr>\` – imprimir expressão
+
+## Breakpoints
 
 \`\`\`xs
-AFIRMA(condicao)              // assert truthy
-AFIRMA.igual(2 + 2, 4)       // assert equal
-AFIRMA.diferente(1, 2)       // assert not equal
-AFIRMA.verdadeiro(true)      // assert true
-AFIRMA.falso(false)          // assert false
-AFIRMA.nulo(null)            // assert null
-AFIRMA.existe(objeto)        // assert not null
+PARAR  // pausa no depurador
 \`\`\`
 
-## Running Tests
+## Ferramentas de Perfil
+
+\`\`\`bash
+# CPU profiling
+xs prof --cpu src/main.xs
+
+# Heap profiling  
+xs prof --heap src/main.xs
+
+# Profile de alocação
+xs prof --aloc src/main.xs
+\`\`\`
+
+## Inspeção de Memória
+
+\`\`\`bash
+xs memory src/main.xs
+\`\`\`
+
+Use estas ferramentas para encontrar e corrigir problemas de desempenho.`,
+    challenges: [
+      { question: "Qual comando inicia o depurador?", answer: "xs debug", points: 3 },
+      { question: "Qual palavra-chave define um breakpoint?", answer: "PARAR / break", points: 3 },
+      { question: "Qual comando inspeciona o uso de memória?", answer: "xs memory", points: 3 },
+    ],
+  },
+  {
+    slug: "escrevendo-testes-unitarios",
+    title: "Escrevendo Testes Unitários",
+    order: 84,
+    points: 5,
+    bodyMd: `# Testes Unitários
+
+Teste funções e módulos individualmente.
+
+## Teste Básico
+
+\`\`\`xs
+import { test, espera } from "xs:test"
+import { soma } from "./math.xs"
+
+test("soma 1 + 2 = 3", () => {
+  espera(soma(1, 2)).ser(3)
+})
+\`\`\`
+
+## Matchers
+
+\`\`\`xs
+espera(valor).ser(3)
+espera(valor).nao.ser(4)
+espera(valor).serVerdade()
+espera(valor).serFalso()
+espera(valor).conter(2)
+espera(valor).serTipo("string")
+\`\`\`
+
+## Setup e Teardown
+
+\`\`\`xs
+test.beforeCada(() => { /* setup */ })
+test.depoisCada(() => { /* teardown */ })
+\`\`\`
+
+## Rodando Testes
 
 \`\`\`bash
 xs test
 xs test --watch
-xs test --coverage
+xs test --cobertura
 \`\`\`
 
-\`TESTE\` is a built-in keyword, not a library function.`,
+Testes unitários garantem que componentes individuais funcionem corretamente.`,
     challenges: [
-      { question: "What keyword defines a test?", answer: "TESTE", points: 3 },
-      { question: "What keyword makes an assertion?", answer: "AFIRMA", points: 3 },
-      { question: "What command runs tests?", answer: "xs test", points: 3 },
-],
+      { question: "Qual módulo fornece testes?", answer: "xs:test", points: 3 },
+      { question: "Qual matcher verifica igualdade?", answer: "ser / toBe", points: 3 },
+      { question: "Qual comando executa testes?", answer: "xs test", points: 3 },
+    ],
   },
   {
-    slug: "afirmacoes-avancadas",
-    title: "Afirmacoes Avancadas",
-    order: 123,
-    points: 5,
-    bodyMd: `# Advanced Assertions
-
-More assertion patterns.
-
-## Approximate Equality
-
-\`\`\`xs
-AFIRMA.proximo(3.14159, 3.14, 0.01)  // within tolerance
-\`\`\`
-
-## Throws
-
-\`\`\`xs
-AFIRMA.joga(() => {
-  dividir(1, 0)
-}, "Divisao por zero")
-\`\`\`
-
-## Arrays & Objects
-
-\`\`\`xs
-AFIRMA.contem([1, 2, 3], 2)
-AFIRMA.naoContem([1, 2, 3], 4)
-
-AFIRMA.profundamenteIgual(
-  { a: 1, b: { c: 2 } },
-  { a: 1, b: { c: 2 } }
-)
-\`\`\`
-
-## Custom Messages
-
-\`\`\`xs
-AFIRMA(temPerfil, "Usuario deve ter perfil")
-\`\`\`
-
-## Negation
-
-\`\`\`xs
-AFIRMA.nao().igual(1 + 1, 3)
-\`\`\`
-
-Good assertions produce clear failure messages.`,
-    challenges: [
-      { question: "What assertion checks values within tolerance?", answer: "AFIRMA.proximo", points: 3 },
-      { question: "What assertion checks an error is thrown?", answer: "AFIRMA.joga", points: 3 },
-      { question: "What assertion deeply compares objects?", answer: "AFIRMA.profundamenteIgual", points: 5 },
-],
-  },
-  {
-    slug: "estrutura-de-testes",
-    title: "Estrutura & Organizacao de Testes",
-    order: 124,
-    points: 5,
-    bodyMd: `# Test Structure
-
-Organize tests for maintainability.
-
-## Test Blocks
-
-\`\`\`xs
-TESTE "Calculadora" {
-  TESTE "soma" {
-    AFIRMA.igual(soma(2, 3), 5)
-    AFIRMA.igual(soma(-1, 1), 0)
-  }
-
-  TESTE "divisao" {
-    AFIRMA.igual(dividir(10, 2), 5)
-    AFIRMA.joga(() => dividir(1, 0))
-  }
-}
-\`\`\`
-
-## Setup & Teardown
-
-\`\`\`xs
-TESTE "Banco de dados" {
-  ANTES DE CADA {
-    CRIA db = conectar()
-  }
-
-  DEPOIS DE CADA {
-    db.fechar()
-  }
-
-  TESTE "inserir usuario" {
-    db.inserir({ nome: "Teste" })
-    AFIRMA.igual(db.contar(), 1)
-  }
-}
-\`\`\`
-
-\`ANTES DE CADA\` runs before each nested test. \`DEPOIS DE CADA\` runs after.`,
-    challenges: [
-      { question: "What block runs before each test?", answer: "ANTES DE CADA", points: 3 },
-      { question: "What block runs after each test?", answer: "DEPOIS DE CADA", points: 3 },
-      { question: "Can tests be nested?", answer: "yes", points: 3 },
-],
-  },
-  {
-    slug: "mocks-e-stubs",
-    title: "Mocks & Stubs",
-    order: 125,
+    slug: "testes-de-integracao",
+    title: "Testes de Integração",
+    order: 85,
     points: 10,
-    bodyMd: `# Mocks & Stubs
+    bodyMd: `# Testes de Integração
 
-Isolate units under test.
+Teste como componentes funcionam juntos.
 
-## Mock Function
+## Exemplo de Teste de Integração
+
+\`\`\`xs
+import { test, espera } from "xs:test"
+import { servidor } from "./api.xs"
+import { banco } from "./db.xs"
+
+test("API + DB: criar usuário", () => {
+  CRIA usuario = servidor.criarUsuario({
+    nome: "João",
+    email: "joao@email.com"
+  })
+
+  CRIA salvo = banco.buscar(usuario.id)
+  espera(salvo.nome).ser("João")
+})
+\`\`\`
+
+## Mocks e Stubs
 
 \`\`\`xs
 import { mock } from "xs:test"
 
-CRIA fn = mock.fn()
-fn("a", "b")
-
-AFIRMA.igual(fn.chamadas.tamanho, 1)
-AFIRMA.igual(fn.chamadas[0].args, ["a", "b"])
+CRIA fnMock = mock(() => "valor simulado")
 \`\`\`
 
-## Mock Return Values
+## Testando Dependências Externas
 
 \`\`\`xs
-CRIA fn = mock.fn(() => 42)
-AFIRMA.igual(fn(), 42)
+// Simule API externa em vez de chamar serviço real
+CRIA apiMock = {
+  buscar: mock(() => Promise.resolver({ id: 1 }))
+}
 \`\`\`
 
-## Mock Module
+Testes de integração pegam bugs de interação entre componentes que testes unitários perdem.`,
+    challenges: [
+      { question: "O que testes de integração verificam?", answer: "interações entre componentes", points: 3 },
+      { question: "O que substituti dependências externas em testes?", answer: "mocks", points: 3 },
+      { question: "O que mocks substituem?", answer: "dependências externas", points: 3 },
+    ],
+  },
+  {
+    slug: "tdd-com-xanascript",
+    title: "TDD com XanaScript",
+    order: 86,
+    points: 10,
+    bodyMd: `# TDD com XanaScript
+
+Desenvolvimento Orientado a Testes.
+
+## Ciclo TDD: Vermelho-Verde-Refatora
+
+1. **Vermelho**: Escreva um teste que falha
+2. **Verde**: Faça o teste passar
+3. **Refatore**: Melhore o código
+
+## Exemplo
 
 \`\`\`xs
-mock.modulo("./database.xs", {
-  buscar: () => PROMETA.resolvida({ id: 1 }),
-  salvar: mock.fn()
+// 1. Vermelho - escreva o teste
+test("calculadora soma dois números", () => {
+  espera(calculadora.soma(2, 3)).ser(5)
+})
+
+// 2. Verde - implemente
+CLASSE Calculadora {
+  CHAMA ESSE CARA soma(a, b) { VOLTA a + b }
+}
+
+CRIA calculadora = Calculadora.novo()
+
+// 3. Refatore - melhore
+// (renomear, extrair, etc.)
+\`\`\`
+
+## Benefícios
+
+- Cobertura de teste completa
+- Código mais limpo e testável
+- Feedback rápido sobre mudanças
+- Documentação viva
+
+## Dicas
+
+- Pequenos passos iterativos
+- Teste comportamento, não implementação
+- Commits frequentes
+
+TDD leva a código mais confiável e bem projetado.`,
+    challenges: [
+      { question: "Quais são as três fases do TDD?", answer: "vermelho, verde, refatore", points: 3 },
+      { question: "Na fase vermelha, o que o teste deve fazer?", answer: "falhar", points: 3 },
+      { question: "TDD testa implementação ou comportamento?", answer: "comportamento", points: 5 },
+    ],
+  },
+  {
+    slug: "cobertura-de-testes",
+    title: "Cobertura de Testes",
+    order: 87,
+    points: 5,
+    bodyMd: `# Cobertura de Testes
+
+Meça quão bem seus testes cobrem o código.
+
+## Tipos de Cobertura
+
+- **Cobertura de Linhas**: quantas linhas são executadas
+- **Cobertura de Ramos**: quantos branchs são tomados
+- **Cobertura de Funções**: quantas funções são chamadas
+
+## Gerando Relatório
+
+\`\`\`bash
+xs test --cobertura
+\`\`\`
+
+## Interpretando Resultados
+
+\`\`\`
+Arquivo          | Linhas | Ramos | Funções
+src/math.xs      | 100%   | 100%  | 100%
+src/calc.xs      | 80%    | 75%   | 100%
+src/main.xs      | 45%    | 30%   | 50%
+\`\`\`
+
+## Metas de Cobertura
+
+- 80%+ é o ideal
+- 100% não significa código sem bugs
+- Foque em caminhos críticos
+
+Cobertura é uma métrica, não uma garantia. Teste caminhos importantes primeiro.`,
+    challenges: [
+      { question: "Cite um tipo de cobertura", answer: "cobertura de linhas, ramos ou funções", points: 3 },
+      { question: "100% de cobertura significa código sem bugs?", answer: "não", points: 5 },
+      { question: "Qual é uma boa meta de cobertura?", answer: "80%+", points: 3 },
+    ],
+  },
+  {
+    slug: "tipos-de-testes-na-pratica",
+    title: "Tipos de Testes na Prática",
+    order: 88,
+    points: 5,
+    bodyMd: `# Tipos de Testes na Prática
+
+Visão geral de diferentes tipos de teste.
+
+## Pirâmide de Testes
+
+1. **Testes Unitários** (muitos): testam unidades isoladas
+2. **Testes de Integração** (alguns): testam interações
+3. **Testes E2E** (poucos): testam fluxo completo
+
+## Testes de Snapshot
+
+\`\`\`xs
+test("componente renderiza", () => {
+  espera(renderizador.render(<Comp />)).combinarComSnapshot()
 })
 \`\`\`
 
-## Spy
+## Testes de Carga
 
 \`\`\`xs
-CRIA spy = mock.espia(objeto, "metodo")
-objeto.metodo()
-AFIRMA.igual(spy.chamadas.tamanho, 1)
-\`\`\`
-
-Mocks isolate code from external dependencies.`,
-    challenges: [
-      { question: "What creates a mock function?", answer: "mock.fn", points: 3 },
-      { question: "What function spies on an existing method?", answer: "mock.espia", points: 3 },
-      { question: "What module provides mocking?", answer: "xs:test", points: 3 },
-],
-  },
-  {
-    slug: "cobertura-de-codigo",
-    title: "Cobertura de Codigo",
-    order: 126,
-    points: 10,
-    bodyMd: `# Code Coverage
-
-Measure which code is exercised by tests.
-
-## Running Coverage
-
-\`\`\`bash
-xs test --coverage
-\`\`\`
-
-## Coverage Metrics
-
-- **Statements**: lines executed
-- **Branches**: if/else paths taken
-- **Functions**: function calls made
-- **Lines**: line-level execution
-
-## Coverage Report
-
-\`\`\`
-File             | % Stmts | % Branch | % Funcs | % Lines
-----------------|---------|----------|---------|--------
-src/math.xs     |   95.45 |    88.89 |     100 |   95.45
-src/user.xs     |   82.35 |    75.00 |   66.67 |   82.35
-----------------|---------|----------|---------|--------
-Total           |   90.12 |    83.33 |   88.89 |   90.12
-\`\`\`
-
-## Coverage Thresholds
-
-\`\`\`bash
-xs test --coverage --min-coverage 80
-\`\`\`
-
-Aim for high coverage but remember: 100% coverage doesn't mean bug-free.`,
-    challenges: [
-      { question: "What command runs tests with coverage?", answer: "xs test --coverage", points: 3 },
-      { question: "Name one coverage metric", answer: "statements / branches / functions / lines", points: 3 },
-      { question: "Does 100% coverage guarantee no bugs?", answer: "no", points: 3 },
-],
-  },
-  {
-    slug: "testes-baseados-em-propriedades",
-    title: "Testes Baseados em Propriedades",
-    order: 127,
-    points: 10,
-    bodyMd: `# Property-Based Testing
-
-Test properties that should always hold.
-
-## Basic Property
-
-\`\`\`xs
-TESTE "soma e comutativa" {
-  TESTA TODO { a: NUMERO, b: NUMERO }
-  AFIRMA.igual(soma(a, b), soma(b, a))
-}
-\`\`\`
-
-## Generators
-
-\`\`\`xs
-import { gerar } from "xs:test"
-
-TESTE "inversao de lista" {
-  TESTA TODO {
-    lista: gerar.lista(gerar.numero(), { minLen: 1 })
-  }
-
-  CRIA invertida = lista.inverter()
-  CRIA deVolta = invertida.inverter()
-  AFIRMA.profundamenteIgual(lista, deVolta)
-}
-\`\`\`
-
-## Shrinking
-
-When a property fails, the test runner shrinks to the minimal failing case.
-
-## Benefits
-
-- Finds edge cases you didn't think of
-- Tests behaviors, not hardcoded examples
-- Documented invariants
-
-Property tests complement example-based tests.`,
-    challenges: [
-      { question: "What keyword starts a property test?", answer: "TESTA TODO", points: 3 },
-      { question: "What is shrinking?", answer: "finding the minimal failing case", points: 5 },
-      { question: "What is a benefit of property tests?", answer: "finds unexpected edge cases", points: 3 },
-],
-  },
-  {
-    slug: "testes-de-integracao",
-    title: "Testes de Integracao",
-    order: 128,
-    points: 10,
-    bodyMd: `# Integration Testing
-
-Test components working together.
-
-## API Tests
-
-\`\`\`xs
-TESTE "API de usuarios" {
-  CRIA app = criarApp()
-  CRIA resposta = await app.get("/api/usuarios")
-
-  AFIRMA.igual(resposta.status, 200)
-  AFIRMA.igual(resposta.json().tamanho, 3)
-}
-\`\`\`
-
-## Database Tests
-
-\`\`\`xs
-TESTE "repositorio de usuarios" {
-  ANTES DE CADA {
-    CRIA db = criarDBTeste()
-    CRIA repo = RepositorioUsuario.novo(db)
-  }
-
-  DEPOIS DE CADA {
-    db.limpar()
-    db.fechar()
-  }
-
-  TESTE "cria e busca usuario" {
-    CRIA user = await repo.criar({ nome: "Teste" })
-    CRIA encontrado = await repo.buscar(user.id)
-    AFIRMA.igual(encontrado.nome, "Teste")
-  }
-}
-\`\`\`
-
-## Test Doubles
-
-Use real dependencies in integration tests, mocks in unit tests.`,
-    challenges: [
-      { question: "What is integration testing?", answer: "testing components working together", points: 3 },
-      { question: "Should you use mocks in integration tests?", answer: "no, use real dependencies", points: 5 },
-      { question: "What should you do in DEPOIS DE CADA for DB tests?", answer: "clean up data and close connection", points: 3 },
-],
-  },
-  {
-    slug: "tdd-e-estrategias",
-    title: "TDD & Estrategias de Teste",
-    order: 129,
-    points: 10,
-    bodyMd: `# TDD & Testing Strategies
-
-Test-Driven Development workflow.
-
-## Red-Green-Refactor
-
-1. **Red**: Write a failing test first
-2. **Green**: Write minimal code to pass
-3. **Refactor**: Improve code while tests stay green
-
-## Testing Pyramid
-
-\`\`\`
-    /\
-   /  \     E2E (few)
-  /    \
- /------\   Integration (some)
-/--------\
-/----------\ Unit (many)
-\`\`\`
-
-## What to Test
-
-- Core business logic (highest ROI)
-- Edge cases and boundaries
-- Error paths
-- Public API (not internals)
-
-## What Not to Test
-
-- Boilerplate code
-- Third-party behavior
-- Implementation details
-
-Write tests that give confidence to refactor.`,
-    challenges: [
-      { question: "What are the three steps of TDD?", answer: "Red, Green, Refactor", points: 3 },
-      { question: "What type of test should be most numerous?", answer: "unit tests", points: 3 },
-      { question: "Should you test private methods?", answer: "no, test public API", points: 5 },
-],
-  },
-  {
-    slug: "introducao-ao-orm",
-    title: "Introducao ao ORM TABELA",
-    order: 130,
-    points: 5,
-    bodyMd: `# TABELA ORM
-
-XanaScript has a built-in ORM with first-class syntax.
-
-## Model Definition
-
-\`\`\`xs
-TABELA Usuario {
-  CAMPO nome: TEXTO
-  CAMPO email: TEXTO
-  CAMPO idade: NUMERO
-  CAMPO ativo: BOOLEANO = true
-}
-\`\`\`
-
-## CRUD Operations
-
-\`\`\`xs
-// Create
-CRIA user = Usuario.criar({ nome: "Maria", email: "m@e.com" })
-
-// Read
-CRIA encontrado = Usuario.buscar(user.id)
-
-// Update
-encontrado.atualizar({ nome: "Mariana" })
-
-// Delete
-encontrado.deletar()
-\`\`\`
-
-## Powered by
-
-The ORM generates SQL or NoSQL queries behind the scenes.
-
-\`TABELA\` is a language keyword, not a library.`,
-    challenges: [
-      { question: "What keyword defines an ORM model?", answer: "TABELA", points: 3 },
-      { question: "What keyword defines a field?", answer: "CAMPO", points: 3 },
-      { question: "Is TABELA a library or a language feature?", answer: "language feature", points: 3 },
-],
-  },
-  {
-    slug: "campos-e-opcoes",
-    title: "Tipos & Opcoes de Campo",
-    order: 131,
-    points: 5,
-    bodyMd: `# Field Types & Options
-
-Configure model fields with constraints.
-
-## Field Types
-
-\`\`\`xs
-TABELA Produto {
-  CAMPO id: NUMERO { chave: true }
-  CAMPO nome: TEXTO { obrigatorio: true }
-  CAMPO preco: NUMERO { min: 0 }
-  CAMPO descricao: TEXTO?  // optional
-  CAMPO criadoEm: DATA { padrao: DataAgora }
-}
-\`\`\`
-
-## Options
-
-| Option | Description |
-|--------|-------------|
-| \`chave\` | Primary key |
-| \`obrigatorio\` | NOT NULL |
-| \`unico\` | UNIQUE constraint |
-| \`padrao\` | Default value |
-| \`min\`/\`max\` | Numeric range |
-| \`ref\` | Foreign key reference |
-
-## Auto Fields
-
-\`criadoEm\` and \`atualizadoEm\` can be auto-managed.`,
-    challenges: [
-      { question: "What option marks a field as primary key?", answer: "chave: true", points: 3 },
-      { question: "What option sets a default value?", answer: "padrao", points: 3 },
-      { question: "What option makes a field required?", answer: "obrigatorio: true", points: 3 },
-],
-  },
-  {
-    slug: "consultas",
-    title: "Consultas de Dados",
-    order: 132,
-    points: 10,
-    bodyMd: `# Querying Data
-
-Filter, sort, and paginate data.
-
-## Basic Queries
-
-\`\`\`xs
-// All records
-CRIA todos = Usuario.todos()
-
-// Filter
-CRIA ativos = Usuario.ondetem({ ativo: true })
-
-// First match
-CRIA admin = Usuario.acha({ perfil: "admin" })
-\`\`\`
-
-## Complex Filters
-
-\`\`\`xs
-CRIA resultados = Usuario.ondetem({
-  idade: { $gte: 18 },
-  nome: { $contem: "Silva" },
-  ativo: true
+import { carga } from "xs:test"
+
+carga("API lida com 1000 requisições", {
+  reqPorSegundo: 100,
+  duracao: "10s",
+  exec: () => api.buscar("/users")
 })
 \`\`\`
 
-## Sorting & Pagination
+## Testes Fuzz
 
 \`\`\`xs
-CRIA pagina = Usuario.ondetem({ ativo: true })
-  .ordena({ nome: "asc" })
-  .pular(0)
-  .limite(10)
+import { fuzz } from "xs:test"
+
+fuzz("função de parse", (buf) => {
+  parse(buf) // não deve lançar
+})
 \`\`\`
 
-## Aggregation
-
-\`\`\`xs
-CRIA media = Usuario.media("idade")
-CRIA total = Usuario.contar({ ativo: true })
-\`\`\``,
+Misture tipos de teste para confiança máxima.`,
     challenges: [
-      { question: "What method returns all records?", answer: "todos", points: 3 },
-      { question: "What method filters records?", answer: "ondetem", points: 3 },
-      { question: "What method limits results?", answer: "limite", points: 3 },
-],
+      { question: "O que é a pirâmide de testes?", answer: "muitos unitários, alguns integração, poucos E2E", points: 5 },
+      { question: "Testes de carga testam o quê?", answer: "desempenho sob alta demanda", points: 3 },
+      { question: "Quais testes são mais rápidos?", answer: "testes unitários", points: 3 },
+    ],
   },
   {
-    slug: "relacionamentos",
-    title: "Relacionamentos",
-    order: 133,
+    slug: "depuracao-avancada",
+    title: "Depuração Avançada",
+    order: 89,
     points: 10,
-    bodyMd: `# Relationships
+    bodyMd: `# Depuração Avançada
 
-Define relationships between models.
+Técnicas para depurar problemas complexos.
 
-## Belongs To
+## Logging Condicional
 
 \`\`\`xs
-TABELA Post {
-  CAMPO titulo: TEXTO
-  CAMPO autorId: NUMERO { ref: Usuario }
+CRIA DEBUG = true
 
-  RELACAO autor: Usuario {
-    tipo: pertenceA
-    chave: autorId
-  }
+CHAMA ESSE CARA processar(item) {
+  SE LIGA SO (DEBUG) { console.log("processando:", item) }
+  // ...
 }
 \`\`\`
 
-## Has Many
+## Inspeção de Pilha
+
+Capture e analise stack traces:
 
 \`\`\`xs
-TABELA Usuario {
-  CAMPO nome: TEXTO
-
-  RELACAO posts: Post[] {
-    tipo: temMuitos
-    chaveEstrangeira: autorId
-  }
-}
-\`\`\`
-
-## Many to Many
-
-\`\`\`xs
-TABELA Aluno {
-  RELACAO cursos: Curso[] {
-    tipo: temMuitos
-    atraves: Matricula
-  }
-}
-\`\`\`
-
-## Accessing Relations
-
-\`\`\`xs
-CRIA posts = usuario.posts  // lazy load
-CRIA posts = await usuario.posts.carregar()  // eager load
-\`\`\``,
-    challenges: [
-      { question: "What keyword defines a relationship?", answer: "RELACAO", points: 3 },
-      { question: "What type is a foreign key relationship?", answer: "pertenceA", points: 3 },
-      { question: "Can relations be lazy loaded?", answer: "yes", points: 3 },
-],
-  },
-  {
-    slug: "migracoes",
-    title: "Migracoes",
-    order: 134,
-    points: 10,
-    bodyMd: `# Migrations
-
-Manage database schema changes.
-
-## Auto Migration
-
-\`\`\`xs
-xs db migrate
-\`\`\`
-
-XanaScript infers schema from \`TABELA\` definitions.
-
-## Manual Migration
-
-\`\`\`xs
-// migrations/001_criar_usuarios.xs
-MIGRACAO criarUsuarios {
-  PARA CIMA {
-    TABELA Usuario {
-      CAMPO id: NUMERO { chave: true }
-      CAMPO nome: TEXTO { obrigatorio: true }
-      CAMPO email: TEXTO { unico: true }
-    }
-  }
-
-  PARA BAIXO {
-    REMOVER TABELA Usuario
-  }
-}
-\`\`\`
-
-## Running Migrations
-
-\`\`\`bash
-xs db migrate        # apply pending
-xs db migrate --rollback  # revert last
-xs db migrate --status    # show status
-\`\`\`
-
-Migrations keep database schema versioned and reproducible.`,
-    challenges: [
-      { question: "What command runs migrations?", answer: "xs db migrate", points: 3 },
-      { question: "What block defines the forward migration?", answer: "PARA CIMA", points: 3 },
-      { question: "What block defines the rollback?", answer: "PARA BAIXO", points: 3 },
-],
-  },
-  {
-    slug: "semeadura",
-    title: "Semeadura de Banco de Dados",
-    order: 135,
-    points: 10,
-    bodyMd: `# Database Seeding
-
-Populate database with test or initial data.
-
-## Seed Script
-
-\`\`\`xs
-// seeds/desenvolvimento.xs
-SEMEADOR dadosIniciais {
-  ANTES {
-    Usuario.deletarTudo()
-  }
-
-  SEMEAR {
-    CRIA admin = Usuario.criar({
-      nome: "Admin",
-      email: "admin@email.com",
-      perfil: "admin"
-    })
-
-    CRIA user = Usuario.criar({
-      nome: "Maria",
-      email: "maria@email.com"
-    })
-
-    Post.criar({
-      titulo: "Bem-vindo",
-      conteudo: "Primeiro post!",
-      autorId: admin.id
-    })
-  }
-}
-\`\`\`
-
-## Running Seeds
-
-\`\`\`bash
-xs db seed
-xs db seed --env producao
-\`\`\`
-
-Seeds provide consistent starting data for development and testing.`,
-    challenges: [
-      { question: "What keyword defines a seeder?", answer: "SEMEADOR", points: 3 },
-      { question: "What block inserts data?", answer: "SEMEAR", points: 3 },
-      { question: "What block runs before seeding?", answer: "ANTES", points: 3 },
-],
-  },
-  {
-    slug: "transacoes",
-    title: "Transacoes",
-    order: 136,
-    points: 10,
-    bodyMd: `# Transactions
-
-Ensure data consistency across operations.
-
-## Basic Transaction
-
-\`\`\`xs
-TRANSACAO {
-  CRIA conta = Conta.buscar(contaId)
-  conta.atualizar({ saldo: conta.saldo - 100 })
-
-  CRIA destino = Conta.buscar(destinoId)
-  destino.atualizar({ saldo: destino.saldo + 100 })
-}
-// Auto-committed on success, rolled back on error
-\`\`\`
-
-## Manual Control
-
-\`\`\`xs
-CRIA tx = TRANSACAO.iniciar()
 TENTE {
-  tx.executar(() => {
-    contaDebitar(100)
-    contaCreditar(100)
+  operacao()
+} CAPTURA (erro) {
+  SOLTA O GRITO(erro.pilha)
+}
+\`\`\`
+
+## Ferramentas de Diagnóstico
+
+\`\`\`bash
+# Módulo de diagnóstico
+xs diag src/main.xs
+
+# AST explorer
+xs ast src/main.xs
+
+# Timelines
+xs timeline src/main.xs
+\`\`\`
+
+## Breakpoints Avançados
+
+\`\`\`xs
+PARAR SE (condicao)  // breakpoint condicional
+\`\`\`
+
+## Isolamento de Problemas
+
+Use busca binária para encontrar o commit que introduziu o bug.
+
+Depuração avançada requer as ferramentas certas e abordagem sistemática.`,
+    challenges: [
+      { question: "O que um breakpoint condicional faz?", answer: "pausa apenas quando a condição é verdadeira", points: 5 },
+      { question: "Qual comando mostra o AST?", answer: "xs ast", points: 3 },
+      { question: "Como isolar a origem de um bug?", answer: "busca binária em commits", points: 5 },
+    ],
+  },
+  {
+    slug: "tratamento-de-erros-assincronos",
+    title: "Tratamento de Erros Assíncronos",
+    order: 90,
+    points: 10,
+    bodyMd: `# Tratamento de Erros Assíncronos
+
+Trate erros em código assíncrono adequadamente.
+
+## TENTE/CAPTURA Assíncrono
+
+\`\`\`xs
+TENTE {
+  CRIA dados = ESPERA api.buscar("/dados")
+  processar(dados)
+} CAPTURA (erro) {
+  Logger.erro("Falha ao buscar dados", erro)
+}
+\`\`\`
+
+## Promise Rejeitada
+
+\`\`\`xs
+CRIA promessa = operacao()
+
+promessa.tratar(
+  (valor) => processar(valor),
+  (erro) => Logger.erro(erro)
+)
+\`\`\`
+
+## Rejeição Não Tratada
+
+Sempre trate rejeições:
+
+\`\`\`xs
+// Registra rejeições não tratadas
+processo.em("rejeicaoNaoTratada", (erro) => {
+  Logger.erro("Rejeição não tratada:", erro)
+})
+\`\`\`
+
+## Promise.all
+
+Se uma falhar, todas falham:
+
+\`\`\`xs
+TENTE {
+  CRIA [a, b] = ESPERA Promise.tudo([
+    api.get("/a"),
+    api.get("/b")
+  ])
+} CAPTURA (erro) {
+  // Lida se a OU b falharem
+}
+\`\`\`
+
+Erros assíncronos são traiçoeiros. Sempre trate promessas.`,
+    challenges: [
+      { question: "Você pode usar TENTE/CAPTURA com ESPERA?", answer: "sim", points: 3 },
+      { question: "O que acontece se uma promessa em Promise.tudo falha?", answer: "todas falham", points: 5 },
+      { question: "O que Promise.tudo retorna?", answer: "uma promessa que resolve quando todas resolvem", points: 3 },
+    ],
+  },
+  {
+    slug: "event-loop-em-detalhe",
+    title: "Event Loop em Detalhe",
+    order: 91,
+    points: 10,
+    bodyMd: `# Event Loop em Detalhe
+
+Aprofunde seu entendimento do event loop XanaScript.
+
+## Fases do Event Loop
+
+1. **Timers**: executa callbacks de setTimeout/setInterval
+2. **IO**: executa callbacks de IO
+3. **Imediatos**: executa callbacks de setImediato
+4. **Fechar**: executa callbacks de fechamento
+
+## Microtasks
+
+Microtasks têm maior prioridade e são processadas entre fases:
+
+\`\`\`xs
+SOLTA O GRITO("1")
+Promise.resolver().entao(() => SOLTA O GRITO("2"))
+SOLTA O GRITO("3")
+// Saída: 1, 3, 2
+\`\`\`
+
+## Exemplo Detalhado
+
+\`\`\`xs
+setTimeout(() => SOLTA O GRITO("timeout"), 0)
+setImediato(() => SOLTA O GRITO("imediato"))
+processo.proximoTick(() => SOLTA O GRITO("tick"))
+
+SOLTA O GRITO("sincrono")
+// Saída: sincrono, tick, imediato, timeout
+\`\`\`
+
+## Starvation
+
+Microtasks podem causar starvation se encadeadas sem ceder.
+
+Entender o event loop previne bugs de ordenação e desempenho.`,
+    challenges: [
+      { question: "Qual fase executa setTimeout?", answer: "timers", points: 3 },
+      { question: "O que tem maior prioridade: microtasks ou IO?", answer: "microtasks", points: 5 },
+      { question: "O que é starvation no event loop?", answer: "microtasks infinitas bloqueando outras fases", points: 5 },
+    ],
+  },
+  {
+    slug: "trabalhando-com-streams",
+    title: "Trabalhando com Streams",
+    order: 92,
+    points: 10,
+    bodyMd: `# Trabalhando com Streams
+
+Processe dados em pedaços com streams.
+
+## Streams de Leitura
+
+\`\`\`xs
+import { criarStreamLeitura } from "xs:fs"
+import { criarStreamEscrita } from "xs:fs"
+
+CRIA leitura = criarStreamLeitura("grande-arquivo.txt")
+CRIA escrita = criarStreamEscrita("saida.txt")
+
+leitura.ao("dados", (pedaco) => {
+  escrita.escrever(pedaco)
+})
+
+leitura.ao("fim", () => {
+  escrita.fechar()
+})
+\`\`\`
+
+## Streams de Transformação
+
+\`\`\`xs
+import { criarStreamTransformacao } from "xs:streams"
+
+CRIA maiusculas = criarStreamTransformacao((pedaco) => {
+  VOLTA pedaco.toString().maiusculo()
+})
+\`\`\`
+
+## Pipe
+
+\`\`\`xs
+leitura.pipe(maiusculas).pipe(escrita)
+\`\`\`
+
+## Backpressure
+
+Streams lidam com backpressure automaticamente.
+
+Streams são eficientes para processar grandes conjuntos de dados sem carregar tudo na memória.`,
+    challenges: [
+      { question: "Streams processam dados em ...", answer: "pedaços / chunks", points: 3 },
+      { question: "Como conectar streams?", answer: "pipe", points: 3 },
+      { question: "O que backpressure previne?", answer: "sobrecarga do consumidor", points: 5 },
+    ],
+  },
+  {
+    slug: "buffers-e-arrays-de-bytes",
+    title: "Buffers e Arrays de Bytes",
+    order: 93,
+    points: 5,
+    bodyMd: `# Buffers e Arrays de Bytes
+
+Trabalhe com dados binários.
+
+## Criando Buffers
+
+\`\`\`xs
+import { Buffer } from "xs:buffer"
+
+// A partir de string
+CRIA buf = Buffer.de("Olá")
+
+// Com tamanho
+CRIA buf2 = Buffer.alocar(1024)
+
+// A partir de array
+CRIA buf3 = Buffer.de([0x48, 0x65, 0x6c])
+\`\`\`
+
+## Lendo e Escrevendo
+
+\`\`\`xs
+CRIA buf = Buffer.alocar(4)
+
+// Escrever
+buf.escreverUInt8(0x48, 0)
+buf.escreverUInt8(0x65, 1)
+
+// Ler  
+SOLTA O GRITO(buf.lerUInt8(0))  // 72
+SOLTA O GRITO(buf.lerString())   // "He"
+\`\`\`
+
+## Codificações
+
+- \`utf8\` (padrão)
+- \`ascii\`
+- \`base64\`
+- \`hex\`
+
+\`\`\`xs
+CRIA str = buf.toString("base64")
+\`\`\`
+
+Buffers são essenciais para protocolos de rede, criptografia e processamento de arquivos.`,
+    challenges: [
+      { question: "Como criar um buffer de tamanho fixo?", answer: "Buffer.alloc(tamanho)", points: 3 },
+      { question: "Qual codificação é padrão?", answer: "utf8", points: 3 },
+      { question: "O que buffers armazenam?", answer: "dados binários brutos", points: 3 },
+    ],
+  },
+  {
+    slug: "operacoes-de-arquivo",
+    title: "Operações de Arquivo",
+    order: 94,
+    points: 5,
+    bodyMd: `# Operações de Arquivo
+
+Leia e escreva arquivos com XanaScript.
+
+## Leitura
+
+\`\`\`xs
+import { readFile, readFileSync } from "xs:fs"
+
+// Assíncrona (recomendada)
+CRIA dados = ESPERA readFile("arquivo.txt", "utf8")
+
+// Síncrona
+CRIA dados = readFileSync("arquivo.txt", "utf8")
+\`\`\`
+
+## Escrita
+
+\`\`\`xs
+import { writeFile, writeFileSync } from "xs:fs"
+
+// Assíncrona
+ESPERA writeFile("arquivo.txt", "conteúdo", "utf8")
+
+// Síncrona
+writeFileSync("arquivo.txt", "conteúdo", "utf8")
+\`\`\`
+
+## Operações de Diretório
+
+\`\`\`xs
+import { mkdir, readdir, stat } from "xs:fs"
+
+CRIA dirs = ESPERA readdir("./pasta")
+CRIA info = ESPERA stat("arquivo.txt")
+ESPERA mkdir("./nova-pasta")
+\`\`\`
+
+## File System Watch
+
+\`\`\`xs
+import { watch } from "xs:fs"
+
+watch("./src", (evento, nome) => {
+  SOLTA O GRITO("Arquivo alterado:", nome)
+})
+\`\`\`
+
+Sempre use a versão assíncrona para IO, exceto em scripts de inicialização.`,
+    challenges: [
+      { question: "Versão assíncrona ou síncrona é recomendada?", answer: "assíncrona", points: 3 },
+      { question: "Qual função lê arquivo?", answer: "readFile", points: 3 },
+      { question: "Qual função escreve arquivo?", answer: "writeFile", points: 3 },
+    ],
+  },
+  {
+    slug: "programacao-de-rede",
+    title: "Programação de Rede",
+    order: 95,
+    points: 10,
+    bodyMd: `# Programação de Rede
+
+Crie clientes e servidores de rede.
+
+## Servidor TCP
+
+\`\`\`xs
+import { criarServidor } from "xs:net"
+
+CRIA servidor = criarServidor((conexao) => {
+  SOLTA O GRITO("Cliente conectado")
+  conexao.escrever("Olá do servidor XanaScript!")
+  conexao.fechar()
+})
+
+servidor.ouvir(3000, () => {
+  SOLTA O GRITO("Servidor ouvindo na porta 3000")
+})
+\`\`\`
+
+## Servidor HTTP
+
+\`\`\`xs
+import { criarServidor } from "xs:http"
+
+CRIA servidor = criarServidor((req, res) => {
+  res.escreverCabecalho(200, { "Content-Type": "text/html" })
+  res.fim("<h1>Olá Mundo</h1>")
+})
+
+servidor.ouvir(8080)
+\`\`\`
+
+## Cliente HTTP
+
+\`\`\`xs
+import { get, request } from "xs:http"
+
+CRIA resposta = ESPERA get("https://api.exemplo.com/dados")
+CRIA dados = ESPERA resposta.json()
+\`\`\`
+
+## WebSockets
+
+\`\`\`xs
+import { WebSocket } from "xs:ws"
+
+CRIA ws = WebSocket.nova("ws://localhost:8080")
+ws.ao("mensagem", (msg) => SOLTA O GRITO(msg))
+\`\`\`
+
+XanaScript fornece APIs de rede de alto nível para construção rápida de servidores.`,
+    challenges: [
+      { question: "Qual módulo fornece servidor HTTP?", answer: "xs:http", points: 3 },
+      { question: "Qual módulo fornece servidor TCP?", answer: "xs:net", points: 3 },
+      { question: "Qual função faz requisição GET?", answer: "get", points: 3 },
+    ],
+  },
+  {
+    slug: "processamento-assincrono-de-arquivos",
+    title: "Processamento Assíncrono de Arquivos",
+    order: 96,
+    points: 10,
+    bodyMd: `# Processamento Assíncrono de Arquivos
+
+Padrões para processamento eficiente de arquivos.
+
+## Leitura com Streams
+
+\`\`\`xs
+import { criarStreamLeitura } from "xs:fs"
+
+CHAMA ESSE CARA processarGrandeArquivo(caminho) {
+  VOLTA new Promise((resolver, rejeitar) => {
+    CRIA stream = criarStreamLeitura(caminho)
+    CRIA linhas = []
+
+    stream.ao("dados", (pedaco) => {
+      linhas.push(...pedaco.toString().quebrar("\\n"))
+    })
+
+    stream.ao("fim", () => resolver(linhas))
+    stream.ao("erro", (erro) => rejeitar(erro))
   })
-  tx.confirmar()
+}
+\`\`\`
+
+## Processamento em Linha
+
+\`\`\`xs
+ESPERA processarGrandeArquivo("dados.txt")
+  .entao((linhas) => {
+    PARA CADA (linha EM linhas) {
+      processar(linha)
+    }
+  })
+\`\`\`
+
+## Pipe com Transformações
+
+\`\`\`xs
+import { criarStreamTransformacao } from "xs:streams"
+
+CRIA transform = criarStreamTransformacao(
+  (pedaco) => pedaco.toString().maiusculo()
+)
+
+criarStreamLeitura("entrada.txt")
+  .pipe(transform)
+  .pipe(criarStreamEscrita("saida.txt"))
+\`\`\`
+
+Use streams para conjuntos de dados que não cabem na memória.`,
+    challenges: [
+      { question: "Por que usar streams para arquivos grandes?", answer: "não carregar tudo na memória", points: 5 },
+      { question: "Qual evento sinaliza fim do stream?", answer: "fim / end", points: 3 },
+      { question: "Qual evento sinaliza erro no stream?", answer: "erro / error", points: 3 },
+    ],
+  },
+  {
+    slug: "conceitos-de-banco-de-dados",
+    title: "Conceitos de Banco de Dados",
+    order: 97,
+    points: 10,
+    bodyMd: `# Conceitos de Banco de Dados
+
+Conecte e interaja com bancos de dados.
+
+## Conexão
+
+\`\`\`xs
+import { conectar } from "xs:sqlite"
+
+CRIA db = ESPERA conectar("meu-banco.db")
+\`\`\`
+
+## Consultas
+
+\`\`\`xs
+// Selecionar
+CRIA usuarios = ESPERA db.consulta(
+  "SELECT * FROM usuarios WHERE idade > ?",
+  [18]
+)
+
+// Inserir
+CRIA resultado = ESPERA db.executar(
+  "INSERT INTO usuarios (nome, email) VALUES (?, ?)",
+  ["João", "joao@email.com"]
+)
+\`\`\`
+
+## Prepared Statements
+
+\`\`\`xs
+CRIA stmt = ESPERA db.preparar(
+  "INSERT INTO usuarios (nome) VALUES (?)"
+)
+
+PARA CADA (nome EM nomes) {
+  ESPERA stmt.executar(nome)
+}
+\`\`\`
+
+## ORM
+
+\`\`\`xs
+import { Modelo, Campos } from "xs:orm"
+
+CLASSE Usuario estende Modelo {
+  CRIA nome = Campos.texto()
+  CRIA email = Campos.texto()
+  CRIA idade = Campos.numero()
+}
+\`\`\`
+
+Always parameterize queries to prevent injection.`,
+    challenges: [
+      { question: "Como prevenir SQL injection?", answer: "usar parâmetros/prepared statements", points: 5 },
+      { question: "Qual função consulta o banco?", answer: "consulta / query", points: 3 },
+      { question: "Qual comando modifica dados?", answer: "executar / execute", points: 3 },
+    ],
+  },
+  {
+    slug: "autenticacao-e-autorizacao",
+    title: "Autenticação e Autorização",
+    order: 98,
+    points: 10,
+    bodyMd: `# Autenticação e Autorização
+
+Implemente segurança em suas aplicações.
+
+## Autenticação
+
+Verifique a identidade do usuário:
+
+\`\`\`xs
+CHAMA ESSE CARA autenticar(email, senha) {
+  CRIA usuario = ESPERA db.consulta(
+    "SELECT * FROM usuarios WHERE email = ?",
+    [email]
+  )
+
+  SE LIGA SO (!usuario) { JOGAR "Usuário não encontrado" }
+
+  CRIA valida = ESPERA bcrypt.comparar(senha, usuario.senha)
+  SE LIGA SO (!valida) { JOGAR "Senha inválida" }
+
+  CRIA token = jwt.assinar(
+    { id: usuario.id, email: usuario.email },
+    SEGREDO_JWT,
+    { expiraEm: "7d" }
+  )
+
+  VOLTA { usuario, token }
+}
+\`\`\`
+
+## Autorização
+
+Verifique permissões:
+
+\`\`\`xs
+CHAMA ESSE CARA verificarAdmin(token) {
+  CRIA payload = jwt.verificar(token, SEGREDO_JWT)
+  SE LIGA SO (!payload.admin) { JOGAR "Não autorizado" }
+}
+\`\`\`
+
+## Middleware
+
+\`\`\`xs
+CHAMA ESSE CARA middleware(auth) (req, res, proximo) {
+  TENTE {
+    req.usuario = verificarToken(req.cabecalhos.auth)
+    proximo()
+  } CAPTURA (e) {
+    res.status(401).json({ erro: "Não autenticado" })
+  }
+}
+\`\`\`
+
+Nunca armazene senhas em texto puro; use hash + salt.`,
+    challenges: [
+      { question: "Autenticação vs Autorização?", answer: "autenticação = quem é, autorização = o que pode fazer", points: 5 },
+      { question: "Senhas devem ser armazenadas como?", answer: "hash + salt", points: 5 },
+      { question: "O que JWT fornece?", answer: "um token de autenticação auto-contido", points: 3 },
+    ],
+  },
+  {
+    slug: "variaveis-de-ambiente-e-configuracao",
+    title: "Variáveis de Ambiente e Configuração",
+    order: 99,
+    points: 5,
+    bodyMd: `# Variáveis de Ambiente e Configuração
+
+Gerencie configurações de forma segura.
+
+## Variáveis de Ambiente
+
+\`\`\`bash
+# .env
+DB_URL=localhost:5432
+DB_USER=admin
+DB_PASS=secreta
+API_KEY=chave-da-api
+\`\`\`
+
+## Acessando
+
+\`\`\`xs
+CRIA dbUrl = processo.env.DB_URL
+CRIA apiKey = processo.env.API_KEY
+\`\`\`
+
+## Configuração Segura
+
+\`\`\`xs
+CLASSE Config {
+  CRIA dbUrl = processo.env.DB_URL
+  CRIA dbUser = processo.env.DB_USER
+  CRIA dbPass = processo.env.DB_PASS
+  CRIA apiKey = processo.env.API_KEY
+
+  CHAMA ESSE CARA ESTATICO carregar() {
+    SE LIGA SO (!ISTO.dbUrl) {
+      JOGAR "DB_URL não configurada"
+    }
+    VOLTA ISTO
+  }
+}
+
+CRIA config = Config.carregar()
+\`\`\`
+
+## Boas Práticas
+
+- Nunca commite secrets
+- Valores padrão para desenvolvimento
+- Valide no startup
+- Use .env.example como template
+
+Mantenha configurações fora do código.`,
+    challenges: [
+      { question: "Onde armazenar secrets?", answer: "variáveis de ambiente", points: 3 },
+      { question: "O que validar no startup?", answer: "se todas as configs necessárias existem", points: 5 },
+      { question: "Nunca commite ...", answer: "secrets / senhas / chaves", points: 3 },
+    ],
+  },
+  {
+    slug: "introducao-ao-cli-xanascript",
+    title: "Introdução ao CLI XanaScript",
+    order: 100,
+    points: 5,
+    bodyMd: `# Introdução ao CLI XanaScript
+
+Construa ferramentas de linha de comando.
+
+## Argumentos
+
+\`\`\`xs
+CRIA args = processo.argv.slice(2)
+CRIA nome = args[0]
+
+SOLTA O GRITO("Olá, " + nome + "!")
+\`\`\`
+
+## Parse de Argumentos
+
+\`\`\`xs
+import { parse } from "xs:args"
+
+CRIA args = parse(processo.argv.slice(2), {
+  flags: {
+    nome: { tipo: "string", alias: "n" },
+    verbose: { tipo: "booleano", alias: "v" }
+  }
+})
+
+SOLTA O GRITO(args.flags.nome)
+\`\`\`
+
+## Cores no Terminal
+
+\`\`\`xs
+import { cores } from "xs:terminal"
+
+SOLTA O GRITO(cores.verde("Sucesso!"))
+SOLTA O GRITO(cores.vermelho("Erro!"))
+SOLTA O GRITO(cores.negrito("Aviso"))
+\`\`\`
+
+## Entrada do Usuário
+
+\`\`\`xs
+import { prompt } from "xs:readline"
+
+CRIA nome = ESPERA prompt("Qual seu nome? ")
+SOLTA O GRITO("Olá, " + nome)
+\`\`\`
+
+XanaScript é excelente para ferramentas CLI rápidas e poderosas.`,
+    challenges: [
+      { question: "Onde estão os argumentos da linha de comando?", answer: "processo.argv", points: 3 },
+      { question: "Qual módulo adiciona cores ao terminal?", answer: "xs:terminal", points: 3 },
+      { question: "Qual módulo lê entrada do usuário?", answer: "xs:readline", points: 3 },
+    ],
+  },
+  {
+    slug: "programacao-web-com-xanascript",
+    title: "Programação Web com XanaScript",
+    order: 101,
+    points: 5,
+    bodyMd: `# Programação Web
+
+Construa aplicações web com XanaScript.
+
+## Roteamento
+
+\`\`\`xs
+import { Roteador } from "xs:http"
+
+CRIA roteador = Roteador.novo()
+
+roteador.get("/", (req, res) => {
+  res.json({ mensagem: "Bem-vindo à API" })
+})
+
+roteador.get("/usuarios/:id", (req, res) => {
+  CRIA id = req.params.id
+  res.json({ usuario: { id } })
+})
+
+roteador.post("/usuarios", async (req, res) => {
+  CRIA dados = req.corpo
+  res.status(201).json({ criado: dados })
+})
+\`\`\`
+
+## Servindo Arquivos Estáticos
+
+\`\`\`xs
+import { servirEstatico } from "xs:http"
+
+roteador.usar(servirEstatico("./publico"))
+\`\`\`
+
+## Middleware
+
+\`\`\`xs
+CHAMA ESSE CARA logger(req, res, proximo) {
+  SOLTA O GRITO(req.metodo + " " + req.url)
+  proximo()
+}
+
+roteador.usar(logger)
+\`\`\`
+
+XanaScript torna a construção de APIs web rápida e intuitiva.`,
+    challenges: [
+      { question: "Qual função lida com GET?", answer: "roteador.get()", points: 3 },
+      { question: "Qual função serve arquivos estáticos?", answer: "servirEstatico", points: 3 },
+      { question: "Middlewares processam ...", answer: "requisições antes do handler", points: 3 },
+    ],
+  },
+  {
+    slug: "frameworks-web",
+    title: "Frameworks Web",
+    order: 102,
+    points: 10,
+    bodyMd: `# Frameworks Web
+
+Use frameworks web para produtividade máxima.
+
+## Express (Estilo)
+
+\`\`\`xs
+import { express } from "xs:express"
+
+CRIA app = express()
+
+app.get("/api/usuarios", (req, res) => {
+  CRIA usuarios = ESPERA db.buscarTodos()
+  res.json(usuarios)
+})
+
+app.ouvir(3000)
+\`\`\`
+
+## Validação
+
+\`\`\`xs
+app.post("/api/usuarios", Validar({
+  nome: "obrigatório|string",
+  email: "obrigatório|email",
+  idade: "opcional|numero|min:18"
+}), (req, res) => {
+  // req.corpo validado
+})
+\`\`\`
+
+## Tratamento de Erros Global
+
+\`\`\`xs
+app.usar((erro, req, res, proximo) => {
+  Logger.erro(erro)
+  res.status(500).json({ erro: erro.mensagem })
+})
+\`\`\`
+
+Frameworks fornecem estrutura e convenções para construir aplicações consistentes.`,
+    challenges: [
+      { question: "O que é middleware de erro?", answer: "handler com parâmetro de erro", points: 3 },
+      { question: "Por que usar validação de entrada?", answer: "garantir dados corretos antes do processamento", points: 5 },
+      { question: "Qual porta o servidor ouve?", answer: "3000", points: 3 },
+    ],
+  },
+  {
+    slug: "bancos-de-dados-relacionais",
+    title: "Bancos de Dados Relacionais",
+    order: 103,
+    points: 10,
+    bodyMd: `# Bancos de Dados Relacionais
+
+Trabalhe com bancos SQL.
+
+## Conexão e Consultas
+
+\`\`\`xs
+import { conectar } from "xs:pg"
+
+CRIA db = ESPERA conectar({
+  host: "localhost",
+  porta: 5432,
+  database: "meuapp"
+})
+
+CRIA resultado = ESPERA db.consulta(
+  "SELECT * FROM usuarios WHERE ativo = $1",
+  [true]
+)
+\`\`\`
+
+## Transações
+
+\`\`\`xs
+CRIA transacao = ESPERA db.iniciarTransacao()
+
+TENTE {
+  ESPERA transacao.executar(
+    "UPDATE contas SET saldo = saldo - 100 WHERE id = $1",
+    [1]
+  )
+  ESPERA transacao.executar(
+    "UPDATE contas SET saldo = saldo + 100 WHERE id = $1",
+    [2]
+  )
+  ESPERA transacao.confirmar()
 } CAPTURA (e) {
-  tx.reverter()
+  ESPERA transacao.reverter()
   JOGAR e
 }
 \`\`\`
 
-## Nested Transactions
-
-Savepoints for partial rollback:
+## Migrations
 
 \`\`\`xs
-TRANSACAO {
-  operacao1()
-  TRANSACAO {
-    operacao2()  // can rollback independently
+// migrations/001_criar_usuarios.xs
+CHAMA ESSE CARA subir(db) {
+  ESPERA db.executar(\`
+    CREATE TABLE usuarios (
+      id SERIAL PRIMARY KEY,
+      nome TEXT NOT NULL,
+      email TEXT UNIQUE NOT NULL
+    )
+  \`)
+}
+\`\`\`
+
+Bancos relacionais fornecem integridade de dados e consultas poderosas.`,
+    challenges: [
+      { question: "Qual comando inicia uma transação?", answer: "iniciarTransacao / beginTransaction", points: 3 },
+      { question: "Qual comando finaliza uma transação?", answer: "confirmar / commit", points: 3 },
+      { question: "O que é uma migration?", answer: "código que evolui o esquema do banco", points: 5 },
+    ],
+  },
+  {
+    slug: "bancos-de-dados-nosql",
+    title: "Bancos de Dados NoSQL",
+    order: 104,
+    points: 10,
+    bodyMd: `# Bancos de Dados NoSQL
+
+Trabalhe com bancos NoSQL como MongoDB.
+
+## Conexão
+
+\`\`\`xs
+import { MongoCliente } from "xs:mongo"
+
+CRIA cliente = MongoCliente.novo("mongodb://localhost:27017")
+CRIA db = cliente.db("meuapp")
+CRIA colecao = db.colecao("usuarios")
+\`\`\`
+
+## Operações CRUD
+
+\`\`\`xs
+// Criar
+CRIA resultado = ESPERA colecao.inserirUm({
+  nome: "João",
+  email: "joao@email.com"
+})
+
+// Ler
+CRIA usuario = ESPERA colecao.buscarUm({ email: "joao@email.com" })
+
+// Atualizar
+ESPERA colecao.atualizarUm(
+  { _id: usuario._id },
+  { $set: { nome: "João Silva" } }
+)
+
+// Deletar
+ESPERA colecao.deletarUm({ _id: usuario._id })
+\`\`\`
+
+## Indexes
+
+\`\`\`xs
+ESPERA colecao.criarIndex({ email: 1 }, { unico: true })
+\`\`\`
+
+NoSQL oferece flexibilidade de esquema e escalabilidade horizontal.`,
+    challenges: [
+      { question: "NoSQL é um banco relacional?", answer: "não", points: 3 },
+      { question: "Qual função insere um documento?", answer: "inserirUm / insertOne", points: 3 },
+      { question: "Qual benefício do NoSQL?", answer: "flexibilidade de esquema", points: 3 },
+    ],
+  },
+  {
+    slug: "caching-com-xanascript",
+    title: "Caching com XanaScript",
+    order: 105,
+    points: 10,
+    bodyMd: `# Caching
+
+Melhore desempenho com caching.
+
+## Cache em Memória
+
+\`\`\`xs
+import { Cache } from "xs:cache"
+
+CRIA cache = Cache.novo({ ttl: 60000 }) // 1 minuto
+
+CHAMA ESSE CARA buscarUsuario(id) {
+  CRIA chave = "usuario:" + id
+
+  CRIA cached = cache.get(chave)
+  SE LIGA SO (cached) { VOLTA cached }
+
+  CRIA usuario = ESPERA db.buscar(id)
+  cache.set(chave, usuario)
+  VOLTA usuario
+}
+\`\`\`
+
+## Redis
+
+\`\`\`xs
+import { conectar } from "xs:redis"
+
+CRIA redis = ESPERA conectar({ url: "redis://localhost:6379" })
+ESPERA redis.set("chave", "valor", "EX", 3600)
+CRIA valor = ESPERA redis.get("chave")
+\`\`\`
+
+## Estratégias de Cache
+
+- **Cache-Aside**: app verifica cache, então DB
+- **Write-Through**: escreve em ambos simultaneamente
+- **Write-Behind**: escreve no cache, depois DB assíncrono
+
+## Invalidando Cache
+
+\`\`\`xs
+CHAMA ESSE CARA atualizarUsuario(id, dados) {
+  ESPERA db.atualizar(id, dados)
+  cache.del("usuario:" + id)
+}
+\`\`\`
+
+Cache melhora drasticamente a latência e reduz carga no banco.`,
+    challenges: [
+      { question: "O que TTL significa?", answer: "time to live / tempo de vida", points: 3 },
+      { question: "Cache coloca dados onde?", answer: "na memória para acesso rápido", points: 3 },
+      { question: "O que cache reduz?", answer: "carga no banco de dados", points: 3 },
+    ],
+  },
+  {
+    slug: "introducao-a-eventos",
+    title: "Introdução a Eventos",
+    order: 106,
+    points: 5,
+    bodyMd: `# Introdução a Eventos
+
+Programação orientada a eventos.
+
+## Emissor de Eventos
+
+\`\`\`xs
+import { EmissorEventos } from "xs:events"
+
+CRIA emissor = EmissorEventos.novo()
+
+// Ouvir evento
+emissor.ao("dadosRecebidos", (dados) => {
+  SOLTA O GRITO("Dados recebidos:", dados)
+})
+
+// Emitir evento
+emissor.emitir("dadosRecebidos", { id: 1, nome: "teste" })
+\`\`\`
+
+## Removendo Listeners
+
+\`\`\`xs
+CHAMA ESSE CARA handler(dados) {
+  SOLTA O GRITO(dados)
+}
+
+emissor.ao("evento", handler)
+emissor.remover("evento", handler) // remove específico
+emissor.removerTodos("evento")     // remove todos
+\`\`\`
+
+## Eventos Únicos
+
+\`\`\`xs
+emissor.umaVez("unico", () => {
+  SOLTA O GRITO("Só executa uma vez")
+})
+\`\`\`
+
+Objetos XanaScript podem estender EmissorEventos para expor eventos.`,
+    challenges: [
+      { question: "Como ouvir um evento?", answer: "emissor.on('evento', handler)", points: 3 },
+      { question: "Como emitir um evento?", answer: "emissor.emitir('evento', dados)", points: 3 },
+      { question: "Como ouvir evento uma única vez?", answer: "emissor.umaVez('evento', handler)", points: 3 },
+    ],
+  },
+  {
+    slug: "padrao-observador",
+    title: "Padrão Observador",
+    order: 107,
+    points: 5,
+    bodyMd: `# Padrão Observador
+
+Um objeto (sujeito) notifica múltiplos observadores sobre mudanças.
+
+## Estrutura
+
+\`\`\`xs
+CLASSE Sujeito {
+  CRIA observadores = []
+
+  CHAMA ESSE CARA inscrever(obs) {
+    ISTO.observadores.push(obs)
+  }
+
+  CHAMA ESSE CARA cancelar(obs) {
+    ISTO.observadores = ISTO.observadores
+      .filter(o => o !== obs)
+  }
+
+  CHAMA ESSE CARA notificar(dados) {
+    ISTO.observadores
+      .paraCada(obs => obs.atualizar(dados))
   }
 }
 \`\`\`
 
-Transactions maintain database integrity.`,
+## Observador
+
+\`\`\`xs
+CLASSE LoggerObs {
+  CHAMA ESSE CARA atualizar(dados) {
+    SOLTA O GRITO("LOG:", dados)
+  }
+}
+
+CLASSE AlertaObs {
+  CHAMA ESSE CARA atualizar(dados) {
+    SE LIGA SO (dados.urgente) {
+      SOLTA O GRITO("ALERTA!")
+    }
+  }
+}
+\`\`\`
+
+## Uso
+
+\`\`\`xs
+CRIA sujeito = Sujeito.novo()
+sujeito.inscrever(LoggerObs.novo())
+sujeito.inscrever(AlertaObs.novo())
+sujeito.notificar({ msg: "teste", urgente: true })
+\`\`\`
+
+Útil para sistemas de eventos, notificações e atualizações de UI.`,
     challenges: [
-      { question: "What keyword starts a transaction?", answer: "TRANSACAO", points: 3 },
-      { question: "What method commits a transaction?", answer: "confirmar", points: 3 },
-      { question: "What method rolls back?", answer: "reverter", points: 3 },
-],
+      { question: "O sujeito notifica ...", answer: "observadores", points: 3 },
+      { question: "Quantos observadores um sujeito pode ter?", answer: "múltiplos", points: 3 },
+      { question: "Para que o padrão observador é útil?", answer: "notificações e atualizações", points: 3 },
+    ],
   },
   {
-    slug: "performance-do-orm",
-    title: "Performance do ORM",
-    order: 137,
+    slug: "programacao-reativa",
+    title: "Programação Reativa",
+    order: 108,
     points: 10,
-    bodyMd: `# ORM Performance
+    bodyMd: `# Programação Reativa
 
-Optimize database operations.
+Programe com fluxos de dados assíncronos.
 
-## N+1 Problem
-
-\`\`\`xs
-// BAD: N+1 queries
-PARA CADA (post EM Post.todos()) {
-  SOLTA O GRITO(post.autor)  // extra query each iteration
-}
-
-// GOOD: eager load
-PARA CADA (post EM Post.todos().incluir("autor")) {
-  SOLTA O GRITO(post.autor)  // already loaded
-}
-\`\`\`
-
-## Batch Operations
+## Observáveis
 
 \`\`\`xs
-// BAD: individual inserts
-PARA CADA (item EM items) {
-  Item.criar(item)
-}
+import { Observable } from "xs:reativo"
 
-// GOOD: batch insert
-Item.inserirVarios(items)
+CRIA obs = Observable.novo((subscriber) => {
+  subscriber.proximo(1)
+  subscriber.proximo(2)
+  subscriber.proximo(3)
+  subscriber.completo()
+})
+
+obs.inscrever({
+  proximo: (v) => SOLTA O GRITO(v),
+  completo: () => SOLTA O GRITO("fim")
+})
 \`\`\`
 
-## Indexing
+## Operadores
 
 \`\`\`xs
-TABELA Usuario {
-  CAMPO email: TEXTO { unico: true, indice: true }
-  CAMPO nome: TEXTO { indice: true }
-}
+import { de, mapa, filtro } from "xs:reativo"
+
+de([1, 2, 3, 4, 5])
+  .pipe(
+    mapa(x => x * 2),
+    filtro(x => x > 5)
+  )
+  .inscrever(v => SOLTA O GRITO(v))
+// Saída: 6, 8, 10
 \`\`\`
 
-## Query Optimization
+## Subject
 
-- Select only needed fields
-- Use pagination
-- Avoid N+1 with eager loading
-- Index query columns`,
+\`\`\`xs
+import { Subject } from "xs:reativo"
+CRIA subject = Subject.novo()
+subject.inscrever(v => SOLTA O GRITO(v))
+subject.proximo("dados")
+\`\`\`
+
+Programação reativa gerencia elegantemente fluxos de dados assíncronos e eventos.`,
     challenges: [
-      { question: "What problem causes extra queries in loops?", answer: "N+1 problem", points: 3 },
-      { question: "What method prevents N+1?", answer: "incluir (eager loading)", points: 3 },
-      { question: "What helps query performance?", answer: "indexes on queried columns", points: 3 },
-],
+      { question: "O que subscribe recebe?", answer: "callbacks para proximo, erro, completo", points: 5 },
+      { question: "Operadores como map e filter fazem o que?", answer: "transformam fluxos de dados", points: 5 },
+      { question: "Subject é o quê?", answer: "um observable que também emite", points: 3 },
+    ],
   },
   {
-    slug: "introducao-ao-wasm",
-    title: "Introducao ao WASM",
-    order: 138,
-    points: 5,
-    bodyMd: `# Introduction to WebAssembly
+    slug: "webhooks-e-event-driven",
+    title: "Webhooks e Arquitetura Orientada a Eventos",
+    order: 109,
+    points: 10,
+    bodyMd: `# Webhooks e Event-Driven
 
-XanaScript can compile directly to WebAssembly.
+Padrões para comunicação baseada em eventos.
 
-## Why WASM?
+## Webhook (Servidor)
 
-- Near-native performance
-- Run in browsers, servers, embedded devices
-- Deterministic execution
+\`\`\`xs
+app.post("/webhook/pagamento", (req, res) => {
+  CRIA evento = req.corpo
 
-## Compiling to WASM
+  // Processa evento
+  processarPagamento(evento)
+
+  // Responde rápido
+  res.status(200).json({ recebido: true })
+})
+\`\`\`
+
+## Webhook (Cliente)
+
+\`\`\`xs
+CHAMA ESSE CARA enviarWebhook(url, dados) {
+  TENTE {
+    CRIA resp = ESPERA fetch(url, {
+      metodo: "POST",
+      corpo: JSON.serializa(dados),
+      cabecalhos: { "Content-Type": "application/json" }
+    })
+    SE LIGA SO (!resp.ok) { JOGAR "Webhook falhou" }
+  } CAPTURA (erro) {
+    Logger.erro("Webhook", erro)
+    // Retry logic
+  }
+}
+\`\`\`
+
+## Event-Driven Architecture
+
+\`\`\`xs
+// Event Bus
+CLASSE EventBus {
+  CRIA subscribers = {}
+
+  CHAMA ESSE CARA publicar(evento, dados) {
+    CRIA subs = ISTO.subscribers[evento] || []
+    subs.paraCada(cb => cb(dados))
+  }
+
+  CHAMA ESSE CARA inscrever(evento, cb) {
+    (ISTO.subscribers[evento] ||= []).push(cb)
+  }
+}
+\`\`\`
+
+EDA desacopla componentes e melhora escalabilidade.`,
+    challenges: [
+      { question: "O que é uma arquitetura orientada a eventos?", answer: "componentes se comunicam via eventos", points: 5 },
+      { question: "Webhook é push ou pull?", answer: "push", points: 3 },
+      { question: "O que desacopla produtores e consumidores?", answer: "barramento de eventos / event bus", points: 5 },
+    ],
+  },
+  {
+    slug: "filas-e-processamento-assincrono",
+    title: "Filas e Processamento Assíncrono",
+    order: 110,
+    points: 10,
+    bodyMd: `# Filas e Processamento Assíncrono
+
+Gerencie tarefas assíncronas com filas.
+
+## Fila em Memória
+
+\`\`\`xs
+CLASSE Fila {
+  CRIA itens = []
+  CRIA processando = false
+
+  CHAMA ESSE CARA adicionar(tarefa) {
+    ISTO.itens.push(tarefa)
+    SE LIGA SO (!ISTO.processando) { ISTO.processar() }
+  }
+
+  CHAMA ESSE CARA async processar() {
+    ISTO.processando = true
+    ENQUANTO (ISTO.itens.tamanho > 0) {
+      CRIA tarefa = ISTO.itens.shift()
+      TENTE {
+        ESPERA tarefa()
+      } CAPTURA (e) {
+        Logger.erro("Tarefa falhou", e)
+      }
+    }
+    ISTO.processando = false
+  }
+}
+\`\`\`
+
+## Filas Externas (RabbitMQ)
+
+\`\`\`xs
+import { conectar } from "xs:amqp"
+
+CRIA conexao = ESPERA conectar("amqp://localhost")
+CRIA canal = ESPERA conexao.criarCanal()
+
+// Enviar
+ESPERA canal.enviarParaFila("tarefas",
+  Buffer.de(JSON.serializa({ tipo: "email" }))
+)
+
+// Consumir
+canal.consumir("tarefas", (msg) => {
+  CRIA dados = JSON.parse(msg.conteudo.toString())
+  processar(dados)
+})
+\`\`\`
+
+Filas permitem processamento assíncrono e desacoplamento entre serviços.`,
+    challenges: [
+      { question: "O que uma fila armazena?", answer: "tarefas para processamento assíncrono", points: 3 },
+      { question: "Filas desacoplam ...", answer: "produtores e consumidores", points: 3 },
+      { question: "Qual vantagem das filas?", answer: "processamento assíncrono e resiliência", points: 5 },
+    ],
+  },
+  {
+    slug: "containerizacao-com-xanascript",
+    title: "Containerização com XanaScript",
+    order: 111,
+    points: 10,
+    bodyMd: `# Containerização
+
+Empacote aplicações XanaScript com Docker.
+
+## Dockerfile
+
+\`\`\`dockerfile
+FROM xs:latest
+
+WORKDIR /app
+
+COPY package.json .
+RUN xs install
+
+COPY . .
+
+RUN xs build
+
+EXPOSE 3000
+
+CMD ["xs", "run", "dist/main.xs"]
+\`\`\`
+
+## Docker Compose
+
+\`\`\`yaml
+version: "3.8"
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_URL=postgres://db:5432/app
+    depends_on:
+      - db
+  db:
+    image: postgres:15
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+\`\`\`
+
+## Multi-stage Build
+
+\`\`\`dockerfile
+# Estágio de build
+FROM xs:latest AS build
+WORKDIR /app
+COPY . .
+RUN xs build --otimizar
+
+# Estágio de produção
+FROM xs:alpine
+COPY --from=build /app/dist ./dist
+CMD ["xs", "run", "dist/main.xs"]
+\`\`\`
+
+Containerização garante ambientes consistentes e deploy simplificado.`,
+    challenges: [
+      { question: "O que um Dockerfile contém?", answer: "instruções para construir uma imagem", points: 3 },
+      { question: "O que multi-stage build reduz?", answer: "tamanho da imagem final", points: 5 },
+      { question: "Docker Compose gerencia ...", answer: "múltiplos containers", points: 3 },
+    ],
+  },
+  {
+    slug: "deploy-em-nuvem",
+    title: "Deploy em Nuvem",
+    order: 112,
+    points: 10,
+    bodyMd: `# Deploy em Nuvem
+
+Faça deploy de aplicações XanaScript na nuvem.
+
+## Provedores Suportados
+
+XanaScript suporta deploy em:
+
+- AWS Lambda
+- Cloudflare Workers
+- Vercel
+- Netlify
+- Servidor dedicado
+
+## AWS Lambda
+
+\`\`\`xs
+// lambda.xs
+export CHAMA ESSE CARA handler(evento, contexto) {
+  VOLTA {
+    statusCode: 200,
+    corpo: JSON.serializa({
+      mensagem: "Olá de XanaScript no Lambda!"
+    })
+  }
+}
+\`\`\`
+
+## Vercel
+
+\`\`\`json
+// vercel.json
+{
+  "buildCommand": "xs build",
+  "outputDirectory": "dist",
+  "functions": {
+    "api/**/*.xs": {
+      "runtime": "xs"
+    }
+  }
+}
+\`\`\`
+
+## Deploy Manual
 
 \`\`\`bash
-xs build --target wasm entrada.xs -o saida.wasm
+xs build --otimizar
+scp -r dist/* usuario@servidor:/app
+ssh usuario@servidor "xs run /app/main.xs"
 \`\`\`
 
-## XanaScript to WASM
-
-\`\`\`xs
-// fib.xs — compiles to WASM
-CHAMA ESSE CARA fib(n) {
-  SE LIGA SO (n <= 1) { VOLTA n }
-  VOLTA fib(n - 1) + fib(n - 2)
-}
-
-// Export for WASM
-EXPORTA fib
-\`\`\`
-
-## Running WASM
-
-\`\`\`js
-// JavaScript host
-const wasm = await WebAssembly.instantiateStreaming(
-  fetch("fib.wasm")
-)
-console.log(wasm.instance.exports.fib(10))
-\`\`\`
-
-Direct WASM emission, no Emscripten required.`,
+Escolha o provedor baseado em suas necessidades de escala e orçamento.`,
     challenges: [
-      { question: "What flag compiles to WASM?", answer: "--target wasm", points: 3 },
-      { question: "What keyword exports a function for WASM?", answer: "EXPORTA", points: 3 },
-      { question: "Does XanaScript require Emscripten for WASM?", answer: "no", points: 3 },
-],
+      { question: "XanaScript pode rodar no AWS Lambda?", answer: "sim", points: 3 },
+      { question: "Qual comando faz build de produção?", answer: "xs build --otimizar", points: 3 },
+      { question: "Qual é uma plataforma serverless suportada?", answer: "AWS Lambda, Vercel, Cloudflare, Netlify", points: 5 },
+    ],
   },
   {
-    slug: "memoria-wasm",
-    title: "Gerenciamento de Memoria WASM",
-    order: 139,
+    slug: "ci-cd-para-xanascript",
+    title: "CI/CD para XanaScript",
+    order: 113,
     points: 10,
-    bodyMd: `# WASM Memory
+    bodyMd: `# CI/CD para XanaScript
 
-Manage linear memory in WebAssembly.
+Automatize testes e deploys.
 
-## Memory Declaration
+## GitHub Actions
 
-\`\`\`xs
-MEMORIA 1  // 1 page (64KB)
-MEMORIA 10 // 10 pages (640KB)
+\`\`\`yaml
+name: CI
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: xs/setup-xs@v1
+      - run: xs install
+      - run: xs test
+      - run: xs build
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: xs install && xs build
+      - run: xs deploy
 \`\`\`
 
-## Reading/Writing Memory
+## Scripts de CI
 
-\`\`\`xs
-CRIA offset = 0
-CRIA valor = 42
-
-MEMORIA.ESCREVER_INT32(offset, valor)
-CRIA lido = MEMORIA.LER_INT32(offset)
-\`\`\`
-
-## String Operations
-
-\`\`\`xs
-CHAMA ESSE CARA escreverString(ptr, texto) {
-  PARA CADA (i EM 0..texto.tamanho) {
-    MEMORIA.ESCREVER_INT8(ptr + i, texto.charCodeAt(i))
+\`\`\`json
+{
+  "scripts": {
+    "ci": "xs install && xs lint && xs test && xs build",
+    "cd": "xs build --otimizar && xs deploy"
   }
-  MEMORIA.ESCREVER_INT8(ptr + texto.tamanho, 0)  // null terminator
 }
 \`\`\`
 
-## Grow Memory
+## Qualidade
 
-\`\`\`xs
-MEMORIA.CRESCER(5)  // add 5 pages
-CRIA paginas = MEMORIA.PAGINAS()  // current page count
-\`\`\`
+- \`xs lint\`: verifica estilo
+- \`xs test --cobertura\`: garante cobertura
+- \`xs audit\`: verifica vulnerabilidades
+- \`xs check\`: verifica tipos
 
-Manual memory control enables zero-overhead data structures.`,
+CI/CD automatizado previne regressões e acelera entregas.`,
     challenges: [
-      { question: "What keyword declares WASM memory?", answer: "MEMORIA", points: 3 },
-      { question: "What is the page size?", answer: "64KB", points: 3 },
-      { question: "What function grows WASM memory?", answer: "MEMORIA.CRESCER", points: 3 },
-],
+      { question: "CI executa quando?", answer: "em cada push/pull request", points: 3 },
+      { question: "CD significa ...", answer: "Continuous Deployment / Deploy Contínuo", points: 3 },
+      { question: "Qual comando verifica vulnerabilidades?", answer: "xs audit", points: 3 },
+    ],
   },
   {
-    slug: "importacoes-exportacoes-wasm",
-    title: "Importacoes & Exportacoes WASM",
-    order: 140,
+    slug: "monitoramento-e-observabilidade",
+    title: "Monitoramento e Observabilidade",
+    order: 114,
     points: 10,
-    bodyMd: `# WASM Imports & Exports
+    bodyMd: `# Monitoramento e Observabilidade
 
-Call host functions from WASM and expose functions to host.
+Monitore aplicações em produção.
 
-## Exports
-
-\`\`\`xs
-EXPORTA soma
-EXPORTA multiplicar
-
-CHAMA ESSE CARA soma(a, b) { VOLTA a + b }
-CHAMA ESSE CARA multiplicar(a, b) { VOLTA a * b }
-\`\`\`
-
-## Imports
+## Métricas
 
 \`\`\`xs
-IMPORTA "env" "log" como log
+import { Meter } from "xs:metrics"
 
-CHAMA ESSE CARA main() {
-  log(42)  // calls host env.log function
+CRIA meter = Meter.novo("meuapp")
+
+CRIA reqContador = meter.criarContador("requisicoes")
+CRIA reqDuracao = meter.criarHistograma("req_duracao")
+
+CHAMA ESSE CARA middleware(req, res, proximo) {
+  CRIA inicio = Date.Agora()
+
+  res.ao("fim", () => {
+    reqContador.adicionar(1, { metodo: req.metodo })
+    reqDuracao.observar(Date.Agora() - inicio)
+  })
+
+  proximo()
 }
 \`\`\`
 
-## Import Module
+## Logging Estruturado
 
 \`\`\`xs
-IMPORTA "js" "console.log" como jsLog
+LOG.info("Usuário criado", {
+  userId: usuario.id,
+  acao: "criacao",
+  duracao: ms
+})
+\`\`\`
 
-CHAMA ESSE CARA renderizar() {
-  jsLog("Renderizando...")
+## Tracing
+
+\`\`\`xs
+import { rastrear } from "xs:telemetria"
+
+CHAMA ESSE CARA buscarUsuario(id) {
+  VOLTA rastrear("buscarUsuario", { id }, () => {
+    CRIA usuario = ESPERA db.buscar(id)
+    ESPERA cache.set("usuario:" + id, usuario)
+    VOLTA usuario
+  })
 }
 \`\`\`
 
-## Host Integration
-
-\`\`\`js
-WebAssembly.instantiate(wasm, {
-  env: {
-    log: (x) => console.log(x)
+Observabilidade permite entender o comportamento do sistema em produção.`,
+    challenges: [
+      { question: "Quais são os três pilares da observabilidade?", answer: "métricas, logs, tracing", points: 5 },
+      { question: "O que métricas medem?", answer: "valores numéricos ao longo do tempo", points: 3 },
+      { question: "Tracing rastreia o quê?", answer: "o fluxo de uma requisição através do sistema", points: 5 },
+    ],
   },
-  js: {
-    "console.log": (msg) => console.log(msg)
+  {
+    slug: "serializacao-json",
+    title: "Serialização JSON",
+    order: 115,
+    points: 5,
+    bodyMd: `# Serialização JSON
+
+Trabalhe com JSON em XanaScript.
+
+## Serializar (Objeto → String)
+
+\`\`\`xs
+CRIA objeto = {
+  nome: "João",
+  idade: 30,
+  ativo: true,
+  tags: ["xs", "dev"]
+}
+
+CRIA json = JSON.serializa(objeto)
+// '{"nome":"João","idade":30,"ativo":true,"tags":["xs","dev"]}'
+\`\`\`
+
+## Desserializar (String → Objeto)
+
+\`\`\`xs
+CRIA json = '{"nome":"João","idade":30}'
+CRIA objeto = JSON.parse(json)
+SOLTA O GRITO(objeto.nome)  // "João"
+\`\`\`
+
+## Formatação
+
+\`\`\`xs
+CRIA formatado = JSON.serializa(objeto, null, 2)
+// Com indentação de 2 espaços
+\`\`\`
+
+## Reviver
+
+\`\`\`xs
+CRIA dados = JSON.parse(json, (chave, valor) => {
+  SE LIGA SO (chave === "data") { VOLTA Data.nova(valor) }
+  VOLTA valor
+})
+\`\`\`
+
+JSON é o formato de intercâmbio de dados mais comum na web.`,
+    challenges: [
+      { question: "JSON.serializa converte objeto para ...", answer: "string", points: 3 },
+      { question: "JSON.parse converte string para ...", answer: "objeto", points: 3 },
+      { question: "Qual o uso do parâmetro reviver?", answer: "transformar valores durante o parse", points: 5 },
+    ],
+  },
+  {
+    slug: "apis-rest-com-xanascript",
+    title: "APIs REST com XanaScript",
+    order: 116,
+    points: 10,
+    bodyMd: `# APIs REST
+
+Construa APIs RESTful com XanaScript.
+
+## CRUD Completo
+
+\`\`\`xs
+import { Roteador } from "xs:http"
+
+CRIA router = Roteador.novo()
+CRIA usuarios = []
+
+// CREATE
+router.post("/usuarios", (req, res) => {
+  CRIA usuario = { id: usuarios.length + 1, ...req.corpo }
+  usuarios.push(usuario)
+  res.status(201).json(usuario)
+})
+
+// READ (todos)
+router.get("/usuarios", (req, res) => {
+  res.json(usuarios)
+})
+
+// READ (um)
+router.get("/usuarios/:id", (req, res) => {
+  CRIA usuario = usuarios.find(u => u.id === parseInt(req.params.id))
+  SE LIGA SO (!usuario) { res.status(404).json({ erro: "Não encontrado" }) }
+  res.json(usuario)
+})
+
+// UPDATE
+router.put("/usuarios/:id", (req, res) => {
+  CRIA idx = usuarios.findIndex(u => u.id === parseInt(req.params.id))
+  SE LIGA SO (idx === -1) { res.status(404).json({ erro: "Não encontrado" }) }
+  usuarios[idx] = { ...usuarios[idx], ...req.corpo }
+  res.json(usuarios[idx])
+})
+
+// DELETE
+router.delete("/usuarios/:id", (req, res) => {
+  usuarios = usuarios.filter(u => u.id !== parseInt(req.params.id))
+  res.status(204).fim()
+})
+\`\`\`
+
+## Métodos HTTP
+
+- \`GET\`: buscar recurso(s)
+- \`POST\`: criar recurso
+- \`PUT\`: substituir recurso
+- \`PATCH\`: atualizar parcialmente
+- \`DELETE\`: remover recurso
+
+Siga convenções REST para APIs previsíveis e consistentes.`,
+    challenges: [
+      { question: "Qual método cria um recurso?", answer: "POST", points: 3 },
+      { question: "Qual método atualiza parcialmente?", answer: "PATCH", points: 3 },
+      { question: "Qual status para criação bem-sucedida?", answer: "201", points: 3 },
+    ],
+  },
+  {
+    slug: "graphql-com-xanascript",
+    title: "GraphQL com XanaScript",
+    order: 117,
+    points: 10,
+    bodyMd: `# GraphQL com XanaScript
+
+Construa APIs GraphQL.
+
+## Schema
+
+\`\`\`xs
+import { construirSchema } from "xs:graphql"
+
+CRIA schema = construirSchema(\`
+  type Usuario {
+    id: ID!
+    nome: String!
+    email: String!
+    posts: [Post!]!
+  }
+
+  type Post {
+    id: ID!
+    titulo: String!
+    conteudo: String!
+  }
+
+  type Query {
+    usuarios: [Usuario!]!
+    usuario(id: ID!): Usuario
+  }
+
+  type Mutation {
+    criarUsuario(nome: String!, email: String!): Usuario!
+  }
+\`)
+\`\`\`
+
+## Resolvers
+
+\`\`\`xs
+CRIA resolvers = {
+  Query: {
+    usuarios: () => db.buscarTodos("usuarios"),
+    usuario: (_, { id }) => db.buscarUm("usuarios", id)
+  },
+  Mutation: {
+    criarUsuario: (_, args) => db.inserir("usuarios", args)
+  }
+}
+\`\`\`
+
+## Servidor
+
+\`\`\`xs
+import { criarServidorGraphQL } from "xs:graphql"
+
+CRIA servidor = criarServidorGraphQL(schema, resolvers)
+servidor.ouvir(4000)
+\`\`\`
+
+GraphQL permite que clientes busquem exatamente os dados que precisam.`,
+    challenges: [
+      { question: "GraphQL usa que tipo de requisição?", answer: "consulta/mutação", points: 3 },
+      { question: "Query busca dados, Mutation ...", answer: "modifica dados", points: 3 },
+      { question: "Qual vantagem do GraphQL sobre REST?", answer: "cliente decide quais dados buscar", points: 5 },
+    ],
+  },
+  {
+    slug: "websockets-com-xanascript",
+    title: "WebSockets com XanaScript",
+    order: 118,
+    points: 10,
+    bodyMd: `# WebSockets
+
+Comunicação bidirecional em tempo real.
+
+## Servidor WebSocket
+
+\`\`\`xs
+import { ServidorWebSocket } from "xs:ws"
+
+CRIA servidor = ServidorWebSocket.novo({ porta: 8080 })
+
+servidor.ao("conexao", (ws) => {
+  SOLTA O GRITO("Cliente conectado")
+
+  ws.ao("mensagem", (msg) => {
+    SOLTA O GRITO("Recebido:", msg.toString())
+
+    // Echo
+    ws.enviar("Servidor: " + msg)
+  })
+
+  ws.ao("fechar", () => {
+    SOLTA O GRITO("Cliente desconectado")
+  })
+
+  ws.enviar("Bem-vindo ao servidor WebSocket XanaScript!")
+})
+\`\`\`
+
+## Cliente WebSocket
+
+\`\`\`xs
+import { WebSocket } from "xs:ws"
+
+CRIA ws = WebSocket.nova("ws://localhost:8080")
+
+ws.ao("aberto", () => {
+  SOLTA O GRITO("Conectado")
+  ws.enviar("Olá servidor!")
+})
+
+ws.ao("mensagem", (dados) => {
+  SOLTA O GRITO("Dados recebidos:", dados)
+})
+
+ws.ao("fechar", () => {
+  SOLTA O GRITO("Conexão fechada")
+})
+\`\`\`
+
+## Aplicações
+
+- Chat em tempo real
+- Notificações push
+- Jogos multiplayer
+- Dashboards ao vivo
+
+WebSockets são perfeitos para aplicações que exigem baixa latência.`,
+    challenges: [
+      { question: "WebSocket é full-duplex?", answer: "sim", points: 3 },
+      { question: "Qual evento indica conexão estabelecida?", answer: "aberto / open", points: 3 },
+      { question: "Cite um caso de uso para WebSockets", answer: "chat, notificações, jogos, dashboards", points: 5 },
+    ],
+  },
+  {
+    slug: "testes-de-api",
+    title: "Testes de API",
+    order: 119,
+    points: 10,
+    bodyMd: `# Testes de API
+
+Teste suas APIs automaticamente.
+
+## Teste de Requisição
+
+\`\`\`xs
+import { test, espera } from "xs:test"
+
+test("GET /usuarios retorna lista", async () => {
+  CRIA resposta = ESPERA fetch("http://localhost:3000/usuarios")
+  espera(resposta.status).ser(200)
+
+  CRIA dados = ESPERA resposta.json()
+  espera(Array.seraArray(dados)).serVerdade()
+})
+
+test("POST /usuarios cria usuario", async () => {
+  CRIA resposta = ESPERA fetch("http://localhost:3000/usuarios", {
+    metodo: "POST",
+    corpo: JSON.serializa({ nome: "João", email: "joao@e.com" }),
+    cabecalhos: { "Content-Type": "application/json" }
+  })
+
+  espera(resposta.status).ser(201)
+  CRIA dados = ESPERA resposta.json()
+  espera(dados.nome).ser("João")
+})
+\`\`\`
+
+## Testes com Autenticação
+
+\`\`\`xs
+test("GET /usuarios sem auth retorna 401", async () => {
+  CRIA resposta = ESPERA fetch("http://localhost:3000/usuarios/admin")
+  espera(resposta.status).ser(401)
+})
+\`\`\`
+
+## Setup e Teardown
+
+\`\`\`xs
+test.beforeTodos(async () => {
+  // Iniciar servidor
+  servidor = criarServidor()
+  ESPERA servidor.ouvir(3000)
+})
+
+test.depoisTodos(() => {
+  servidor.fechar()
+})
+\`\`\`
+
+Testes de API garantem que seus endpoints funcionem corretamente.`,
+    challenges: [
+      { question: "Qual método testa GET?", answer: "fetch com GET", points: 3 },
+      { question: "Qual status esperado para criação?", answer: "201", points: 3 },
+      { question: "Testes de API previnem o quê?", answer: "regressões em endpoints", points: 5 },
+    ],
+  },
+  {
+    slug: "boas-praticas-de-seguranca",
+    title: "Boas Práticas de Segurança",
+    order: 120,
+    points: 10,
+    bodyMd: `# Segurança
+
+Proteja suas aplicações XanaScript.
+
+## Validação de Entrada
+
+Sempre valide e sanitize entradas do usuário:
+
+\`\`\`xs
+CHAMA ESSE CARA sanitizar(texto) {
+  VOLTA texto
+    .substituir(/<script>/gi, "")
+    .substituir(/on\\w+=/gi, "")
+}
+\`\`\`
+
+## Headers de Segurança
+
+\`\`\`xs
+app.usar((req, res, proximo) => {
+  res.definirCabecalho("X-Content-Type-Options", "nosniff")
+  res.definirCabecalho("X-Frame-Options", "DENY")
+  res.definirCabecalho("X-XSS-Protection", "1; mode=block")
+  res.definirCabecalho("Strict-Transport-Security", "max-age=31536000")
+  proximo()
+})
+\`\`\`
+
+## Rate Limiting
+
+\`\`\`xs
+import { limitadorTaxa } from "xs:http"
+
+app.usar(limitadorTaxa({
+  janelaMs: 60000,
+  maximo: 100,
+  mensagem: "Muitas requisições"
+}))
+\`\`\`
+
+## Práticas Gerais
+
+- Use HTTPS em produção
+- Hash de senhas (bcrypt)
+- CSRF tokens para formulários
+- Princípio do menor privilégio
+- Mantenha dependências atualizadas
+
+Segurança é uma preocupação contínua, não uma configuração única.`,
+    challenges: [
+      { question: "Como prevenir XSS?", answer: "sanitizar entrada do usuário", points: 5 },
+      { question: "Como prevenir força bruta?", answer: "rate limiting", points: 3 },
+      { question: "Senhas devem ser armazenadas com ...", answer: "hash (bcrypt)", points: 5 },
+    ],
+  },
+  {
+    slug: "lidando-com-cors",
+    title: "Lidando com CORS",
+    order: 121,
+    points: 5,
+    bodyMd: `# Lidando com CORS
+
+Gerencie Cross-Origin Resource Sharing.
+
+## O Problema
+
+Browsers bloqueiam requisições de origens diferentes por padrão.
+
+## Solução com Middleware
+
+\`\`\`xs
+import { cors } from "xs:http"
+
+app.usar(cors())
+
+// Ou configuração personalizada:
+app.usar(cors({
+  origens: ["https://meusite.com"],
+  metodos: ["GET", "POST", "PUT", "DELETE"],
+  credenciais: true
+}))
+\`\`\`
+
+## CORS Manual
+
+\`\`\`xs
+app.usar((req, res, proximo) => {
+  res.definirCabecalho("Access-Control-Allow-Origin", "*")
+  res.definirCabecalho("Access-Control-Allow-Methods", "GET, POST")
+  res.definirCabecalho("Access-Control-Allow-Headers", "Content-Type")
+
+  SE LIGA SO (req.metodo === "OPTIONS") {
+    res.status(204).fim()
+  } SENAO {
+    proximo()
   }
 })
 \`\`\`
 
-Imports/exports are the bridge between WASM and host.`,
+## Preflight
+
+Requisições OPTIONS são enviadas automaticamente pelo browser para métodos não-simples.
+
+Configure CORS corretamente para permitir acesso de origens confiáveis.`,
     challenges: [
-      { question: "What keyword exposes a WASM function?", answer: "EXPORTA", points: 3 },
-      { question: "What keyword imports a host function?", answer: "IMPORTA", points: 3 },
-      { question: "How does the host provide imported functions?", answer: "via the imports object in instantiate", points: 5 },
-],
+      { question: "O que CORS significa?", answer: "Cross-Origin Resource Sharing", points: 3 },
+      { question: "Qual método HTTP de preflight?", answer: "OPTIONS", points: 3 },
+      { question: "CORS é uma segurança do ...", answer: "browser/navegador", points: 3 },
+    ],
   },
   {
-    slug: "tipos-e-conversao-wasm",
-    title: "Tipos & Conversao WASM",
+    slug: "variaveis-de-ambiente-avancado",
+    title: "Variáveis de Ambiente Avançado",
+    order: 122,
+    points: 5,
+    bodyMd: `# Variáveis de Ambiente Avançado
+
+Gerencie configurações complexas.
+
+## Múltiplos Ambientes
+
+\`\`\`xs
+// .env.desenvolvimento
+DB_URL=localhost:5432/dev
+
+// .env.producao
+DB_URL=producao-db:5432/prod
+\`\`\`
+
+\`\`\`xs
+CHAMA ESSE CARA carregarEnv() {
+  CRIA ambiente = processo.env.NODE_ENV || "desenvolvimento"
+  CRIA caminho = ".env." + ambiente
+  CRIA config = {}
+  // carregar arquivo
+  VOLTA config
+}
+\`\`\`
+
+## Validação de Schema
+
+\`\`\`xs
+import { z } from "xs:zod"
+
+CRIA EnvSchema = z.objeto({
+  DB_URL: z.string().url(),
+  DB_USER: z.string().min(1),
+  DB_PASS: z.string().min(8),
+  PORT: z.coercao.numero().padrao(3000)
+})
+
+CRIA env = EnvSchema.parse(processo.env)
+\`\`\`
+
+## Config Hierárquica
+
+\`\`\`xs
+CLASSE Config {
+  CRIA db = {
+    url: processo.env.DB_URL,
+    pool: {
+      min: parseInt(processo.env.DB_POOL_MIN || "2"),
+      max: parseInt(processo.env.DB_POOL_MAX || "10")
+    }
+  }
+}
+\`\`\`
+
+Valide configurações no startup para falhar rápido.`,
+    challenges: [
+      { question: "Como gerenciar múltiplos ambientes?", answer: "arquivos .env separados por ambiente", points: 5 },
+      { question: "Qual biblioteca valida schemas?", answer: "zod / z", points: 3 },
+      { question: "Quando validar configurações?", answer: "no startup / inicialização", points: 3 },
+    ],
+  },
+  {
+    slug: "sessao-e-cookies",
+    title: "Sessão e Cookies",
+    order: 123,
+    points: 5,
+    bodyMd: `# Sessão e Cookies
+
+Gerencie estado do usuário.
+
+## Cookies
+
+\`\`\`xs
+// Definir cookie
+res.definirCabecalho("Set-Cookie",
+  "token=abc123; HttpOnly; Secure; Max-Age=3600"
+)
+
+// Ler cookie
+CRIA cookies = req.cabecalhos.cookie || ""
+\`\`\`
+
+## Sessão
+
+\`\`\`xs
+import { sessao } from "xs:http"
+
+app.usar(sessao({
+  segredo: "meu-segredo",
+  nomeCookie: "sessao_id",
+  maxIdade: 24 * 60 * 60 // 1 dia
+}))
+
+// Usar sessão
+app.get("/perfil", (req, res) => {
+  SE LIGA SO (!req.sessao.usuarioId) {
+    res.status(401).json({ erro: "Não autenticado" })
+    VOLTA
+  }
+  res.json({ usuarioId: req.sessao.usuarioId })
+})
+\`\`\`
+
+## Sessão em Banco
+
+\`\`\`xs
+import { SessaoStore } from "xs:http"
+
+app.usar(sessao({
+  store: SessaoStore.banco(db),
+  segredo: "segredo"
+}))
+\`\`\`
+
+Sessões permitem estado persistente entre requisições HTTP.`,
+    challenges: [
+      { question: "O que HttpOnly faz?", answer: "impede acesso JavaScript ao cookie", points: 5 },
+      { question: "Flag Secure exige ...", answer: "HTTPS", points: 3 },
+      { question: "Sessões permitem o quê?", answer: "estado persistente entre requisições", points: 3 },
+    ],
+  },
+  {
+    slug: "upload-de-arquivos",
+    title: "Upload de Arquivos",
+    order: 124,
+    points: 10,
+    bodyMd: `# Upload de Arquivos
+
+Receba e processe arquivos enviados.
+
+## Upload Simples
+
+\`\`\`xs
+app.post("/upload", async (req, res) => {
+  CRIA arquivo = req.arquivos?.arquivo
+
+  SE LIGA SO (!arquivo) {
+    res.status(400).json({ erro: "Nenhum arquivo enviado" })
+    VOLTA
+  }
+
+  CRIA caminho = "./uploads/" + arquivo.nome
+  ESPERA writeFile(caminho, arquivo.dados)
+
+  res.json({
+    mensagem: "Upload feito",
+    nome: arquivo.nome,
+    tamanho: arquivo.dados.tamanho
+  })
+})
+\`\`\`
+
+## Validação
+
+\`\`\`xs
+CHAMA ESSE CARA validarArquivo(arquivo) {
+  CRIA tiposPermitidos = ["image/jpeg", "image/png", "application/pdf"]
+  CRIA maxTamanho = 5 * 1024 * 1024 // 5MB
+
+  SE LIGA SO (!tiposPermitidos.inclui(arquivo.tipo)) {
+    JOGAR "Tipo de arquivo não permitido"
+  }
+
+  SE LIGA SO (arquivo.tamanho > maxTamanho) {
+    JOGAR "Arquivo muito grande"
+  }
+
+  VOLTA true
+}
+\`\`\`
+
+## Múltiplos Arquivos
+
+\`\`\`xs
+app.post("/uploads", async (req, res) => {
+  CRIA arquivos = req.arquivos?.arquivos || []
+  CRIA resultados = []
+
+  PARA CADA (arquivo EM arquivos) {
+    CRIA caminho = "./uploads/" + arquivo.nome
+    ESPERA writeFile(caminho, arquivo.dados)
+    resultados.push({ nome: arquivo.nome, status: "ok" })
+  }
+
+  res.json(resultados)
+})
+\`\`\`
+
+Sempre valide tipo e tamanho de arquivos enviados.`,
+    challenges: [
+      { question: "Onde validar uploads?", answer: "tipo MIME e tamanho", points: 3 },
+      { question: "5MB é quantos bytes?", answer: "5 * 1024 * 1024", points: 3 },
+      { question: "Como acessar arquivo enviado?", answer: "req.arquivos.arquivo", points: 3 },
+    ],
+  },
+  {
+    slug: "processamento-de-imagens",
+    title: "Processamento de Imagens",
+    order: 125,
+    points: 10,
+    bodyMd: `# Processamento de Imagens
+
+Manipule imagens com XanaScript.
+
+## Redimensionar
+
+\`\`\`xs
+import { Image } from "xs:image"
+
+CRIA img = ESPERA Image.carregar("foto.jpg")
+CRIA redimensionada = img.redimensionar(800, 600)
+ESPERA redimensionada.salvar("foto_redimensionada.jpg")
+\`\`\`
+
+## Formatos
+
+\`\`\`xs
+// Converter formato
+ESPERA img.salvar("foto.png")
+ESPERA img.salvar("foto.webp", { qualidade: 80 })
+\`\`\`
+
+## Filtros
+
+\`\`\`xs
+img.desfocar(5)
+img.tonsDeCinza()
+img.inverter()
+img.cortar({ x: 100, y: 100, largura: 300, altura: 300 })
+\`\`\`
+
+## Thumbnail
+
+\`\`\`xs
+CHAMA ESSE CARA criarThumbnail(caminho) {
+  CRIA img = ESPERA Image.carregar(caminho)
+  CRIA thumb = img.redimensionar(150, 150, { ajustar: "cobrir" })
+  CRIA nome = "thumb_" + caminho
+  ESPERA thumb.salvar(nome)
+  VOLTA nome
+}
+\`\`\`
+
+Processamento de imagens permite otimizar uploads e criar variações.`,
+    challenges: [
+      { question: "Qual método redimensiona?", answer: "redimensionar / resize", points: 3 },
+      { question: "Qual formato WebP suporta?", answer: "imagens com compressão moderna", points: 3 },
+      { question: "Thumbnails são úteis para ...", answer: "visualizações rápidas e economia de banda", points: 5 },
+    ],
+  },
+  {
+    slug: "internacionalizacao",
+    title: "Internacionalização (i18n)",
+    order: 126,
+    points: 5,
+    bodyMd: `# Internacionalização
+
+Prepare sua aplicação para múltiplos idiomas.
+
+## Configuração
+
+\`\`\`xs
+import { i18n } from "xs:i18n"
+
+i18n.configurar({
+  padrao: "pt-BR",
+  diretorio: "./locales",
+  deteccaoIdioma: ["cabecalho", "cookie", "url"]
+})
+\`\`\`
+
+## Arquivos de Tradução
+
+\`\`\`json
+// locales/pt-BR.json
+{
+  "saudacao": "Olá, {nome}!",
+  "bemVindo": "Bem-vindo ao sistema"
+}
+
+// locales/en-US.json
+{
+  "saudacao": "Hello, {nome}!",
+  "bemVindo": "Welcome to the system"
+}
+\`\`\`
+
+## Uso
+
+\`\`\`xs
+SOLTA O GRITO(i18n.t("saudacao", { nome: "João" }))
+// "Olá, João!"
+
+CRIA idioma = i18n.idiomaAtual()
+// "pt-BR"
+\`\`\`
+
+## Rotas Localizadas
+
+\`\`\`xs
+app.get("/:lang/sobre", (req, res) => {
+  i18n.definirIdioma(req.params.lang)
+  res.render("sobre")
+})
+\`\`\`
+
+i18n torna sua aplicação acessível globalmente.`,
+    challenges: [
+      { question: "Qual o padrão ISO para português brasileiro?", answer: "pt-BR", points: 3 },
+      { question: "O que i18n significa?", answer: "internationalization (18 letras)", points: 3 },
+      { question: "Como passar variáveis em traduções?", answer: "interpolação com {variavel}", points: 5 },
+    ],
+  },
+  {
+    slug: "testes-de-carga-e-estresse",
+    title: "Testes de Carga e Estresse",
+    order: 127,
+    points: 10,
+    bodyMd: `# Testes de Carga e Estresse
+
+Teste desempenho sob pressão.
+
+## Teste de Carga
+
+\`\`\`xs
+import { testeCarga } from "xs:test"
+
+testeCarga({
+  url: "http://localhost:3000/usuarios",
+  conexoes: 50,
+  duracao: "30s",
+  metodo: "GET",
+  headers: { Authorization: "Bearer token" }
+}).entao(resultado => {
+  SOLTA O GRITO("Total reqs:", resultado.totalRequisicoes)
+  SOLTA O GRITO("Req/s:", resultado.requisicoesPorSegundo)
+  SOLTA O GRITO("Latência média:", resultado.latenciaMedia + "ms")
+  SOLTA O GRITO("Erros:", resultado.totalErros)
+})
+\`\`\`
+
+## Teste de Estresse
+
+\`\`\`xs
+testeCarga({
+  url: "http://localhost:3000/usuarios",
+  conexoes: [10, 50, 100, 500, 1000],
+  duracao: "60s",
+  rampUp: true // aumenta gradualmente
+}).entao(resultado => {
+  CRIA pontoRuptura = resultado.pontos.find(p => p.erros > p.total * 0.05)
+  SOLTA O GRITO("Ponto de ruptura:", pontoRuptura?.conexoes)
+})
+\`\`\`
+
+## Métricas Importantes
+
+- Requisições por segundo
+- Latência (p50, p95, p99)
+- Taxa de erro
+- Uso de recursos
+
+Testes de carga revelam gargalos antes de afetar usuários reais.`,
+    challenges: [
+      { question: "O que teste de carga mede?", answer: "desempenho sob carga esperada", points: 3 },
+      { question: "O que teste de estresse descobre?", answer: "o ponto de ruptura do sistema", points: 5 },
+      { question: "p95 de latência significa o quê?", answer: "95% das requisições são mais rápidas que esse valor", points: 5 },
+    ],
+  },
+  {
+    slug: "otimizacao-de-consultas",
+    title: "Otimização de Consultas",
+    order: 128,
+    points: 10,
+    bodyMd: `# Otimização de Consultas
+
+Escreva consultas de banco de dados eficientes.
+
+## EXPLAIN
+
+\`\`\`xs
+CRIA plano = ESPERA db.consulta("EXPLAIN ANALYZE SELECT * FROM usuarios WHERE email = $1", [email])
+SOLTA O GRITO(plano)
+\`\`\`
+
+## Indexação
+
+\`\`\`xs
+-- Índices compostos para consultas comuns
+CRIAR INDICE idx_usuarios_email_ativo ON usuarios(email, ativo)
+
+-- Índices parciais
+CRIAR INDICE idx_usuarios_admin ON usuarios(id) ONDE admin = true
+\`\`\`
+
+## N+1 Problem
+
+\`\`\`xs
+// Ruim: N+1 consultas
+CRIA pedidos = ESPERA db.consulta("SELECT * FROM pedidos")
+PARA CADA (pedido EM pedidos) {
+  CRIA itens = ESPERA db.consulta(
+    "SELECT * FROM itens WHERE pedido_id = $1",
+    [pedido.id]
+  )
+}
+
+// Bom: JOIN único
+CRIA resultados = ESPERA db.consulta(\`
+  SELECT p.*, i.*
+  FROM pedidos p
+  JOIN itens i ON i.pedido_id = p.id
+\`)
+\`\`\`
+
+## Paginação
+
+\`\`\`xs
+CHAMA ESSE CARA buscarUsuarios(pagina = 1, limite = 20) {
+  CRIA offset = (pagina - 1) * limite
+  VOLTA db.consulta(
+    "SELECT * FROM usuarios ORDER BY id LIMIT $1 OFFSET $2",
+    [limite, offset]
+  )
+}
+\`\`\`
+
+Consultas otimizadas são críticas para desempenho em escala.`,
+    challenges: [
+      { question: "Qual comando analisa performance de consulta?", answer: "EXPLAIN ANALYZE", points: 5 },
+      { question: "O problema N+1 é sobre ...", answer: "consultas excessivas em loops", points: 5 },
+      { question: "Para que servem índices?", answer: "acelerar consultas no banco", points: 3 },
+    ],
+  },
+  {
+    slug: "caching-avancado",
+    title: "Caching Avançado",
+    order: 129,
+    points: 10,
+    bodyMd: `# Caching Avançado
+
+Estratégias avançadas de cache.
+
+## Cache de Camada Dupla
+
+\`\`\`xs
+CLASSE CacheDuplo {
+  CHAMA ESSE CARA buscar(chave, fnBusca) {
+    // Primeiro: cache L1 (memória local)
+    CRIA l1 = cacheL1.get(chave)
+    SE LIGA SO (l1) { VOLTA l1 }
+
+    // Segundo: cache L2 (Redis)
+    CRIA l2 = ESPERA cacheL2.get(chave)
+    SE LIGA SO (l2) {
+      cacheL1.set(chave, l2)
+      VOLTA l2
+    }
+
+    // Miss: buscar da origem
+    CRIA dados = ESPERA fnBusca()
+    cacheL1.set(chave, dados)
+    ESPERA cacheL2.set(chave, dados, "EX", 3600)
+    VOLTA dados
+  }
+}
+\`\`\`
+
+## Cache de Função
+
+\`\`\`xs
+CHAMA ESSE CARA memoizar(fn, ttlMs = 60000) {
+  CRIA cache = {}
+
+  CHAMA ESSE CARA memoizada(...args) {
+    CRIA chave = JSON.serializa(args)
+    CRIA entrada = cache[chave]
+
+    SE LIGA SO (entrada && Date.Agora() < entrada.expiracao) {
+      VOLTA entrada.valor
+    }
+
+    CRIA resultado = fn(...args)
+    cache[chave] = { valor: resultado, expiracao: Date.Agora() + ttlMs }
+    VOLTA resultado
+  }
+
+  VOLTA memoizada
+}
+
+CRIA buscaCached = memoizar(buscarUsuario, 30000)
+\`\`\`
+
+## Cache Invalidation Tags
+
+\`\`\`xs
+CHAMA ESSE CARA invalidarPorTag(tag) {
+  CRIA chaves = ESPERA redis.keys("cache:" + tag + ":*")
+  SE LIGA SO (chaves.tamanho > 0) {
+    ESPERA redis.del(...chaves)
+  }
+}
+\`\`\`
+
+Estratégias avançadas de cache maximizam taxa de acerto e minimizam latência.`,
+    challenges: [
+      { question: "O que é cache de camada dupla?", answer: "L1 (memória) + L2 (Redis)", points: 5 },
+      { question: "Memoização cacheia ...", answer: "resultados de funções baseado em argumentos", points: 3 },
+      { question: "Cache invalidation é ...", answer: "remover/atualizar entradas quando dados mudam", points: 5 },
+    ],
+  },
+  {
+    slug: "testes-de-seguranca",
+    title: "Testes de Segurança",
+    order: 130,
+    points: 10,
+    bodyMd: `# Testes de Segurança
+
+Teste vulnerabilidades de segurança.
+
+## Teste de Injeção
+
+\`\`\`xs
+test("Proteção contra SQL injection", async () => {
+  CRIA payloads = [
+    "'; DROP TABLE usuarios; --",
+    "' OR '1'='1",
+    "'; SELECT * FROM senhas; --"
+  ]
+
+  PARA CADA (payload EM payloads) {
+    CRIA resposta = ESPERA fetch("/api/login", {
+      metodo: "POST",
+      corpo: JSON.serializa({
+        email: payload,
+        senha: "teste"
+      })
+    })
+    // Não deve retornar dados de usuário
+    espera(resposta.status).ser(401)
+  }
+})
+\`\`\`
+
+## Teste de XSS
+
+\`\`\`xs
+test("Proteção contra XSS", async () => {
+  CRIA resposta = ESPERA fetch("/api/comentario", {
+    metodo: "POST",
+    corpo: JSON.serializa({
+      texto: "<script>alert('xss')</script>"
+    })
+  })
+
+  CRIA dados = ESPERA resposta.json()
+  espera(dados.texto).nao.conter("<script>")
+})
+\`\`\`
+
+## Análise de Dependências
+
+\`\`\`bash
+xs audit
+xs audit --severidade alta
+\`\`\`
+
+## Scanning
+
+\`\`\`bash
+xs scan src/
+\`\`\`
+
+Testes de segurança previnem vulnerabilidades antes da produção.`,
+    challenges: [
+      { question: "O que teste de SQL injection verifica?", answer: "se entrada maliciosa pode manipular consultas", points: 5 },
+      { question: "XSS é que tipo de ataque?", answer: "injeção de scripts no navegador", points: 5 },
+      { question: "Qual comando verifica vulnerabilidades?", answer: "xs audit", points: 3 },
+    ],
+  },
+  {
+    slug: "logs-estruturados-e-agregacao",
+    title: "Logs Estruturados e Agregação",
+    order: 131,
+    points: 5,
+    bodyMd: `# Logs Estruturados e Agregação
+
+Centralize e analise logs.
+
+## Logs JSON
+
+\`\`\`xs
+CHAMA ESSE CARA logJSON(nivel, mensagem, extra = {}) {
+  CRIA entrada = {
+    timestamp: DataAgora().paraISO(),
+    nivel,
+    mensagem,
+    ...extra,
+    ambiente: processo.env.NODE_ENV,
+    versao: processo.env.VERSAO_APP
+  }
+
+  SE LIGA SO (nivel === "ERRO") {
+    console.erro(JSON.serializa(entrada))
+  } SENAO {
+    console.log(JSON.serializa(entrada))
+  }
+}
+\`\`\`
+
+## Sistema de Log
+
+\`\`\`xs
+CLASSE Logger {
+  CHAMA ESSE CARA info(msg, ctx) { logJSON("INFO", msg, ctx) }
+  CHAMA ESSE CARA aviso(msg, ctx) { logJSON("AVISO", msg, ctx) }
+  CHAMA ESSE CARA erro(msg, ctx) { logJSON("ERRO", msg, ctx) }
+  CHAMA ESSE CARA debug(msg, ctx) {
+    SE LIGA SO (processo.env.DEBUG) { logJSON("DEBUG", msg, ctx) }
+  }
+}
+\`\`\`
+
+## Agregadores
+
+Ferramentas suportadas:
+
+- Elastic Stack (ELK)
+- Datadog
+- Grafana Loki
+- AWS CloudWatch
+
+## Boas Práticas
+
+- Inclua requestId para correlação
+- Logs estruturados para máquina
+- Níveis de log apropriados
+- Não log dados sensíveis
+
+Logs estruturados permitem busca e análise eficientes.`,
+    challenges: [
+      { question: "Logs estruturados são para ...", answer: "máquina, não humanos", points: 3 },
+      { question: "Qual campo correlaciona logs entre serviços?", answer: "requestId / traceId", points: 5 },
+      { question: "O que não logar?", answer: "dados sensíveis como senhas", points: 3 },
+    ],
+  },
+  {
+    slug: "tratamento-de-erros-em-producao",
+    title: "Tratamento de Erros em Produção",
+    order: 132,
+    points: 10,
+    bodyMd: `# Tratamento de Erros em Produção
+
+Lide com erros em ambiente de produção.
+
+## Erro Global
+
+\`\`\`xs
+processo.ao("naoCapturado", (erro) => {
+  Logger.erro("Erro não capturado", { erro: erro.mensagem, pilha: erro.pilha })
+  processo.sair(1)
+})
+
+processo.ao("rejeicaoNaoTratada", (erro) => {
+  Logger.erro("Promise rejeitada não tratada", { erro: erro.mensagem })
+  // Não sair necessariamente
+})
+\`\`\`
+
+## Graceful Shutdown
+
+\`\`\`xs
+CHAMA ESSE CARA desligar() {
+  SOLTA O GRITO("Desligando servidor...")
+  servidor.fechar(() => {
+    SOLTA O GRITO("Servidor fechado")
+    db.fechar()
+    processo.sair(0)
+  })
+
+  // Forçar saída após timeout
+  setTimeout(() => {
+    Logger.erro("Desligamento forçado")
+    processo.sair(1)
+  }, 10000)
+}
+
+processo.ao("SIGTERM", desligar)
+processo.ao("SIGINT", desligar)
+\`\`\`
+
+## Health Checks
+
+\`\`\`xs
+app.get("/saude", (req, res) => {
+  CRIA saude = {
+    status: "ok",
+    timestamp: DataAgora(),
+    uptime: processo.uptime()
+  }
+  res.json(saude)
+})
+\`\`\`
+
+Preparação para erros em produção é essencial para sistemas confiáveis.`,
+    challenges: [
+      { question: "Qual evento captura erros não tratados?", answer: "naoCapturado / uncaughtException", points: 3 },
+      { question: "O que graceful shutdown faz?", answer: "fecha conexões graciosamente antes de sair", points: 5 },
+      { question: "Health check permite o quê?", answer: "monitorar se o serviço está funcional", points: 3 },
+    ],
+  },
+  {
+    slug: "ferramentas-de-linha-de-comando-avancado",
+    title: "Ferramentas CLI Avançadas",
+    order: 133,
+    points: 10,
+    bodyMd: `# Ferramentas CLI Avançadas
+
+Construa CLIs sofisticadas.
+
+## Comandos Aninhados
+
+\`\`\`xs
+import { Programa } from "xs:cli"
+
+CRIA programa = Programa.novo()
+
+CRIA comando = programa.comando("usuario")
+  .descricao("Gerenciar usuários")
+  .argumento("<acao>", "Ação a executar")
+  .opcao("-i, --id <id>", "ID do usuário")
+
+comando.acao((args) => {
+  SE LIGA SO (args.acao === "criar") {
+    SOLTA O GRITO("Criando usuário...")
+  } SENAO SE LIGA SO (args.acao === "remover") {
+    SOLTA O GRITO("Removendo usuário " + args.id)
+  }
+})
+
+programa.parse(processo.argv)
+\`\`\`
+
+## Barras de Progresso
+
+\`\`\`xs
+import { BarraProgresso } from "xs:cli"
+
+CRIA barra = BarraProgresso.nova({ total: 100 })
+
+PARA CADA (i EM range(100)) {
+  barra.atualizar(i + 1)
+  ESPERA esperar(50)
+}
+
+barra.finalizar()
+\`\`\`
+
+## Tabelas
+
+\`\`\`xs
+import { Tabela } from "xs:cli"
+
+Tabela.nova({
+  cabecalhos: ["Nome", "Email", "Status"],
+  linhas: [
+    ["João", "joao@e.com", "Ativo"],
+    ["Maria", "maria@e.com", "Inativo"]
+  ]
+}).renderizar()
+\`\`\`
+
+## Input Interativo
+
+\`\`\`xs
+import { prompt, selecao, confirmacao } from "xs:cli"
+
+CRIA nome = ESPERA prompt("Nome:")
+CRIA cor = ESPERA selecao("Cor favorita:", ["Vermelho", "Azul", "Verde"])
+CRIA confirma = ESPERA confirmacao("Continuar?")
+\`\`\`
+
+CLIs profissionais melhoram a experiência do desenvolvedor.`,
+    challenges: [
+      { question: "Qual componente cria barra de progresso?", answer: "BarraProgresso", points: 3 },
+      { question: "Qual componente renderiza tabelas?", answer: "Tabela", points: 3 },
+      { question: "Comandos são organizados em ...", answer: "comandos aninhados", points: 3 },
+    ],
+  },
+  {
+    slug: "configuracao-de-projeto-escalavel",
+    title: "Configuração de Projeto Escalável",
+    order: 134,
+    points: 10,
+    bodyMd: `# Configuração de Projeto Escalável
+
+Estruture projetos para escalar.
+
+## Estrutura de Diretórios
+
+\`\`\`
+src/
+  modulos/
+    usuarios/
+      usuario.modelo.xs
+      usuario.controlador.xs
+      usuario.servico.xs
+      usuario.testes.xs
+    autenticacao/
+      auth.controlador.xs
+      auth.middleware.xs
+  infra/
+    banco.xs
+    cache.xs
+    logger.xs
+  config/
+    index.xs
+    esquema.xs
+  index.xs
+\`\`\`
+
+## Módulos com Separação de Responsabilidades
+
+\`\`\`xs
+// usuario.modelo.xs
+export CLASSE Usuario {
+  CRIA constructor(dados) {
+    ISTO.nome = dados.nome
+    ISTO.email = dados.email
+  }
+}
+
+// usuario.servico.xs
+export CLASSE UsuarioServico {
+  CHAMA ESSE CARA criar(dados) {
+    CRIA usuario = Usuario.novo(dados)
+    // validação + persistência
+    VOLTA usuario
+  }
+}
+
+// usuario.controlador.xs
+export CLASSE UsuarioControlador {
+  CHAMA ESSE CARA criar(req, res) {
+    CRIA usuario = ESPERA servico.criar(req.corpo)
+    res.status(201).json(usuario)
+  }
+}
+\`\`\`
+
+## Config
+
+\`\`\`xs
+// config/index.xs
+export default {
+  porta: parseInt(processo.env.PORT || "3000"),
+  db: {
+    url: processo.env.DB_URL,
+    pool: { min: 2, max: 10 }
+  }
+}
+\`\`\`
+
+Organização consistente facilita navegação e manutenção.`,
+    challenges: [
+      { question: "Qual padrão separa responsabilidades?", answer: "modelo-servico-controlador", points: 5 },
+      { question: "Por que separar em módulos?", answer: "organização e reuso de código", points: 3 },
+      { question: "Configuração centralizada facilita ...", answer: "gerenciamento de ambiente", points: 3 },
+    ],
+  },
+  {
+    slug: "introducao-ao-typescript-no-xanascript",
+    title: "TypeScript no XanaScript",
+    order: 135,
+    points: 10,
+    bodyMd: `# TypeScript no XanaScript
+
+XanaScript suporta TypeScript nativamente.
+
+## Tipagem Estática
+
+\`\`\`ts
+// Suporte a sintaxe TypeScript
+CHAMA ESSE CARA soma(a: numero, b: numero): numero {
+  VOLTA a + b
+}
+
+interface Usuario {
+  id: numero
+  nome: string
+  email: string
+}
+
+CLASSE RepoUsuario {
+  CHAMA ESSE CARA buscar(id: numero): Promise<Usuario | null> {
+    VOLTA db.consulta("SELECT * FROM usuarios WHERE id = ?", [id])
+  }
+}
+\`\`\`
+
+## Generics
+
+\`\`\`ts
+CHAMA ESSE CARA primeiro<T>(arr: T[]): T | undefined {
+  VOLTA arr[0]
+}
+
+CRIA num = primeiro([1, 2, 3])
+CRIA str = primeiro(["a", "b", "c"])
+\`\`\`
+
+## Utility Types
+
+\`\`\`ts
+type UsuarioParcial = Partial<Usuario>
+type UsuarioReadonly = Readonly<Usuario>
+type UsuarioSemEmail = Omit<Usuario, "email">
+\`\`\`
+
+## tsconfig
+
+\`\`\`json
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "ES2022",
+    "module": "ESNext"
+  }
+}
+\`\`\`
+
+TypeScript fornece segurança de tipos para grandes codebases.`,
+    challenges: [
+      { question: "Qual a vantagem do TypeScript?", answer: "segurança de tipos / type safety", points: 5 },
+      { question: "O que generics permitem?", answer: "funções que trabalham com múltiplos tipos", points: 3 },
+      { question: "Qual o nome do arquivo de config do TS?", answer: "tsconfig.json", points: 3 },
+    ],
+  },
+  {
+    slug: "decorators-e-metaprogramacao",
+    title: "Decorators e Metaprogramação",
+    order: 136,
+    points: 10,
+    bodyMd: `# Decorators e Metaprogramação
+
+Decore e transforme classes e métodos.
+
+## Decorator de Classe
+
+\`\`\`xs
+CHAMA ESSE CARA selavel(construtor: Funcao) {
+  construtor.prototype.selavel = true
+}
+
+@selavel
+CLASSE Usuario {}
+\`\`\`
+
+## Decorator de Método
+
+\`\`\`xs
+CHAMA ESSE CARA logavel(alvo: objeto, chave: string, descritor: PropriedadeDescritor) {
+  CRIA original = descritor.valor
+  descritor.valor = function(...args: any[]) {
+    SOLTA O GRITO("Chamando " + chave, args)
+    VOLTA original.aplicar(ISTO, args)
+  }
+  VOLTA descritor
+}
+
+CLASSE Calculadora {
+  @logavel
+  soma(a: numero, b: numero): numero {
+    VOLTA a + b
+  }
+}
+\`\`\`
+
+## Decorator de Propriedade
+
+\`\`\`xs
+CHAMA ESSE CARA somenteLeitura(alvo, chave) {
+  Object.definirPropriedade(alvo, chave, { escrevivel: false })
+}
+
+CLASSE Config {
+  @somenteLeitura
+  CRIA versao = "1.0"
+}
+\`\`\`
+
+## Metaprogramação com Reflect
+
+\`\`\`xs
+import { Reflect } from "xs:reflect"
+
+// Obter metadados
+CRIA tipo = Reflect.obterMetadado("design:type", alvo, chave)
+\`\`\`
+
+Decorators permitem código mais limpo e separação de concerns.`,
+    challenges: [
+      { question: "Decorator de classe recebe ...", answer: "o construtor da classe", points: 3 },
+      { question: "Qual módulo fornece metaprogramação?", answer: "xs:reflect", points: 3 },
+      { question: "Decorators permitem ...", answer: "separação de concerns / código mais limpo", points: 3 },
+    ],
+  },
+  {
+    slug: "programacao-funcional-avancada",
+    title: "Programação Funcional Avançada",
+    order: 137,
+    points: 10,
+    bodyMd: `# Programação Funcional Avançada
+
+Conceitos avançados de FP.
+
+## Functors
+
+\`\`\`xs
+CLASSE Maybe {
+  CHAMA ESSE CARA ESTATICO de(valor) {
+    VOLTA valor == null ? Maybe.nada() : Maybe.justo(valor)
+  }
+
+  CHAMA ESSE CARA mapa(fn) {
+    VOLTA ISTO.valor == null ? ISTO : Maybe.justo(fn(ISTO.valor))
+  }
+}
+
+CRIA resultado = Maybe.de("Olá")
+  .mapa(s => s.maiusculo())
+  .mapa(s => s + " MUNDO")
+// Justo("OLÁ MUNDO")
+\`\`\`
+
+## Monads
+
+\`\`\`xs
+CLASSE AsyncMonad {
+  CHAMA ESSE CARA ESTATICO de(valor) {
+    VOLTA AsyncMonad.novo(Promise.resolver(valor))
+  }
+
+  CHAMA ESSE CARA ligar(fn) {
+    VOLTA AsyncMonad.novo(ISTO.valor.entao(fn))
+  }
+
+  CHAMA ESSE CARA mapa(fn) {
+    VOLTA ISTO.ligar(v => AsyncMonad.de(fn(v)))
+  }
+}
+
+CRIA asyncResult = ESPERA AsyncMonad.de(5)
+  .mapa(x => x * 2)
+  .mapa(x => x + 1)
+  .valor
+\`\`\`
+
+## Composição
+
+\`\`\`xs
+CHAMA ESSE CARA compor(...fns) {
+  VOLTA (x) => fns.reduce((acc, fn) => fn(acc), x)
+}
+
+CRIA processar = compor(
+  (s) => s.trim(),
+  (s) => s.maiusculo(),
+  (s) => s + "!"
+)
+
+SOLTA O GRITO(processar("  olá  ")) // "OLÁ!"
+\`\`\`
+
+FP traz previsibilidade e testabilidade.`,
+    challenges: [
+      { question: "Maybe é um ...", answer: "functor/monad para valores opcionais", points: 5 },
+      { question: "O que map faz?", answer: "aplica função dentro de um contexto", points: 3 },
+      { question: "Composição combina ...", answer: "múltiplas funções em uma", points: 3 },
+    ],
+  },
+  {
+    slug: "padroes-de-arquitetura",
+    title: "Padrões de Arquitetura",
+    order: 138,
+    points: 10,
+    bodyMd: `# Padrões de Arquitetura
+
+Padrões arquiteturais para aplicações maiores.
+
+## Clean Architecture
+
+\`\`\`xs
+// Camadas
+// 1. Entidades (regras de negócio)
+CLASSE Usuario {
+  CHAMA ESSE CARA alterarEmail(novoEmail) {
+    SE LIGA SO (!novoEmail.tem("@")) {
+      JOGAR "Email inválido"
+    }
+    ISTO.email = novoEmail
+  }
+}
+
+// 2. Casos de Uso
+CLASSE AlterarEmailCaso {
+  CHAMA ESSE CARA executar(usuarioId, novoEmail) {
+    CRIA usuario = ESPERA repo.buscar(usuarioId)
+    usuario.alterarEmail(novoEmail)
+    ESPERA repo.salvar(usuario)
+  }
+}
+
+// 3. Adaptadores
+CLASSE ControladorUsuario {
+  CHAMA ESSE CARA alterarEmail(req, res) {
+    ESPERA casoUso.executar(req.params.id, req.corpo.email)
+    res.json({ ok: true })
+  }
+}
+
+// 4. Frameworks (Express, DB)
+\`\`\`
+
+## Dependências Invertidas
+
+\`\`\`xs
+// Repositório abstrato (contrato)
+CLASSE RepoUsuario {
+  CHAMA ESSE CARA buscar(id) { JOGAR "não implementado" }
+  CHAMA ESSE CARA salvar(u) { JOGAR "não implementado" }
+}
+
+// Implementação concreta
+CLASSE RepoUsuarioSQL estende RepoUsuario {
+  CHAMA ESSE CARA buscar(id) {
+    VOLTA db.consulta("SELECT * FROM usuarios WHERE id = ?", [id])
+  }
+}
+\`\`\`
+
+Arquitetura limpa mantém regras de negócio independentes de frameworks.`,
+    challenges: [
+      { question: "Quais são as 4 camadas da Clean Architecture?", answer: "entidades, casos de uso, adaptadores, frameworks", points: 5 },
+      { question: "Qual princípio inverte dependências?", answer: "Dependency Inversion / Inversão de Dependência", points: 5 },
+      { question: "Regras de negócio ficam em qual camada?", answer: "entidades / entities", points: 3 },
+    ],
+  },
+  {
+    slug: "design-patterns-comportamentais",
+    title: "Padrões Comportamentais",
+    order: 139,
+    points: 10,
+    bodyMd: `# Padrões Comportamentais
+
+Padrões que gerenciam algoritmos e responsabilidades.
+
+## Strategy
+
+\`\`\`xs
+CLASSE CalculadoraFrete {
+  CRIA estrategia
+
+  CHAMA ESSE CARA definirEstrategia(estrategia) {
+    ISTO.estrategia = estrategia
+  }
+
+  CHAMA ESSE CARA calcular(peso) {
+    VOLTA ISTO.estrategia.calcular(peso)
+  }
+}
+
+// Estratégias
+CLASSE FreteNormal {
+  CHAMA ESSE CARA calcular(peso) { VOLTA peso * 5 }
+}
+
+CLASSE FreteExpresso {
+  CHAMA ESSE CARA calcular(peso) { VOLTA peso * 10 + 15 }
+}
+
+CLASSE FreteInternacional {
+  CHAMA ESSE CARA calcular(peso) { VOLTA peso * 20 + 50 }
+}
+
+// Uso
+CRIA calc = CalculadoraFrete.novo()
+calc.definirEstrategia(FreteExpresso.novo())
+SOLTA O GRITO(calc.calcular(10)) // 115
+\`\`\`
+
+## Observer (Event Emitter)
+
+\`\`\`xs
+CLASSE Notificador {
+  CRIA listeners = {}
+
+  CHAMA ESSE CARA ao(evento, fn) {
+    (ISTO.listeners[evento] ||= []).push(fn)
+  }
+
+  CHAMA ESSE CARA emitir(evento, ...args) {
+    (ISTO.listeners[evento] || [])
+      .paraCada(fn => fn(...args))
+  }
+}
+\`\`\`
+
+## State
+
+\`\`\`xs
+CLASSE MaquinaEstado {
+  CRIA estadoAtual
+
+  CHAMA ESSE CARA transitar(estado) {
+    ISTO.estadoAtual = estado
+    estado.executar(ISTO)
+  }
+}
+\`\`\`
+
+Padrões comportamentais promovem flexibilidade em algoritmos e comunicação.`,
+    challenges: [
+      { question: "O padrão Strategy permite ...", answer: "trocar algoritmos em tempo de execução", points: 5 },
+      { question: "Observer implementa ...", answer: "comunicação um-para-muitos", points: 3 },
+      { question: "State modela ...", answer: "comportamento baseado em estado", points: 3 },
+    ],
+  },
+  {
+    slug: "design-patterns-estruturais",
+    title: "Padrões Estruturais",
+    order: 140,
+    points: 10,
+    bodyMd: `# Padrões Estruturais
+
+Padrões que gerenciam composição de classes e objetos.
+
+## Adapter
+
+\`\`\`xs
+// API antiga
+CLASSE ApiLegado {
+  CHAMA ESSE CARA buscaDados() {
+    VOLTA XML.de("<usuario><nome>João</nome></usuario>")
+  }
+}
+
+// Adapter
+CLASSE AdaptadorUsuario {
+  CRIA api = ApiLegado.novo()
+
+  CHAMA ESSE CARA buscarUsuario() {
+    CRIA xml = ISTO.api.buscaDados()
+    CRIA obj = {}
+    obj.nome = xml.buscar("usuario nome").texto
+    VOLTA obj
+  }
+}
+
+// Uso moderno
+CRIA adapter = AdaptadorUsuario.novo()
+CRIA usuario = adapter.buscarUsuario()
+SOLTA O GRITO(usuario.nome) // "João"
+\`\`\`
+
+## Decorator
+
+\`\`\`xs
+CLASSE NotificacaoBase {
+  CHAMA ESSE CARA enviar(msg) { SOLTA O GRITO("Notificação: " + msg) }
+}
+
+CLASSE NotificacaoDecorator {
+  CRIA wrappee
+
+  CHAMA ESSE CARA enviar(msg) {
+    ISTO.wrappee.enviar(msg)
+  }
+}
+
+CLASSE NotificacaoLog estende NotificacaoDecorator {
+  CHAMA ESSE CARA enviar(msg) {
+    SOLTA O GRITO("LOG: " + msg)
+    super.enviar(msg)
+  }
+}
+
+CLASSE NotificacaoPrioridade estende NotificacaoDecorator {
+  CHAMA ESSE CARA enviar(msg) {
+    super.enviar("[URGENTE] " + msg)
+  }
+}
+\`\`\`
+
+## Facade
+
+\`\`\`xs
+CLASSE FachadaSistema {
+  CHAMA ESSE CARA processarPedido(dados) {
+    validar(dados)
+    CRIA pedido = salvar(dados)
+    enviarEmail(pedido)
+    atualizarEstoque(pedido)
+    VOLTA pedido
+  }
+}
+\`\`\`
+
+Padrões estruturais simplificam a composição de sistemas complexos.`,
+    challenges: [
+      { question: "Adapter faz ...", answer: "compatibiliza interfaces incompatíveis", points: 5 },
+      { question: "Decorator adiciona ...", answer: "comportamento extra dinamicamente", points: 3 },
+      { question: "Facade simplifica ...", answer: "interação com subsistemas complexos", points: 3 },
+    ],
+  },
+  {
+    slug: "design-patterns-criacionais",
+    title: "Padrões Criacionais",
     order: 141,
     points: 10,
-    bodyMd: `# WASM Types
+    bodyMd: `# Padrões Criacionais
 
-WASM supports only i32, i64, f32, f64 natively.
+Padrões que gerenciam criação de objetos.
 
-## Supported Types
+## Singleton
 
 \`\`\`xs
-// Direct WASM types
-CRIA a: I32 = 42
-CRIA b: I64 = 10000000000n
-CRIA c: F32 = 3.14
-CRIA d: F64 = 3.1415926535
+CLASSE ConexaoBanco {
+  CRIA ESTATICO instancia
+
+  CHAMA ESSE CARA ESTATICO obter() {
+    SE LIGA SO (!ConexaoBanco.instancia) {
+      ConexaoBanco.instancia = ConexaoBanco.novo()
+    }
+    VOLTA ConexaoBanco.instancia
+  }
+
+  CHAMA ESSE CARA consultar(sql) {
+    // ...
+  }
+}
+
+// Uso
+CRIA db = ConexaoBanco.obter()
 \`\`\`
 
-## Type Conversion
+## Factory Method
 
 \`\`\`xs
-CRIA i = I32(3.14)     // 3 (truncate)
-CRIA f = F64(42)       // 42.0
-
-CRIA ptr = I32(heapPtr)  // pointers are i32
-\`\`\`
-
-## Function Signatures
-
-\`\`\`xs
-CHAMA ESSE CARA processar(
-  ptr: I32,
-  len: I32,
-  flag: I32
-): I32 {
-  // WASM-compatible signature
+CLASSE CriadorDocumento {
+  CHAMA ESSE CARA criarDocumento(tipo) {
+    SE LIGA SO (tipo === "pdf") { VOLTA DocumentoPDF.novo() }
+    SE LIGA SO (tipo === "html") { VOLTA DocumentoHTML.novo() }
+    JOGAR "Tipo desconhecido"
+  }
 }
 \`\`\`
 
-## Limitations
+## Builder
 
-- No strings, objects, or closures in WASM exports
-- Pass primitives or pointers to linear memory
-- Strings must be manually encoded/decoded
+\`\`\`xs
+CLASSE ConstrutorUsuario {
+  CRIA usuario = {}
 
-Understanding WASM types avoids runtime conversion overhead.`,
+  CHAMA ESSE CARA comNome(nome) {
+    ISTO.usuario.nome = nome
+    VOLTA ISTO
+  }
+
+  CHAMA ESSE CARA comEmail(email) {
+    ISTO.usuario.email = email
+    VOLTA ISTO
+  }
+
+  CHAMA ESSE CARA comIdade(idade) {
+    ISTO.usuario.idade = idade
+    VOLTA ISTO
+  }
+
+  CHAMA ESSE CARA construir() {
+    SE LIGA SO (!ISTO.usuario.nome) { JOGAR "Nome obrigatório" }
+    VOLTA ISTO.usuario
+  }
+}
+
+// Uso
+CRIA usuario = ConstrutorUsuario.novo()
+  .comNome("João")
+  .comEmail("joao@e.com")
+  .comIdade(30)
+  .construir()
+\`\`\`
+
+Padrões criacionais tornam a criação de objetos mais flexível e reutilizável.`,
     challenges: [
-      { question: "What are the native WASM integer types?", answer: "I32 and I64", points: 3 },
-      { question: "Can you pass strings directly to WASM exports?", answer: "no, use pointers to linear memory", points: 5 },
-      { question: "What function converts to 32-bit integer?", answer: "I32", points: 3 },
-],
+      { question: "Singleton garante ...", answer: "apenas uma instância da classe", points: 3 },
+      { question: "Factory Method cria ...", answer: "objetos baseado em parâmetros", points: 3 },
+      { question: "Builder facilita ...", answer: "construção de objetos complexos", points: 5 },
+    ],
   },
   {
-    slug: "otimizacao-wasm",
-    title: "Otimizacao WASM",
+    slug: "introducao-a-testes-e2e",
+    title: "Introdução a Testes E2E",
     order: 142,
     points: 10,
-    bodyMd: `# WASM Optimization
+    bodyMd: `# Testes E2E
 
-Optimize XanaScript code for WASM output.
+Teste fluxos completos do usuário.
 
-## Avoid Dynamic Features
-
-\`\`\`xs
-// SLOW in WASM: dynamic dispatch
-CRIA fn = metodos[nome]
-
-// FAST in WASM: direct call
-SE LIGA SO (nome == "soma") { fn = soma }
-SE LIGA SO (nome == "mult") { fn = mult }
-\`\`\`
-
-## Use Local Variables
+## Configuração
 
 \`\`\`xs
-// FAST: locals are in registers
-CHAMA ESSE CARA sum(n) {
-  CRIA total = 0
-  PARA CADA (i EM 0..n) { total += i }
-  VOLTA total
-}
+import { navegador } from "xs:e2e"
+
+CRIA nav = ESPERA navegador.iniciar()
+CRIA pagina = ESPERA nav.novaPagina()
 \`\`\`
 
-## Minimize Memory Access
+## Navegação
 
 \`\`\`xs
-// SLOW: reading/writing linear memory
-CRIA val = MEMORIA.LER_INT32(ptr)
-MEMORIA.ESCREVER_INT32(ptr, val + 1)
+test("Fluxo de login completo", async () => {
+  // Navegar para login
+  ESPERA pagina.navegar("http://localhost:3000/login")
 
-// FAST: use local variables
-CRIA val = carregarValor()
-val += 1
+  // Preencher formulário
+  ESPERA pagina.preencker("#email", "usuario@email.com")
+  ESPERA pagina.preencker("#senha", "minha-senha")
+
+  // Clicar
+  ESPERA pagina.clicar("#btn-login")
+
+  // Aguardar navegação
+  ESPERA pagina.esperarPorURL("/dashboard")
+
+  // Verificar
+  CRIA texto = ESPERA pagina.texto("#saudacao")
+  espera(texto).conter("Bem-vindo")
+})
 \`\`\`
 
-## Optimize Flags
+## Screenshots
 
-\`\`\`bash
-xs build --target wasm --optimize tamanho
-xs build --target wasm --optimize velocidade
+\`\`\`xs
+test("Screenshot de página", async () => {
+  ESPERA pagina.navegar("http://localhost:3000")
+  ESPERA pagina.screenshot({ caminho: "prints/homepage.png" })
+})
 \`\`\`
 
-WASM benefits from predictable, simple code patterns.`,
+## Testando Mobile
+
+\`\`\`xs
+ESPERA pagina.definirViewport({ largura: 375, altura: 812 })
+ESPERA pagina.navegar("http://localhost:3000")
+\`\`\`
+
+Testes E2E simulam a experiência real do usuário.`,
     challenges: [
-      { question: "What is faster in WASM: direct call or dynamic dispatch?", answer: "direct call", points: 3 },
-      { question: "What compiler flag optimizes for speed?", answer: "--optimize velocidade", points: 3 },
-      { question: "Where are local variables stored in WASM?", answer: "in registers (locals)", points: 5 },
-],
+      { question: "Qual função navega para uma URL?", answer: "pagina.navegar / page.goto", points: 3 },
+      { question: "Qual função tira screenshot?", answer: "pagina.screenshot", points: 3 },
+      { question: "Testes E2E são mais ...", answer: "lentos, mas cobrem fluxos reais", points: 5 },
+    ],
   },
   {
-    slug: "depuracao-wasm",
-    title: "Depuracao WASM",
+    slug: "documentacao-de-api",
+    title: "Documentação de API",
     order: 143,
-    points: 10,
-    bodyMd: `# Debugging WASM
+    points: 5,
+    bodyMd: `# Documentação de API
 
-Debug WebAssembly modules.
+Documente suas APIs automaticamente.
 
-## Source Maps
-
-\`\`\`bash
-xs build --target wasm --source-map entrada.xs
-\`\`\`
-
-## Logging
+## Comentários como Documentação
 
 \`\`\`xs
-IMPORTA "env" "log" como log
-
-CHAMA ESSE CARA debug(valor) {
-  log(valor)  // appears in host console
+/**
+ * Busca um usuário pelo ID
+ * @param {numero} id - ID do usuário
+ * @returns {Promise<Usuario>} Dados do usuário
+ * @throws {ErroNaoEncontrado} Se usuário não existir
+ */
+CHAMA ESSE CARA buscarUsuario(id) {
+  // ...
 }
 \`\`\`
 
-## Return Error Codes
+## Swagger/OpenAPI
 
 \`\`\`xs
-CHAMA ESSE CARA dividir(a, b): I32 {
-  SE LIGA SO (b == 0) { VOLTA -1 }  // error code
-  VOLTA a / b
-}
+import { swagger } from "xs:http"
+
+app.usar(swagger({
+  definicao: {
+    openapi: "3.0.0",
+    info: {
+      titulo: "API de Usuários",
+      versao: "1.0.0"
+    },
+    caminhos: {
+      "/usuarios": {
+        get: {
+          summary: "Lista usuários",
+          responses: {
+            "200": {
+              descricao: "Lista de usuários"
+            }
+          }
+        }
+      }
+    }
+  }
+}))
 \`\`\`
 
-## WASM Tools
+## Geração Automática
 
 \`\`\`bash
-# Validate wasm
-wasm-validate saida.wasm
-
-# View WAT (text format)
-wasm2wat saida.wasm -o saida.wat
-
-# Run with debug
-xs run --target wasm --debug entrada.xs
+xs docs gerar --entrada src/ --saida docs/
 \`\`\`
 
-Debugging WASM requires host-side tooling and careful error handling.`,
+## UI de Documentação
+
+\`\`\`xs
+app.usar(swagger.servirUI({ rota: "/docs" }))
+\`\`\`
+
+APIs bem documentadas são fáceis de consumir e manter.`,
     challenges: [
-      { question: "What flag generates source maps?", answer: "--source-map", points: 3 },
-      { question: "What tool converts WASM to text format?", answer: "wasm2wat", points: 3 },
-      { question: "How do you signal errors in WASM?", answer: "return error codes", points: 3 },
-],
+      { question: "Qual o padrão aberto para docs de API?", answer: "OpenAPI / Swagger", points: 3 },
+      { question: "Qual rota serve UI do Swagger?", answer: "/docs", points: 3 },
+      { question: "Documentação de API ajuda ...", answer: "consumidores e mantenedores", points: 3 },
+    ],
   },
   {
-    slug: "integracao-wasm",
-    title: "Integracao de Runtime WASM",
+    slug: "versionamento-de-api",
+    title: "Versionamento de API",
     order: 144,
-    points: 10,
-    bodyMd: `# WASM Runtime
+    points: 5,
+    bodyMd: `# Versionamento de API
 
-Embed WASM in different environments.
+Gerencie mudanças em APIs.
 
-## Browser
-
-\`\`\`js
-const wasm = await WebAssembly.instantiateStreaming(
-  fetch("app.wasm"),
-  imports
-)
-wasm.instance.exports.main()
-\`\`\`
-
-## Node.js
-
-\`\`\`js
-const fs = require("fs")
-const wasm = new WebAssembly.Module(fs.readFileSync("app.wasm"))
-const instance = new WebAssembly.Instance(wasm, imports)
-instance.exports.main()
-\`\`\`
-
-## WASI (System Interface)
+## Versionamento por URL
 
 \`\`\`xs
-// WASI-compatible XanaScript
-import { fd_write } from "wasi:fd"
+// /v1/usuarios, /v2/usuarios
 
-CHAMA ESSE CARA main() {
-  fd_write(1, "Ola WASI!\n")
-}
+CRIA roteadorV1 = Roteador.novo()
+roteadorV1.get("/usuarios", handlerV1)
+
+CRIA roteadorV2 = Roteador.novo()
+roteadorV2.get("/usuarios", handlerV2)
+
+app.usar("/v1", roteadorV1)
+app.usar("/v2", roteadorV2)
 \`\`\`
 
-\`\`\`bash
-xs build --target wasm --wasi entrada.xs
-wasmtime saida.wasm
+## Versionamento por Header
+
+\`\`\`xs
+app.get("/usuarios", (req, res) => {
+  CRIA versao = req.cabecalhos["Accept-Version"] || "1"
+
+  SE LIGA SO (versao === "1") {
+    VOLTA handlerV1(req, res)
+  } SENAO SE LIGA SO (versao === "2") {
+    VOLTA handlerV2(req, res)
+  }
+})
 \`\`\`
 
-WASI enables system calls (files, networking) from WASM.`,
+## Deprecação
+
+\`\`\`xs
+app.get("/v1/usuarios", (req, res) => {
+  res.definirCabecalho("Aviso", '299 - "v1 será descontinuada"')
+  handlerV1(req, res)
+})
+\`\`\`
+
+## Boas Práticas
+
+- Suporte versões antigas por tempo limitado
+- Comunique deprecações com antecedência
+- Use semver para sua API
+
+Versionamento permite evoluir APIs sem quebrar clientes existentes.`,
     challenges: [
-      { question: "What is WASI?", answer: "WebAssembly System Interface", points: 3 },
-      { question: "Can WASM run in the browser?", answer: "yes", points: 3 },
-      { question: "What runtime runs WASI modules?", answer: "wasmtime", points: 3 },
-],
+      { question: "Cite uma forma de versionar API", answer: "URL path ou header", points: 3 },
+      { question: "Qual header indica deprecação?", answer: "Warning", points: 3 },
+      { question: "Por que versionar APIs?", answer: "evoluir sem quebrar clientes", points: 5 },
+    ],
   },
   {
-    slug: "melhores-praticas-wasm",
-    title: "Melhores Praticas WASM",
+    slug: "microservicos-introducao",
+    title: "Introdução a Microsserviços",
     order: 145,
     points: 10,
-    bodyMd: `# WASM Best Practices
+    bodyMd: `# Introdução a Microsserviços
 
-Guidelines for effective WASM development.
+Arquitetura baseada em serviços pequenos e independentes.
 
-## 1. Profile First
-
-Measure whether WASM actually improves performance for your use case.
-
-## 2. Minimize Cross-Boundary Calls
-
-Each host-WASM call has overhead. Batch operations:
+## Serviço Simples
 
 \`\`\`xs
-// BAD: many small calls
-PARA CADA (i EM 0..1000) { hostLog(i) }
+// servico-usuarios/index.xs
+import { criarServidor } from "xs:http"
 
-// GOOD: batch
-CRIA buffer = []
-PARA CADA (i EM 0..1000) { buffer.empurra(i) }
-hostProcessBuffer(buffer)
+CRIA servidor = criarServidor((req, res) => {
+  // Lógica do serviço de usuários
+  res.json({ servico: "usuarios", versao: "1.0" })
+})
+
+servidor.ouvir(3001)
 \`\`\`
 
-## 3. Use Appropriate Types
-
-Stick to I32/F64 for best performance.
-
-## 4. Manage Memory Manually
-
-Track allocations to avoid leaks:
+## Comunicação entre Serviços
 
 \`\`\`xs
-CHAMA ESSE CARA alocar(tamanho: I32): I32 { ... }
-CHAMA ESSE CARA liberar(ptr: I32) { ... }
-\`\`\`
-
-## 5. Test on Target Platform
-
-WASM behavior can differ across runtimes (browser vs wasmtime vs wasmer).
-
-WASM excels for compute-heavy, deterministic workloads.`,
-    challenges: [
-      { question: "What adds overhead in WASM?", answer: "cross-boundary host calls", points: 3 },
-      { question: "What is the best numeric type for WASM?", answer: "I32 or F64", points: 3 },
-      { question: "Should WASM behavior be tested across platforms?", answer: "yes", points: 3 },
-],
-  },
-  {
-    slug: "introducao-a-macros",
-    title: "Introducao a Macros",
-    order: 146,
-    points: 5,
-    bodyMd: `# Introduction to Macros
-
-Compile-time code transformations.
-
-## What are Macros?
-
-Macros are functions that run at compile time, transforming AST nodes.
-
-\`\`\`xs
-MACRO duplicar(expr) {
-  VOLTA [expr, expr]
+// Serviço A chama Serviço B
+CHAMA ESSE CARA buscarDadosUsuario(userId) {
+  CRIA resposta = ESPERA fetch(
+    "http://servico-usuarios:3001/usuarios/" + userId
+  )
+  VOLTA resposta.json()
 }
-
-CRIA resultado = duplicar(console.log("teste"))
-// Expands to:
-// console.log("teste")
-// console.log("teste")
 \`\`\`
 
-## Zero Runtime Cost
+## Service Discovery
 
-Macros execute at compile time — expanded code has no macro overhead.
+\`\`\`xs
+import { registrador } from "xs:micro"
 
-## When to Use
+CHAMA ESSE CARA registrarServico() {
+  ESPERA registrador.registrar({
+    nome: "servico-usuarios",
+    url: "http://localhost:3001",
+    saude: "/saude"
+  })
+}
+\`\`\`
 
-- Code generation
-- DSL embedding
-- Boilerplate reduction
-- Compile-time checks
+## Benefícios e Desafios
 
-\`MACRO\` runs during compilation, not at runtime.`,
+- **Benefícios**: escalabilidade, deploy independente, isolamento
+- **Desafios**: complexidade de rede, consistência de dados, monitoramento
+
+Microsserviços são poderosos para sistemas grandes, mas adicionam complexidade.`,
     challenges: [
-      { question: "What keyword defines a macro?", answer: "MACRO", points: 3 },
-      { question: "When do macros execute?", answer: "at compile time", points: 3 },
-      { question: "Do macros have runtime overhead?", answer: "no, they expand at compile time", points: 3 },
-],
+      { question: "O que é um microsserviço?", answer: "serviço pequeno e independente", points: 3 },
+      { question: "Cite um benefício dos microsserviços", answer: "escalabilidade ou deploy independente", points: 5 },
+      { question: "Cite um desafio dos microsserviços", answer: "complexidade de rede ou consistência", points: 5 },
+    ],
   },
   {
-    slug: "sintaxe-de-macro",
-    title: "Sintaxe & Padroes de Macro",
+    slug: "filas-de-mensagens-e-streaming",
+    title: "Filas de Mensagens e Streaming",
+    order: 146,
+    points: 10,
+    bodyMd: `# Filas de Mensagens e Streaming
+
+Comunicação assíncrona entre serviços.
+
+## Produtor
+
+\`\`\`xs
+import { ProdutorKafka } from "xs:kafka"
+
+CRIA produtor = ProdutorKafka.novo({
+  clientId: "meu-app",
+  brokers: ["localhost:9092"]
+})
+
+CHAMA ESSE CARA eventoUsuarioCriado(usuario) {
+  ESPERA produtor.enviar({
+    topico: "usuarios.criados",
+    mensagem: JSON.serializa(usuario),
+    chave: usuario.id
+  })
+}
+\`\`\`
+
+## Consumidor
+
+\`\`\`xs
+import { ConsumidorKafka } from "xs:kafka"
+
+CRIA consumidor = ConsumidorKafka.novo({
+  clientId: "servico-email",
+  grupoId: "grupo-email"
+})
+
+ESPERA consumidor.inscrever(["usuarios.criados"])
+
+consumidor.executarCadaMensagem(async ({ topico, mensagem, chave }) => {
+  CRIA usuario = JSON.parse(mensagem.valor)
+  ESPERA enviarEmailBoasVindas(usuario.email)
+})
+\`\`\`
+
+## Tópicos e Partições
+
+- Tópico: canal lógico de mensagens
+- Partição: unidade de paralelismo
+- Mensagens com mesma chave vão para mesma partição
+
+Streaming permite processamento em tempo real e desacoplamento.`,
+    challenges: [
+      { question: "Qual o papel do produtor?", answer: "enviar mensagens para tópicos", points: 3 },
+      { question: "Qual o papel do consumidor?", answer: "processar mensagens de tópicos", points: 3 },
+      { question: "Partições permitem ...", answer: "paralelismo no processamento", points: 3 },
+    ],
+  },
+  {
+    slug: "tecnicas-avancadas-de-teste",
+    title: "Técnicas Avançadas de Teste",
     order: 147,
     points: 10,
-    bodyMd: `# Macro Syntax
+    bodyMd: `# Técnicas Avançadas de Teste
 
-Pattern matching and transformation.
+Estratégias de teste para cenários complexos.
 
-## Simple Pattern
-
-\`\`\`xs
-MACRO repetir(n, expr) {
-  CRIA resultado = []
-  PARA CADA (i EM 0..n) {
-    resultado.empurra(expr)
-  }
-  VOLTA resultado
-}
-
-repetir(3, SOLTA O GRITO("Oi"))
-// Expands to:
-// SOLTA O GRITO("Oi")
-// SOLTA O GRITO("Oi")
-// SOLTA O GRITO("Oi")
-\`\`\`
-
-## AST Access
+## Testes de Contrato
 
 \`\`\`xs
-MACRO logvar(nome) {
-  VOLTA [
-    SOLTA O GRITO("Variavel: " + nome),
-    nome
+// Contrato entre serviços
+import { Contrato } from "xs:test"
+
+CRIA contrato = Contrato.novo({
+  provedor: "servico-usuarios",
+  consumidor: "servico-pedidos",
+  interacoes: [
+    {
+      descricao: "buscar usuário por ID",
+      requisicao: {
+        metodo: "GET",
+        caminho: "/usuarios/1"
+      },
+      resposta: {
+        status: 200,
+        corpo: {
+          id: 1,
+          nome: "João"
+        }
+      }
+    }
   ]
-}
+})
 \`\`\`
 
-## Hygiene
-
-Macros respect variable scoping (hygienic):
+## Testes de Golden File
 
 \`\`\`xs
-MACRO trocar(a, b) {
-  CRIA tmp = a  // unique temporary, won't conflict
-  a = b
-  b = tmp
-}
+test("renderiza usuário como JSON", () => {
+  CRIA usuario = criarUsuarioTeste()
+  CRIA saida = renderizarJSON(usuario)
+  espera(saida).combinarComSnapshot("usuarios/golden.json")
+})
 \`\`\`
 
-Macros operate on syntax trees, not strings.`,
+## Testes de Concorrência
+
+\`\`\`xs
+test("múltiplas requisições simultâneas", async () => {
+  CRIA requisicoes = range(10).map(() =>
+    fetch("http://localhost:3000/api/recurso")
+  )
+
+  CRIA resultados = ESPERA Promise.tudo(requisicoes)
+  resultados.paraCada(r => espera(r.status).ser(200))
+})
+\`\`\`
+
+Testes avançados cobrem cenários de integração e produção.`,
     challenges: [
-      { question: "Do XanaScript macros operate on strings or AST?", answer: "AST", points: 3 },
-      { question: "What makes a macro hygienic?", answer: "it respects variable scoping", points: 5 },
-      { question: "What does a macro return?", answer: "AST nodes to substitute", points: 3 },
-],
+      { question: "Testes de contrato garantem ...", answer: "compatibilidade entre serviços", points: 5 },
+      { question: "Golden files armazenam ...", answer: "saída esperada para comparação", points: 3 },
+      { question: "Por que testar concorrência?", answer: "detectar race conditions", points: 5 },
+    ],
   },
   {
-    slug: "macros-avancadas",
-    title: "Tecnicas Avancadas de Macro",
+    slug: "testes-baseados-em-propriedades",
+    title: "Testes Baseados em Propriedades",
     order: 148,
     points: 10,
-    bodyMd: `# Advanced Macros
+    bodyMd: `# Testes Baseados em Propriedades
 
-Parameterized and recursive macros.
+Teste propriedades invariantes do código.
 
-## Conditional Macro
+## Conceito
 
-\`\`\`xs
-MACRO assertEqual(a, b) {
-  SE LIGA SO (a !== b) {
-    JOGAR "Assertion failed: " + a + " != " + b
-  }
-}
-\`\`\`
+Em vez de exemplo -> resultado, teste propriedades que devem sempre ser verdade.
 
-## Recursive Macro
+## Exemplo
 
 \`\`\`xs
-MACRO range(n) {
-  SE LIGA SO (n <= 0) {
-    VOLTA []
-  } SENAO {
-    VOLTA [...range(n - 1), n]
-  }
-}
+import { testePropriedade } from "xs:test"
 
-CRIA nums = range(5)  // [1, 2, 3, 4, 5]
+// Propriedade: reverter duas vezes volta ao original
+testePropriedade(
+  "reverter é involutivo",
+  (arr) => {
+    CRIA invertido = arr.fatiar().reverter()
+    CRIA denovo = invertido.fatiar().reverter()
+    espera(denovo).serIgual(arr)
+  },
+  { gerar: "array:numero" }
+)
 \`\`\`
 
-## Multi-Statement Macro
+## Geradores
 
 \`\`\`xs
-MACRO medirTempo(expr) {
-  CRIA inicio = hrTime()
-  CRIA resultado = expr
-  CRIA fim = hrTime()
-  SOLTA O GRITO("Durou: " + (fim - inicio) + "ns")
-  VOLTA resultado
-}
+import { gerador } from "xs:test"
 
-CRIA r = medirTempo(calcularPesado())
+CRIA geradorUsuario = gerador.objeto({
+  nome: gerador.string({ min: 1, max: 50 }),
+  email: gerador.email(),
+  idade: gerador.numero({ min: 0, max: 120 })
+})
+
+testePropriedade(
+  "usuário válido tem email",
+  (usuario) => {
+    espera(usuario.email).conter("@")
+  },
+  { gerar: geradorUsuario }
+)
 \`\`\`
 
-## Compile-Time Validation
+## Quando Usar
 
-\`\`\`xs
-MACRO validarEmail(email) {
-  SE LIGA SO (!email.tem("@")) {
-    ERRO_COMPILACAO "Email invalido: " + email
-  }
-  VOLTA email
-}
-\`\`\`
+- Funções puras
+- Algoritmos com invariantes
+- Parsers e serializadores
+- Validação de dados
 
-\`ERRO_COMPILACAO\` halts compilation with a message.`,
+Testes de propriedade encontram casos de borda que testes de exemplo perdem.`,
     challenges: [
-      { question: "What function stops compilation with an error?", answer: "ERRO_COMPILACAO", points: 3 },
-      { question: "Can macros be recursive?", answer: "yes", points: 3 },
-      { question: "Can a macro return multiple expressions?", answer: "yes, as an array", points: 3 },
-],
+      { question: "Testes de propriedade testam ...", answer: "invariantes que sempre devem ser verdade", points: 5 },
+      { question: "Qual função testa propriedades?", answer: "testePropriedade / propertyTest", points: 3 },
+      { question: "O que geradores produzem?", answer: "dados de entrada aleatórios mas válidos", points: 5 },
+    ],
   },
   {
-    slug: "execucao-em-tempo-de-compilacao",
-    title: "Execucao em Tempo de Compilacao",
+    slug: "testes-de-mutacao",
+    title: "Testes de Mutação",
     order: 149,
     points: 10,
-    bodyMd: `# Compile-Time Execution
+    bodyMd: `# Testes de Mutação
 
-Run arbitrary code at compile time.
+Avalie a qualidade dos seus testes introduzindo bugs artificiais.
 
-## Compile-Time Compute
+## Conceito
 
-\`\`\`xs
-MACRO factorial(n) {
-  CHAMA ESSE CARA calc(x) {
-    SE LIGA SO (x <= 1) { VOLTA 1 }
-    VOLTA x * calc(x - 1)
-  }
+Mutantes são versões alteradas do seu código. Bons testes devem "matar" (detectar) mutantes.
 
-  VOLTA calc(n)
-}
-
-CRIA r = factorial(10)  // pre-computed to 3628800 at compile time
-\`\`\`
-
-## File Loading
+## Exemplo
 
 \`\`\`xs
-MACRO incluirArquivo(caminho) {
-  CRIA conteudo = fs.readFileSync(caminho, "utf8")
-  VOLTA parse(conteudo)  // parse as XanaScript AST
-}
+// Código original
+CHAMA ESSE CARA maior(a, b) { VOLTA a > b ? a : b }
 
-incluirArquivo("template.xs")
+// Mutantes possíveis:
+// Mutante 1: VOLTA a < b ? a : b
+// Mutante 2: VOLTA a >= b ? a : b
+// Mutante 3: VOLTA b
+
+// Teste existente
+test("maior(3, 5) = 5", () => {
+  espera(maior(3, 5)).ser(5)
+})
+// Esse teste mata mutante 3, mas talvez não o 1 ou 2
 \`\`\`
 
-## Environment Checks
-
-\`\`\`xs
-MACRO assertBuild(cond, msg) {
-  SE LIGA SO (!cond) {
-    ERRO_COMPILACAO msg
-  }
-}
-
-assertBuild(process.env.NODE_ENV === "production", "Must build in production")
-\`\`\`
-
-Compile-time execution enables powerful build-time metaprogramming.`,
-    challenges: [
-      { question: "Can macros perform I/O at compile time?", answer: "yes", points: 3 },
-      { question: "What does ERRO_COMPILACAO do?", answer: "halts compilation with an error message", points: 3 },
-      { question: "What is compile-time compute useful for?", answer: "pre-computing values, build-time checks", points: 3 },
-],
-  },
-  {
-    slug: "exemplos-praticos-de-macros",
-    title: "Exemplos Praticos de Macros",
-    order: 150,
-    points: 10,
-    bodyMd: `# Practical Macros
-
-Real-world macro patterns.
-
-## Enum-Like
-
-\`\`\`xs
-MACRO enum(nome, ...valores) {
-  CRIA obj = {}
-  CRIA i = 0
-  PARA CADA (v EM valores) {
-    obj[v] = i
-    i += 1
-  }
-  VOLTA obj
-}
-
-CRIA Cores = enum("Cores", "Vermelho", "Azul", "Verde")
-// { Vermelho: 0, Azul: 1, Verde: 2 }
-\`\`\`
-
-## Lazy Getter
-
-\`\`\`xs
-MACRO lazy(prop, expr) {
-  CRIA _\${prop} = null
-  PEGA \${prop}() {
-    SE LIGA SO (_\${prop} == null) {
-      _\${prop} = expr
-    }
-    VOLTA _\${prop}
-  }
-}
-\`\`\`
-
-## Builder Pattern
-
-\`\`\`xs
-MACRO build(obj, ...props) {
-  CRIA result = {}
-  PARA CADA (p EM props) {
-    result[p.chave] = p.valor
-  }
-  VOLTA result
-}
-
-CRIA user = build({}, { chave: "nome", valor: "Maria" })
-\`\`\`
-
-Macros reduce boilerplate across your codebase.`,
-    challenges: [
-      { question: "Can macros generate enum-like objects?", answer: "yes", points: 3 },
-      { question: "What pattern creates lazy-initialized properties?", answer: "lazy macro", points: 5 },
-      { question: "What is a benefit of macros?", answer: "reducing boilerplate at compile time", points: 3 },
-],
-  },
-  {
-    slug: "testando-macros",
-    title: "Testando Macros",
-    order: 151,
-    points: 10,
-    bodyMd: `# Testing Macros
-
-Verify macro expansion produces correct code.
-
-## Expansion Test
-
-\`\`\`xs
-TESTE "macro repetir" {
-  CRIA expanded = MACRO_EXPANDE(repetir(3, SOLTA O GRITO("x")))
-  AFIRMA.igual(expanded.tamanho, 3)
-}
-\`\`\`
-
-## Snapshot Testing
-
-\`\`\`xs
-TESTE "macro enum snapshot" {
-  CRIA expanded = MACRO_EXPANDE(
-    enum("Dias", "Seg", "Ter", "Qua")
-  )
-  CONFIRMA_SNAPSHOT(expanded)
-}
-\`\`\`
-
-## Compile-Time Errors
-
-\`\`\`xs
-TESTE "macro validation" {
-  AFIRMA.ERRO_COMPILACAO(() => {
-    validarEmail("invalido")
-  })
-}
-\`\`\`
-
-## Test Tools
+## Executando
 
 \`\`\`bash
-xs macro-test           # test macro expansions
-xs macro-test --watch   # watch mode
+xs test --mutacao
 \`\`\`
 
-Test macros to ensure they generate correct code across edge cases.`,
+## Resultado
+
+\`\`\`
+Mutantes: 50
+Mortos:     45 (90%)
+Sobreviventes: 5 (10%)
+Pontuação de mutação: 90%
+\`\`\`
+
+## Interpretação
+
+- Mutantes sobreviventes indicam lacunas nos testes
+- Adicione testes para matar mutantes sobreviventes
+- Nem todo mutante precisa ser morto (alguns são equivalentes)
+
+Testes de mutação fornecem uma métrica mais rigorosa que cobertura de código.`,
     challenges: [
-      { question: "What function expands a macro for testing?", answer: "MACRO_EXPANDE", points: 3 },
-      { question: "What is snapshot testing for macros?", answer: "comparing expanded output to a saved snapshot", points: 5 },
-      { question: "How do you test compile-time errors?", answer: "AFIRMA.ERRO_COMPILACAO", points: 3 },
-],
+      { question: "O que é um mutante?", answer: "código com bug artificial", points: 3 },
+      { question: "Matar um mutante significa ...", answer: "o teste detecta a alteração", points: 5 },
+      { question: "Mutantes equivalentes são ...", answer: "mudanças que não alteram comportamento", points: 5 },
+    ],
   },
   {
-    slug: "melhores-praticas-de-macros",
-    title: "Melhores Praticas de Macros",
+    slug: "revisao-de-codigo-e-qualidade",
+    title: "Revisão de Código e Qualidade",
+    order: 150,
+    points: 10,
+    bodyMd: `# Revisão de Código e Qualidade
+
+Mantenha qualidade através de revisões.
+
+## Checklist de Revisão
+
+### Funcionalidade
+- O código resolve o problema?
+- Testes cobrem a mudança?
+- Casos de borda tratados?
+
+### Manutenibilidade
+- Código claro e legível?
+- Nomes significativos?
+- Complexidade adequada?
+
+### Segurança
+- Entradas validadas?
+- Dados sensíveis protegidos?
+
+## Ferramentas de Qualidade
+
+\`\`\`bash
+# Linter
+xs lint --fix
+
+# Formatador
+xs format --verificar
+
+# Análise estática
+xs analisar
+
+# Complexidade
+xs complexidade src/
+\`\`\`
+
+## Métricas
+
+- Complexidade ciclomática
+- Acoplamento
+- Coesão
+- Dívida técnica
+
+## Code Review Culture
+
+- Seja construtivo
+- Foque no código, não na pessoa
+- Explique o "porquê"
+- Aprenda com as revisões
+
+Revisões de código melhoram qualidade e compartilham conhecimento.`,
+    challenges: [
+      { question: "Cite um aspecto para revisar", answer: "funcionalidade, manutenibilidade ou segurança", points: 3 },
+      { question: "Qual comando executa o linter?", answer: "xs lint", points: 3 },
+      { question: "O que complexidade ciclomática mede?", answer: "número de caminhos no código", points: 5 },
+    ],
+  },
+  {
+    slug: "tecnicas-de-refatoracao",
+    title: "Técnicas de Refatoração",
+    order: 151,
+    points: 10,
+    bodyMd: `# Técnicas de Refatoração
+
+Melhore código sem mudar comportamento.
+
+## Extrair Função
+
+\`\`\`xs
+// Antes
+CHAMA ESSE CARA processarPedido(pedido) {
+  // 20 linhas de validação...
+  SE LIGA SO (!pedido.itens || pedido.itens.tamanho === 0) { JOGAR "inválido" }
+  SE LIGA SO (!pedido.cliente) { JOGAR "inválido" }
+  // ...
+}
+
+// Depois
+CHAMA ESSE CARA validarPedido(pedido) {
+  SE LIGA SO (!pedido.itens || pedido.itens.tamanho === 0) { JOGAR "inválido" }
+  SE LIGA SO (!pedido.cliente) { JOGAR "inválido" }
+}
+
+CHAMA ESSE CARA processarPedido(pedido) {
+  validarPedido(pedido)
+  // ...
+}
+\`\`\`
+
+## Renomear
+
+\`\`\`xs
+// Antes
+CRIA x = calcular(d)
+
+// Depois
+CRIA total = calcularTotalPedido(dadosPedido)
+\`\`\`
+
+## Substituir Condicional por Polimorfismo
+
+\`\`\`xs
+// Antes
+SE LIGA SO (tipo === "pdf") { /* renderizar PDF */ }
+SE LIGA SO (tipo === "html") { /* renderizar HTML */ }
+
+// Depois
+CLASSE RenderizadorPDF estende Renderizador {
+  CHAMA ESSE CARA renderizar() { /* PDF */ }
+}
+CLASSE RenderizadorHTML estende Renderizador {
+  CHAMA ESSE CARA renderizar() { /* HTML */ }
+}
+\`\`\`
+
+## Dividir Condicional
+
+\`\`\`xs
+// Antes
+SE LIGA SO (deveEnviar && !estaBloqueado && temSaldo) { }
+// Depois
+SE LIGA SO (podeEnviar()) { }
+\`\`\`
+
+Refatore em pequenos passos com testes passando entre cada mudança.`,
+    challenges: [
+      { question: "Qual técnica extrai código em função?", answer: "extrair função / extract function", points: 3 },
+      { question: "Por que refatorar?", answer: "melhorar legibilidade e manutenibilidade sem mudar comportamento", points: 5 },
+      { question: "O que substituir condicional por polimorfismo reduz?", answer: "complexidade de condicionais", points: 5 },
+    ],
+  },
+  {
+    slug: "refatoracao-avancada",
+    title: "Refatoração Avançada",
     order: 152,
     points: 10,
-    bodyMd: `# Macro Best Practices
+    bodyMd: `# Refatoração Avançada
 
-Guidelines for safe, maintainable macros.
+Técnicas avançadas de melhoria de código.
 
-## 1. Keep Macros Simple
-
-Complex macros are hard to debug. Prefer functions when possible.
-
-## 2. Document Expansion
+## Extrair Classe
 
 \`\`\`xs
-// Macro: assert(cond, msg)
-// Expands to: if (!cond) { throw msg }
-MACRO assert(cond, msg) { ... }
+// Antes: classe fazendo demais
+CLASSE Usuario {
+  CRIA nome, email
+  CRIA logins = []
+  CRIA preferencias = {}
+
+  CHAMA ESSE CARA logar() { /* ... */ }
+  CHAMA ESSE CARA definirPref(chave, valor) { /* ... */ }
+}
+
+// Depois: classes separadas
+CLASSE Usuario {
+  CRIA nome, email
+  CHAMA ESSE CARA logar() { /* ... */ }
+}
+
+CLASSE PreferenciasUsuario {
+  CRIA usuarioId, preferencias = {}
+  CHAMA ESSE CARA definir(chave, valor) { /* ... */ }
+}
 \`\`\`
 
-## 3. Avoid Side Effects
-
-Macros should be pure — no I/O, no mutation of external state (except during compile time).
-
-## 4. Test Macros
-
-Use \`MACRO_EXPANDE\` and snapshot testing.
-
-## 5. Use Hygiene
-
-Don't introduce variable names that might conflict:
+## Substituir Herança por Composição
 
 \`\`\`xs
-// BAD: may shadow existing variable
-CRIA temp = expr
+// Antes: herança
+CLASSE Carro estende Veiculo { }
 
-// GOOD: use unique names
-CRIA _macro_temp_\${ID} = expr
+// Depois: composição
+CLASSE Carro {
+  CRIA veiculo = Veiculo.novo()
+  CRIA motor = Motor.novo()
+}
 \`\`\`
 
-## 6. Prefer Functions First
+## Introduzir Objeto Parâmetro
 
-Only use macros when you genuinely need compile-time transformation.`,
+\`\`\`xs
+// Antes: muitos parâmetros
+CHAMA ESSE CARA criarUsuario(nome, email, idade, endereco, telefone, cargo) {}
+
+// Depois: objeto parâmetro
+CLASSE DadosUsuario {
+  CRIA nome, email, idade, endereco, telefone, cargo
+}
+
+CHAMA ESSE CARA criarUsuario(dados: DadosUsuario) {}
+\`\`\`
+
+## Separar Query de Command
+
+Funções devem ou retornar dados (query) ou modificar estado (command), não ambos.
+
+Refatoração avançada melhora o design mantendo comportamento.`,
     challenges: [
-      { question: "Should macros be simple or complex?", answer: "simple — complex macros are hard to debug", points: 3 },
-      { question: "Should macros have side effects?", answer: "no, prefer pure macros", points: 3 },
-      { question: "What should you prefer before using macros?", answer: "regular functions", points: 3 },
-],
+      { question: "Extrair classe resolve ...", answer: "classes com muitas responsabilidades", points: 5 },
+      { question: "Composição é preferível a ...", answer: "herança", points: 3 },
+      { question: "Command modifica estado, Query ...", answer: "retorna dados", points: 3 },
+    ],
   },
   {
-    slug: "introducao-a-dsl",
-    title: "Linguagens Especificas de Dominio",
+    slug: "arquitetura-funcional",
+    title: "Arquitetura Funcional",
     order: 153,
     points: 10,
-    bodyMd: `# Domain-Specific Languages
+    bodyMd: `# Arquitetura Funcional
 
-Embedded DSLs via macros and metaprogramming.
+Estruture aplicações usando princípios funcionais.
 
-## What is a DSL?
-
-A mini-language tailored to a specific domain, embedded in XanaScript.
-
-## DSL via Macros
+## Separação Puro/Impuro
 
 \`\`\`xs
-MACRO rota(path, metodo, handler) {
-  VOLTA {
-    path: path,
-    metodo: metodo,
-    handler: handler
-  }
+// Funções puras (fáceis de testar)
+CHAMA ESSE CARA calcularTotal(itens) {
+  VOLTA itens.reduce((acc, item) => acc + item.preco * item.qtd, 0)
 }
 
-CRIA rotas = [
-  rota("/api/users", "GET", listarUsuarios),
-  rota("/api/users", "POST", criarUsuario),
-  rota("/api/users/:id", "GET", buscarUsuario)
-]
+CHAMA ESSE CARA aplicarDesconto(total, cupom) {
+  SE LIGA SO (cupom.valido) { VOLTA total * (1 - cupom.porcentagem / 100) }
+  VOLTA total
+}
+
+// Função impura (efeitos colaterais)
+CHAMA ESSE CARA processarPedido(dadosPedido) {
+  CRIA itensValidos = validarItens(dadosPedido.itens)
+  CRIA total = calcularTotal(itensValidos)
+  CRIA totalComDesconto = aplicarDesconto(total, dadosPedido.cupom)
+  ESPERA salvarPedido(dadosPedido, totalComDesconto)
+}
 \`\`\`
 
-## Query DSL
+## Injeção de Dependência
 
 \`\`\`xs
-MACRO consulta(tabela, ...condicoes) {
-  CRIA query = "SELECT * FROM " + tabela
-  SE LIGA SO (condicoes.tamanho > 0) {
-    query += " WHERE " + condicoes.join(" AND ")
-  }
-  VOLTA executarSQL(query)
+// Em vez de importar diretamente, receba dependências
+CHAMA ESSE CARA buscarUsuario(id, db) {
+  VOLTA db.consulta("SELECT * FROM usuarios WHERE id = ?", [id])
 }
 
-CRIA admins = consulta("usuarios", "perfil = 'admin'", "ativo = true")
+// Teste: passe mock
+CHAMA ESSE CARA testarBusca() {
+  CRIA mockDb = { consulta: () => Promise.resolver({ id: 1 }) }
+  ESPERA buscarUsuario(1, mockDb)
+}
 \`\`\`
 
-DSLs make code read like the domain language.`,
+## Imutabilidade
+
+\`\`\`xs
+CHAMA ESSE CARA atualizarUsuario(usuario, mudancas) {
+  VOLTA { ...usuario, ...mudancas }
+}
+\`\`\`
+
+Arquitetura funcional produz código mais previsível e testável.`,
     challenges: [
-      { question: "What technique enables DSLs in XanaScript?", answer: "macros and metaprogramming", points: 3 },
-      { question: "What is a benefit of DSLs?", answer: "code reads like domain language", points: 3 },
-      { question: "Can DSLs be embedded in XanaScript?", answer: "yes, via macros", points: 3 },
-],
+      { question: "Função pura não tem ...", answer: "efeitos colaterais", points: 5 },
+      { question: "Injeção de dependência facilita ...", answer: "testes com mocks", points: 3 },
+      { question: "Imutabilidade evita ...", answer: "mutações acidentais de estado", points: 3 },
+    ],
   },
   {
-    slug: "exemplo-dsl-html",
-    title: "Exemplo de DSL HTML",
+    slug: "domain-driven-design",
+    title: "Domain-Driven Design (DDD)",
     order: 154,
     points: 10,
-    bodyMd: `# HTML DSL
+    bodyMd: `# Domain-Driven Design (DDD)
 
-Build HTML with XanaScript DSL.
+Modele software baseado no domínio do negócio.
 
-## Element Macros
+## Entidades
+
+Objetos com identidade única:
 
 \`\`\`xs
-MACRO div(...children) {
-  VOLTA \`<div>\${children.join("")}</div>\`
-}
+CLASSE Usuario {
+  CRIA constructor(id, nome, email) {
+    ISTO.id = id        // identidade
+    ISTO.nome = nome
+    ISTO.email = email
+  }
 
-MACRO h1(texto) {
-  VOLTA \`<h1>\${texto}</h1>\`
-}
-
-MACRO p(texto) {
-  VOLTA \`<p>\${texto}</p>\`
+  CHAMA ESSE CARA igual(outro) {
+    VOLTA ISTO.id === outro.id
+  }
 }
 \`\`\`
 
-## Usage
+## Value Objects
+
+Objetos sem identidade, comparados por valor:
 
 \`\`\`xs
-CRIA pagina = div(
-  h1("Bem-vindo"),
-  p("Este e um paragrafo."),
-  p("Outro paragrafo.")
-)
+CLASSE Endereco {
+  CRIA constructor(rua, cidade, cep) {
+    ISTO.rua = rua
+    ISTO.cidade = cidade
+    ISTO.cep = cep
+  }
 
-// Output:
-// <div><h1>Bem-vindo</h1><p>...</p><p>...</p></div>
-\`\`\`
-
-## With Attributes
-
-\`\`\`xs
-MACRO attrs(...pares) {
-  CRIA resultado = {}
-  PARA CADA (p EM pares) { resultado[p[0]] = p[1] }
-  VOLTA resultado
-}
-
-MACRO divAttr(attrs, ...children) {
-  CRIA attrStr = Object.entries(attrs)
-    .mapa(([k, v]) => \` \${k}="\${v}"\`)
-    .join("")
-  VOLTA \`<div\${attrStr}>\${children.join("")}</div>\`
+  CHAMA ESSE CARA igual(outro) {
+    VOLTA ISTO.cep === outro.cep
+  }
 }
 \`\`\`
 
-DSL-based HTML generation is type-safe and composable.`,
+## Aggregates
+
+Grupo de entidades tratado como unidade:
+
+\`\`\`xs
+CLASSE Pedido {
+  CRIA id, itens = [], total = 0
+
+  CHAMA ESSE CARA adicionarItem(produto, qtd) {
+    ISTO.itens.push(ItemPedido.novo(produto, qtd))
+    ISTO.total = ISTO.calcularTotal()
+  }
+
+  CHAMA ESSE CARA calcularTotal() {
+    return ISTO.itens.reduce((s, i) => s + i.subtotal, 0)
+  }
+}
+\`\`\`
+
+## Domain Events
+
+\`\`\`xs
+CLASSE PedidoCriado {
+  CRIA constructor(pedidoId, data) {
+    ISTO.pedidoId = pedidoId
+    ISTO.data = data
+  }
+}
+\`\`\`
+
+DDD alinha modelo de software com linguagem do negócio.`,
     challenges: [
-      { question: "Can you create an HTML DSL with macros?", answer: "yes", points: 3 },
-      { question: "Is DSL-based HTML generation type-safe?", answer: "yes", points: 3 },
-      { question: "What is an advantage over string concatenation?", answer: "composability and type safety", points: 5 },
-],
+      { question: "Entidades são definidas por ...", answer: "identidade única", points: 5 },
+      { question: "Value Objects são comparados por ...", answer: "valor / atributos", points: 3 },
+      { question: "Aggregate é ...", answer: "grupo de entidades tratado como unidade", points: 5 },
+    ],
   },
   {
-    slug: "testando-dsl",
-    title: "Testando DSL",
+    slug: "event-sourcing",
+    title: "Event Sourcing",
     order: 155,
     points: 10,
-    bodyMd: `# Testing DSL
+    bodyMd: `# Event Sourcing
 
-Create a testing DSL for expressive test definitions.
+Armazene estado como sequência de eventos.
 
-## Test DSL
+## Conceito
+
+Em vez de armazenar estado atual, armazene todos os eventos que levaram a ele.
+
+## Eventos
 
 \`\`\`xs
-MACRO testSuite(nome, ...testes) {
-  SOLTA O GRITO("Suite: " + nome)
-  PARA CADA (t EM testes) {
-    TENTE {
-      t()
-      SOLTA O GRITO("  OK: " + t.nome)
-    } CAPTURA (e) {
-      SOLTA O GRITO("  FALHOU: " + t.nome + " - " + e)
-    }
+CLASSE Eventos {
+  CRIA ESTATICO tipos = {
+    USUARIO_CRIADO: "usuario.criado",
+    EMAIL_ALTERADO: "usuario.email.alterado",
+    USUARIO_BLOQUEADO: "usuario.bloqueado"
   }
 }
 
-MACRO test(nome, fn) {
-  fn.nome = nome
-  VOLTA fn
+CLASSE UsuarioCriado {
+  CRIA constructor(id, nome, email, data) {
+    ISTO.tipo = Eventos.tipos.USUARIO_CRIADO
+    ISTO.id = id
+    ISTO.nome = nome
+    ISTO.email = email
+    ISTO.data = data
+  }
 }
-
-MACRO assert(cond, msg = "Assertion failed") {
-  SE LIGA SO (!cond) { JOGAR msg }
-}
-
-// Usage
-testSuite("Matematica",
-  test("soma", () => {
-    assert(2 + 2 == 4)
-  }),
-  test("multiplicacao", () => {
-    assert(3 * 3 == 9)
-  })
-)
 \`\`\`
 
-Creating custom DSLs lets you design the perfect syntax for each problem domain.`,
+## Event Store
+
+\`\`\`xs
+CLASSE EventStore {
+  CRIA eventos = []
+
+  CHAMA ESSE CARA async salvarEvento(agregadoId, evento) {
+    evento.versao = ISTO.eventos
+      .filter(e => e.agregadoId === agregadoId)
+      .tamanho + 1
+    evento.agregadoId = agregadoId
+    ISTO.eventos.push(evento)
+    ESPERA db.salvar(evento)
+  }
+
+  CHAMA ESSE CARA async buscarEventos(agregadoId) {
+    VOLTA db.consulta(
+      "SELECT * FROM eventos WHERE agregadoId = ? ORDER BY versao",
+      [agregadoId]
+    )
+  }
+}
+\`\`\`
+
+## Reconstrução de Estado
+
+\`\`\`xs
+CHAMA ESSE CARA reconstruirUsuario(id) {
+  CRIA eventos = ESPERA eventStore.buscarEventos(id)
+  CRIA usuario = Usuario.novo()
+
+  eventos.paraCada(evt => {
+    SE LIGA SO (evt.tipo === "usuario.criado") {
+      usuario.id = evt.id
+      usuario.nome = evt.nome
+    } SENAO SE LIGA SO (evt.tipo === "usuario.email.alterado") {
+      usuario.email = evt.email
+    }
+  })
+
+  return usuario
+}
+\`\`\`
+
+Event Sourcing fornece auditoria completa e histórico de mudanças.`,
     challenges: [
-      { question: "What is a DSL?", answer: "a domain-specific language embedded in the host language", points: 3 },
-      { question: "What macro groups tests in the DSL example?", answer: "testSuite", points: 3 },
-      { question: "What is an advantage of a testing DSL?", answer: "expressive, readable test definitions", points: 3 },
-],
+      { question: "Event Sourcing armazena ...", answer: "eventos em vez de estado atual", points: 5 },
+      { question: "Como o estado é recuperado?", answer: "reproduzindo eventos (reconstrução)", points: 5 },
+      { question: "Qual benefício do Event Sourcing?", answer: "auditoria completa e histórico", points: 5 },
+    ],
   },
   {
-    slug: "melhores-praticas-finais",
-    title: "Melhores Praticas Finais & Proximos Passos",
+    slug: "cqrs",
+    title: "CQRS (Command Query Responsibility Segregation)",
     order: 156,
-    points: 5,
-    bodyMd: `# Best Practices & Next Steps
+    points: 10,
+    bodyMd: `# CQRS
 
-Your journey with XanaScript — what to do next.
+Separe operações de leitura e escrita.
 
-## Style Guide
+## Conceito
 
-- Use \`CRIA\` for mutable, \`CONSTANTE\` for immutable
-- Prefer \`COMBINA\` over chained \`SE LIGA SO\` when matching values
-- Name classes with PascalCase, variables with camelCase
-- Keep functions small (< 20 lines)
-- Use \`PURO\` for pure functions
+- **Commands**: alteram estado (escrita)
+- **Queries**: retornam dados (leitura)
+- Modelos separados para cada operação
 
-## Code Review Checklist
+## Command
 
-- [ ] Types are correct and useful
-- [ ] Error paths are handled
-- [ ] No swallowed exceptions
-- [ ] Names are descriptive in Portuguese
-- [ ] Tests cover edge cases
-- [ ] Performance is reasonable
+\`\`\`xs
+CLASSE CriarUsuarioCommand {
+  CRIA constructor(nome, email, senha) {
+    ISTO.nome = nome
+    ISTO.email = email
+    ISTO.senha = senha
+  }
+}
 
-## Learning Path Forward
+CLASSE HandlerCriarUsuario {
+  CHAMA ESSE CARA async executar(cmd) {
+    CRIA usuario = Usuario.novo(cmd.nome, cmd.email, cmd.senha)
+    ESPERA usuarioRepo.salvar(usuario)
+    ESPERA eventBus.publicar(UsuarioCriado.novo(usuario))
+    return usuario
+  }
+}
+\`\`\`
 
-1. Build a CLI tool using \`xs:fs\` and \`xs:path\`
-2. Create a web server with the HTTP library
-3. Model real data with \`TABELA\` ORM
-4. Write a macro to eliminate boilerplate
-5. Profile and optimize a performance bottleneck
-6. Compile a module to WASM and embed in a web page
+## Query
 
-## Community & Resources
+\`\`\`xs
+CLASSE BuscarUsuariosQuery {
+  CRIA constructor(filtros) {
+    ISTO.ativo = filtros.ativo
+    ISTO.pagina = filtros.pagina || 1
+  }
+}
 
-- Official docs: https://xanascript.xyz/docs
-- GitHub: https://github.com/xanascript/xanascript
-- Discord: https://xanascript.xyz/discord
+CLASSE HandlerBuscarUsuarios {
+  CHAMA ESSE CARA async executar(query) {
+    // Pode usar um modelo de leitura otimizado
+    VOLTA leituraRepo.buscarUsuarios(query.ativo, query.pagina)
+  }
+}
+\`\`\`
 
-Parabens! You now know XanaScript from fundamentals to advanced metaprogramming.`,
+## Modelos Separados
+
+\`\`\`xs
+// Modelo de escrita (normalizado)
+CLASSE UsuarioEscrita {
+  CRIA id, nome, email, senhaHash
+}
+
+// Modelo de leitura (desnormalizado para consultas)
+CLASSE UsuarioLeitura {
+  CRIA id, nome, email, totalPedidos, ultimoLogin
+}
+\`\`\`
+
+## Quando Usar
+
+- Sistemas com padrões de leitura/escrita muito diferentes
+- Alta carga de leitura
+- Equipes separadas para leitura e escrita
+
+CQRS permite otimizar leitura e escrita independentemente.`,
     challenges: [
-      { question: "Should you prefer CRIA or CONSTANTE for immutable values?", answer: "CONSTANTE", points: 3 },
-      { question: "What naming convention for classes?", answer: "PascalCase", points: 3 },
-      { question: "What should you build to practice XanaScript?", answer: "a CLI tool, web server, or ORM model", points: 3 },
+      { question: "CQRS separa ...", answer: "commands (escrita) de queries (leitura)", points: 5 },
+      { question: "Command altera ...", answer: "estado / dados", points: 3 },
+      { question: "Query retorna ...", answer: "dados sem modificar estado", points: 3 },
     ],
   },
 ];
 
-
-// Simple markdown to HTML converter for seed data
-function mdToHtml(md) {
-  let html = md
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
-    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
-    .replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => '<pre><code>' + code.trim() + '</code></pre>')
-    .replace(/`([^`]+)`/g, '<code>$1</code>')
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/^\| (.+) \|$/gm, (line) => {
-      const cells = line.slice(1, -1).split('|').map(c => c.trim());
-      return '<tr><td>' + cells.join('</td><td>') + '</td></tr>';
-    })
-    .replace(/^- (.+)$/gm, '<li>$1</li>')
-    .replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>')
-    .replace(/(<tr>.*<\/tr>\n?)+/g, '<table>$&</table>')
-    .replace(/\n\n/g, '</p><p>')
-    .replace(/^(?!<[hHlLIuOpPrtT])/gm, function(m) { return m ? m : ''; });
-  html = '<p>' + html + '</p>';
-  html = html.replace(/<p><\/p>/g, '');
-  html = html.replace(/<p><\/([a-z]+)><\/p>/g, '</$1>');
-  return html;
-}
-
-// Process lessons: generate bodyHtml from bodyMd
-const processedLessons = lessons.map(l => ({
-  ...l,
-  bodyHtml: l.bodyHtml || mdToHtml(l.bodyMd),
-  challenges: l.challenges.map(c => ({
-    question: c.question || c.q,
-    answer: c.answer || c.a,
-    points: c.points || c.p || 3
-  }))
+// Process all lessons
+const processedLessons = lessons.map((lesson) => ({
+  ...lesson,
+  points: lesson.points || 5,
+  order: lesson.order || 0,
 }));
 
 export async function seedCoursePt() {
-  await mongoose.connect(MONGODB_URI);
-  await Course.deleteOne({ slug: "curso-completo-xanascript" });
-
-  const course = await Course.create({
-    title: "Curso Completo de XanaScript",
-    slug: "curso-completo-xanascript",
-    lang: "pt",
-    description: "Aprenda XanaScript do zero ao avançado. 156 aulas cobrindo sintaxe, orientação a objetos, ORM, WebAssembly, testes, macros e muito mais. Curso completo e gratuito.",
-    image: "",
-    category: "Programação",
-    level: "beginner",
-    duration: "40h",
-    published: true,
-    lessons: processedLessons,
-  });
-
-  console.log(`Course created: ${course.title}`);
-  console.log(`Lessons: ${course.lessons.length}`);
-  console.log(`Total points: ${course.totalPoints}`);
-  console.log(`Course ID: ${course._id}`);
-  return course;
+  try {
+    await mongoose.connect(MONGODB_URI);
+    console.log("Connected to MongoDB");
+    await Course.deleteOne({ slug: "curso-completo-xanascript" });
+    const course = await Course.create({
+      slug: "curso-completo-xanascript",
+      title: "Curso Completo de XanaScript",
+      lang: "pt",
+      description: "Aprenda XanaScript do zero ao avançado. 156 aulas cobrindo sintaxe, orientação a objetos, ORM, WebAssembly, testes, macros e muito mais.",
+      image: "",
+      category: "Programação",
+      level: "beginner",
+      duration: "40h",
+      published: true,
+      lessons: processedLessons,
+    });
+    console.log(`Curso criado: ${course.title}`);
+    console.log(`Aulas: ${course.lessons.length}`);
+    console.log(`Total de pontos: ${course.totalPoints}`);
+    await mongoose.disconnect();
+    return course;
+  } catch (e) {
+    console.error("Erro:", e.message);
+    await mongoose.disconnect().catch(() => {});
+    throw e;
+  }
 }
 
 async function seed() {
   try {
-    await mongoose.connect(MONGODB_URI);
-    console.log("Connected to MongoDB");
     await seedCoursePt();
-    await mongoose.disconnect();
-    console.log("Done!");
+    console.log("Seed concluído com sucesso!");
   } catch (e) {
-    console.error("Seed failed:", e);
+    console.error("Erro:", e.message);
     process.exit(1);
   }
 }
