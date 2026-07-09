@@ -4,34 +4,34 @@
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen flex items-center justify-center">
   <div class="w-full max-w-sm animate-fade-in">
     <div class="text-center mb-8">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pinky-50 border border-pinky-100 text-pinky-500 text-xs font-semibold mb-4">Welcome back</div>
-      <h1 class="text-3xl font-black">Login</h1>
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pinky-50 border border-pinky-100 text-pinky-500 text-xs font-semibold mb-4">Bem-vindo de volta</div>
+      <h1 class="text-3xl font-black">Entrar</h1>
     </div>
 
     <div class="xs-card p-6">
       <form id="loginForm" class="space-y-4">
-        <input name="username" type="text" placeholder="Username or email" required class="xs-input">
-        <input name="password" type="password" placeholder="Password" required class="xs-input">
+        <input name="username" type="text" placeholder="Usuário ou email" required class="xs-input">
+        <input name="password" type="password" placeholder="Senha" required class="xs-input">
         <div id="loginError" class="text-red-500 text-sm hidden"></div>
-        <button type="submit" class="xs-btn xs-btn-primary w-full justify-center">Login</button>
+        <button type="submit" class="xs-btn xs-btn-primary w-full justify-center">Entrar</button>
         <div id="resendVerify" class="text-center hidden">
-          <button id="resendBtn" class="text-pinky-400 hover:underline text-sm">Resend verification email</button>
+          <button id="resendBtn" class="text-pinky-400 hover:underline text-sm">Reenviar email de verificação</button>
           <p id="resendMsg" class="text-green-500 text-xs hidden"></p>
         </div>
-        <p class="text-center text-sm"><a href="<%= lang === 'en' ? '' : '/' + lang %>/forgot-password" class="text-pinky-400 hover:underline">Forgot password?</a></p>
+        <p class="text-center text-sm"><a href="<%= lang === 'en' ? '' : '/' + lang %>/forgot-password" class="text-pinky-400 hover:underline">Esqueceu a senha?</a></p>
       </form>
     </div>
 
     <div class="xs-card p-6 mt-4 hidden" id="twofaCard">
       <form id="twofaForm" class="space-y-4">
-        <p class="text-sm text-gray-500 text-center">Enter the 6-digit code from your authenticator app or a backup code.</p>
+        <p class="text-sm text-gray-500 text-center">Digite o código de 6 dígitos do seu aplicativo autenticador ou um código reserva.</p>
         <input name="code" type="text" placeholder="000000" inputmode="numeric" autocomplete="one-time-code" required class="xs-input text-center text-2xl tracking-widest">
         <div id="twofaError" class="text-red-500 text-sm hidden"></div>
-        <button type="submit" class="xs-btn xs-btn-primary w-full justify-center">Verify</button>
+        <button type="submit" class="xs-btn xs-btn-primary w-full justify-center">Verificar</button>
       </form>
     </div>
 
-    <p class="text-center text-sm text-gray-400 mt-6">No account? <a href="/<%= lang %>/signup" class="text-pinky-400 hover:underline font-semibold">Sign up</a></p>
+    <p class="text-center text-sm text-gray-400 mt-6">Não tem conta? <a href="/<%= lang %>/signup" class="text-pinky-400 hover:underline font-semibold">Cadastre-se</a></p>
   </div>
 </section>
 
@@ -73,7 +73,7 @@
       var redirect = new URLSearchParams(window.location.search).get('redirect') || '/<%= lang %>/packages/dashboard';
       window.location.href = redirect;
     } catch (e) {
-      loginError.textContent = 'Network error';
+      loginError.textContent = 'Erro de rede';
       loginError.classList.remove('hidden');
     }
   });
@@ -83,7 +83,7 @@
     var btn = document.getElementById('resendBtn');
     var msg = document.getElementById('resendMsg');
     btn.disabled = true;
-    btn.textContent = 'Sending...';
+    btn.textContent = 'Enviando...';
     msg.classList.add('hidden');
     try {
       var r = await fetch('/api/auth/resend-verification-public', {
@@ -93,22 +93,22 @@
       });
       var d = await r.json();
       if (d.ok) {
-        msg.textContent = 'Verification email sent! Check your inbox.';
+        msg.textContent = 'Email de verificação enviado! Verifique sua caixa de entrada.';
         msg.classList.remove('hidden');
         btn.remove();
       } else {
-        msg.textContent = d.error || 'Failed to resend. Try again.';
+        msg.textContent = d.error || 'Falha ao reenviar. Tente novamente.';
         msg.classList.remove('hidden');
         msg.style.color = 'red';
         btn.disabled = false;
-        btn.textContent = 'Resend verification email';
+        btn.textContent = 'Reenviar email de verificação';
       }
     } catch (e) {
-      msg.textContent = 'Network error';
+      msg.textContent = 'Erro de rede';
       msg.classList.remove('hidden');
       msg.style.color = 'red';
       btn.disabled = false;
-      btn.textContent = 'Resend verification email';
+      btn.textContent = 'Reenviar email de verificação';
     }
   });
 
@@ -133,7 +133,7 @@
       var redirect = new URLSearchParams(window.location.search).get('redirect') || '/<%= lang %>/packages/dashboard';
       window.location.href = redirect;
     } catch (e) {
-      twofaError.textContent = 'Network error';
+      twofaError.textContent = 'Erro de rede';
       twofaError.classList.remove('hidden');
     }
   });

@@ -23,7 +23,7 @@
 
         <div class="flex flex-wrap items-center gap-2 mt-4">
           <% if (pkg.license) { %><span class="text-xs bg-gray-100 text-gray-500 px-2.5 py-1 rounded font-medium"><%= t('packages.license') %>: <%= pkg.license %></span><% } %>
-          <% if (pkg.author) { %><span class="text-xs text-gray-400">by <span class="font-medium text-gray-600"><%= pkg.author %></span></span><% } %>
+          <% if (pkg.author) { %><span class="text-xs text-gray-400">por <span class="font-medium text-gray-600"><%= pkg.author %></span></span><% } %>
           <span class="text-xs text-gray-400"><%= t('packages.updated') %>: <%= new Date(pkg.updatedAt).toLocaleDateString() %></span>
         </div>
 
@@ -46,7 +46,7 @@
 
         <% if (pkg.dependencies && pkg.dependencies.length > 0) { %>
         <div class="mt-4">
-          <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Dependencies</span>
+          <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Dependências</span>
           <div class="flex flex-wrap gap-1.5 mt-1">
             <% pkg.dependencies.forEach(function(dep) { %>
             <a href="/<%= lang %>/packages/<%= dep %>" class="text-xs bg-gray-50 text-gray-600 px-2.5 py-1 rounded border border-gray-200 hover:border-pinky-300 hover:text-pinky-500 transition-colors no-underline font-mono"><%= dep %></a>
@@ -62,13 +62,13 @@
           </button>
           <button id="downloadBtn" class="xs-btn xs-btn-ghost text-sm">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-            Download .tar.gz
+            Baixar .tar.gz
           </button>
         </div>
 
         <% if (versions && versions.length > 1) { %>
         <div class="mt-4 flex items-center gap-2">
-          <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Version:</span>
+          <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Versão:</span>
           <select id="versionSelect" class="xs-input w-auto text-sm">
             <% versions.forEach(function(v) { %>
             <option value="<%= v %>" <%= v === pkg.version ? 'selected' : '' %>><%= v %></option>
@@ -90,36 +90,36 @@
       </div>
 
       <div class="border-t border-gray-100 px-8 py-6">
-        <h2 class="text-lg font-bold text-gray-800 mb-4">Email Notifications</h2>
-        <p class="text-sm text-gray-500 mb-3">Get notified when a new version of <%= pkg.name %> is released.</p>
+        <h2 class="text-lg font-bold text-gray-800 mb-4">Notificações por E-mail</h2>
+        <p class="text-sm text-gray-500 mb-3">Receba notificações quando uma nova versão do <%= pkg.name %> for lançada.</p>
         <div class="flex items-center gap-2">
           <input type="email" id="webhookEmail" placeholder="your@email.com" class="xs-input text-sm max-w-xs">
-          <button id="webhookSubscribeBtn" class="xs-btn xs-btn-primary text-sm">Subscribe</button>
-          <button id="webhookUnsubscribeBtn" class="xs-btn xs-btn-ghost text-sm">Unsubscribe</button>
+          <button id="webhookSubscribeBtn" class="xs-btn xs-btn-primary text-sm">Inscrever</button>
+          <button id="webhookUnsubscribeBtn" class="xs-btn xs-btn-ghost text-sm">Cancelar</button>
         </div>
         <span id="webhookMsg" class="text-xs mt-1 block"></span>
       </div>
 
       <div class="border-t border-gray-100 px-8 py-6">
-        <h2 class="text-lg font-bold text-gray-800 mb-4">Reviews</h2>
+        <h2 class="text-lg font-bold text-gray-800 mb-4">Avaliações</h2>
         <div id="reviewsList" class="space-y-3">
-          <div class="text-center py-6 text-gray-400 text-sm">Loading reviews...</div>
+          <div class="text-center py-6 text-gray-400 text-sm">Carregando avaliações...</div>
         </div>
         <div id="reviewForm" class="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-xl hidden">
           <div class="flex items-center gap-2 mb-3">
-            <span class="text-sm font-semibold text-gray-700">Your Rating:</span>
+            <span class="text-sm font-semibold text-gray-700">Sua Avaliação:</span>
             <div id="starRating" class="flex gap-1">
               <% for (var s = 1; s <= 5; s++) { %><span class="star text-2xl cursor-pointer text-gray-300 hover:text-amber-400 transition-colors" data-val="<%= s %>">&#9733;</span><% } %>
             </div>
-            <span id="ratingLabel" class="text-xs text-gray-400">Select</span>
+            <span id="ratingLabel" class="text-xs text-gray-400">Selecionar</span>
           </div>
-          <input type="text" id="reviewTitle" class="xs-input w-full mb-2" placeholder="Short summary (optional)" maxlength="120">
-          <textarea id="reviewBody" class="xs-input w-full" rows="3" placeholder="Write your review..." maxlength="2000"></textarea>
-          <button id="submitReviewBtn" class="xs-btn xs-btn-primary text-sm mt-2">Submit Review</button>
+          <input type="text" id="reviewTitle" class="xs-input w-full mb-2" placeholder="Resumo curto (opcional)" maxlength="120">
+          <textarea id="reviewBody" class="xs-input w-full" rows="3" placeholder="Escreva sua avaliação..." maxlength="2000"></textarea>
+          <button id="submitReviewBtn" class="xs-btn xs-btn-primary text-sm mt-2">Enviar Avaliação</button>
           <span id="reviewError" class="text-xs text-red-500 ml-2 hidden"></span>
         </div>
         <div id="loginToReview" class="mt-4 hidden">
-          <a href="/<%= lang %>/login?redirect=/<%= lang %>/packages/<%= pkg.name %>" class="text-sm text-pinky-500 underline">Log in to review</a>
+          <a href="/<%= lang %>/login?redirect=/<%= lang %>/packages/<%= pkg.name %>" class="text-sm text-pinky-500 underline">Faça login para avaliar</a>
         </div>
       </div>
 
@@ -142,7 +142,7 @@ if (installBtn) {
   installBtn.addEventListener('click', function() {
     navigator.clipboard.writeText('xs install ' + pkgName).then(function() {
       var btn = document.getElementById('installCopyBtn');
-      btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Copied!';
+      btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Copiado!';
       setTimeout(function() {
         btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg> xs install ' + pkgName;
       }, 2000);
@@ -160,7 +160,7 @@ if (verSelect) verSelect.addEventListener('change', function() {
 async function downloadTar() {
   try {
     const res = await fetch('/api/packages/' + pkgName + '/download', { method: 'POST' });
-    if (!res.ok) { alert('Download failed'); return; }
+    if (!res.ok) { alert('Falha no download'); return; }
     const blob = await res.blob();
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -171,7 +171,7 @@ async function downloadTar() {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   } catch (e) {
-    alert('Download error: ' + e.message);
+    alert('Erro no download: ' + e.message);
   }
 }
 
@@ -189,11 +189,11 @@ function loadReviews() {
     .then(function(d) {
       var section = document.getElementById('reviewsList');
       if (!d.ok || !d.reviews || d.reviews.length === 0) {
-        section.innerHTML = '<div class="text-center py-6 text-gray-400 text-sm">No reviews yet. Be the first!</div>';
+        section.innerHTML = '<div class="text-center py-6 text-gray-400 text-sm">Nenhuma avaliação ainda. Seja o primeiro!</div>';
         return;
       }
       var avg = d.reviews.reduce(function(s, r) { return s + r.rating; }, 0) / d.reviews.length;
-      section.innerHTML = '<div class="flex items-center gap-2 mb-4"><span class="text-lg font-bold text-gray-800">' + avg.toFixed(1) + '</span><span class="flex gap-0.5">' + starsHtml(Math.round(avg)) + '</span><span class="text-xs text-gray-400">(' + d.reviews.length + ' reviews)</span></div>';
+      section.innerHTML = '<div class="flex items-center gap-2 mb-4"><span class="text-lg font-bold text-gray-800">' + avg.toFixed(1) + '</span><span class="flex gap-0.5">' + starsHtml(Math.round(avg)) + '</span><span class="text-xs text-gray-400">(' + d.reviews.length + ' avaliações)</span></div>';
       d.reviews.forEach(function(r) {
         var date = new Date(r.createdAt).toLocaleDateString();
         section.innerHTML += '<div class="bg-gray-50 border border-gray-200 rounded-xl p-4">'
@@ -253,9 +253,9 @@ document.querySelectorAll('.star').forEach(function(el) {
 
 document.getElementById('submitReviewBtn').addEventListener('click', function() {
   var btn = this;
-  if (!selectedRating) { showReviewError('Select a rating'); return; }
+  if (!selectedRating) { showReviewError('Selecione uma avaliação'); return; }
   btn.disabled = true;
-  btn.textContent = 'Submitting...';
+  btn.textContent = 'Enviando...';
   fetch('/api/packages/' + pkgName + '/reviews', {
     method: 'POST',
     headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
@@ -264,11 +264,11 @@ document.getElementById('submitReviewBtn').addEventListener('click', function() 
   .then(function(r) { return r.json(); })
   .then(function(d) {
     if (d.ok) { document.getElementById('reviewTitle').value = ''; document.getElementById('reviewBody').value = ''; loadReviews(); hideReviewError(); }
-    else { showReviewError(d.error || 'Failed'); }
+    else { showReviewError(d.error || 'Falhou'); }
     btn.disabled = false;
-    btn.textContent = 'Submit Review';
+    btn.textContent = 'Enviar Avaliação';
   })
-  .catch(function() { showReviewError('Network error.'); btn.disabled = false; btn.textContent = 'Submit Review'; });
+  .catch(function() { showReviewError('Erro de rede.'); btn.disabled = false; btn.textContent = 'Enviar Avaliação'; });
 });
 
 function showReviewError(msg) { var el = document.getElementById('reviewError'); el.textContent = msg; el.classList.remove('hidden'); }
@@ -301,7 +301,7 @@ loadReviews();
       }
     }
   } catch (e) {
-    document.getElementById('sourceFiles').innerHTML = '<p class="text-gray-400 text-sm">Source files unavailable.</p>';
+    document.getElementById('sourceFiles').innerHTML = '<p class="text-gray-400 text-sm">Arquivos fonte indisponíveis.</p>';
   }
   if (typeof hljs !== 'undefined') {
     document.querySelectorAll('.markdown-body pre code').forEach(function(block) {
@@ -312,7 +312,7 @@ loadReviews();
   var webhookEmail = document.getElementById('webhookEmail');
   document.getElementById('webhookSubscribeBtn').addEventListener('click', function() {
     var email = webhookEmail.value.trim();
-    if (!email) return showWebhookMsg('Enter an email', 'text-red-500');
+    if (!email) return showWebhookMsg('Insira um e-mail', 'text-red-500');
     fetch('/api/webhooks/packages/' + pkgName + '/subscribe', {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email })
     }).then(function(r){return r.json()}).then(function(d){
@@ -321,7 +321,7 @@ loadReviews();
   });
   document.getElementById('webhookUnsubscribeBtn').addEventListener('click', function() {
     var email = webhookEmail.value.trim();
-    if (!email) return showWebhookMsg('Enter your email', 'text-red-500');
+    if (!email) return showWebhookMsg('Insira seu e-mail', 'text-red-500');
     fetch('/api/webhooks/packages/' + pkgName + '/unsubscribe', {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email })
     }).then(function(r){return r.json()}).then(function(d){

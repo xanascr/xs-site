@@ -3,50 +3,50 @@
 
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
   <div class="max-w-2xl mx-auto animate-fade-in">
-    <h1 class="text-3xl font-black mb-6">Account Settings</h1>
+    <h1 class="text-3xl font-black mb-6">Configurações da Conta</h1>
 
     <div class="xs-card xs-card-glass p-6 mb-6">
-      <h2 class="text-xl font-bold mb-4">Two-Factor Authentication</h2>
+      <h2 class="text-xl font-bold mb-4">Autenticação de Dois Fatores</h2>
 
       <div id="tfaStatus" class="mb-4">
-        <div class="text-center py-4 text-gray-400 text-sm">Loading...</div>
+        <div class="text-center py-4 text-gray-400 text-sm">Carregando...</div>
       </div>
 
       <div id="tfaSetup" class="hidden space-y-4">
-        <p class="text-sm text-gray-600">Scan the QR code below with your authenticator app (Google Authenticator, Authy, etc.), then enter the 6-digit code to confirm.</p>
+        <p class="text-sm text-gray-600">Escaneie o QR code abaixo com seu aplicativo autenticador (Google Authenticator, Authy, etc.), depois digite o código de 6 dígitos para confirmar.</p>
         <div class="flex justify-center">
           <div id="tfaQrContainer" class="bg-white p-4 rounded-xl border border-gray-200">
-            <div class="text-center py-8 text-gray-400 text-sm">Generating QR code...</div>
+            <div class="text-center py-8 text-gray-400 text-sm">Gerando QR code...</div>
           </div>
         </div>
-        <div class="text-center text-xs text-gray-400">Or manually enter this secret: <code id="tfaSecret" class="font-mono text-pinky-500"></code></div>
+        <div class="text-center text-xs text-gray-400">Ou insira manualmente este segredo: <code id="tfaSecret" class="font-mono text-pinky-500"></code></div>
         <div class="max-w-xs mx-auto">
           <input id="tfaCode" type="text" placeholder="000000" inputmode="numeric" class="xs-input text-center text-xl tracking-widest">
-          <button id="tfaConfirmBtn" class="xs-btn xs-btn-primary w-full justify-center mt-2">Enable 2FA</button>
+          <button id="tfaConfirmBtn" class="xs-btn xs-btn-primary w-full justify-center mt-2">Ativar 2FA</button>
           <span id="tfaError" class="text-xs text-red-500 hidden mt-1 block text-center"></span>
         </div>
       </div>
 
       <div id="tfaActive" class="hidden space-y-4">
-        <div class="bg-green-50 border border-green-200 rounded-xl p-4 text-sm text-green-700">Two-factor authentication is active.</div>
-        <button id="tfaDisableBtn" class="xs-btn xs-btn-ghost text-red-500 border-red-200 hover:bg-red-50">Disable 2FA</button>
+        <div class="bg-green-50 border border-green-200 rounded-xl p-4 text-sm text-green-700">Autenticação de dois fatores está ativa.</div>
+        <button id="tfaDisableBtn" class="xs-btn xs-btn-ghost text-red-500 border-red-200 hover:bg-red-50">Desativar 2FA</button>
         <div id="tfaDisableForm" class="hidden space-y-2 max-w-xs">
-          <input id="tfaDisablePassword" type="password" placeholder="Your password" class="xs-input">
-          <input id="tfaDisableCode" type="text" placeholder="2FA code (optional)" class="xs-input">
-          <button id="tfaDisableConfirmBtn" class="xs-btn xs-btn-ghost text-red-500 border-red-200 hover:bg-red-50">Confirm Disable</button>
+          <input id="tfaDisablePassword" type="password" placeholder="Sua senha" class="xs-input">
+          <input id="tfaDisableCode" type="text" placeholder="Código 2FA (opcional)" class="xs-input">
+          <button id="tfaDisableConfirmBtn" class="xs-btn xs-btn-ghost text-red-500 border-red-200 hover:bg-red-50">Confirmar Desativação</button>
           <span id="tfaDisableError" class="text-xs text-red-500 hidden"></span>
         </div>
       </div>
     </div>
 
     <div class="xs-card xs-card-glass p-6">
-      <h2 class="text-xl font-bold mb-2">Backup Codes</h2>
-      <p class="text-sm text-gray-500 mb-4">Keep these codes safe. Each can be used once if you lose access to your authenticator.</p>
+      <h2 class="text-xl font-bold mb-2">Códigos Reserva</h2>
+      <p class="text-sm text-gray-500 mb-4">Mantenha esses códigos em segurança. Cada um pode ser usado uma vez se você perder acesso ao seu autenticador.</p>
       <div id="backupCodesList" class="hidden">
         <pre id="backupCodesPre" class="bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm font-mono text-center tracking-wider"></pre>
-        <p class="text-xs text-red-500 mt-2">Save these now. They will not be shown again.</p>
+        <p class="text-xs text-red-500 mt-2">Salve-os agora. Eles não serão mostrados novamente.</p>
       </div>
-      <button id="tfaBackupBtn" class="xs-btn xs-btn-ghost text-sm">Regenerate Backup Codes</button>
+      <button id="tfaBackupBtn" class="xs-btn xs-btn-ghost text-sm">Regenerar Códigos Reserva</button>
       <span id="tfaBackupError" class="text-xs text-red-500 hidden ml-2"></span>
     </div>
   </div>
@@ -99,7 +99,7 @@
     fetch('/api/auth/2fa/setup', { method: 'POST', headers: headers })
       .then(function(r) { return r.json(); })
       .then(function(data) {
-        if (!data.ok) { tfaQr.innerHTML = '<div class="text-red-500 text-sm">Failed to generate QR code.</div>'; return; }
+        if (!data.ok) { tfaQr.innerHTML = '<div class="text-red-500 text-sm">Falha ao gerar QR code.</div>'; return; }
         tfaSecret.textContent = data.secret;
         tfaQr.innerHTML = '<div id="qrcode"></div>';
         new QRCode(document.getElementById('qrcode'), { text: data.otpauth, width: 200, height: 200 });
@@ -108,12 +108,12 @@
 
   tfaConfirmBtn.addEventListener('click', function() {
     var code = tfaCode.value.trim();
-    if (!code) { tfaError.textContent = 'Enter the code from your authenticator app.'; tfaError.classList.remove('hidden'); return; }
-    tfaConfirmBtn.disabled = true; tfaConfirmBtn.textContent = 'Verifying...';
+    if (!code) { tfaError.textContent = 'Digite o código do seu aplicativo autenticador.'; tfaError.classList.remove('hidden'); return; }
+    tfaConfirmBtn.disabled = true; tfaConfirmBtn.textContent = 'Verificando...';
     fetch('/api/auth/2fa/confirm', { method: 'POST', headers: Object.assign({}, headers, { 'Content-Type': 'application/json' }), body: JSON.stringify({ code: code }) })
       .then(function(r) { return r.json(); })
       .then(function(d) {
-        if (!d.ok) { tfaError.textContent = d.error; tfaError.classList.remove('hidden'); tfaConfirmBtn.disabled = false; tfaConfirmBtn.textContent = 'Enable 2FA'; return; }
+        if (!d.ok) { tfaError.textContent = d.error; tfaError.classList.remove('hidden'); tfaConfirmBtn.disabled = false; tfaConfirmBtn.textContent = 'Ativar 2FA'; return; }
         tfaSetup.classList.add('hidden');
         tfaActive.classList.remove('hidden');
         backupCodesList.classList.remove('hidden');
@@ -135,7 +135,7 @@
   });
 
   tfaBackupBtn.addEventListener('click', function() {
-    var password = prompt('Enter your password to regenerate backup codes:');
+    var password = prompt('Digite sua senha para regenerar códigos reserva:');
     if (!password) return;
     fetch('/api/auth/2fa/backup-codes', { method: 'POST', headers: Object.assign({}, headers, { 'Content-Type': 'application/json' }), body: JSON.stringify({ password: password }) })
       .then(function(r) { return r.json(); })

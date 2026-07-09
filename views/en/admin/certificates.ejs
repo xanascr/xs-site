@@ -4,16 +4,16 @@
 <div id="adminRoot" class="hidden">
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
   <div class="max-w-5xl mx-auto">
-    <h1 class="text-3xl font-black mb-2 animate-fade-in">Certificate Management</h1>
-    <p class="text-gray-500 text-sm mb-6">Review, issue, and track course certificates.</p>
+    <h1 class="text-3xl font-black mb-2 animate-fade-in">Gerenciamento de Certificados</h1>
+    <p class="text-gray-500 text-sm mb-6">Revise, emita e acompanhe certificados de cursos.</p>
 
     <div class="flex gap-2 mb-6">
-      <button class="cert-tab xs-btn xs-btn-primary" data-status="pending">Pending</button>
-      <button class="cert-tab xs-btn xs-btn-ghost" data-status="issued">Issued</button>
+      <button class="cert-tab xs-btn xs-btn-primary" data-status="pending">Pendentes</button>
+      <button class="cert-tab xs-btn xs-btn-ghost" data-status="issued">Emitidos</button>
     </div>
 
     <div id="certList" class="space-y-4">
-      <p class="text-center text-gray-400 text-sm py-8">Loading...</p>
+      <p class="text-center text-gray-400 text-sm py-8">Carregando...</p>
     </div>
   </div>
 </section>
@@ -47,14 +47,14 @@
 
     function loadCerts(status) {
       var list = document.getElementById('certList');
-      list.innerHTML = '<p class="text-center text-gray-400 text-sm py-8">Loading...</p>';
+      list.innerHTML = '<p class="text-center text-gray-400 text-sm py-8">Carregando...</p>';
 
       fetch('/api/courses/admin/certificates?status=' + status, { headers: { 'Authorization': 'Bearer ' + tkn } })
         .then(function(r) { return r.json(); })
         .then(function(data) {
           list.innerHTML = '';
           if (!data.ok || !data.certificates || data.certificates.length === 0) {
-            list.innerHTML = '<p class="text-center text-gray-400 text-sm py-8">No ' + status + ' certificates.</p>';
+            list.innerHTML = '<p class="text-center text-gray-400 text-sm py-8">Nenhum certificado ' + status + '.</p>';
             return;
           }
           data.certificates.forEach(function(cert) {
@@ -64,22 +64,22 @@
             var actions = '';
             if (cert.status === 'pending') {
               actions = '<div class="flex gap-2 mt-3">'
-                + '<button class="issue-btn xs-btn xs-btn-primary text-xs" data-code="' + cert.code + '">Issue</button>'
+                + '<button class="issue-btn xs-btn xs-btn-primary text-xs" data-code="' + cert.code + '">Emitir</button>'
                 + '</div>';
             } else if (cert.status === 'issued' && !cert.emailedAt) {
               actions = '<div class="flex gap-2 mt-3">'
-                + '<button class="emailed-btn xs-btn xs-btn-ghost text-xs" data-code="' + cert.code + '">Mark as Emailed</button>'
+                + '<button class="emailed-btn xs-btn xs-btn-ghost text-xs" data-code="' + cert.code + '">Marcar como Enviado</button>'
                 + '</div>';
             }
 
-            var emailed = cert.emailedAt ? '<span class="text-xs text-green-600 ml-2">Emailed ' + new Date(cert.emailedAt).toLocaleDateString() + '</span>' : '';
+            var emailed = cert.emailedAt ? '<span class="text-xs text-green-600 ml-2">Enviado por e-mail em ' + new Date(cert.emailedAt).toLocaleDateString() + '</span>' : '';
 
             div.innerHTML = '<div class="flex items-start justify-between">'
               + '<div class="min-w-0">'
               + '<div class="font-semibold text-gray-800">' + escapeHtml(cert.userName) + '</div>'
               + '<div class="text-sm text-gray-500">' + escapeHtml(cert.courseName) + '</div>'
-              + '<div class="text-xs text-gray-400 mt-1">Code: <code class="font-mono bg-gray-50 px-1.5 py-0.5 rounded">' + escapeHtml(cert.code) + '</code></div>'
-              + '<div class="text-xs text-gray-400">Email: ' + escapeHtml(cert.userEmail) + ' | Points: ' + (cert.points || 0) + ' | Requested: ' + new Date(cert.createdAt).toLocaleDateString() + ' ' + emailed + '</div>'
+              + '<div class="text-xs text-gray-400 mt-1">Código: <code class="font-mono bg-gray-50 px-1.5 py-0.5 rounded">' + escapeHtml(cert.code) + '</code></div>'
+              + '<div class="text-xs text-gray-400">E-mail: ' + escapeHtml(cert.userEmail) + ' | Pontos: ' + (cert.points || 0) + ' | Solicitado em: ' + new Date(cert.createdAt).toLocaleDateString() + ' ' + emailed + '</div>'
               + '</div>'
               + '<span class="text-xs font-medium px-2 py-1 rounded ' + (cert.status === 'issued' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700') + '">' + cert.status + '</span>'
               + '</div>'
@@ -89,7 +89,7 @@
 
           document.querySelectorAll('.issue-btn').forEach(function(btn) {
             btn.addEventListener('click', function() {
-              if (!confirm('Issue this certificate? The user will be able to validate it.')) return;
+              if (!confirm('Emitir este certificado? O usuário poderá validá-lo.')) return;
               fetch('/api/courses/admin/certificates/' + this.dataset.code + '/issue', { method: 'POST', headers: { 'Authorization': 'Bearer ' + tkn } })
                 .then(function(r) { return r.json(); })
                 .then(function(d) { if (d.ok) loadCerts(currentStatus); });
@@ -105,7 +105,7 @@
           });
         })
         .catch(function() {
-          list.innerHTML = '<p class="text-center text-red-400 text-sm py-8">Failed to load certificates.</p>';
+          list.innerHTML = '<p class="text-center text-red-400 text-sm py-8">Falha ao carregar certificados.</p>';
         });
     }
 

@@ -5,17 +5,17 @@
   <div class="max-w-5xl mx-auto">
     <div class="flex items-center justify-between mb-8">
       <div>
-        <h1 class="text-3xl font-black">My Packages</h1>
+        <h1 class="text-3xl font-black">Meus Pacotes</h1>
         <p class="text-gray-500 text-sm mt-1" id="userInfo"></p>
       </div>
-      <button id="logoutBtn" class="text-sm text-gray-400 hover:text-red-500 transition-colors">Logout</button>
+      <button id="logoutBtn" class="text-sm text-gray-400 hover:text-red-500 transition-colors">Sair</button>
     </div>
 
     <div id="packageList" class="space-y-4"></div>
 
     <div id="noPackages" class="text-center py-12 hidden">
-      <p class="text-gray-400">You haven't published any packages yet.</p>
-      <a href="/<%= lang %>/packages" class="mt-4 inline-block bg-pinky-400 hover:bg-pinky-500 text-white px-5 py-2 rounded-lg font-semibold text-sm transition-all">Browse packages</a>
+      <p class="text-gray-400">Você ainda não publicou nenhum pacote.</p>
+      <a href="/<%= lang %>/packages" class="mt-4 inline-block bg-pinky-400 hover:bg-pinky-500 text-white px-5 py-2 rounded-lg font-semibold text-sm transition-all">Procurar Pacotes</a>
     </div>
   </div>
 </section>
@@ -29,20 +29,20 @@
     <div class="p-6 space-y-4">
       <input type="hidden" id="editPkgName">
       <div>
-        <label class="xs-label">Description</label>
+        <label class="xs-label">Descrição</label>
         <textarea id="editDesc" rows="2" class="xs-input resize-none"></textarea>
       </div>
       <div>
-        <label class="xs-label">Keywords (comma separated)</label>
+        <label class="xs-label">Palavras-chave (separadas por vírgula)</label>
         <input id="editKeywords" class="xs-input">
       </div>
       <div class="flex gap-4">
         <div class="flex-1">
-          <label class="xs-label">License</label>
+          <label class="xs-label">Licença</label>
           <input id="editLicense" class="xs-input">
         </div>
         <div class="flex-1">
-          <label class="xs-label">Repository URL</label>
+          <label class="xs-label">URL do Repositório</label>
           <input id="editRepo" class="xs-input">
         </div>
       </div>
@@ -51,21 +51,21 @@
         <textarea id="editReadme" rows="8" class="xs-input font-mono"></textarea>
       </div>
       <div id="editReadmePreview" class="hidden">
-        <label class="xs-label">Preview</label>
+        <label class="xs-label">Visualizar</label>
         <div id="editReadmePreviewContent" class="markdown-body border border-gray-200 rounded-xl p-4 text-sm"></div>
       </div>
       <div>
-        <label class="xs-label">Dependencies (comma separated)</label>
+        <label class="xs-label">Dependências (separadas por vírgula)</label>
         <input id="editDeps" class="xs-input">
       </div>
       <div id="editReadmeMdPreview" class="hidden border border-gray-200 rounded-xl p-4">
-        <label class="xs-label">README Preview</label>
+        <label class="xs-label">Visualização do README</label>
         <div id="editPreviewContent" class="markdown-body text-sm"></div>
       </div>
     </div>
     <div class="flex justify-end gap-3 px-6 pb-6">
-      <button id="editCancelBtn" class="xs-btn xs-btn-ghost">Cancel</button>
-      <button id="editSaveBtn" class="xs-btn xs-btn-primary">Save</button>
+      <button id="editCancelBtn" class="xs-btn xs-btn-ghost">Cancelar</button>
+      <button id="editSaveBtn" class="xs-btn xs-btn-primary">Salvar</button>
     </div>
   </div>
 </div>
@@ -78,7 +78,7 @@
 
   var closeEdit, openEdit, loadPackages;
 
-  document.getElementById('userInfo').textContent = 'Logged in as ' + user.username + ' (' + user.role + ')';
+  document.getElementById('userInfo').textContent = 'Logado como ' + user.username + ' (' + user.role + ')';
   document.getElementById('editModal').addEventListener('click', function(e) { if (e.target === this) closeEdit(); });
   document.getElementById('editCloseBtn').addEventListener('click', function() { closeEdit(); });
   document.getElementById('editCancelBtn').addEventListener('click', function() { closeEdit(); });
@@ -98,9 +98,9 @@
     fetch('/api/packages/' + name, { headers: { 'Authorization': 'Bearer ' + token } })
       .then(function(r) { return r.json(); })
       .then(function(data) {
-        if (!data.ok || !data.package) { alert('Failed to load package data'); return; }
+        if (!data.ok || !data.package) { alert('Falha ao carregar dados do pacote'); return; }
         var pkg = data.package;
-        document.getElementById('editModalTitle').textContent = 'Edit ' + pkg.name;
+        document.getElementById('editModalTitle').textContent = 'Editar ' + pkg.name;
         document.getElementById('editPkgName').value = pkg.name;
         document.getElementById('editDesc').value = pkg.description || '';
         document.getElementById('editKeywords').value = (pkg.keywords || []).join(', ');
@@ -141,10 +141,10 @@
             + '<div class="text-xs text-gray-400 mt-1">v' + pkg.version + '</div>'
             + '</div>'
             + '</div>'
-            + (pkg.reviewNotes ? '<div class="mt-2 text-sm text-red-500 bg-red-50 rounded-lg px-3 py-2">Review notes: ' + escapeHtml(pkg.reviewNotes) + '</div>' : '')
+            + (pkg.reviewNotes ? '<div class="mt-2 text-sm text-red-500 bg-red-50 rounded-lg px-3 py-2">Notas de revisão: ' + escapeHtml(pkg.reviewNotes) + '</div>' : '')
             + '<div class="mt-3 flex items-center justify-between">'
-            + '<div class="text-xs text-gray-400">Submitted ' + new Date(pkg.createdAt).toLocaleDateString() + ' | ' + (pkg.downloads || 0) + ' downloads</div>'
-            + '<button class="edit-btn text-xs bg-gray-100 hover:bg-pinky-100 text-gray-600 hover:text-pinky-600 px-3 py-1.5 rounded-lg font-semibold transition-colors" data-name="' + pkg.name + '">Edit</button>'
+            + '<div class="text-xs text-gray-400">Enviado em ' + new Date(pkg.createdAt).toLocaleDateString() + ' | ' + (pkg.downloads || 0) + ' downloads</div>'
+            + '<button class="edit-btn text-xs bg-gray-100 hover:bg-pinky-100 text-gray-600 hover:text-pinky-600 px-3 py-1.5 rounded-lg font-semibold transition-colors" data-name="' + pkg.name + '">Editar</button>'
             + '</div>';
           list.appendChild(card);
         });
@@ -171,7 +171,7 @@
     };
     var btn = this;
     btn.disabled = true;
-    btn.textContent = 'Saving...';
+    btn.textContent = 'Salvando...';
     fetch('/api/packages/' + name, {
       method: 'PUT',
       headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
@@ -179,11 +179,11 @@
     })
       .then(function(r) { return r.json(); })
       .then(function(data) {
-        if (!data.ok) { alert(data.error || 'Failed to update'); btn.disabled = false; btn.textContent = 'Save'; return; }
+        if (!data.ok) { alert(data.error || 'Falha ao atualizar'); btn.disabled = false; btn.textContent = 'Salvar'; return; }
         closeEdit();
         loadPackages();
       })
-      .catch(function() { alert('Network error'); btn.disabled = false; btn.textContent = 'Save'; });
+      .catch(function() { alert('Erro de rede'); btn.disabled = false; btn.textContent = 'Salvar'; });
   });
 
   document.getElementById('editReadme').addEventListener('input', function() {
@@ -191,7 +191,7 @@
     var preview = document.getElementById('editReadmePreview');
     if (!val) { preview.classList.add('hidden'); return; }
     preview.classList.remove('hidden');
-    document.getElementById('editPreviewContent').innerHTML = '<div class="text-xs text-gray-400">Loading preview...</div>';
+    document.getElementById('editPreviewContent').innerHTML = '<div class="text-xs text-gray-400">Carregando visualização...</div>';
     clearTimeout(window._mdTimer);
     window._mdTimer = setTimeout(function() {
       fetch('https://api.github.com/markdown', {
@@ -207,7 +207,7 @@
           }
         })
         .catch(function() {
-          document.getElementById('editPreviewContent').innerHTML = '<div class="text-xs text-gray-400">Preview unavailable offline.</div>';
+          document.getElementById('editPreviewContent').innerHTML = '<div class="text-xs text-gray-400">Visualização indisponível offline.</div>';
         });
     }, 500);
   });

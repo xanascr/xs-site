@@ -3,13 +3,13 @@
 
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
   <div class="max-w-2xl mx-auto">
-    <h1 class="text-3xl sm:text-4xl font-black text-center mb-2 animate-fade-in">Validate Certificate</h1>
-    <p class="text-gray-500 text-center mb-8 text-sm font-light animate-slide-up">Enter a certificate code to verify its authenticity.</p>
+    <h1 class="text-3xl sm:text-4xl font-black text-center mb-2 animate-fade-in">Validar Certificado</h1>
+    <p class="text-gray-500 text-center mb-8 text-sm font-light animate-slide-up">Insira um código de certificado para verificar sua autenticidade.</p>
 
     <div class="xs-card xs-card-glass p-6 animate-fade-in">
       <div class="flex gap-3 mb-6">
-        <input id="certCode" type="text" class="xs-input flex-1 font-mono" placeholder="e.g. XS-A1B2C3D4-E5F6" maxlength="20">
-        <button id="validateBtn" class="xs-btn xs-btn-primary shrink-0">Validate</button>
+        <input id="certCode" type="text" class="xs-input flex-1 font-mono" placeholder="ex.: XS-A1B2C3D4-E5F6" maxlength="20">
+        <button id="validateBtn" class="xs-btn xs-btn-primary shrink-0">Validar</button>
       </div>
       <div id="validationResult" class="hidden"></div>
     </div>
@@ -19,21 +19,21 @@
         <% if (result.valid) { %>
           <div class="text-center">
             <svg class="w-12 h-12 text-green-500 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            <h2 class="text-xl font-black text-green-700 mb-1">Valid Certificate</h2>
-            <p class="text-sm text-green-600 mb-4">This certificate has been verified as authentic.</p>
+            <h2 class="text-xl font-black text-green-700 mb-1">Certificado Válido</h2>
+            <p class="text-sm text-green-600 mb-4">Este certificado foi verificado como autêntico.</p>
             <div class="bg-green-50 rounded-xl p-4 text-left text-sm space-y-2">
-              <div><span class="font-semibold text-gray-600">Code:</span> <code class="font-mono"><%= result.certificate.code %></code></div>
-              <div><span class="font-semibold text-gray-600">Recipient:</span> <%= result.certificate.userName %></div>
-              <div><span class="font-semibold text-gray-600">Course:</span> <%= result.certificate.courseName %></div>
-              <div><span class="font-semibold text-gray-600">Issued:</span> <%= new Date(result.certificate.issuedAt).toLocaleDateString() %></div>
-              <div><span class="font-semibold text-gray-600">Points:</span> <%= result.certificate.points %></div>
+              <div><span class="font-semibold text-gray-600">Código:</span> <code class="font-mono"><%= result.certificate.code %></code></div>
+              <div><span class="font-semibold text-gray-600">Destinatário:</span> <%= result.certificate.userName %></div>
+              <div><span class="font-semibold text-gray-600">Curso:</span> <%= result.certificate.courseName %></div>
+              <div><span class="font-semibold text-gray-600">Emitido em:</span> <%= new Date(result.certificate.issuedAt).toLocaleDateString() %></div>
+              <div><span class="font-semibold text-gray-600">Pontos:</span> <%= result.certificate.points %></div>
             </div>
           </div>
         <% } else { %>
           <div class="text-center">
             <svg class="w-12 h-12 text-red-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-            <h2 class="text-xl font-black text-red-500 mb-1">Invalid Certificate</h2>
-            <p class="text-sm text-red-400"><%= result.error || 'Code not found or certificate not yet issued.' %></p>
+            <h2 class="text-xl font-black text-red-500 mb-1">Certificado Inválido</h2>
+            <p class="text-sm text-red-400"><%= result.error || 'Código não encontrado ou certificado ainda não emitido.' %></p>
           </div>
         <% } %>
       </div>
@@ -50,7 +50,7 @@
   if (validateBtn) {
     validateBtn.addEventListener('click', function() {
       var code = certCode.value.trim();
-      if (!code) { alert('Enter a certificate code.'); return; }
+      if (!code) { alert('Insira um código de certificado.'); return; }
       resultDiv.classList.add('hidden');
 
       fetch('/api/courses/certificates/validate/' + encodeURIComponent(code))
@@ -59,21 +59,21 @@
           if (d.ok && d.valid) {
             resultDiv.innerHTML = '<div class="bg-green-50 border border-green-200 rounded-xl p-5 text-center">'
               + '<svg class="w-10 h-10 text-green-500 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>'
-              + '<h3 class="font-bold text-green-700 mb-1">Valid Certificate</h3>'
-              + '<p class="text-sm text-green-600">Issued to <strong>' + escapeHtml(d.certificate.userName) + '</strong> for <strong>' + escapeHtml(d.certificate.courseName) + '</strong></p>'
-              + '<p class="text-xs text-gray-500 mt-1">Code: <code class="font-mono">' + escapeHtml(d.certificate.code) + '</code></p>'
+              + '<h3 class="font-bold text-green-700 mb-1">Certificado Válido</h3>'
+              + '<p class="text-sm text-green-600">Emitido para <strong>' + escapeHtml(d.certificate.userName) + '</strong> no curso <strong>' + escapeHtml(d.certificate.courseName) + '</strong></p>'
+              + '<p class="text-xs text-gray-500 mt-1">Código: <code class="font-mono">' + escapeHtml(d.certificate.code) + '</code></p>'
               + '</div>';
           } else {
             resultDiv.innerHTML = '<div class="bg-red-50 border border-red-200 rounded-xl p-5 text-center">'
               + '<svg class="w-10 h-10 text-red-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>'
-              + '<h3 class="font-bold text-red-500 mb-1">Invalid Certificate</h3>'
-              + '<p class="text-sm text-red-400">' + escapeHtml(d.error || 'Code not found or not yet issued.') + '</p>'
+              + '<h3 class="font-bold text-red-500 mb-1">Certificado Inválido</h3>'
+              + '<p class="text-sm text-red-400">' + escapeHtml(d.error || 'Código não encontrado ou ainda não emitido.') + '</p>'
               + '</div>';
           }
           resultDiv.classList.remove('hidden');
         })
         .catch(function() {
-          resultDiv.innerHTML = '<div class="bg-red-50 border border-red-200 rounded-xl p-5 text-center"><p class="text-red-500 text-sm">Network error. Please try again.</p></div>';
+          resultDiv.innerHTML = '<div class="bg-red-50 border border-red-200 rounded-xl p-5 text-center"><p class="text-red-500 text-sm">Erro de rede. Tente novamente.</p></div>';
           resultDiv.classList.remove('hidden');
         });
     });

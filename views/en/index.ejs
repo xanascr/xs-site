@@ -26,7 +26,7 @@
         <div id="examplesBar" class="flex items-center gap-1.5 px-3 sm:px-4 py-1.5 bg-gray-50 border-b border-gray-200 overflow-x-auto touch-pan-x snap-x snap-mandatory scrollbar-thin">
           <div class="snap-start shrink-0"></div>
         </div>
-        <textarea id="codeEditor" name="codeEditor" spellcheck="false">CRIA nome = "XanaScript"
+        <textarea id="codeEditor" spellcheck="false">CRIA nome = "XanaScript"
 CRIA idade = 25
 
 CHAMA ESSE CARA saudacao(nome, idade) {
@@ -49,7 +49,7 @@ SOLTA O GRITO("Soma de 1 a 10: " + soma)</textarea>
           <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400"></div>
           <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
           <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
-          <span class="text-gray-500 text-xs sm:text-sm ml-2 sm:ml-3 font-medium">Output</span>
+          <span class="text-gray-500 text-xs sm:text-sm ml-2 sm:ml-3 font-medium">Saída</span>
           <button id="clearBtn" class="ml-auto text-xs text-gray-400 hover:text-gray-600 transition-colors"><%= t('playground.clear') %></button>
         </div>
         <pre id="output" class="flex-1 min-h-[160px] m-0 bg-white text-gray-700 p-4 sm:p-5 font-mono text-xs sm:text-sm overflow-auto leading-relaxed whitespace-pre-wrap border-t border-gray-100"><%= t('playground.ready') %></pre>
@@ -89,7 +89,7 @@ SOLTA O GRITO("Soma de 1 a 10: " + soma)</textarea>
         </div>
         <% if (typeof npmDownloads !== 'undefined' && npmDownloads !== null) { %>
         <div class="mt-3 text-xs text-gray-400">
-          <span class="inline-flex items-center gap-1"><svg class="w-3 h-3" fill="currentColor" viewBox="0 0 16 16"><path d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/></svg> <%= npmDownloads.toLocaleString() %> downloads this month</span>
+          <span class="inline-flex items-center gap-1"><svg class="w-3 h-3" fill="currentColor" viewBox="0 0 16 16"><path d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/></svg> <%= npmDownloads.toLocaleString() %> downloads este mês</span>
         </div>
         <% } %>
       </div>
@@ -100,28 +100,28 @@ SOLTA O GRITO("Soma de 1 a 10: " + soma)</textarea>
 <!-- Syntax -->
 <section id="syntax" class="py-16 sm:py-20 px-4 sm:px-6 bg-pinky-50/50">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Complete Syntax</h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Every keyword is clear Portuguese. The code explains itself.</p>
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Sintaxe Completa</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Cada palavra-chave &eacute; portugu&ecirc;s claro. O c&oacute;digo se explica sozinho.</p>
     <div class="grid md:grid-cols-2 gap-6">
       <div>
-        <h4 class="font-semibold mb-3 text-gray-700 text-sm sm:text-base">Variables &amp; Functions</h4>
+        <h4 class="font-semibold mb-3 text-gray-700 text-sm sm:text-base">Vari&aacute;veis &amp; Fun&ccedil;&otilde;es</h4>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
           <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
-          <pre class="p-4 text-xs sm:text-sm overflow-x-auto"><span class="kw">CRIA</span> nome = <span class="str">"XanaScript"</span>
+          <pre class="p-4 text-xs sm:text-sm overflow-x-auto"><span class="kw">CRIA</span> nome = <span class="str">&quot;XanaScript&quot;</span>
 <span class="kw">CRIA</span> idade = <span class="num">5</span>
 
 <span class="kw">CHAMA ESSE CARA</span> <span class="fn">saudacao</span>(nome, idade) {
-  <span class="kw">VOLTA</span> <span class="str">"Ola, "</span> + nome + <span class="str">"! Tenho "</span> + idade + <span class="str">" anos."</span>
+  <span class="kw">VOLTA</span> <span class="str">&quot;Ola, &quot;</span> + nome + <span class="str">&quot;! Tenho &quot;</span> + idade + <span class="str">&quot; anos.&quot;</span>
 }</pre>
         </div>
 
-        <h4 class="font-semibold mb-3 mt-6 text-gray-700 text-sm sm:text-base">Conditionals &amp; Loops</h4>
+        <h4 class="font-semibold mb-3 mt-6 text-gray-700 text-sm sm:text-base">Condicionais &amp; La&ccedil;os</h4>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
           <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
           <pre class="p-4 text-xs sm:text-sm overflow-x-auto"><span class="kw">SE LIGA SO</span> (idade >= <span class="num">18</span>) {
-  <span class="kw">SOLTA O GRITO</span>(<span class="str">"Maior de idade"</span>)
+  <span class="kw">SOLTA O GRITO</span>(<span class="str">&quot;Maior de idade&quot;</span>)
 } <span class="kw">SENAO</span> {
-  <span class="kw">SOLTA O GRITO</span>(<span class="str">"Menor de idade"</span>)
+  <span class="kw">SOLTA O GRITO</span>(<span class="str">&quot;Menor de idade&quot;</span>)
 }
 
 <span class="kw">REPETE NA MORAL</span> (<span class="kw">CRIA</span> i = <span class="num">0</span>; i < <span class="num">5</span>; i++) {
@@ -134,7 +134,7 @@ SOLTA O GRITO("Soma de 1 a 10: " + soma)</textarea>
         </div>
       </div>
       <div>
-        <h4 class="font-semibold mb-3 text-gray-700 text-sm sm:text-base">Classes &amp; OOP</h4>
+        <h4 class="font-semibold mb-3 text-gray-700 text-sm sm:text-base">Classes &amp; POO</h4>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
           <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
           <pre class="p-4 text-xs sm:text-sm overflow-x-auto"><span class="kw">CLASSE</span> <span class="fn">Animal</span> {
@@ -142,27 +142,27 @@ SOLTA O GRITO("Soma de 1 a 10: " + soma)</textarea>
     <span class="kw">CRIA ISTO</span>.nome = nome
   }
   <span class="kw">METODO</span> falar() {
-    <span class="kw">SOLTA O GRITO</span>(<span class="kw">ISTO</span>.nome + <span class="str">" faz barulho"</span>)
+    <span class="kw">SOLTA O GRITO</span>(<span class="kw">ISTO</span>.nome + <span class="str">&quot; faz barulho&quot;</span>)
   }
 }
 
 <span class="kw">CLASSE</span> <span class="fn">Cachorro</span> <span class="kw">HERDA</span> Animal {
   <span class="kw">METODO</span> falar() {
-    <span class="kw">SOLTA O GRITO</span>(<span class="kw">ISTO</span>.nome + <span class="str">" diz: Au Au!"</span>)
+    <span class="kw">SOLTA O GRITO</span>(<span class="kw">ISTO</span>.nome + <span class="str">&quot; diz: Au Au!&quot;</span>)
   }
 }
 
-<span class="kw">CRIA</span> rex = <span class="kw">NOVA</span> Cachorro(<span class="str">"Rex"</span>)
+<span class="kw">CRIA</span> rex = <span class="kw">NOVA</span> Cachorro(<span class="str">&quot;Rex&quot;</span>)
 rex.falar()</pre>
         </div>
 
-        <h4 class="font-semibold mb-3 mt-6 text-gray-700 text-sm sm:text-base">Pattern Matching &amp; More</h4>
+        <h4 class="font-semibold mb-3 mt-6 text-gray-700 text-sm sm:text-base">Pattern Matching &amp; Mais</h4>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
           <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
           <pre class="p-4 text-xs sm:text-sm overflow-x-auto"><span class="kw">CRIA</span> resultado = <span class="kw">COMBINA</span> (valor) {
-  <span class="kw">CASO</span> <span class="num">0</span> =&gt; <span class="str">"zero"</span>
-  <span class="kw">CASO</span> <span class="num">1</span> =&gt; <span class="str">"um"</span>
-  <span class="kw">CASO</span> _ =&gt; <span class="str">"outro"</span>
+  <span class="kw">CASO</span> <span class="num">0</span> =&gt; <span class="str">&quot;zero&quot;</span>
+  <span class="kw">CASO</span> <span class="num">1</span> =&gt; <span class="str">&quot;um&quot;</span>
+  <span class="kw">CASO</span> _ =&gt; <span class="str">&quot;outro&quot;</span>
 }
 
 <span class="cm">// Template strings</span>
@@ -175,7 +175,7 @@ rex.falar()</pre>
 <span class="kw">CRIA</span> data = <span class="kw">ESPERA AI</span> <span class="kw">AGORA VAI</span>(url)
 
 <span class="cm">// Regex</span>
-<span class="str">"hello"</span> ~= <span class="str">"^h.*o$"</span></pre>
+<span class="str">&quot;hello&quot;</span> ~= <span class="str">&quot;^h.*o$&quot;</span></pre>
         </div>
       </div>
     </div>
@@ -185,68 +185,68 @@ rex.falar()</pre>
 <!-- Features -->
 <section id="features" class="py-16 sm:py-20 px-4 sm:px-6">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Why XanaScript?</h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">A language designed from the ground up with a full compiler toolchain, not a transpiler or wrapper.</p>
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Por que XanaScript?</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Uma linguagem projetada do zero com um pipeline de compilador completo, n&atilde;o um transpilador ou wrapper.</p>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
       <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
         <div class="text-2xl mb-3">🚀</div>
-        <h3 class="font-bold text-base sm:text-lg mb-2">Portuguese Syntax</h3>
-        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">Multi-word keywords (<code>SE LIGA SO</code>, <code>CHAMA ESSE CARA</code>, <code>REPETE NA MORAL</code>) are lexed as atomic tokens via lookahead DFA. No translation layer — the grammar itself is Portuguese.</p>
+        <h3 class="font-bold text-base sm:text-lg mb-2">Sintaxe Portuguesa</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">Palavras-chave multi-palavras (<code>SE LIGA SO</code>, <code>CHAMA ESSE CARA</code>, <code>REPETE NA MORAL</code>) s&atilde;o analisadas como tokens at&ocirc;micos via DFA com lookahead. Sem camada de tradu&ccedil;&atilde;o &mdash; a pr&oacute;pria gram&aacute;tica &eacute; portugu&ecirc;s.</p>
       </div>
       <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
         <div class="text-2xl mb-3">⚡</div>
-        <h3 class="font-bold text-base sm:text-lg mb-2">Optimizing JS Codegen</h3>
-        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">Multi-pass optimizer: constant folding, loop unrolling (up to 8 iterations), integer type inference for automatic <code>Int32Array</code>/<code>Float64Array</code> usage, and function inlining.</p>
+        <h3 class="font-bold text-base sm:text-lg mb-2">Gera&ccedil;&atilde;o de C&oacute;digo JS Otimizada</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">Otimizador multi-passo: dobra de constantes, desenrolamento de la&ccedil;os (at&eacute; 8 itera&ccedil;&otilde;es), infer&ecirc;ncia de tipo inteiro para uso autom&aacute;tico de <code>Int32Array</code>/<code>Float64Array</code> e inlining de fun&ccedil;&otilde;es.</p>
       </div>
       <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
         <div class="text-2xl mb-3">🛡️</div>
-        <h3 class="font-bold text-base sm:text-lg mb-2">Native WebAssembly</h3>
-        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">Direct <code>.wasm</code> binary emission — no Emscripten, no wabt.js, no LLVM. Implements Section Type/Function/Code/Export/Data manually with a bundled linker that resolves function indices and label offsets.</p>
+        <h3 class="font-bold text-base sm:text-lg mb-2">WebAssembly Nativo</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">Emiss&atilde;o bin&aacute;ria direta <code>.wasm</code> &mdash; sem Emscripten, sem wabt.js, sem LLVM. Implementa as se&ccedil;&otilde;es Type/Function/Code/Export/Data manualmente com um linker embutido que resolve &iacute;ndices de fun&ccedil;&atilde;o e offsets de label.</p>
       </div>
       <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
         <div class="text-2xl mb-3">🎯</div>
-        <h3 class="font-bold text-base sm:text-lg mb-2">Built-in ORM</h3>
-        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1"><code>TABELA</code> is a first-class syntax construct parsed into AST nodes. The codegen emits complete CRUD functions (<code>inserir</code>, <code>buscar</code>, <code>atualizar</code>, <code>remover</code>) with filter support (<code>$gt</code>, <code>$lt</code>, <code>$eq</code>) and JSON persistence.</p>
+        <h3 class="font-bold text-base sm:text-lg mb-2">ORM Integrado</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1"><code>TABELA</code> &eacute; um construto de sintaxe de primeira classe analisado em n&oacute;s AST. A gera&ccedil;&atilde;o de c&oacute;digo emite fun&ccedil;&otilde;es CRUD completas (<code>inserir</code>, <code>buscar</code>, <code>atualizar</code>, <code>remover</code>) com suporte a filtros (<code>$gt</code>, <code>$lt</code>, <code>$eq</code>) e persist&ecirc;ncia JSON.</p>
       </div>
       <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
         <div class="text-2xl mb-3">📦</div>
-        <h3 class="font-bold text-base sm:text-lg mb-2">Compile-Time Macros</h3>
-        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1"><code>MACRO</code> definitions are stored in the symbol table and expanded during AST traversal before codegen. Supports recursive expansion with configurable depth limits. Zero runtime footprint.</p>
+        <h3 class="font-bold text-base sm:text-lg mb-2">Macros em Tempo de Compila&ccedil;&atilde;o</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">Defini&ccedil;&otilde;es <code>MACRO</code> s&atilde;o armazenadas na tabela de s&iacute;mbolos e expandidas durante a travessia da AST antes da gera&ccedil;&atilde;o de c&oacute;digo. Suporta expans&atilde;o recursiva com limites de profundidade configur&aacute;veis. Impacto zero em tempo de execu&ccedil;&atilde;o.</p>
       </div>
       <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
         <div class="text-2xl mb-3">🧩</div>
-        <h3 class="font-bold text-base sm:text-lg mb-2">Native Test Runner</h3>
-        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1"><code>TESTE</code> and <code>AFIRMA</code> are parsed as AST statements and executed by the interpreter. Auto-discovers test files, outputs TAP-compatible results, and exits with CI-ready codes.</p>
+        <h3 class="font-bold text-base sm:text-lg mb-2">Executor de Testes Nativo</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1"><code>TESTE</code> e <code>AFIRMA</code> s&atilde;o analisados como instru&ccedil;&otilde;es AST e executados pelo interpretador. Descobre automaticamente arquivos de teste, gera resultados compat&iacute;veis com TAP e sai com c&oacute;digos prontos para CI.</p>
       </div>
       <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
         <div class="text-2xl mb-3">🔧</div>
-        <h3 class="font-bold text-base sm:text-lg mb-2">LSP Server</h3>
-        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">Language Server Protocol over stdio. Stateless architecture: each request re-parses the document from scratch. Supports completions, hover docs, go-to-definition, real-time diagnostics, and formatting.</p>
+        <h3 class="font-bold text-base sm:text-lg mb-2">Servidor LSP</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">Protocolo de Servidor de Linguagem via stdio. Arquitetura sem estado: cada requisi&ccedil;&atilde;o analisa o documento do zero. Suporta completa&ccedil;&otilde;es, documenta&ccedil;&atilde;o ao pairar, ir para defini&ccedil;&atilde;o, diagn&oacute;sticos em tempo real e formata&ccedil;&atilde;o.</p>
       </div>
       <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
         <div class="text-2xl mb-3">📦</div>
-        <h3 class="font-bold text-base sm:text-lg mb-2">Package Manager</h3>
-        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1"><code>xs install</code> resolves packages from GitHub repositories with semver compatibility. <code>xs publish</code> creates a registry entry. npm fallback for JS interop.</p>
+        <h3 class="font-bold text-base sm:text-lg mb-2">Gerenciador de Pacotes</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1"><code>xs install</code> resolve pacotes de reposit&oacute;rios GitHub com compatibilidade semver. <code>xs publish</code> cria uma entrada no registro. Fallback npm para interoperabilidade JS.</p>
       </div>
       <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
         <div class="text-2xl mb-3">⚠️</div>
-        <h3 class="font-bold text-base sm:text-lg mb-2">Rust-Style Errors</h3>
-        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">Each error includes a unique code, exact source location with arrow annotation, and structured hint/help messages. The parser implements panic-mode error recovery to report multiple errors per run.</p>
+        <h3 class="font-bold text-base sm:text-lg mb-2">Erros Estilo Rust</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">Cada erro inclui um c&oacute;digo &uacute;nico, localiza&ccedil;&atilde;o exata com anota&ccedil;&atilde;o de seta e mensagens estruturadas de dica/ajuda. O parser implementa recupera&ccedil;&atilde;o de erros em modo p&acirc;nico para relatar m&uacute;ltiplos erros por execu&ccedil;&atilde;o.</p>
       </div>
       <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
         <div class="text-2xl mb-3">💻</div>
-        <h3 class="font-bold text-base sm:text-lg mb-2">VS Code Extension</h3>
-        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">Uses <code>vscode-xs</code> with TextMate grammars for syntax highlighting, 18 code snippets, and LSP client integration. Commands for run, build, test, and format.</p>
+        <h3 class="font-bold text-base sm:text-lg mb-2">Extens&atilde;o VS Code</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">Usa <code>vscode-xs</code> com gram&aacute;ticas TextMate para realce de sintaxe, 18 snippets de c&oacute;digo e integra&ccedil;&atilde;o com cliente LSP. Comandos para executar, compilar, testar e formatar.</p>
       </div>
       <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
         <div class="text-2xl mb-3">🖥️</div>
-        <h3 class="font-bold text-base sm:text-lg mb-2">Complete CLI</h3>
-        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">20+ subcommands: <code>run</code>, <code>build</code> (JS/Wasm), <code>test</code>, <code>repl</code>, <code>format</code>, <code>docs</code>, <code>lsp</code>, <code>init</code>, <code>install</code>, <code>publish</code>, <code>watch</code>, <code>benchmark</code>. Single binary via <code>bun --compile</code>, zero runtime deps.</p>
+        <h3 class="font-bold text-base sm:text-lg mb-2">CLI Completa</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">Mais de 20 subcomandos: <code>run</code>, <code>build</code> (JS/Wasm), <code>test</code>, <code>repl</code>, <code>format</code>, <code>docs</code>, <code>lsp</code>, <code>init</code>, <code>install</code>, <code>publish</code>, <code>watch</code>, <code>benchmark</code>. Bin&aacute;rio &uacute;nico via <code>bun --compile</code>, zero depend&ecirc;ncias em tempo de execu&ccedil;&atilde;o.</p>
       </div>
       <div class="group bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pinky-400 hover:-translate-y-1 flex flex-col">
         <div class="text-2xl mb-3">📋</div>
-        <h3 class="font-bold text-base sm:text-lg mb-2">Task Runner</h3>
-        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1"><code>TAREFA</code> declarations in <code>tarefas.xs</code> define named tasks parsed into AST. Executed via <code>xs &lt;taskname&gt;</code> with dependency resolution.</p>
+        <h3 class="font-bold text-base sm:text-lg mb-2">Executor de Tarefas</h3>
+        <p class="text-gray-500 text-xs sm:text-sm leading-relaxed flex-1">Declara&ccedil;&otilde;es <code>TAREFA</code> em <code>tarefas.xs</code> definem tarefas nomeadas analisadas em AST. Executadas via <code>xs &lt;taskname&gt;</code> com resolu&ccedil;&atilde;o de depend&ecirc;ncias.</p>
       </div>
     </div>
   </div>
@@ -255,8 +255,8 @@ rex.falar()</pre>
 <!-- Wasm -->
 <section id="wasm" class="py-16 sm:py-20 px-4 sm:px-6 bg-pinky-50/50">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Native WebAssembly</h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Direct <code>.wasm</code> emission — no Emscripten, no wabt.js, no LLVM toolchain.</p>
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">WebAssembly Nativo</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Emiss&atilde;o direta <code>.wasm</code> &mdash; sem Emscripten, sem wabt.js, sem LLVM.</p>
     <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
       <div>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
@@ -274,20 +274,20 @@ rex.falar()</pre>
         </div>
       </div>
       <div>
-        <p class="text-gray-600 text-sm sm:text-base mb-4"><strong class="text-gray-800">wasm_binary.js</strong> implements the Wasm binary format specification from scratch:</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-4"><strong class="text-gray-800">wasm_binary.js</strong> implementa a especifica&ccedil;&atilde;o do formato bin&aacute;rio Wasm do zero:</p>
         <ul class="list-disc list-inside text-gray-600 text-sm space-y-1.5 mb-4">
-          <li>Magic number (<code>00 61 73 6d</code>) + version (<code>01 00 00 00</code>)</li>
-          <li>Section encoding: Type Section (function signatures), Function Section (type index mapping), Code Section (function bodies with local declarations), Export Section (named exports), Data Section (initial memory contents)</li>
-          <li>All integers encoded via LEB128 (unsigned and signed variants)</li>
-          <li>Two-value type system: <code>i32</code> and <code>f64</code> — all XS arithmetic operations map to the appropriate opcode</li>
+          <li>N&uacute;mero m&aacute;gico (<code>00 61 73 6d</code>) + vers&atilde;o (<code>01 00 00 00</code>)</li>
+          <li>Codifica&ccedil;&atilde;o de se&ccedil;&otilde;es: Se&ccedil;&atilde;o Type (assinaturas de fun&ccedil;&atilde;o), Se&ccedil;&atilde;o Function (mapeamento de &iacute;ndice de tipo), Se&ccedil;&atilde;o Code (corpos de fun&ccedil;&atilde;o com declara&ccedil;&otilde;es locais), Se&ccedil;&atilde;o Export (exporta&ccedil;&otilde;es nomeadas), Se&ccedil;&atilde;o Data (conte&uacute;do inicial da mem&oacute;ria)</li>
+          <li>Todos os inteiros codificados via LEB128 (variantes unsigned e signed)</li>
+          <li>Sistema de tipos de dois valores: <code>i32</code> e <code>f64</code> &mdash; todas as opera&ccedil;&otilde;es aritm&eacute;ticas XS mapeiam para o opcode apropriado</li>
         </ul>
-        <p class="text-gray-600 text-sm sm:text-base mb-4">The internal <strong class="text-gray-800">linker</strong> resolves function indices between sections during a second pass. After codegen, it patches label offsets for branch instructions (<code>br</code>, <code>br_if</code>, <code>block</code>, <code>loop</code>). The linker also handles export name string table encoding.</p>
-        <p class="text-gray-600 text-sm sm:text-base mb-4">Memory allocation uses a bundled bump allocator — <code>CRIA VETOR</code> with compile-time known sizes emits <code>memory.grow</code> + pointer arithmetic. Strings are stored as (length, data) pairs at the allocated offset.</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-4">O <strong class="text-gray-800">linker</strong> interno resolve &iacute;ndices de fun&ccedil;&atilde;o entre se&ccedil;&otilde;es durante uma segunda passagem. Ap&oacute;s a gera&ccedil;&atilde;o de c&oacute;digo, ele corrige offsets de label para instru&ccedil;&otilde;es de desvio (<code>br</code>, <code>br_if</code>, <code>block</code>, <code>loop</code>). O linker tamb&eacute;m lida com a codifica&ccedil;&atilde;o da tabela de strings de nomes de exporta&ccedil;&atilde;o.</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-4">A aloca&ccedil;&atilde;o de mem&oacute;ria usa um bump allocator embutido &mdash; <code>CRIA VETOR</code> com tamanhos conhecidos em tempo de compila&ccedil;&atilde;o emite <code>memory.grow</code> + aritm&eacute;tica de ponteiros. Strings s&atilde;o armazenadas como pares (comprimento, dados) no offset alocado.</p>
         <div class="grid grid-cols-2 gap-2">
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">i32 / f64</code><span class="text-gray-400 text-xs">Value types</span></div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">block / loop</code><span class="text-gray-400 text-xs">Control flow</span></div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">call / return</code><span class="text-gray-400 text-xs">Functions</span></div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">memory.grow</code><span class="text-gray-400 text-xs">Dynamic alloc</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">i32 / f64</code><span class="text-gray-400 text-xs">Tipos de valor</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">block / loop</code><span class="text-gray-400 text-xs">Fluxo de controle</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">call / return</code><span class="text-gray-400 text-xs">Fun&ccedil;&otilde;es</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">memory.grow</code><span class="text-gray-400 text-xs">Aloca&ccedil;&atilde;o din&acirc;mica</span></div>
         </div>
       </div>
     </div>
@@ -297,8 +297,8 @@ rex.falar()</pre>
 <!-- ORM -->
 <section id="orm" class="py-16 sm:py-20 px-4 sm:px-6">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Built-in ORM</h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Tables as a first-class AST node — parsed, type-checked, and codegen'd in the compiler pipeline.</p>
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">ORM Integrado</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Tabelas como um n&oacute; AST de primeira classe &mdash; analisadas, verificadas por tipo e geradas no pipeline do compilador.</p>
     <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
       <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
         <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
@@ -309,24 +309,24 @@ rex.falar()</pre>
 }
 
 <span class="kw">CRIA</span> repo = Product
-repo.create({ name: <span class="str">"Keyboard"</span>, price: <span class="num">250</span>, stock: <span class="num">10</span> })
-repo.create({ name: <span class="str">"Mouse"</span>, price: <span class="num">120</span>, stock: <span class="num">25</span> })
+repo.create({ name: <span class="str">&quot;Keyboard&quot;</span>, price: <span class="num">250</span>, stock: <span class="num">10</span> })
+repo.create({ name: <span class="str">&quot;Mouse&quot;</span>, price: <span class="num">120</span>, stock: <span class="num">25</span> })
 
 <span class="kw">SOLTA O GRITO</span>(repo.list())
 <span class="kw">CRIA</span> expensive = repo.findWhere({ price: <span class="num">250</span> })
-repo.update(<span class="num">1</span>, { name: <span class="str">"RGB Keyboard"</span> })
+repo.update(<span class="num">1</span>, { name: <span class="str">&quot;RGB Keyboard&quot;</span> })
 repo.delete(<span class="num">2</span>)</pre>
       </div>
       <div>
-        <p class="text-gray-600 text-sm sm:text-base mb-4"><code>TABELA</code> is parsed as a <code>TableDef</code> AST node containing a name and typed field list. The parser validates that field types are one of the five supported: <code>TEXTO</code>, <code>NUMERO</code>, <code>BOOLEANO</code>, <code>DATA</code>, <code>QUALQUER</code>. Invalid types produce a compile-time error with source annotation.</p>
-        <p class="text-gray-600 text-sm sm:text-base mb-4">On the codegen side, <code>TableDef</code> emits a constructor function that returns an object with the CRUD methods. The runtime stores data as JSON files on disk (Node/Bun) or in-memory (browser). Each record gets an auto-incrementing <code>_id</code> field plus <code>_criado</code> and <code>_atualizado</code> timestamps.</p>
-        <p class="text-gray-600 text-sm sm:text-base mb-4">The <code>findWhere</code> method supports filter operators passed as keys prefixed with <code>$</code>: <code>$eq</code>, <code>$gt</code>, <code>$lt</code>, <code>$gte</code>, <code>$lte</code>, <code>$ne</code>, and <code>$in</code> (array match). Compound filters use implicit AND semantics.</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-4"><code>TABELA</code> &eacute; analisado como um n&oacute; AST <code>TableDef</code> contendo um nome e uma lista de campos tipados. O parser valida que os tipos de campo s&atilde;o um dos cinco suportados: <code>TEXTO</code>, <code>NUMERO</code>, <code>BOOLEANO</code>, <code>DATA</code>, <code>QUALQUER</code>. Tipos inv&aacute;lidos produzem um erro em tempo de compila&ccedil;&atilde;o com anota&ccedil;&atilde;o de origem.</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-4">No lado da gera&ccedil;&atilde;o de c&oacute;digo, <code>TableDef</code> emite uma fun&ccedil;&atilde;o construtora que retorna um objeto com os m&eacute;todos CRUD. O runtime armazena dados como arquivos JSON em disco (Node/Bun) ou em mem&oacute;ria (navegador). Cada registro recebe um campo <code>_id</code> auto-incrementado mais timestamps <code>_criado</code> e <code>_atualizado</code>.</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-4">O m&eacute;todo <code>findWhere</code> suporta operadores de filtro passados como chaves prefixadas com <code>$</code>: <code>$eq</code>, <code>$gt</code>, <code>$lt</code>, <code>$gte</code>, <code>$lte</code>, <code>$ne</code> e <code>$in</code> (correspond&ecirc;ncia de array). Filtros compostos usam sem&acirc;ntica AND impl&iacute;cita.</p>
         <div class="grid grid-cols-2 gap-2">
           <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">TEXTO</code><span class="text-gray-400 text-xs">string</span></div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">NUMERO</code><span class="text-gray-400 text-xs">number</span></div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">BOOLEANO</code><span class="text-gray-400 text-xs">boolean</span></div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">DATA</code><span class="text-gray-400 text-xs">ISO string</span></div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">QUALQUER</code><span class="text-gray-400 text-xs">any</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">NUMERO</code><span class="text-gray-400 text-xs">n&uacute;mero</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">BOOLEANO</code><span class="text-gray-400 text-xs">booleano</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">DATA</code><span class="text-gray-400 text-xs">string ISO</span></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm"><code class="text-pinky-500 font-mono text-xs">QUALQUER</code><span class="text-gray-400 text-xs">qualquer</span></div>
         </div>
       </div>
     </div>
@@ -336,8 +336,8 @@ repo.delete(<span class="num">2</span>)</pre>
 <!-- Macros -->
 <section id="macros" class="py-16 sm:py-20 px-4 sm:px-6 bg-pinky-50/50">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Compile-Time Macros</h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">AST-level substitution — expanded during the optimization phase, erased before codegen.</p>
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Macros em Tempo de Compila&ccedil;&atilde;o</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Substitui&ccedil;&atilde;o em n&iacute;vel de AST &mdash; expandidas durante a fase de otimiza&ccedil;&atilde;o, removidas antes da gera&ccedil;&atilde;o de c&oacute;digo.</p>
     <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
       <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
         <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
@@ -352,9 +352,9 @@ repo.delete(<span class="num">2</span>)</pre>
 <span class="kw">CRIA</span> r4 = max(square(<span class="num">4</span>), cube(<span class="num">2</span>))</pre>
       </div>
       <div>
-        <p class="text-gray-600 text-sm sm:text-base mb-4">Macros are parsed into <code>MacroDef</code> AST nodes with a parameter list and body. During the optimization phase, the macro expander walks the AST and replaces each <code>CallExpr</code> matching a macro name with the macro's body AST, substituting parameter identifiers with the argument expressions via a shallow copy.</p>
-        <p class="text-gray-600 text-sm sm:text-base mb-4">Expansion is <strong>recursive</strong>: if a macro body contains calls to other macros, those are expanded in a post-substitution pass. The expander tracks a depth counter (default limit: 64) to prevent infinite recursion from circular macro references. After full expansion, all <code>MacroDef</code> nodes are removed from the AST.</p>
-        <p class="text-gray-600 text-sm sm:text-base mb-4">Because expansion operates on the AST rather than text (unlike C preprocessor <code>#define</code>), there is no risk of operator-precedence bugs or unintended token pasting. The resulting AST is then fed through the optimizer and codegen as if the macro bodies were written inline.</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-4">Macros s&atilde;o analisadas em n&oacute;s AST <code>MacroDef</code> com uma lista de par&acirc;metros e corpo. Durante a fase de otimiza&ccedil;&atilde;o, o expandidor de macros percorre a AST e substitui cada <code>CallExpr</code> que corresponde a um nome de macro pelo corpo da macro AST, substituindo identificadores de par&acirc;metros pelas express&otilde;es de argumento via c&oacute;pia superficial.</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-4">A expans&atilde;o &eacute; <strong>recursiva</strong>: se um corpo de macro cont&eacute;m chamadas para outras macros, elas s&atilde;o expandidas em uma passagem p&oacute;s-substitui&ccedil;&atilde;o. O expandidor rastreia um contador de profundidade (limite padr&atilde;o: 64) para evitar recurs&atilde;o infinita de refer&ecirc;ncias circulares de macros. Ap&oacute;s a expans&atilde;o completa, todos os n&oacute;s <code>MacroDef</code> s&atilde;o removidos da AST.</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-4">Como a expans&atilde;o opera na AST em vez de texto (diferente do pr&eacute;-processador C <code>#define</code>), n&atilde;o h&aacute; risco de bugs de preced&ecirc;ncia de operadores ou colagem n&atilde;o intencional de tokens. A AST resultante &eacute; ent&atilde;o alimentada pelo otimizador e gera&ccedil;&atilde;o de c&oacute;digo como se os corpos das macros fossem escritos inline.</p>
       </div>
     </div>
   </div>
@@ -363,18 +363,18 @@ repo.delete(<span class="num">2</span>)</pre>
 <!-- Tests -->
 <section id="tests" class="py-16 sm:py-20 px-4 sm:px-6">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Test Runner</h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">First-class <code>TESTE</code> and <code>AFIRMA</code> AST nodes — parsed, interpreted, and reported by the compiler itself.</p>
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Executor de Testes</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">N&oacute;s AST <code>TESTE</code> e <code>AFIRMA</code> de primeira classe &mdash; analisados, interpretados e relatados pelo pr&oacute;prio compilador.</p>
     <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
       <div>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
           <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
-          <pre class="p-4 text-xs sm:text-sm overflow-x-auto"><span class="kw">TESTE</span> <span class="str">"sum of two numbers"</span> {
+          <pre class="p-4 text-xs sm:text-sm overflow-x-auto"><span class="kw">TESTE</span> <span class="str">&quot;sum of two numbers&quot;</span> {
   <span class="kw">CRIA</span> r = <span class="num">2</span> + <span class="num">3</span>
   <span class="kw">AFIRMA</span>(r == <span class="num">5</span>)
   <span class="kw">ASSUNTO</span>(r, <span class="num">5</span>)
 }
-<span class="kw">TESTE</span> <span class="str">"multiplication"</span> {
+<span class="kw">TESTE</span> <span class="str">&quot;multiplication&quot;</span> {
   <span class="kw">CRIA</span> r = <span class="num">3</span> * <span class="num">4</span>
   <span class="kw">ASSUNTO</span>(r, <span class="num">12</span>)
 }</pre>
@@ -385,15 +385,15 @@ repo.delete(<span class="num">2</span>)</pre>
         </div>
       </div>
       <div>
-        <p class="text-gray-600 text-sm sm:text-base mb-4"><code>TESTE</code> blocks are parsed into <code>TestStmt</code> AST nodes containing an expression (the description) and a statement block. <code>AFIRMA</code> and <code>ASSUNTO</code> are parsed as <code>AssertStmt</code> nodes — the former takes a single boolean expression, the latter takes an actual/expected pair with structural comparison.</p>
-        <p class="text-gray-600 text-sm sm:text-base mb-4">The test runner discovers files by glob pattern (<code>**/*.test.xs</code>) and executes them through the AST interpreter. Each <code>TestStmt</code> is wrapped in a try-catch: assertion failures throw structured <code>AssertionError</code> objects with file/line/diff info. The runner aggregates results and outputs TAP-compatible format with colored pass/fail indicators, execution time per test, and a summary line.</p>
-        <p class="text-gray-600 text-sm sm:text-base mb-4">Exit code 1 on any failure — CI/CD ready. The <code>xs test --watch</code> flag re-runs on file changes using the built-in file watcher.</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-4">Blocos <code>TESTE</code> s&atilde;o analisados em n&oacute;s AST <code>TestStmt</code> contendo uma express&atilde;o (a descri&ccedil;&atilde;o) e um bloco de instru&ccedil;&otilde;es. <code>AFIRMA</code> e <code>ASSUNTO</code> s&atilde;o analisados como n&oacute;s <code>AssertStmt</code> &mdash; o primeiro recebe uma &uacute;nica express&atilde;o booleana, o segundo recebe um par real/esperado com compara&ccedil;&atilde;o estrutural.</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-4">O executor de testes descobre arquivos por padr&atilde;o glob (<code>**/*.test.xs</code>) e os executa atrav&eacute;s do interpretador AST. Cada <code>TestStmt</code> &eacute; envolvido em um try-catch: falhas de asser&ccedil;&atilde;o lan&ccedil;am objetos <code>AssertionError</code> estruturados com informa&ccedil;&otilde;es de arquivo/linha/diff. O executor agrega resultados e gera formato compat&iacute;vel com TAP com indicadores coloridos de passou/falhou, tempo de execu&ccedil;&atilde;o por teste e uma linha de resumo.</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-4">C&oacute;digo de sa&iacute;da 1 em qualquer falha &mdash; pronto para CI/CD. A flag <code>xs test --watch</code> reexecuta ao detectar mudan&ccedil;as em arquivos usando o observador de arquivos embutido.</p>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
-          <div class="px-4 py-2 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">Output</div>
-          <pre class="p-4 text-green-600 text-xs sm:text-sm">  PASS  sum of two numbers (2ms)
-  PASS  multiplication (1ms)
+          <div class="px-4 py-2 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">Sa&iacute;da</div>
+          <pre class="p-4 text-green-600 text-xs sm:text-sm">  PASS  soma de dois n&uacute;meros (2ms)
+  PASS  multiplica&ccedil;&atilde;o (1ms)
 
-  Tests: 2 passed, 2 total</pre>
+  Testes: 2 passaram, 2 total</pre>
         </div>
       </div>
     </div>
@@ -403,23 +403,23 @@ repo.delete(<span class="num">2</span>)</pre>
 <!-- LSP -->
 <section id="lsp" class="py-16 sm:py-20 px-4 sm:px-6 bg-pinky-50/50">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">LSP — Language Server Protocol</h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Stateless LSP server over stdin/stdout JSON-RPC — one-shot parse per request, no persistent state.</p>
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">LSP &mdash; Protocolo de Servidor de Linguagem</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Servidor LSP sem estado via stdin/stdout JSON-RPC &mdash; an&aacute;lise &uacute;nica por requisi&ccedil;&atilde;o, sem estado persistente.</p>
     <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
       <div>
-        <p class="text-gray-600 text-sm sm:text-base mb-3">Start the server with <code class="bg-pinky-50">xs lsp</code>. Implements <code>textDocument/completion</code> (keyword/builtin/identifier completion items with kind and detail), <code>textDocument/hover</code> (Markdown docs for built-in functions with signature), <code>textDocument/definition</code> (resolves variable/function declarations to their source location), and <code>textDocument/diagnostic</code> (full compiler error output mapped to Range, including error code and severity).</p>
+        <p class="text-gray-600 text-sm sm:text-base mb-3">Inicie o servidor com <code class="bg-pinky-50">xs lsp</code>. Implementa <code>textDocument/completion</code> (itens de completa&ccedil;&atilde;o de palavra-chave/builtin/identificador com tipo e detalhe), <code>textDocument/hover</code> (documenta&ccedil;&atilde;o Markdown para fun&ccedil;&otilde;es embutidas com assinatura), <code>textDocument/definition</code> (resolve declara&ccedil;&otilde;es de vari&aacute;veis/fun&ccedil;&otilde;es para sua localiza&ccedil;&atilde;o de origem) e <code>textDocument/diagnostic</code> (sa&iacute;da completa de erro do compilador mapeada para Range, incluindo c&oacute;digo de erro e gravidade).</p>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden mb-6">
           <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">Bash</div>
           <pre class="p-4 text-xs sm:text-sm">xs lsp</pre>
         </div>
         <h4 class="font-semibold mb-3 text-gray-700 text-sm sm:text-base">Neovim</h4>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
-          <pre class="p-4 text-xs sm:text-sm overflow-x-auto">vim.api.nvim_create_autocmd(<span class="str">"FileType"</span>, {
-  pattern = <span class="str">"xs"</span>,
+          <pre class="p-4 text-xs sm:text-sm overflow-x-auto">vim.api.nvim_create_autocmd(<span class="str">&quot;FileType&quot;</span>, {
+  pattern = <span class="str">&quot;xs&quot;</span>,
   callback = <span class="kw">function</span>()
     vim.lsp.start({
-      name = <span class="str">"xanascript"</span>,
-      cmd = { <span class="str">"xs"</span>, <span class="str">"lsp"</span> },
+      name = <span class="str">&quot;xanascript&quot;</span>,
+      cmd = { <span class="str">&quot;xs&quot;</span>, <span class="str">&quot;lsp&quot;</span> },
     })
   <span class="kw">end</span>,
 })</pre>
@@ -427,13 +427,13 @@ repo.delete(<span class="num">2</span>)</pre>
       </div>
       <div>
         <div class="space-y-2 mb-6">
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm">Pull-based diagnostics via <code>textDocument/diagnostic</code></div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm">Completion items with <code>kind</code> (Keyword, Function, Variable)</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm">Hover with Markdown docs from built-in registry</div>
-          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm">Go-to-definition resolves AST node locations</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm">Diagn&oacute;sticos baseados em pull via <code>textDocument/diagnostic</code></div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm">Itens de completa&ccedil;&atilde;o com <code>kind</code> (Keyword, Function, Variable)</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm">Hover com documenta&ccedil;&atilde;o Markdown do registro de fun&ccedil;&otilde;es embutidas</div>
+          <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200 px-3 py-2.5 text-sm">Ir para defini&ccedil;&atilde;o resolve localiza&ccedil;&otilde;es de n&oacute;s AST</div>
         </div>
         <h4 class="font-semibold mb-3 text-gray-700 text-sm sm:text-base">VS Code</h4>
-        <p class="text-gray-600 text-sm sm:text-base">The <code class="bg-pinky-50">vscode-xs/</code> extension integrates LSP automatically on <code class="bg-pinky-50">.xs</code> files. Registers <code>documentFormattingProvider</code> using the built-in formatter and <code>CodeActionProvider</code> with quick-fix suggestions.</p>
+        <p class="text-gray-600 text-sm sm:text-base">A extens&atilde;o <code class="bg-pinky-50">vscode-xs/</code> integra o LSP automaticamente em arquivos <code class="bg-pinky-50">.xs</code>. Registra <code>documentFormattingProvider</code> usando o formatador embutido e <code>CodeActionProvider</code> com sugest&otilde;es de corre&ccedil;&atilde;o r&aacute;pida.</p>
       </div>
     </div>
   </div>
@@ -442,8 +442,8 @@ repo.delete(<span class="num">2</span>)</pre>
 <!-- Errors -->
 <section id="errors" class="py-16 sm:py-20 px-4 sm:px-6">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Rust-Style Errors</h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Structured error objects with code, source location, annotated line, hint, and help — output to stderr.</p>
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Erros Estilo Rust</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Objetos de erro estruturados com c&oacute;digo, localiza&ccedil;&atilde;o de origem, linha anotada, dica e ajuda &mdash; sa&iacute;da para stderr.</p>
     <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
       <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
         <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
@@ -452,18 +452,18 @@ repo.delete(<span class="num">2</span>)</pre>
       </div>
       <div>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
-          <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-red-500 uppercase tracking-wider font-semibold">Error</div>
-          <pre class="p-4 text-red-500 text-xs sm:text-sm overflow-x-auto">ERROR: Variable `z` was not defined
-Code: E002
+          <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-red-500 uppercase tracking-wider font-semibold">Erro</div>
+          <pre class="p-4 text-red-500 text-xs sm:text-sm overflow-x-auto">ERRO: Vari&aacute;vel `z` n&atilde;o foi definida
+C&oacute;digo: E002
 
- --> input.xs:2:11
+ --&gt; input.xs:2:11
 
    1 | CRIA x = 10
- > 2 | CRIA y = z
+ &gt; 2 | CRIA y = z
     |          ^
 
-Hint: Forgot to declare "z" with CRIA?
-Help: Add `CRIA z = value` before using it</pre>
+Dica: Esqueceu de declarar &quot;z&quot; com CRIA?
+Ajuda: Adicione `CRIA z = value` antes de us&aacute;-la</pre>
         </div>
       </div>
     </div>
@@ -474,26 +474,26 @@ Help: Add `CRIA z = value` before using it</pre>
 <section id="comparison" class="py-16 sm:py-20 px-4 sm:px-6 bg-pinky-50/50">
   <div class="max-w-5xl mx-auto">
     <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">XanaScript vs JavaScript / TypeScript</h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">A language that delivers what JS/TS promise — and much more.</p>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Uma linguagem que entrega o que JS/TS prometem &mdash; e muito mais.</p>
     <div class="overflow-x-auto border border-gray-200 rounded-2xl">
       <table class="w-full text-xs sm:text-sm">
-        <thead><tr><th class="text-left font-semibold text-gray-500 p-3 sm:p-4 bg-gray-50">Feature</th><th class="text-left font-semibold text-gray-500 p-3 sm:p-4 bg-gray-50">XanaScript</th><th class="text-left font-semibold text-gray-500 p-3 sm:p-4 bg-gray-50">JavaScript</th><th class="text-left font-semibold text-gray-500 p-3 sm:p-4 bg-gray-50">TypeScript</th></tr></thead>
+        <thead><tr><th class="text-left font-semibold text-gray-500 p-3 sm:p-4 bg-gray-50">Funcionalidade</th><th class="text-left font-semibold text-gray-500 p-3 sm:p-4 bg-gray-50">XanaScript</th><th class="text-left font-semibold text-gray-500 p-3 sm:p-4 bg-gray-50">JavaScript</th><th class="text-left font-semibold text-gray-500 p-3 sm:p-4 bg-gray-50">TypeScript</th></tr></thead>
         <tbody class="text-gray-600">
-          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">PT-BR Syntax</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td></tr>
-          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Direct Wasm</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">Emscripten</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">AssemblyScript</td></tr>
-          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Built-in ORM</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td></tr>
-          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Compile Macros</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td></tr>
-          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Pattern Match</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td></tr>
-          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Loop Unrolling</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td></tr>
-          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">TypedArrays</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Auto</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">Manual</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">Manual</td></tr>
-          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Const Folding</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td></tr>
-          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Rust Errors</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td></tr>
-          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">LSP</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td></tr>
-          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Test Runner</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Native</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">Jest/Mocha</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">Jest/Mocha</td></tr>
-          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Task Runner</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Native</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">Makefile</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">Makefile</td></tr>
-          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Wasm Binary</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td></tr>
-          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Single Binary</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">pkg/bun</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">pkg/bun</td></tr>
-          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Bytecode VM</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Yes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">No</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Sintaxe PT-BR</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Sim</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">N&atilde;o</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">N&atilde;o</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Wasm Direto</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Sim</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">Emscripten</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">AssemblyScript</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">ORM Integrado</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Sim</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">N&atilde;o</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">N&atilde;o</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Macros de Compila&ccedil;&atilde;o</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Sim</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">N&atilde;o</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">N&atilde;o</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Pattern Matching</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Sim</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">N&atilde;o</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">N&atilde;o</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Desenrolamento de La&ccedil;o</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Sim</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">N&atilde;o</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">N&atilde;o</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">TypedArrays</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Autom&aacute;tico</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">Manual</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">Manual</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Dobra de Constantes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Sim</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">N&atilde;o</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">N&atilde;o</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Erros Rust</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Sim</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">N&atilde;o</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">N&atilde;o</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">LSP</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Sim</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">N&atilde;o</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Sim</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Executor de Testes</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Nativo</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">Jest/Mocha</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">Jest/Mocha</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Executor de Tarefas</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Nativo</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">Makefile</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">Makefile</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Bin&aacute;rio Wasm</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Sim</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">N&atilde;o</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">N&atilde;o</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">Bin&aacute;rio &Uacute;nico</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Sim</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">pkg/bun</td><td class="p-3 sm:p-4 border-t border-gray-100 text-amber-500">pkg/bun</td></tr>
+          <tr><td class="p-3 sm:p-4 border-t border-gray-100 font-semibold text-gray-800 whitespace-nowrap">VM Bytecode</td><td class="p-3 sm:p-4 border-t border-gray-100 text-green-600">Sim</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">N&atilde;o</td><td class="p-3 sm:p-4 border-t border-gray-100 text-red-400">N&atilde;o</td></tr>
         </tbody>
       </table>
     </div>
@@ -503,33 +503,33 @@ Help: Add `CRIA z = value` before using it</pre>
 <!-- Architecture -->
 <section id="architecture" class="py-16 sm:py-20 px-4 sm:px-6 bg-white">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Architecture</h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Multi-stage pipeline from Portuguese source to optimized bytecode, JavaScript, or WebAssembly.</p>
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Arquitetura</h2>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Pipeline multi-est&aacute;gio do c&oacute;digo-fonte portugu&ecirc;s para bytecode otimizado, JavaScript ou WebAssembly.</p>
     <div class="flex flex-wrap items-center justify-center gap-3 text-xs sm:text-sm mb-6">
-      <div class="bg-pinky-50 border border-pinky-200 rounded-xl px-4 sm:px-5 py-3 font-semibold text-pinky-600 shadow-sm">Source (.xs)</div>
+      <div class="bg-pinky-50 border border-pinky-200 rounded-xl px-4 sm:px-5 py-3 font-semibold text-pinky-600 shadow-sm">Fonte (.xs)</div>
       <div class="text-gray-300 text-xl sm:text-2xl">&#8594;</div>
       <div class="bg-gray-50 border border-gray-200 rounded-xl px-4 sm:px-5 py-3 text-gray-700 shadow-sm"><span class="font-semibold">Lexer</span><br><span class="text-2xs sm:text-xs text-gray-400">lexer.js</span></div>
       <div class="text-gray-300 text-xl sm:text-2xl">&#8594;</div>
       <div class="bg-gray-50 border border-gray-200 rounded-xl px-4 sm:px-5 py-3 text-gray-700 shadow-sm"><span class="font-semibold">Parser</span><br><span class="text-2xs sm:text-xs text-gray-400">parser.js</span></div>
       <div class="text-gray-300 text-xl sm:text-2xl">&#8594;</div>
-      <div class="bg-gray-50 border border-gray-200 rounded-xl px-4 sm:px-5 py-3 text-gray-700 shadow-sm"><span class="font-semibold">Optimizer</span><br><span class="text-2xs sm:text-xs text-gray-400">opt.js</span></div>
+      <div class="bg-gray-50 border border-gray-200 rounded-xl px-4 sm:px-5 py-3 text-gray-700 shadow-sm"><span class="font-semibold">Otimizador</span><br><span class="text-2xs sm:text-xs text-gray-400">opt.js</span></div>
     </div>
     <div class="grid sm:grid-cols-2 gap-4 sm:gap-6 text-xs sm:text-sm text-gray-600 mb-8">
       <div class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-        <h4 class="font-bold text-gray-800 mb-2">Lexer - DFA-Based Tokenization</h4>
-        <p>The lexer operates as a deterministic finite automaton scanning left-to-right with one-token lookahead. Multi-word keywords (e.g., <code>SE LIGA SO</code>) are matched by consuming consecutive WORD tokens from the stream and checking a keyword dictionary. Unicode support through full <code>String.codePointAt</code> iteration.</p>
+        <h4 class="font-bold text-gray-800 mb-2">Lexer - Tokeniza&ccedil;&atilde;o Baseada em DFA</h4>
+        <p>O lexer opera como um aut&ocirc;mato finito determin&iacute;stico varrendo da esquerda para a direita com lookahead de um token. Palavras-chave multi-palavras (ex.: <code>SE LIGA SO</code>) s&atilde;o correspondidas consumindo tokens WORD consecutivos do fluxo e verificando um dicion&aacute;rio de palavras-chave. Suporte a Unicode atrav&eacute;s de itera&ccedil;&atilde;o completa <code>String.codePointAt</code>.</p>
       </div>
       <div class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-        <h4 class="font-bold text-gray-800 mb-2">Parser - Recursive Descent</h4>
-        <p>Hand-written recursive-descent parser producing a typed AST with 40+ node types. Expressions use precedence climbing (for <code>+</code>, <code>*</code>, comparisons) with left-associativity. Implements panic-mode error recovery - on parse error, skips to the next statement boundary and continues reporting.</p>
+        <h4 class="font-bold text-gray-800 mb-2">Parser - Descida Recursiva</h4>
+        <p>Parser de descida recursiva escrito manualmente produzindo uma AST tipada com mais de 40 tipos de n&oacute;s. Express&otilde;es usam precedence climbing (para <code>+</code>, <code>*</code>, compara&ccedil;&otilde;es) com associatividade &agrave; esquerda. Implementa recupera&ccedil;&atilde;o de erros em modo p&acirc;nico &mdash; ao erro de an&aacute;lise, pula para o pr&oacute;ximo limite de instru&ccedil;&atilde;o e continua reportando.</p>
       </div>
       <div class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-        <h4 class="font-bold text-gray-800 mb-2">Optimizer - Multi-Pass Rewriting</h4>
-        <p>Runs a series of tree walks: <strong>constant folding</strong> (pre-computes <code>2 + 3 * 5</code> at compile time), <strong>loop unrolling</strong> (up to 8 iterations for fixed-range loops), <strong>integer hinting</strong> (annotates variables as integer-only), <strong>function inlining</strong> (for single-call-site functions under 15 nodes).</p>
+        <h4 class="font-bold text-gray-800 mb-2">Otimizador - Reescrita Multi-Passo</h4>
+        <p>Executa uma s&eacute;rie de travessias de &aacute;rvore: <strong>dobra de constantes</strong> (pr&eacute;-computa <code>2 + 3 * 5</code> em tempo de compila&ccedil;&atilde;o), <strong>desenrolamento de la&ccedil;os</strong> (at&eacute; 8 itera&ccedil;&otilde;es para la&ccedil;os de intervalo fixo), <strong>dica de inteiro</strong> (anota vari&aacute;veis como apenas inteiro), <strong>inlining de fun&ccedil;&otilde;es</strong> (para fun&ccedil;&otilde;es com um &uacute;nico ponto de chamada com menos de 15 n&oacute;s).</p>
       </div>
       <div class="bg-gray-50 rounded-xl border border-gray-200 p-5">
-        <h4 class="font-bold text-gray-800 mb-2">Codegen - Three Backends</h4>
-        <p><strong>codegen.js</strong>: direct JS with keyword mapping. <strong>codegen_opt.js</strong>: enhanced JS using TypedArrays and COMBINA emission. <strong>codegen_wasm.js</strong>: emits Wasm binary byte-by-byte with internal linker supporting i32/f64 locals, branching, memory, and exports.</p>
+        <h4 class="font-bold text-gray-800 mb-2">Codegen - Tr&ecirc;s Backends</h4>
+        <p><strong>codegen.js</strong>: JS direto com mapeamento de palavras-chave. <strong>codegen_opt.js</strong>: JS aprimorado usando TypedArrays e emiss&atilde;o COMBINA. <strong>codegen_wasm.js</strong>: emite bin&aacute;rio Wasm byte a byte com linker interno suportando locais i32/f64, desvios, mem&oacute;ria e exporta&ccedil;&otilde;es.</p>
       </div>
     </div>
   </div>
@@ -539,12 +539,12 @@ Help: Add `CRIA z = value` before using it</pre>
 <section id="roadmap" class="py-16 sm:py-20 px-4 sm:px-6 bg-pinky-50/50">
   <div class="max-w-5xl mx-auto">
     <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Roadmap</h2>
-    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">What we have implemented and what is coming next.</p>
+    <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">O que implementamos e o que est&aacute; por vir.</p>
     <div class="grid md:grid-cols-2 gap-8">
       <div>
         <div class="flex items-center gap-3 mb-5">
           <div class="w-3 h-3 rounded-full bg-green-500 shadow-sm shadow-green-200"></div>
-          <h3 class="font-bold text-lg sm:text-xl text-green-700">Implemented</h3>
+          <h3 class="font-bold text-lg sm:text-xl text-green-700">Implementado</h3>
         </div>
         <div class="relative ml-1.5 pl-6 border-l-2 border-green-200 space-y-3">
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
@@ -553,15 +553,15 @@ Help: Add `CRIA z = value` before using it</pre>
           </div>
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
             <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
-            Rust-style errors
+            Erros estilo Rust
           </div>
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
             <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
-            Compile-time macros
+            Macros em tempo de compila&ccedil;&atilde;o
           </div>
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
             <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
-            Built-in ORM
+            ORM Integrado
           </div>
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
             <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
@@ -569,23 +569,23 @@ Help: Add `CRIA z = value` before using it</pre>
           </div>
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
             <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
-            Test + Task runners
+            Executores de Teste + Tarefa
           </div>
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
             <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
-            Direct Wasm emitter
+            Emissor Wasm direto
           </div>
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
             <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
-            VS Code Extension
+            Extens&atilde;o VS Code
           </div>
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
             <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
-            Standalone CLI binary
+            Bin&aacute;rio CLI aut&ocirc;nomo
           </div>
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
             <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
-            Classes/OOP + ISTO
+            Classes/POO + ISTO
           </div>
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
             <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
@@ -593,26 +593,26 @@ Help: Add `CRIA z = value` before using it</pre>
           </div>
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
             <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
-            Template Strings + Try/Catch
+            Strings Template + Try/Catch
           </div>
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
             <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
-            HTTP server built-in
+            Servidor HTTP embutido
           </div>
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
             <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
-            Bytecode VM (26 opcodes)
+            VM Bytecode (26 opcodes)
           </div>
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-green-200 px-4 py-3 text-sm text-gray-700 shadow-sm">
             <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-green-400 border-2 border-white shadow-sm"></div>
-            Package manager
+            Gerenciador de pacotes
           </div>
         </div>
       </div>
       <div>
         <div class="flex items-center gap-3 mb-5">
           <div class="w-3 h-3 rounded-full bg-amber-400 shadow-sm shadow-amber-200"></div>
-          <h3 class="font-bold text-lg sm:text-xl text-amber-600">Coming Soon</h3>
+          <h3 class="font-bold text-lg sm:text-xl text-amber-600">Em Breve</h3>
         </div>
         <div class="relative ml-1.5 pl-6 border-l-2 border-amber-200 space-y-3">
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-amber-200 px-4 py-3 text-sm text-gray-500 shadow-sm">
@@ -621,35 +621,35 @@ Help: Add `CRIA z = value` before using it</pre>
           </div>
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-amber-200 px-4 py-3 text-sm text-gray-500 shadow-sm">
             <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-amber-400 border-2 border-white shadow-sm"></div>
-            super() in classes
+            super() em classes
           </div>
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-amber-200 px-4 py-3 text-sm text-gray-500 shadow-sm">
             <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-amber-400 border-2 border-white shadow-sm"></div>
-            Pattern guards (CASO x if x > 0)
+            Guardas de padr&atilde;o (CASO x if x &gt; 0)
           </div>
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-amber-200 px-4 py-3 text-sm text-gray-500 shadow-sm">
             <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-amber-400 border-2 border-white shadow-sm"></div>
-            Hygienic macros
+            Macros higi&ecirc;nicas
           </div>
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-amber-200 px-4 py-3 text-sm text-gray-500 shadow-sm">
             <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-amber-400 border-2 border-white shadow-sm"></div>
-            VS Code Marketplace publish
+            Publica&ccedil;&atilde;o no VS Code Marketplace
           </div>
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-amber-200 px-4 py-3 text-sm text-gray-500 shadow-sm">
             <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-amber-400 border-2 border-white shadow-sm"></div>
-            Debugger (breakpoints)
+            Depurador (breakpoints)
           </div>
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-amber-200 px-4 py-3 text-sm text-gray-500 shadow-sm">
             <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-amber-400 border-2 border-white shadow-sm"></div>
-            LLVM IR codegen
+            Codegen LLVM IR
           </div>
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-amber-200 px-4 py-3 text-sm text-gray-500 shadow-sm">
             <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-amber-400 border-2 border-white shadow-sm"></div>
-            Builtins: DATA, TEMPO, MATEMATICA
+            Builtins: DATA, TEMPO, MATEM&Aacute;TICA
           </div>
           <div class="relative flex items-center gap-3 bg-white rounded-lg border border-amber-200 px-4 py-3 text-sm text-gray-500 shadow-sm">
             <div class="absolute -left-[1.85rem] w-3 h-3 rounded-full bg-amber-400 border-2 border-white shadow-sm"></div>
-            Package registry
+            Registro de pacotes
           </div>
         </div>
       </div>

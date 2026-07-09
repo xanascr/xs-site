@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<%= lang %>">
+<html lang="pt">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,17 +7,14 @@
 <meta name="description" content="<%= typeof pageDesc !== 'undefined' ? pageDesc : t('hero.subtitle').replace(/<[^>]*>/g, '') %>">
 <meta name="author" content="flazo0">
 <meta name="theme-color" content="#f58b8e">
-<link rel="canonical" href="https://xanascript.xyz/<%= lang === 'en' ? '' : lang + '/' %>">
-<% alternates.forEach(a => { %>
-<link rel="alternate" hreflang="<%= a.lang %>" href="https://xanascript.xyz<%= a.href %>">
-<% }) %>
+<link rel="canonical" href="https://xanascript.xyz/">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="XanaScript">
 <meta property="og:title" content="<%= typeof pageTitle !== 'undefined' ? pageTitle : 'XanaScript' %>">
 <meta property="og:description" content="<%= typeof pageDesc !== 'undefined' ? pageDesc : 'XanaScript is a programming language with Portuguese syntax, optimizing compiler, built-in ORM, and WebAssembly support.' %>">
 <meta property="og:url" content="https://xanascript.xyz/<%= lang === 'en' ? '' : lang + '/' %><%= typeof page !== 'undefined' && page !== 'home' ? page : '' %>">
-<meta property="og:locale" content="<%= lang === 'en' ? 'en_US' : lang === 'pt' ? 'pt_BR' : 'es_ES' %>">
+<meta property="og:locale" content="pt_BR">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="<%= typeof pageTitle !== 'undefined' ? pageTitle : 'XanaScript' %>">
 <meta name="twitter:description" content="<%= typeof pageDesc !== 'undefined' ? pageDesc : 'A programming language with Portuguese syntax, built-in ORM, and Wasm support.' %>">
@@ -247,8 +244,8 @@ pre::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
 <body class="bg-white text-gray-900 antialiased">
 
 <div id="cookieConsent" class="fixed bottom-0 left-0 right-0 z-50 bg-gray-900 text-white px-4 py-4 text-sm flex flex-col sm:flex-row items-center justify-between gap-3 shadow-2xl">
-  <p class="text-gray-300 text-center sm:text-left text-xs sm:text-sm">We use only essential cookies for authentication. No tracking. <a href="<%= lang === 'en' ? '' : '/' + lang %>/privacy" class="text-pinky-400 hover:underline">Learn more</a></p>
-  <button id="cookieConsentBtn" class="xs-btn xs-btn-primary">Got it</button>
+  <p class="text-gray-300 text-center sm:text-left text-xs sm:text-sm">Usamos apenas cookies essenciais para autenticação. Sem rastreamento. <a href="<%= lang === 'en' ? '' : '/' + lang %>/privacy" class="text-pinky-400 hover:underline">Saiba mais</a></p>
+  <button id="cookieConsentBtn" class="xs-btn xs-btn-primary">Entendi</button>
 </div>
 <%- include('search-modal') %>
 <%- include('loading-screen') %>
