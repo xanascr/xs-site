@@ -1,0 +1,1226 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   lesson.css — XanaScript Lesson Prose Styles
+   Inspired by: Vercel Docs, GitHub Docs, TailwindCSS Docs, MDN, Alura
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Custom Properties ─────────────────────────────────────────────────── */
+
+:root {
+  --lesson-bg: #ffffff;
+  --lesson-text: #1f2937;
+  --lesson-text-secondary: #6b7280;
+  --lesson-heading: #111827;
+  --lesson-link: #e11d48;
+  --lesson-link-hover: #be123c;
+  --lesson-code-bg: #f3f4f6;
+  --lesson-code-text: #dc2626;
+  --lesson-pre-bg: #0f172a;
+  --lesson-pre-text: #e2e8f0;
+  --lesson-blockquote-border: #e11d48;
+  --lesson-blockquote-bg: #fff1f2;
+  --lesson-table-border: #e5e7eb;
+  --lesson-table-header-bg: #f9fafb;
+  --lesson-highlight: #fef3c7;
+
+  --lesson-font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --lesson-font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'SF Mono', Monaco, Consolas, monospace;
+
+  --lesson-radius: 12px;
+  --lesson-radius-sm: 8px;
+  --lesson-radius-xs: 6px;
+}
+
+/* ── Base ──────────────────────────────────────────────────────────────── */
+
+.lesson-prose {
+  color: var(--lesson-text);
+  font-family: var(--lesson-font-sans);
+  font-size: 1rem;
+  line-height: 1.75;
+  max-width: 800px;
+  margin: 0 auto;
+  word-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.lesson-prose *,
+.lesson-prose *::before,
+.lesson-prose *::after {
+  box-sizing: border-box;
+}
+
+/* ── Headings ──────────────────────────────────────────────────────────── */
+
+.lesson-prose h1,
+.lesson-prose h2,
+.lesson-prose h3,
+.lesson-prose h4,
+.lesson-prose h5,
+.lesson-prose h6 {
+  color: var(--lesson-heading);
+  font-family: var(--lesson-font-sans);
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+  position: relative;
+}
+
+.lesson-prose h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.3;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  letter-spacing: -0.03em;
+}
+
+.lesson-prose h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.lesson-prose h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.lesson-prose h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.45;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.lesson-prose h5,
+.lesson-prose h6 {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.lesson-prose h6 {
+  color: var(--lesson-text-secondary);
+}
+
+/* ── Paragraphs ────────────────────────────────────────────────────────── */
+
+.lesson-prose p {
+  margin-bottom: 1.25rem;
+  max-width: 70ch;
+  letter-spacing: 0.01em;
+}
+
+.lesson-prose p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Strong / Emphasis ─────────────────────────────────────────────────── */
+
+.lesson-prose strong {
+  font-weight: 700;
+  color: var(--lesson-heading);
+}
+
+.lesson-prose em {
+  font-style: italic;
+}
+
+/* ── Links ─────────────────────────────────────────────────────────────── */
+
+.lesson-prose a {
+  color: var(--lesson-link);
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.lesson-prose a:hover {
+  color: var(--lesson-link-hover);
+  border-bottom-color: var(--lesson-link);
+}
+
+.lesson-prose a:focus-visible {
+  outline: 2px solid var(--lesson-link);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ── Inline Code ───────────────────────────────────────────────────────── */
+
+.lesson-prose p code,
+.lesson-prose li code,
+.lesson-prose td code,
+.lesson-prose h1 code,
+.lesson-prose h2 code,
+.lesson-prose h3 code,
+.lesson-prose h4 code,
+.lesson-prose h5 code,
+.lesson-prose h6 code {
+  background: var(--lesson-code-bg);
+  color: var(--lesson-code-text);
+  padding: 0.15em 0.45em;
+  border-radius: var(--lesson-radius-xs);
+  font-size: 0.875em;
+  font-weight: 500;
+  font-family: var(--lesson-font-mono);
+  border: 1px solid #e5e7eb;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.lesson-prose p code:hover,
+.lesson-prose li code:hover {
+  background: #e5e7eb;
+  border-color: #d1d5db;
+}
+
+/* ── Code Blocks (Pre) ─────────────────────────────────────────────────── */
+
+.lesson-prose pre {
+  background: var(--lesson-pre-bg);
+  color: var(--lesson-pre-text);
+  border-radius: var(--lesson-radius);
+  padding: 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  overflow-x: auto;
+  font-family: var(--lesson-font-mono);
+  margin: 1.5rem 0;
+  position: relative;
+  border: 1px solid #1e293b;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+.lesson-prose pre::before {
+  content: "\25CF \25CF \25CF";
+  position: sticky;
+  left: 0;
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.25rem;
+  color: #334155;
+  line-height: 1;
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.lesson-prose pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+  font-weight: 400;
+  font-family: inherit;
+  border: none;
+}
+
+.lesson-prose pre code:hover {
+  background: none;
+  border-color: transparent;
+}
+
+/* ── Copy button area (positioned inside pre) ─────────────────────────── */
+
+.lesson-prose pre:hover::after {
+  content: "Copy";
+  position: absolute;
+  top: 0.625rem;
+  right: 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  font-family: var(--lesson-font-sans);
+  color: #64748b;
+  background: #1e293b;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  border: 1px solid #334155;
+  cursor: pointer;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.lesson-prose pre:hover::after {
+  opacity: 1;
+}
+
+.lesson-prose pre:active::after {
+  content: "Copied!";
+  color: #22c55e;
+  border-color: #22c55e;
+}
+
+/* ── Code block scrollbar ──────────────────────────────────────────────── */
+
+.lesson-prose pre::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.lesson-prose pre::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.lesson-prose pre::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 3px;
+}
+
+.lesson-prose pre::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* ── Lists ─────────────────────────────────────────────────────────────── */
+
+.lesson-prose ul,
+.lesson-prose ol {
+  padding-left: 1.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.lesson-prose ul {
+  list-style-type: disc;
+}
+
+.lesson-prose ol {
+  list-style-type: decimal;
+}
+
+.lesson-prose li {
+  margin-bottom: 0.4rem;
+  line-height: 1.75;
+}
+
+.lesson-prose li:last-child {
+  margin-bottom: 0;
+}
+
+.lesson-prose ul li::marker {
+  color: var(--lesson-blockquote-border);
+}
+
+.lesson-prose ol li::marker {
+  color: var(--lesson-text-secondary);
+  font-weight: 600;
+}
+
+/* Nested lists */
+
+.lesson-prose ul ul {
+  list-style-type: circle;
+  margin-bottom: 0;
+  margin-top: 0.25rem;
+}
+
+.lesson-prose ul ul ul {
+  list-style-type: square;
+}
+
+.lesson-prose ol ol {
+  list-style-type: lower-alpha;
+  margin-bottom: 0;
+  margin-top: 0.25rem;
+}
+
+.lesson-prose ol ol ol {
+  list-style-type: lower-roman;
+}
+
+.lesson-prose li > p {
+  margin-bottom: 0.5rem;
+}
+
+/* ── Blockquotes ───────────────────────────────────────────────────────── */
+
+.lesson-prose blockquote {
+  border-left: 4px solid var(--lesson-blockquote-border);
+  background: var(--lesson-blockquote-bg);
+  padding: 1rem 1.25rem;
+  border-radius: 0 var(--lesson-radius) var(--lesson-radius) 0;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: #4b5563;
+  position: relative;
+}
+
+.lesson-prose blockquote p {
+  max-width: none;
+  margin-bottom: 0.5rem;
+}
+
+.lesson-prose blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.lesson-prose blockquote cite {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  font-style: normal;
+  color: var(--lesson-text-secondary);
+}
+
+/* ── Tables ────────────────────────────────────────────────────────────── */
+
+.lesson-prose .table-wrapper {
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border-radius: var(--lesson-radius-sm);
+  border: 1px solid var(--lesson-table-border);
+}
+
+.lesson-prose table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.lesson-prose thead {
+  background: var(--lesson-table-header-bg);
+}
+
+.lesson-prose thead tr {
+  background: var(--lesson-table-header-bg);
+}
+
+.lesson-prose th {
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid var(--lesson-table-border);
+  color: #374151;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  background: var(--lesson-table-header-bg);
+}
+
+.lesson-prose th:first-child {
+  border-radius: var(--lesson-radius-sm) 0 0 0;
+}
+
+.lesson-prose th:last-child {
+  border-radius: 0 var(--lesson-radius-sm) 0 0;
+}
+
+.lesson-prose td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--lesson-table-border);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  vertical-align: top;
+}
+
+.lesson-prose tbody tr {
+  transition: background 0.1s ease;
+}
+
+.lesson-prose tbody tr:hover {
+  background: #f9fafb;
+}
+
+.lesson-prose tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ── Images ────────────────────────────────────────────────────────────── */
+
+.lesson-prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--lesson-radius);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  margin: 1.5rem 0;
+  display: block;
+}
+
+.lesson-prose img + em {
+  display: block;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--lesson-text-secondary);
+  margin-top: -0.75rem;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+/* ── Horizontal Rules ──────────────────────────────────────────────────── */
+
+.lesson-prose hr {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #e5e7eb, transparent);
+  margin: 2.5rem 0;
+}
+
+/* ── Callout / Admonition Blocks ───────────────────────────────────────── */
+
+.lesson-prose .lesson-callout {
+  padding: 1rem 1.25rem;
+  border-radius: var(--lesson-radius);
+  margin: 1.5rem 0;
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+}
+
+.lesson-prose .lesson-callout-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  width: 1.5rem;
+  line-height: 1.5;
+}
+
+.lesson-prose .lesson-callout.note {
+  background: #f0f9ff;
+  border-left: 4px solid #3b82f6;
+  border-radius: 0 var(--lesson-radius) var(--lesson-radius) 0;
+}
+
+.lesson-prose .lesson-callout.tip {
+  background: #f0fdf4;
+  border-left: 4px solid #22c55e;
+  border-radius: 0 var(--lesson-radius) var(--lesson-radius) 0;
+}
+
+.lesson-prose .lesson-callout.warning {
+  background: #fefce8;
+  border-left: 4px solid #eab308;
+  border-radius: 0 var(--lesson-radius) var(--lesson-radius) 0;
+}
+
+.lesson-prose .lesson-callout.danger {
+  background: #fef2f2;
+  border-left: 4px solid #ef4444;
+  border-radius: 0 var(--lesson-radius) var(--lesson-radius) 0;
+}
+
+.lesson-prose .lesson-callout p {
+  margin-bottom: 0.5rem;
+  max-width: none;
+}
+
+.lesson-prose .lesson-callout p:last-child {
+  margin-bottom: 0;
+}
+
+.lesson-prose .lesson-callout code {
+  font-size: 0.85em;
+}
+
+/* ── Details / Summary ─────────────────────────────────────────────────── */
+
+.lesson-prose details {
+  margin: 1.5rem 0;
+  padding: 0.75rem 1rem;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: var(--lesson-radius-sm);
+}
+
+.lesson-prose summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--lesson-heading);
+  font-size: 0.9375rem;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.lesson-prose summary:hover {
+  color: var(--lesson-link);
+}
+
+.lesson-prose details[open] summary {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.lesson-prose details p {
+  font-size: 0.9375rem;
+}
+
+/* ── Keyboard (kbd) ────────────────────────────────────────────────────── */
+
+.lesson-prose kbd {
+  display: inline-block;
+  padding: 0.2em 0.5em;
+  font-size: 0.8em;
+  font-family: var(--lesson-font-mono);
+  font-weight: 500;
+  color: #374151;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  box-shadow: inset 0 -1px 0 #d1d5db;
+  line-height: 1.4;
+  vertical-align: middle;
+}
+
+/* ── Mark / Highlight ──────────────────────────────────────────────────── */
+
+.lesson-prose mark {
+  background: var(--lesson-highlight);
+  color: #92400e;
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+
+/* ── Superscript / Subscript ───────────────────────────────────────────── */
+
+.lesson-prose sup,
+.lesson-prose sub {
+  font-size: 0.75em;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+.lesson-prose sup {
+  top: -0.5em;
+}
+
+.lesson-prose sub {
+  bottom: -0.25em;
+}
+
+/* ── Abbreviations ─────────────────────────────────────────────────────── */
+
+.lesson-prose abbr[title] {
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+  cursor: help;
+}
+
+/* ── Definition Lists ──────────────────────────────────────────────────── */
+
+.lesson-prose dl {
+  margin: 1.25rem 0;
+}
+
+.lesson-prose dt {
+  font-weight: 700;
+  color: var(--lesson-heading);
+  margin-top: 0.75rem;
+}
+
+.lesson-prose dd {
+  margin-left: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--lesson-text);
+}
+
+/* ── Small text ────────────────────────────────────────────────────────── */
+
+.lesson-prose small {
+  font-size: 0.875em;
+  color: var(--lesson-text-secondary);
+}
+
+/* ── Figure ────────────────────────────────────────────────────────────── */
+
+.lesson-prose figure {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.lesson-prose figcaption {
+  font-size: 0.875rem;
+  color: var(--lesson-text-secondary);
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* ── highlight.js Syntax Highlighting (XanaScript theme) ─────────────── */
+
+.lesson-prose pre code .hljs-keyword {
+  color: #a855f7;
+  font-weight: 600;
+}
+
+.lesson-prose pre code .hljs-string {
+  color: #22c55e;
+}
+
+.lesson-prose pre code .hljs-number {
+  color: #f59e0b;
+}
+
+.lesson-prose pre code .hljs-comment {
+  color: #64748b;
+  font-style: italic;
+}
+
+.lesson-prose pre code .hljs-function,
+.lesson-prose pre code .hljs-title.function_ {
+  color: #3b82f6;
+}
+
+.lesson-prose pre code .hljs-built_in {
+  color: #ec4899;
+}
+
+.lesson-prose pre code .hljs-type {
+  color: #06b6d4;
+}
+
+.lesson-prose pre code .hljs-operator {
+  color: #8b5cf6;
+}
+
+.lesson-prose pre code .hljs-variable {
+  color: #e2e8f0;
+}
+
+.lesson-prose pre code .hljs-attr {
+  color: #14b8a6;
+}
+
+.lesson-prose pre code .hljs-literal {
+  color: #f59e0b;
+}
+
+.lesson-prose pre code .hljs-selector-tag {
+  color: #a855f7;
+  font-weight: 600;
+}
+
+.lesson-prose pre code .hljs-selector-class {
+  color: #3b82f6;
+}
+
+.lesson-prose pre code .hljs-selector-id {
+  color: #ec4899;
+}
+
+.lesson-prose pre code .hljs-regexp {
+  color: #22c55e;
+}
+
+.lesson-prose pre code .hljs-symbol {
+  color: #14b8a6;
+}
+
+.lesson-prose pre code .hljs-bullet {
+  color: #64748b;
+}
+
+.lesson-prose pre code .hljs-section {
+  color: #3b82f6;
+  font-weight: 700;
+}
+
+.lesson-prose pre code .hljs-meta {
+  color: #64748b;
+}
+
+.lesson-prose pre code .hljs-deletion {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.lesson-prose pre code .hljs-addition {
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.08);
+}
+
+.lesson-prose pre code .hljs-params {
+  color: #e2e8f0;
+}
+
+.lesson-prose pre code .hljs-property {
+  color: #06b6d4;
+}
+
+.lesson-prose pre code .hljs-punctuation {
+  color: #64748b;
+}
+
+.lesson-prose pre code .hljs-tag {
+  color: #a855f7;
+}
+
+.lesson-prose pre code .hljs-name {
+  color: #ec4899;
+}
+
+.lesson-prose pre code .hljs-title {
+  color: #3b82f6;
+  font-weight: 600;
+}
+
+.lesson-prose pre code .hljs-title.class_ {
+  color: #06b6d4;
+}
+
+.lesson-prose pre code .hljs-link {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+/* ── Responsive Tables (auto-wrapped) ──────────────────────────────────── */
+
+.lesson-prose table:not(.table-wrapper table) {
+  display: block;
+  overflow-x: auto;
+  border-radius: var(--lesson-radius-sm);
+  border: 1px solid var(--lesson-table-border);
+}
+
+/* ── Selection ─────────────────────────────────────────────────────────── */
+
+.lesson-prose ::selection {
+  background: rgba(225, 29, 72, 0.15);
+  color: var(--lesson-text);
+}
+
+.lesson-prose pre ::selection {
+  background: rgba(168, 85, 247, 0.35);
+  color: var(--lesson-pre-text);
+}
+
+/* ── Focus visible utility ─────────────────────────────────────────────── */
+
+.lesson-prose :focus-visible {
+  outline: 2px solid var(--lesson-link);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ── Smooth scroll for anchor links ────────────────────────────────────── */
+
+.lesson-prose [id] {
+  scroll-margin-top: 80px;
+}
+
+/* ── Heading anchor hover effect ───────────────────────────────────────── */
+
+.lesson-prose h1:hover::before,
+.lesson-prose h2:hover::before,
+.lesson-prose h3:hover::before,
+.lesson-prose h4:hover::before,
+.lesson-prose h5:hover::before,
+.lesson-prose h6:hover::before {
+  content: "#";
+  position: absolute;
+  left: -1.25rem;
+  color: var(--lesson-text-secondary);
+  font-weight: 400;
+  opacity: 0.5;
+}
+
+/* ── First heading no top margin ───────────────────────────────────────── */
+
+.lesson-prose > h1:first-child,
+.lesson-prose > h2:first-child,
+.lesson-prose > h3:first-child {
+  margin-top: 0;
+}
+
+/* ── Table of Contents integration ─────────────────────────────────────── */
+
+.lesson-prose .toc {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: var(--lesson-radius-sm);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.lesson-prose .toc-title {
+  font-weight: 700;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--lesson-text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.lesson-prose .toc ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.lesson-prose .toc ul ul {
+  padding-left: 1.25rem;
+}
+
+.lesson-prose .toc li {
+  margin-bottom: 0.25rem;
+}
+
+.lesson-prose .toc a {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--lesson-text);
+  border-bottom: none;
+}
+
+.lesson-prose .toc a:hover {
+  color: var(--lesson-link);
+  border-bottom: none;
+}
+
+/* ── Video embeds ──────────────────────────────────────────────────────── */
+
+.lesson-prose video {
+  max-width: 100%;
+  border-radius: var(--lesson-radius);
+  margin: 1.5rem 0;
+  display: block;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+/* ── Iframe embeds ─────────────────────────────────────────────────────── */
+
+.lesson-prose iframe {
+  max-width: 100%;
+  border-radius: var(--lesson-radius-sm);
+  margin: 1.5rem 0;
+  border: 1px solid #e5e7eb;
+}
+
+/* ── Math blocks ───────────────────────────────────────────────────────── */
+
+.lesson-prose .math {
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  text-align: center;
+  font-size: 1.125rem;
+}
+
+/* ── Subscript / Superscript in table cells ────────────────────────────── */
+
+.lesson-prose td sup,
+.lesson-prose td sub {
+  font-size: 0.7em;
+}
+
+/* ── Print Styles ──────────────────────────────────────────────────────── */
+
+@media print {
+  .lesson-prose {
+    max-width: none;
+    font-size: 12pt;
+    color: #000;
+  }
+
+  .lesson-prose pre {
+    background: #f3f3f3 !important;
+    color: #000 !important;
+    border: 1px solid #ccc;
+    box-shadow: none;
+  }
+
+  .lesson-prose pre::before {
+    display: none;
+  }
+
+  .lesson-prose a {
+    color: #000;
+    border-bottom: 1px solid #000;
+  }
+
+  .lesson-prose blockquote {
+    border-left-color: #999;
+    background: #f9f9f9;
+  }
+
+  .lesson-prose h1,
+  .lesson-prose h2 {
+    border-bottom-color: #ccc;
+  }
+
+  .lesson-prose img {
+    box-shadow: none;
+  }
+}
+
+/* ── Responsive: Tablet (<768px) ────────────────────────────────────────── */
+
+@media (max-width: 767.98px) {
+  .lesson-prose {
+    font-size: 0.9375rem;
+    max-width: 100%;
+  }
+
+  .lesson-prose h1 {
+    font-size: 1.75rem;
+  }
+
+  .lesson-prose h2 {
+    font-size: 1.375rem;
+  }
+
+  .lesson-prose h3 {
+    font-size: 1.15rem;
+  }
+
+  .lesson-prose pre {
+    padding: 1rem;
+    font-size: 0.85rem;
+  }
+
+  .lesson-prose pre::before {
+    margin-bottom: 0.75rem;
+    font-size: 0.55rem;
+  }
+
+  .lesson-prose table {
+    font-size: 0.8125rem;
+  }
+
+  .lesson-prose th,
+  .lesson-prose td {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .lesson-prose .lesson-callout {
+    font-size: 0.9rem;
+    padding: 0.875rem 1rem;
+  }
+
+  .lesson-prose blockquote {
+    padding: 0.75rem 1rem;
+  }
+
+  .lesson-prose .table-wrapper {
+    border-radius: var(--lesson-radius-xs);
+  }
+
+  .lesson-prose h1:hover::before,
+  .lesson-prose h2:hover::before,
+  .lesson-prose h3:hover::before,
+  .lesson-prose h4:hover::before,
+  .lesson-prose h5:hover::before,
+  .lesson-prose h6:hover::before {
+    display: none;
+  }
+}
+
+/* ── Responsive: Mobile (<480px) ────────────────────────────────────────── */
+
+@media (max-width: 479.98px) {
+  .lesson-prose {
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
+
+  .lesson-prose h1 {
+    font-size: 1.5rem;
+    margin-top: 1.75rem;
+  }
+
+  .lesson-prose h2 {
+    font-size: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .lesson-prose h3 {
+    font-size: 1.075rem;
+  }
+
+  .lesson-prose h4 {
+    font-size: 1rem;
+  }
+
+  .lesson-prose p {
+    max-width: none;
+  }
+
+  .lesson-prose pre {
+    padding: 0.875rem;
+    font-size: 0.8rem;
+    border-radius: var(--lesson-radius-sm);
+  }
+
+  .lesson-prose pre::before {
+    margin-bottom: 0.625rem;
+    font-size: 0.5rem;
+    letter-spacing: 0.2rem;
+  }
+
+  .lesson-prose ul,
+  .lesson-prose ol {
+    padding-left: 1.25rem;
+  }
+
+  .lesson-prose blockquote {
+    padding: 0.625rem 0.875rem;
+    margin: 1rem 0;
+  }
+
+  .lesson-prose th,
+  .lesson-prose td {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+  }
+
+  .lesson-prose .lesson-callout {
+    font-size: 0.875rem;
+    padding: 0.75rem;
+    gap: 0.5rem;
+    flex-direction: column;
+  }
+
+  .lesson-prose .lesson-callout-icon {
+    width: auto;
+  }
+
+  .lesson-prose img {
+    border-radius: var(--lesson-radius-sm);
+    margin: 1rem 0;
+  }
+
+  .lesson-prose hr {
+    margin: 1.5rem 0;
+  }
+
+  .lesson-prose details {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .lesson-prose .toc {
+    padding: 0.75rem 1rem;
+  }
+
+  .lesson-prose kbd {
+    font-size: 0.75em;
+    padding: 0.15em 0.4em;
+  }
+}
+
+/* ── Reduced Motion ────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .lesson-prose a,
+  .lesson-prose p code,
+  .lesson-prose li code,
+  .lesson-prose tbody tr {
+    transition: none;
+  }
+
+  .lesson-prose ::selection {
+    transition: none;
+  }
+}
+
+/* ── Dark Mode Support (opt-in via class on html) ──────────────────────────
+
+   To enable: add class="lesson-dark" to <html>. By default, prose remains
+   light (documentation reading area). Code blocks stay dark always.
+
+.lesson-dark .lesson-prose {
+  --lesson-bg: transparent;
+  --lesson-text: #e2e8f0;
+  --lesson-text-secondary: #94a3b8;
+  --lesson-heading: #f1f5f9;
+  --lesson-code-bg: #1e293b;
+  --lesson-code-text: #fca5a5;
+  --lesson-blockquote-bg: #1e1b1b;
+  --lesson-table-border: #334155;
+  --lesson-table-header-bg: #1e293b;
+  --lesson-highlight: #422006;
+  color: var(--lesson-text);
+}
+
+.lesson-dark .lesson-prose h1,
+.lesson-dark .lesson-prose h2,
+.lesson-dark .lesson-prose h3,
+.lesson-dark .lesson-prose h4,
+.lesson-dark .lesson-prose h5,
+.lesson-dark .lesson-prose h6 {
+  color: var(--lesson-heading);
+}
+
+.lesson-dark .lesson-prose a {
+  color: #fca5a5;
+}
+
+.lesson-dark .lesson-prose a:hover {
+  color: #f87171;
+}
+
+.lesson-dark .lesson-prose strong {
+  color: var(--lesson-heading);
+}
+
+.lesson-dark .lesson-prose blockquote {
+  color: #cbd5e1;
+}
+
+.lesson-dark .lesson-prose th {
+  color: #e2e8f0;
+}
+
+.lesson-dark .lesson-prose td {
+  color: #cbd5e1;
+}
+
+.lesson-dark .lesson-prose tbody tr:hover {
+  background: #1e293b;
+}
+
+.lesson-dark .lesson-prose kbd {
+  background: #1e293b;
+  color: #e2e8f0;
+  border-color: #475569;
+  box-shadow: inset 0 -1px 0 #475569;
+}
+
+.lesson-dark .lesson-prose mark {
+  background: #422006;
+  color: #fde68a;
+}
+
+.lesson-dark .lesson-prose details {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+.lesson-dark .lesson-prose summary {
+  color: var(--lesson-heading);
+}
+
+.lesson-dark .lesson-prose p code,
+.lesson-dark .lesson-prose li code {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+.lesson-dark .lesson-prose .toc {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+.lesson-dark .lesson-prose .toc a {
+  color: #cbd5e1;
+}
+
+.lesson-dark .lesson-prose .toc a:hover {
+  color: #fca5a5;
+}
+*/
+
+/* ── End of lesson.css ──────────────────────────────────────────────────── */
