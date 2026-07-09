@@ -51,31 +51,34 @@
           </div>
         <% } %>
 
-        <h2 class="text-xl font-bold mb-4">Course Content (<%= (course.lessons || []).length %> lessons)</h2>
-        <div class="space-y-2">
-          <% (course.lessons || []).forEach(function(lesson) { %>
-            <% var idx = (course.lessons || []).indexOf(lesson) %>
-            <% var prog = enrollment ? (enrollment.progress || []).find(function(p) { return p.lessonSlug === lesson.slug }) : null %>
-            <% var done = prog && prog.completed %>
-            <a href="/<%= lang %>/courses/<%= course.slug %>/lessons/<%= lesson.slug %>" class="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 no-underline transition-all hover:border-pinky-400 hover:shadow-sm <%= done ? 'border-green-200 bg-green-50/40' : '' %>">
-              <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 <%= done ? 'bg-green-500 text-white' : 'bg-gray-100 text-gray-400' %>">
-                <%= done ? '✓' : (idx + 1) %>
-              </div>
-              <div class="flex-1 min-w-0">
-                <div class="font-semibold text-sm text-gray-800 truncate"><%= lesson.title %></div>
-                <div class="flex items-center gap-2 text-xs text-gray-400">
-                  <span><%= lesson.points || 0 %> pts</span>
-                  <% if (lesson.challenges && lesson.challenges.length > 0) { %><span>&middot; <%= lesson.challenges.length %> challenge(s)</span><% } %>
-                </div>
-              </div>
-              <div class="flex items-center gap-2 shrink-0">
-                <% if (enrollment && !enrollment.certificateEligible && !done) { %><span class="text-xs font-semibold text-pinky-400">Start</span><% } %>
-                <% if (done) { %><span class="text-xs font-semibold text-green-500">Done</span><% } %>
-                <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-              </div>
-            </a>
-          <% }) %>
-        </div>
+        <% var moduleSize = 7; var lessonCount = (course.lessons || []).length; var moduleCount = Math.ceil(lessonCount / moduleSize); %>
+        <h2 class="text-xl font-bold mb-4">Course Content (<%= lessonCount %> lessons)</h2>
+        <% for (var modIdx = 0; modIdx < moduleCount; modIdx++) { %>
+          <div class="mb-6">
+            <div class="flex items-center gap-2 mb-2">
+              <h3 class="text-base font-bold text-gray-700">Module <%= modIdx + 1 %></h3>
+              <a href="/<%= lang %>/courses/<%= course.slug %>/quiz/<%= modIdx %>" class="ml-auto text-xs font-semibold text-pinky-500 hover:text-pinky-600 no-underline">Take Quiz &rarr;</a>
+            </div>
+            <div class="space-y-1.5">
+              <% for (var li = modIdx * moduleSize; li < Math.min((modIdx + 1) * moduleSize, lessonCount); li++) { %>
+                <%
+                var lesson = course.lessons[li];
+                var prog = enrollment ? (enrollment.progress || []).find(function(p) { return p.lessonSlug === lesson.slug }) : null;
+                var done = prog && prog.completed;
+                %>
+                <a href="/<%= lang %>/courses/<%= course.slug %>/lessons/<%= lesson.slug %>" class="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-2.5 no-underline transition-all hover:border-pinky-400 hover:shadow-sm <%= done ? 'border-green-200 bg-green-50/40' : '' %>">
+                  <div class="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 <%= done ? 'bg-green-500 text-white' : 'bg-gray-100 text-gray-400' %>"><%= done ? '✓' : (li + 1) %></div>
+                  <div class="flex-1 min-w-0">
+                    <div class="font-semibold text-sm text-gray-800 truncate"><%= lesson.title %></div>
+                    <div class="text-xs text-gray-400"><%= lesson.points || 0 %> pts<% if (lesson.challenges && lesson.challenges.length > 0) { %> &middot; <%= lesson.challenges.length %> challenge(s)<% } %></div>
+                  </div>
+                  <% if (!done) { %><span class="text-xs font-semibold text-pinky-400 shrink-0"><%= (!prog || !prog.completed) && enrollment ? 'Start' : '' %></span><% } %>
+                  <svg class="w-4 h-4 text-gray-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </a>
+              <% } %>
+            </div>
+          </div>
+        <% } %>
       </div>
     </div>
   </div>

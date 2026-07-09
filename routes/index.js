@@ -7,6 +7,7 @@ import Package from "../models/Package.js";
 import Course from "../models/Course.js";
 import Enrollment from "../models/Enrollment.js";
 import Certificate from "../models/Certificate.js";
+import ModuleQuiz from "../models/ModuleQuiz.js";
 import { sanitizeHtml } from "../services/sanitize.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -226,6 +227,19 @@ router.get("/:lang(en|pt|es)?/courses/:slug/lessons/:lessonSlug", async (req, re
   } catch {
     res.status(404).render(`${lang}/404`, { lang });
   }
+});
+
+router.get("/:lang(en|pt|es)?/courses/:slug/quiz/:moduleIdx", async (req, res) => {
+  const lang = req.params.lang || "en";
+  try {
+    const course = await Course.findOne({ slug: req.params.slug, published: true }).lean();
+    if (!course) return res.status(404).render(`${lang}/404`, { lang });
+    const moduleIndex = parseInt(req.params.moduleIdx);
+    if (isNaN(moduleIndex)) return res.status(404).render(`${lang}/404`, { lang });
+    const quiz = await ModuleQuiz.findOne({ courseId: course._id, moduleIndex }).lean();
+    if (!quiz) return res.status(404).render(`${lang}/404`, { lang });
+    res.render(`${lang}/courses/quiz`, { lang, course, quiz, moduleIndex, page: "courses" });
+  } catch { res.status(404).render(`${lang}/404`, { lang }); }
 });
 
 router.get("/:lang(en|pt|es)?/courses/:slug/certificate", async (req, res) => {

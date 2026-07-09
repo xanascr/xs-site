@@ -18,6 +18,7 @@ import reviewsRouter from "./routes/api/reviews.js";
 import commentsRouter from "./routes/api/comments.js";
 import leaderboardRouter from "./routes/api/leaderboard.js";
 import searchRouter from "./routes/api/search.js";
+import quizzesRouter from "./routes/api/quizzes.js";
 import multer from "multer";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -113,6 +114,7 @@ app.use("/api/packages", reviewsRouter);
 app.use("/api/courses", commentsRouter);
 app.use("/api/leaderboard", leaderboardRouter);
 app.use("/api/search", searchRouter);
+app.use("/api/quizzes", quizzesRouter);
 
 app.use((req, res) => {
   const fallbackLang = req.lang || "en";

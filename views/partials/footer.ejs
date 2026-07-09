@@ -39,6 +39,7 @@
   var output = document.getElementById('output');
   var runBtn = document.getElementById('runBtn');
   var clearBtn = document.getElementById('clearBtn');
+  var shareBtn = document.getElementById('shareBtn');
   var codeEditor = document.getElementById('codeEditor');
   var editorContainer = document.getElementById('editorContainer');
   var examplesBar = document.getElementById('examplesBar');
@@ -126,10 +127,24 @@
       clearErrorLine();
     });
   }
+  if (shareBtn) {
+    shareBtn.addEventListener('click', function() {
+      var code = cmEditor.getValue();
+      var url = window.location.origin + window.location.pathname + '?code=' + encodeURIComponent(code);
+      navigator.clipboard.writeText(url).then(function() {
+        var orig = shareBtn.textContent;
+        shareBtn.textContent = 'Copied!';
+        setTimeout(function() { shareBtn.textContent = orig; }, 2000);
+      });
+    });
+  }
 
   (function() {
     var m = window.location.hash.match(/code=([^&]+)/);
     if (m) { cmEditor.setValue(decodeURIComponent(m[1])); }
+    var params = new URLSearchParams(window.location.search);
+    var c = params.get('code');
+    if (c) cmEditor.setValue(decodeURIComponent(c));
   })();
 })();
 </script>
