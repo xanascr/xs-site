@@ -91,6 +91,7 @@ async function getNpmDownloads() {
 
 app.use(async (req, res, next) => {
   res.locals.lang = "pt";
+  res.locals.alternates = [];
   res.locals.npmDownloads = await getNpmDownloads();
   next();
 });

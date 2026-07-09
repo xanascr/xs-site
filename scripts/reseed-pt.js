@@ -1,7 +1,7 @@
 import "dotenv/config";
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://31.97.23.227:27017/xanascript";
+const MONGODB_URI = process.env.MONGODB_URI;
 
 import { seedCoursePt } from "./seed-course-pt.js";
 
