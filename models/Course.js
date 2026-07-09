@@ -32,7 +32,6 @@ const courseSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now },
 });
 
-courseSchema.index({ slug: 1 }, { unique: true });
 courseSchema.index({ published: 1 });
 
 courseSchema.pre("save", function (next) {

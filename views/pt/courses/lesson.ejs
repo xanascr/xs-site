@@ -29,7 +29,7 @@
                   <div class="bg-gray-50 border border-gray-200 rounded-xl p-4">
                     <p class="font-semibold text-sm text-gray-800 mb-2">Desafio <%= i + 1 %>: <%= ch.question %></p>
                     <div class="flex items-center gap-2">
-                      <input type="text" class="challenge-input xs-input w-full" data-idx="<%= i %>" data-answer="<%= ch.answer.replace(/"/g, '&quot;') %>" placeholder="Digite sua resposta..." <%= isCompleted ? 'disabled' : '' %>>
+                      <input type="text" class="challenge-input xs-input w-full" data-idx="<%= i %>" data-answer="<%= ch.answer.replace(/"/g, '&quot;') %>" placeholder="Digite sua resposta..." <%= isDisabled ? 'disabled' : '' %>>
                       <span class="challenge-result text-sm font-semibold w-20 text-center"></span>
                     </div>
                     <div class="challenge-feedback text-xs mt-1 hidden"></div>
