@@ -6,7 +6,7 @@
 
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
   <div class="max-w-4xl mx-auto animate-fade-in">
-    <a href="/packages" class="text-sm text-gray-400 hover:text-pinky-400 no-underline inline-flex items-center gap-1">&lt;- Voltar</a>
+    <a href="/packages" class="text-sm text-gray-400 hover:text-pinky-400 no-underline inline-flex items-center gap-1">&larr; Voltar</a>
 
     <div class="xs-card mt-6 overflow-hidden">
       <div class="p-8 pb-6">
@@ -210,7 +210,7 @@ function loadReviews() {
 
 function starsHtml(n) {
   var s = '';
-  for (var i = 1; i <= 5; i++) s += '<span class="text-amber-400 text-sm">' + (i <= n ? '*' : 'O') + '</span>';
+  for (var i = 1; i <= 5; i++) s += '<span class="text-amber-400 text-sm">' + (i <= n ? '\u2605' : '\u2606') + '</span>';
   return s;
 }
 

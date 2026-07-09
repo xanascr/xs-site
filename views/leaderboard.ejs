@@ -31,9 +31,9 @@
     var html = '<div class="grid gap-2">';
     data.leaderboard.forEach(function(u, i) {
       var medal = '';
-      if (i === 0) medal = '<span class="text-amber-400 font-bold text-sm">#1</span>';
-      else if (i === 1) medal = '<span class="text-gray-400 font-bold text-sm">#2</span>';
-      else if (i === 2) medal = '<span class="text-orange-400 font-bold text-sm">#3</span>';
+      if (i === 0) medal = '🥇';
+      else if (i === 1) medal = '🥈';
+      else if (i === 2) medal = '🥉';
       else medal = '<span class="text-gray-300 font-mono w-6 inline-block text-center">' + u.rank + '</span>';
       html += '<div class="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 transition-all hover:border-pinky-200 hover:shadow-sm">'
         + '<div class="w-8 text-center shrink-0 text-lg">' + medal + '</div>'

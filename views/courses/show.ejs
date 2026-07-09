@@ -3,7 +3,7 @@
 
 <section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
   <div class="max-w-4xl mx-auto">
-    <a href="/courses" class="text-sm text-gray-400 hover:text-pinky-400 no-underline mb-4 inline-block">&lt;- Voltar para cursos</a>
+    <a href="/courses" class="text-sm text-gray-400 hover:text-pinky-400 no-underline mb-4 inline-block">&larr; Voltar para cursos</a>
 
     <div class="xs-card xs-card-glass animate-fade-in">
       <div class="p-6 sm:p-8">
@@ -57,7 +57,7 @@
           <div class="mb-6">
             <div class="flex items-center gap-2 mb-2">
               <h3 class="text-base font-bold text-gray-700">Módulo <%= modIdx + 1 %></h3>
-              <a href="/courses/<%= course.slug %>/quiz/<%= modIdx %>" class="ml-auto text-xs font-semibold text-pinky-500 hover:text-pinky-600 no-underline">Fazer Quiz -&gt;</a>
+              <a href="/courses/<%= course.slug %>/quiz/<%= modIdx %>" class="ml-auto text-xs font-semibold text-pinky-500 hover:text-pinky-600 no-underline">Fazer Quiz &rarr;</a>
             </div>
             <div class="space-y-1.5">
               <% for (var li = modIdx * moduleSize; li < Math.min((modIdx + 1) * moduleSize, lessonCount); li++) { %>

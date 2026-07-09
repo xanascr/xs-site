@@ -21,7 +21,7 @@ if (lesson.bodyMd) {
 %>
 <div id="focusOverlay" class="fixed inset-0 z-[60] bg-white hidden">
   <div class="flex items-center h-12 px-4 border-b border-gray-200 bg-white">
-    <button id="exitFocusBtn" class="text-xs text-gray-400 hover:text-gray-600 flex items-center gap-1">&lt;- Sair do Modo Foco</button>
+    <button id="exitFocusBtn" class="text-xs text-gray-400 hover:text-gray-600 flex items-center gap-1">&larr; Sair do Modo Foco</button>
     <span class="ml-auto text-xs text-gray-400"><%= lesson.title %></span>
   </div>
   <iframe id="focusFrame" class="w-full h-[calc(100%-3rem)] border-0"></iframe>
@@ -65,7 +65,7 @@ if (lesson.bodyMd) {
     <!-- Main content -->
     <div class="flex-1 min-w-0">
       <div class="max-w-4xl mx-auto px-4 sm:px-0">
-        <a href="/courses/<%= course.slug %>" class="text-sm text-gray-400 hover:text-pinky-400 no-underline mb-4 inline-block">&lt;- Voltar ao curso</a>
+        <a href="/courses/<%= course.slug %>" class="text-sm text-gray-400 hover:text-pinky-400 no-underline mb-4 inline-block">&larr; Voltar ao curso</a>
 
         <div class="xs-card xs-card-glass animate-fade-in">
           <div class="p-6 sm:p-8">
@@ -122,14 +122,14 @@ if (lesson.bodyMd) {
             <div class="flex items-center justify-between mt-6 pt-4 border-t border-gray-100">
               <div>
                 <% if (hasPrev) { %>
-                  <a href="/courses/<%= course.slug %>/lessons/<%= course.lessons[prevIdx].slug %>" class="text-sm text-gray-400 hover:text-pinky-500 no-underline inline-flex items-center gap-1">&lt;- Anterior</a>
+                  <a href="/courses/<%= course.slug %>/lessons/<%= course.lessons[prevIdx].slug %>" class="text-sm text-gray-400 hover:text-pinky-500 no-underline inline-flex items-center gap-1">&larr; Anterior</a>
                 <% } %>
               </div>
               <div>
                 <% if (hasNext) { %>
-                  <a href="/courses/<%= course.slug %>/lessons/<%= course.lessons[nextIdx].slug %>" id="nextLessonBtn" class="text-sm font-semibold text-pinky-500 hover:text-pinky-600 no-underline inline-flex items-center gap-1">Proximo -&gt;</a>
+                  <a href="/courses/<%= course.slug %>/lessons/<%= course.lessons[nextIdx].slug %>" id="nextLessonBtn" class="text-sm font-semibold text-pinky-500 hover:text-pinky-600 no-underline inline-flex items-center gap-1">Proximo &rarr;</a>
                 <% } else { %>
-                  <a href="/courses/<%= course.slug %>/certificate" class="text-sm font-semibold text-pinky-500 hover:text-pinky-600 no-underline inline-flex items-center gap-1">Certificado -&gt;</a>
+                  <a href="/courses/<%= course.slug %>/certificate" class="text-sm font-semibold text-pinky-500 hover:text-pinky-600 no-underline inline-flex items-center gap-1">Certificado &rarr;</a>
                 <% } %>
               </div>
             </div>
@@ -328,7 +328,7 @@ if (lesson.bodyMd) {
         }
         if (isCorrect) {
           inp.classList.add('border-green-300', 'bg-green-50');
-          if (resultSpan) { resultSpan.textContent = 'Correto'; resultSpan.className = 'challenge-result text-sm font-semibold w-20 text-center text-green-600'; }
+          if (resultSpan) { resultSpan.textContent = '\u2713 Correto'; resultSpan.className = 'challenge-result text-sm font-semibold w-20 text-center text-green-600'; }
           if (fb) { fb.textContent = ''; fb.classList.add('hidden'); }
         } else {
           inp.classList.add('border-red-300');
@@ -338,7 +338,7 @@ if (lesson.bodyMd) {
         }
       });
       if (allCorrect && completeBtn) {
-        completeBtn.textContent = 'Tudo certo! Concluir ->';
+        completeBtn.textContent = 'Tudo certo! Concluir \u2192';
         completeBtn.className = 'xs-btn xs-btn-primary animate-pulse';
       }
     });
