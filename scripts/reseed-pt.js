@@ -1,18 +1,17 @@
 import "dotenv/config";
 import mongoose from "mongoose";
+
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://31.97.23.227:27017/xanascript";
+
 import { seedCoursePt } from "./seed-course-pt.js";
 
 async function reseed() {
-  const uri = process.env.MONGODB_URI;
-  if (!uri) {
-    console.error("MONGODB_URI not set in .env");
-    process.exit(1);
-  }
   try {
-    await mongoose.connect(uri);
+    await mongoose.connect(MONGODB_URI);
     console.log("Connected to MongoDB");
 
     const db = mongoose.connection.db;
+    if (!db) { console.error("No db instance"); process.exit(1); }
     const collections = await db.listCollections().toArray();
     const names = collections.map(c => c.name);
     const dropTargets = ["courses", "modulequizzes", "enrollments", "certificates", "quizattempts"];
