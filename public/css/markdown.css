@@ -1,0 +1,773 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   markdown.css — XanaScript Package README Prose Styles
+   Inspired by: GitHub, Vercel Docs, TailwindCSS Docs, lesson.css
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Custom Properties ─────────────────────────────────────────────────── */
+
+:root {
+  --md-bg: #ffffff;
+  --md-text: #24292f;
+  --md-text-secondary: #656d76;
+  --md-heading: #1f2328;
+  --md-link: #e11d48;
+  --md-link-hover: #be123c;
+  --md-code-bg: #fff0f0;
+  --md-code-text: #d44a4f;
+  --md-pre-bg: #0f172a;
+  --md-pre-text: #e2e8f0;
+  --md-pre-border: #1e293b;
+  --md-blockquote-border: #e11d48;
+  --md-blockquote-bg: #fff1f2;
+  --md-table-border: #d0d7de;
+  --md-table-header-bg: #f6f8fa;
+  --md-table-stripe: #fafbfc;
+  --md-table-hover: #f3f4f6;
+  --md-highlight: #fef3c7;
+  --md-hr-color: #d0d7de;
+
+  --md-font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  --md-font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'SF Mono', Monaco, Consolas, monospace;
+
+  --md-radius: 12px;
+  --md-radius-sm: 8px;
+  --md-radius-xs: 6px;
+}
+
+/* ── Base ──────────────────────────────────────────────────────────────── */
+
+.markdown-body {
+  color: var(--md-text);
+  font-family: var(--md-font-sans);
+  font-size: 15px;
+  line-height: 1.7;
+  word-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.markdown-body *,
+.markdown-body *::before,
+.markdown-body *::after {
+  box-sizing: border-box;
+}
+
+/* ── Headings ──────────────────────────────────────────────────────────── */
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  font-family: var(--md-font-sans);
+  font-weight: 700;
+  color: var(--md-heading);
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  scroll-margin-top: 90px;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--md-hr-color);
+}
+
+.markdown-body h2 {
+  font-size: 1.5em;
+  padding-bottom: 0.25em;
+  border-bottom: 1px solid var(--md-hr-color);
+}
+
+.markdown-body h3 {
+  font-size: 1.25em;
+  font-weight: 600;
+}
+
+.markdown-body h4 {
+  font-size: 1em;
+  font-weight: 600;
+}
+
+.markdown-body h5 {
+  font-size: 0.875em;
+  font-weight: 600;
+  color: var(--md-text-secondary);
+}
+
+.markdown-body h6 {
+  font-size: 0.85em;
+  font-weight: 600;
+  color: var(--md-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.markdown-body h1:first-child,
+.markdown-body h2:first-child {
+  margin-top: 0;
+}
+
+/* ── Paragraphs ────────────────────────────────────────────────────────── */
+
+.markdown-body p {
+  margin: 0 0 16px;
+}
+
+.markdown-body p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Links ─────────────────────────────────────────────────────────────── */
+
+.markdown-body a {
+  color: var(--md-link);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.markdown-body a:hover {
+  color: var(--md-link-hover);
+  text-decoration: underline;
+}
+
+/* ── Inline Code ───────────────────────────────────────────────────────── */
+
+.markdown-body code {
+  background: var(--md-code-bg);
+  color: var(--md-code-text);
+  padding: 2px 6px;
+  border-radius: var(--md-radius-xs);
+  font-family: var(--md-font-mono);
+  font-size: 0.875em;
+  font-weight: 500;
+}
+
+.markdown-body a code {
+  color: inherit;
+}
+
+/* ── Code Blocks ───────────────────────────────────────────────────────── */
+
+.markdown-body pre {
+  position: relative;
+  margin: 0 0 20px;
+  padding: 20px;
+  background: var(--md-pre-bg);
+  border: 1px solid var(--md-pre-border);
+  border-radius: var(--md-radius);
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.6;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+}
+
+/* macOS-style header dots */
+.markdown-body pre::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 18px 0 0 #f59e0b, 36px 0 0 #22c55e;
+  pointer-events: none;
+}
+
+.markdown-body pre code {
+  display: block;
+  padding: 8px 0 0;
+  background: none !important;
+  color: var(--md-pre-text) !important;
+  font-size: inherit !important;
+  font-weight: 400;
+  border-radius: 0 !important;
+  line-height: inherit !important;
+}
+
+/* Code block scrollbar */
+.markdown-body pre::-webkit-scrollbar {
+  height: 8px;
+}
+
+.markdown-body pre::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.markdown-body pre::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+
+.markdown-body pre::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* ── Highlight.js Theme (XanaScript dark) ──────────────────────────────── */
+
+.markdown-body pre code .hljs-keyword,
+.markdown-body pre code .hljs-selector-tag {
+  color: #f472b6;
+  font-weight: 600;
+}
+
+.markdown-body pre code .hljs-string,
+.markdown-body pre code .hljs-regexp,
+.markdown-body pre code .hljs-addition {
+  color: #a5d6ff;
+}
+
+.markdown-body pre code .hljs-number,
+.markdown-body pre code .hljs-literal {
+  color: #fbbf24;
+}
+
+.markdown-body pre code .hljs-built_in,
+.markdown-body pre code .hljs-title,
+.markdown-body pre code .hljs-title.function_ {
+  color: #67e8f9;
+  font-weight: 600;
+}
+
+.markdown-body pre code .hljs-title.class_,
+.markdown-body pre code .hljs-type {
+  color: #a78bfa;
+  font-weight: 600;
+}
+
+.markdown-body pre code .hljs-comment {
+  color: #6b7280;
+  font-style: italic;
+}
+
+.markdown-body pre code .hljs-attr,
+.markdown-body pre code .hljs-property {
+  color: #93c5fd;
+}
+
+.markdown-body pre code .hljs-params,
+.markdown-body pre code .hljs-variable {
+  color: #e2e8f0;
+}
+
+.markdown-body pre code .hljs-operator,
+.markdown-body pre code .hljs-punctuation {
+  color: #94a3b8;
+}
+
+.markdown-body pre code .hljs-symbol {
+  color: #fbbf24;
+}
+
+.markdown-body pre code .hljs-section {
+  color: #f472b6;
+  font-weight: 700;
+}
+
+.markdown-body pre code .hljs-meta {
+  color: #94a3b8;
+}
+
+.markdown-body pre code .hljs-deletion {
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.15);
+}
+
+.markdown-body pre code .hljs-link {
+  color: #67e8f9;
+  text-decoration: underline;
+}
+
+/* ── Blockquotes ───────────────────────────────────────────────────────── */
+
+.markdown-body blockquote {
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  color: var(--md-text);
+  border-left: 4px solid var(--md-blockquote-border);
+  background: var(--md-blockquote-bg);
+  border-radius: 0 var(--md-radius-xs) var(--md-radius-xs) 0;
+}
+
+.markdown-body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body blockquote p:first-child {
+  margin-top: 0;
+}
+
+/* ── Lists ─────────────────────────────────────────────────────────────── */
+
+.markdown-body ul,
+.markdown-body ol {
+  margin: 0 0 16px;
+  padding-left: 2em;
+}
+
+.markdown-body ul {
+  list-style-type: disc;
+}
+
+.markdown-body ul ul {
+  list-style-type: circle;
+}
+
+.markdown-body ul ul ul {
+  list-style-type: square;
+}
+
+.markdown-body ol {
+  list-style-type: decimal;
+}
+
+.markdown-body ol ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body ol ol ol {
+  list-style-type: lower-roman;
+}
+
+.markdown-body li {
+  margin: 0.25em 0;
+  line-height: 1.6;
+}
+
+.markdown-body li > p {
+  margin: 0 0 8px;
+}
+
+.markdown-body li:last-child > p:last-child {
+  margin-bottom: 0;
+}
+
+/* Checkbox lists (GitHub-style task lists) */
+.markdown-body ul.contains-task-list {
+  padding-left: 0;
+  list-style: none;
+}
+
+.markdown-body .task-list-item {
+  list-style: none;
+  margin: 4px 0;
+}
+
+.markdown-body .task-list-item input[type="checkbox"] {
+  margin: 0 8px 0 0;
+  accent-color: var(--md-link);
+}
+
+/* ── Horizontal Rules ───────────────────────────────────────────────────── */
+
+.markdown-body hr {
+  height: 1px;
+  background: var(--md-hr-color);
+  border: none;
+  margin: 28px 0;
+}
+
+/* ── Tables ─────────────────────────────────────────────────────────────── */
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin: 0 0 16px;
+  border-radius: var(--md-radius-sm);
+  border: 1px solid var(--md-table-border);
+}
+
+.table-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+.markdown-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  min-width: max-content;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+  padding: 10px 14px;
+  border: 1px solid var(--md-table-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.markdown-body table th {
+  background: var(--md-table-header-bg);
+  font-weight: 600;
+  color: var(--md-heading);
+  white-space: nowrap;
+}
+
+.markdown-body table tr:nth-child(even) {
+  background: var(--md-table-stripe);
+}
+
+.markdown-body table tr:hover {
+  background: var(--md-table-hover);
+}
+
+.markdown-body table tr:last-child td:first-child {
+  border-bottom-left-radius: var(--md-radius-sm);
+}
+
+.markdown-body table tr:last-child td:last-child {
+  border-bottom-right-radius: var(--md-radius-sm);
+}
+
+/* ── Images ────────────────────────────────────────────────────────────── */
+
+.markdown-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--md-radius-sm);
+  margin: 20px 0;
+  display: block;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.markdown-body img + br {
+  display: none;
+}
+
+/* ── Details / Summary ─────────────────────────────────────────────────── */
+
+.markdown-body details {
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  background: #f6f8fa;
+  border: 1px solid var(--md-table-border);
+  border-radius: var(--md-radius-sm);
+}
+
+.markdown-body summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--md-heading);
+  user-select: none;
+}
+
+.markdown-body summary:hover {
+  color: var(--md-link);
+}
+
+.markdown-body details[open] summary {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--md-table-border);
+}
+
+/* ── Keyboard Shortcuts ─────────────────────────────────────────────── */
+
+.markdown-body kbd {
+  display: inline-block;
+  padding: 3px 7px;
+  font-size: 0.8em;
+  font-family: var(--md-font-mono);
+  background: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-radius: var(--md-radius-xs);
+  box-shadow: inset 0 -1px 0 #d0d7de;
+  line-height: 1.4;
+}
+
+/* ── Definition Lists ──────────────────────────────────────────────────────── */
+
+.markdown-body dl {
+  margin: 0 0 16px;
+}
+
+.markdown-body dt {
+  font-weight: 600;
+  color: var(--md-heading);
+  margin-top: 8px;
+}
+
+.markdown-body dd {
+  margin-left: 20px;
+  color: var(--md-text);
+}
+
+/* ── Callouts (admonitions) ────────────────────────────────────────────── */
+
+.md-callout {
+  margin: 0 0 16px;
+  padding: 14px 16px 14px 44px;
+  border-radius: var(--md-radius-sm);
+  border-left: 4px solid;
+  position: relative;
+  line-height: 1.5;
+}
+
+.md-callout::before {
+  position: absolute;
+  left: 14px;
+  top: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.md-callout.note {
+  background: #f0f9ff;
+  border-left-color: #3b82f6;
+  color: #1e40af;
+}
+
+.md-callout.note::before {
+  content: "\2139\FE0F";
+}
+
+.md-callout.tip {
+  background: #f0fdf4;
+  border-left-color: #22c55e;
+  color: #166534;
+}
+
+.md-callout.tip::before {
+  content: "\1F4A1";
+}
+
+.md-callout.warning {
+  background: #fffbeb;
+  border-left-color: #f59e0b;
+  color: #92400e;
+}
+
+.md-callout.warning::before {
+  content: "\26A0\FE0F";
+}
+
+.md-callout.danger {
+  background: #fef2f2;
+  border-left-color: #ef4444;
+  color: #991b1b;
+}
+
+.md-callout.danger::before {
+  content: "\26D4";
+}
+
+.md-callout p:last-child {
+  margin-bottom: 0;
+}
+
+.md-callout p:first-of-type {
+  margin-top: 0;
+}
+
+/* ── Alerts (GitHub-style) ─────────────────────────────────────────────── */
+
+.markdown-body blockquote.note {
+  border-left-color: #3b82f6;
+  background: #f0f9ff;
+}
+
+.markdown-body blockquote.tip {
+  border-left-color: #22c55e;
+  background: #f0fdf4;
+}
+
+.markdown-body blockquote.important {
+  border-left-color: #8b5cf6;
+  background: #f5f3ff;
+}
+
+.markdown-body blockquote.warning {
+  border-left-color: #f59e0b;
+  background: #fffbeb;
+}
+
+.markdown-body blockquote.caution {
+  border-left-color: #ef4444;
+  background: #fef2f2;
+}
+
+.markdown-body blockquote.note p strong:first-child,
+.markdown-body blockquote.tip p strong:first-child,
+.markdown-body blockquote.important p strong:first-child,
+.markdown-body blockquote.warning p strong:first-child,
+.markdown-body blockquote.caution p strong:first-child {
+  display: inline;
+}
+
+/* ── Footnotes ─────────────────────────────────────────────────────────── */
+
+.markdown-body sup[id^="fnref"] {
+  font-size: 0.75em;
+}
+
+.markdown-body .footnotes {
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 1px solid var(--md-hr-color);
+  font-size: 0.875em;
+  color: var(--md-text-secondary);
+}
+
+.markdown-body .footnotes ol {
+  padding-left: 1.5em;
+}
+
+.markdown-body .footnotes li:target {
+  background: var(--md-highlight);
+}
+
+/* ── Abbreviations ──────────────────────────────────────────────────────── */
+
+.markdown-body abbr[title] {
+  text-decoration: underline dotted;
+  cursor: help;
+}
+
+/* ── Strikethrough ────────────────────────────────────────────────────── */
+
+.markdown-body s {
+  text-decoration: line-through;
+  color: var(--md-text-secondary);
+}
+
+/* ── Subscript / Superscript ───────────────────────────────────────────── */
+
+.markdown-body sub,
+.markdown-body sup {
+  font-size: 0.75em;
+  line-height: 0;
+}
+
+/* ── Scrollbar (body-level) ────────────────────────────────────────────── */
+
+.markdown-body ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.markdown-body ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.markdown-body ::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+.markdown-body ::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* ── Utility: Reduced Motion ───────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .markdown-body a {
+    transition: none;
+  }
+}
+
+/* ── Print ─────────────────────────────────────────────────────────────── */
+
+@media print {
+  .markdown-body {
+    color: #000;
+    font-size: 12px;
+  }
+
+  .markdown-body pre {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    page-break-inside: avoid;
+    white-space: pre-wrap;
+  }
+
+  .markdown-body pre::before {
+    display: none;
+  }
+
+  .markdown-body a {
+    color: #000;
+    text-decoration: underline;
+  }
+
+  .markdown-body blockquote {
+    border-left: 3px solid #999;
+    background: none;
+  }
+
+  .markdown-body table {
+    font-size: 11px;
+  }
+
+  .markdown-body h1,
+  .markdown-body h2 {
+    border-bottom-color: #ccc;
+  }
+
+  .markdown-body img {
+    max-width: 100% !important;
+    page-break-inside: avoid;
+  }
+}
+
+/* ── Small Screens ──────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .markdown-body {
+    font-size: 14px;
+  }
+
+  .markdown-body h1 {
+    font-size: 1.5em;
+  }
+
+  .markdown-body h2 {
+    font-size: 1.25em;
+  }
+
+  .markdown-body h3 {
+    font-size: 1.125em;
+  }
+
+  .markdown-body pre {
+    padding: 16px;
+    font-size: 12px;
+  }
+
+  .markdown-body pre::before {
+    top: 12px;
+    left: 12px;
+    width: 8px;
+    height: 8px;
+    box-shadow: 14px 0 0 #f59e0b, 28px 0 0 #22c55e;
+  }
+
+  .markdown-body blockquote {
+    padding: 10px 14px;
+  }
+
+  .markdown-body table {
+    font-size: 13px;
+  }
+
+  .markdown-body table th,
+  .markdown-body table td {
+    padding: 6px 10px;
+  }
+}

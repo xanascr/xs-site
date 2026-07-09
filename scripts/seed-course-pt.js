@@ -166,51 +166,9 @@ SOLTA O GRITO(a + b + c)  // 6
     ],
   },
   {
-    slug: "constantes-com-constante",
-    title: "Constantes com CONSTANTE",
-    order: 5,
-    points: 10,
-    bodyMd: `\`CONSTANTE\` declara uma ligação imutável e somente leitura:
-
-\`\`\`xs
-CONSTANTE PI = 3.14159
-CONSTANTE NOME_APP = "XanaScript"
-CONSTANTE VERSAO = "1.0.0"
-\`\`\`
-
-## Reatribuição é Proibida
-
-\`\`\`xs
-CONSTANTE MAX_USERS = 100
-// MAX_USERS = 200  // Erro! Não é possível reatribuir uma constante
-\`\`\`
-
-## Quando Usar
-
-- Valores que nunca devem mudar (constantes matemáticas, configuração)
-- Endpoints de API, nomes de ambiente
-- Qualquer ligação para proteger de mutação acidental
-
-## CRIA vs CONSTANTE
-
-| Aspecto | CRIA | CONSTANTE |
-|---------|------|-----------|
-| Mutável | Sim | Não |
-| Reatribuir | Permitido | Proibido |
-
-## Melhor Prática
-
-Sempre prefira \`CONSTANTE\` por padrão. Use \`CRIA\` apenas quando o valor precisar mudar.`,
-    challenges: [
-      { question: "Qual palavra-chave cria uma variável imutável?", answer: "CONSTANTE", points: 3 },
-      { question: "Uma CONSTANTE pode ser reatribuída?", answer: "não", points: 3 },
-      { question: "Qual você deve preferir por padrão: CRIA ou CONSTANTE?", answer: "CONSTANTE", points: 5 },
-    ],
-  },
-  {
     slug: "comentarios",
     title: "Comentários",
-    order: 6,
+    order: 5,
     points: 5,
     bodyMd: `Comentários são ignorados pelo compilador e existem apenas para humanos que leem o código.
 
@@ -247,58 +205,9 @@ Use comentários multilinha para documentação de funções explicando o que a 
     ],
   },
   {
-    slug: "tipos-de-dados",
-    title: "Tipos de Dados",
-    order: 7,
-    points: 10,
-    bodyMd: `XanaScript tem cinco tipos nativos.
-
-## TEXTO (String)
-
-\`\`\`xs
-CRIA saudacao = "Olá, Mundo!"
-CRIA vazio = ""
-\`\`\`
-
-## NUMERO (Number)
-
-\`\`\`xs
-CRIA inteiro = 42
-CRIA decimal = 3.14
-CRIA negativo = -10
-\`\`\`
-
-## BOOLEANO (Boolean)
-
-\`\`\`xs
-CRIA ativo = VERDADEIRO   // true
-CRIA inativo = FALSO      // false
-\`\`\`
-
-## DATA (Date)
-
-\`\`\`xs
-CRIA hoje = DATA("2026-07-08")
-\`\`\`
-
-## QUALQUER (Any)
-
-\`\`\`xs
-CRIA flexivel = QUALQUER("pode ser qualquer coisa")
-flexivel = 42  // OK
-\`\`\`
-
-Cada tipo serve a um propósito específico. A inferência de tipos lida com eles automaticamente.`,
-    challenges: [
-      { question: "Quantos tipos de dados nativos o XanaScript possui?", answer: "5", points: 3 },
-      { question: "Qual é a palavra-chave para booleano verdadeiro?", answer: "VERDADEIRO", points: 3 },
-      { question: "Qual tipo permite que qualquer valor seja atribuído?", answer: "QUALQUER", points: 3 },
-    ],
-  },
-  {
     slug: "inferencia-de-tipos",
     title: "Inferência de Tipos",
-    order: 8,
+    order: 6,
     points: 10,
     bodyMd: `XanaScript detecta automaticamente o tipo de uma variável com base em seu valor.
 
@@ -337,7 +246,7 @@ Para clareza, você pode anotar tipos: \`CRIA nome: TEXTO = "João"\`.`,
   {
     slug: "strings-em-detalhe",
     title: "Strings em Detalhe",
-    order: 9,
+    order: 7,
     points: 10,
     bodyMd: `Strings (\`TEXTO\`) são codificadas em UTF-8.
 
@@ -380,7 +289,7 @@ Use \`+\` para interpolar valores em strings. Strings em XanaScript são imutáv
   {
     slug: "numeros-em-detalhe",
     title: "Números em Detalhe",
-    order: 10,
+    order: 8,
     points: 10,
     bodyMd: `Números (\`NUMERO\`) cobrem tanto inteiros quanto ponto flutuante. Valores são floats de 64 bits (IEEE 754).
 
@@ -432,7 +341,7 @@ x /= 4   // x = x / 4
   {
     slug: "booleanos",
     title: "Booleanos",
-    order: 11,
+    order: 9,
     points: 5,
     bodyMd: `Booleanos (\`BOOLEANO\`) representam valores verdadeiros: \`VERDADEIRO\` (true) e \`FALSO\` (false).
 
@@ -472,7 +381,7 @@ SE LIGA SO ("") {
   {
     slug: "nulo-e-indefinido",
     title: "Nulo e Indefinido",
-    order: 12,
+    order: 10,
     points: 5,
     bodyMd: `Dois valores especiais para "sem valor".
 
@@ -516,7 +425,7 @@ CRIA nome = usuario ?? "Convidado"
   {
     slug: "conversao-de-tipos",
     title: "Conversão de Tipos",
-    order: 13,
+    order: 11,
     points: 10,
     bodyMd: `Funções nativas para converter entre tipos.
 
@@ -556,7 +465,7 @@ Strings numéricas são convertidas implicitamente em contextos aritméticos.`,
   {
     slug: "operadores",
     title: "Operadores",
-    order: 14,
+    order: 12,
     points: 10,
     bodyMd: `Um conjunto completo de operadores para aritmética, comparação, lógica e atribuição.
 
@@ -602,7 +511,7 @@ E   OU   NAO   !
   {
     slug: "precedencia-de-operadores",
     title: "Precedência de Operadores",
-    order: 15,
+    order: 13,
     points: 5,
     bodyMd: `Determina a ordem de avaliação em expressões (da maior para a menor):
 
@@ -638,7 +547,7 @@ Use parênteses para esclarecer a intenção.`,
   {
     slug: "se-liga-so",
     title: "SE LIGA SO (If Statements)",
-    order: 16,
+    order: 14,
     points: 10,
     bodyMd: `\`SE LIGA SO\` ("preste atenção") é a instrução \`if\` do XanaScript.
 
@@ -677,7 +586,7 @@ Sempre use chaves mesmo para instruções únicas.`,
   {
     slug: "senao",
     title: "SENAO (Else Clauses)",
-    order: 17,
+    order: 15,
     points: 10,
     bodyMd: `\`SENAO\` ("senão") fornece o ramo alternativo.
 
@@ -712,7 +621,7 @@ O ramo \`SENAO\` executa apenas quando a condição é falsa.`,
   {
     slug: "senao-se",
     title: "SENAO SE (Else If Chains)",
-    order: 18,
+    order: 16,
     points: 10,
     bodyMd: `\`SENAO SE\` ("senão se") encadeia múltiplas condições.
 
@@ -752,7 +661,7 @@ Condições são avaliadas de cima para baixo. A primeira correspondente executa
   {
     slug: "condicionais-aninhadas",
     title: "Condicionais Aninhadas",
-    order: 19,
+    order: 17,
     points: 10,
     bodyMd: `Coloque \`SE LIGA SO\` dentro de outros blocos \`SE LIGA SO\`.
 
@@ -789,7 +698,7 @@ Mantenha o aninhamento em 3 níveis ou menos.`,
   {
     slug: "expressoes-ternarias",
     title: "Expressões Ternárias",
-    order: 20,
+    order: 18,
     points: 10,
     bodyMd: `Condicional inline usando \`? :\`.
 
@@ -825,7 +734,7 @@ Use para escolhas binárias simples. Evite encadeamento profundo.`,
   {
     slug: "combina-basico",
     title: "COMBINA Básico (Switch/Match)",
-    order: 21,
+    order: 19,
     points: 10,
     bodyMd: `\`COMBINA\` é pattern matching, similar a \`switch\`/\`match\`.
 
@@ -865,7 +774,7 @@ Cada braço retorna um valor. O wildcard \`_\` corresponde a qualquer coisa.`,
   {
     slug: "combina-intervalos",
     title: "COMBINA com Intervalos",
-    order: 22,
+    order: 20,
     points: 10,
     bodyMd: `Use operadores de comparação em braços \`CASO\`.
 
@@ -904,7 +813,7 @@ COMBINA com intervalos é muito mais expressivo que switch tradicional.`,
   {
     slug: "combina-wildcards",
     title: "COMBINA Wildcards (_)",
-    order: 23,
+    order: 21,
     points: 5,
     bodyMd: `O sublinhado \`_\` corresponde a qualquer valor.
 
@@ -939,7 +848,7 @@ O wildcard deve ser o **último** braço porque corresponde a tudo.`,
   {
     slug: "expressoes-combina",
     title: "Expressões COMBINA (Retornando Valores)",
-    order: 24,
+    order: 22,
     points: 10,
     bodyMd: `COMBINA é uma expressão, não apenas uma instrução.
 
@@ -984,7 +893,7 @@ Usar COMBINA como expressão leva a código mais declarativo.`,
   {
     slug: "avaliacao-de-curto-circuito",
     title: "Avaliação de Curto-Circuito",
-    order: 25,
+    order: 23,
     points: 5,
     bodyMd: `O operando direito só é avaliado se necessário.
 
@@ -1026,7 +935,7 @@ SE LIGA SO (!dados OU !dados.nome) { VOLTA FALSO }
   {
     slug: "tipo-numero",
     title: "Tipo: NUMERO",
-    order: 26,
+    order: 24,
     points: 5,
     bodyMd: `Todos os números em XanaScript são do tipo \`NUMERO\` — inteiros e floats.
 
@@ -1074,7 +983,7 @@ CRIA b = 10 // 3  // 3 (divisão inteira)
   {
     slug: "tipo-texto",
     title: "Tipo: TEXTO",
-    order: 27,
+    order: 25,
     points: 5,
     bodyMd: `Strings em XanaScript usam aspas duplas e são do tipo \`TEXTO\`.
 
@@ -1115,7 +1024,7 @@ CRIA saudacao = "Ola, \${nome}!"  // "Ola, Joao!"
   {
     slug: "tipo-booleano",
     title: "Tipo: BOOLEANO",
-    order: 28,
+    order: 26,
     points: 5,
     bodyMd: `Booleanos representam valores lógicos de verdade.
 
@@ -1152,7 +1061,7 @@ SE LIGA SO (1)    { SOLTA O GRITO("truthy") }  // executa
   {
     slug: "tipo-lista",
     title: "Tipo: LISTA",
-    order: 29,
+    order: 27,
     points: 5,
     bodyMd: `Arrays em XanaScript são chamados de \`LISTA\`.
 
@@ -1193,7 +1102,7 @@ Listas declaradas com \`CRIA\` são mutáveis. Use \`CONSTANTE\` para imutável.
   {
     slug: "tipo-dicionario",
     title: "Tipo: DICIONARIO",
-    order: 30,
+    order: 28,
     points: 5,
     bodyMd: `Dicionários em XanaScript são mapas chave-valor, tipo \`DICIONARIO\`.
 
@@ -1240,7 +1149,7 @@ Chaves são sempre strings. Valores podem ser qualquer tipo.`,
   {
     slug: "tipo-opcional",
     title: "Tipo: OPCIONAL",
-    order: 31,
+    order: 29,
     points: 5,
     bodyMd: `Tipos opcionais lidam com valores anuláveis de forma segura.
 
@@ -1289,7 +1198,7 @@ Optionals previnem erros de referência nula em tempo de compilação.`,
   {
     slug: "inferencia-de-tipos-2",
     title: "Inferência de Tipos",
-    order: 32,
+    order: 30,
     points: 10,
     bodyMd: `XanaScript infere tipos automaticamente. Anotações são opcionais.
 
@@ -1334,7 +1243,7 @@ CHAMA ESSE CARA busca(id: NUMERO): TEXTO? { ... }
   {
     slug: "conversao-de-tipos-2",
     title: "Conversão de Tipos",
-    order: 33,
+    order: 31,
     points: 10,
     bodyMd: `Conversão explícita entre tipos usa funções nativas.
 
@@ -1385,7 +1294,7 @@ Sempre prefira conversão explícita para clareza.`,
   {
     slug: "funcoes-basico",
     title: "Fundamentos de Funções",
-    order: 34,
+    order: 32,
     points: 5,
     bodyMd: `Funções são declaradas com \`CHAMA ESSE CARA\` ("chame esse cara").
 
@@ -1427,7 +1336,7 @@ Parâmetros e tipos de retorno podem ser anotados. O tipo de retorno segue a lis
   {
     slug: "valores-de-retorno",
     title: "Valores de Retorno",
-    order: 35,
+    order: 33,
     points: 5,
     bodyMd: `Use \`VOLTA\` ("volta") para retornar um valor de uma função.
 
@@ -1480,7 +1389,7 @@ CHAMA ESSE CARA minMax(lista) {
   {
     slug: "parametros-e-padroes",
     title: "Parâmetros e Valores Padrão",
-    order: 36,
+    order: 34,
     points: 5,
     bodyMd: `Funções suportam parâmetros padrão e params rest.
 
@@ -1534,7 +1443,7 @@ Chamar com número errado de argumentos é um erro de compilação.`,
   {
     slug: "funcoes-como-primeira-classe",
     title: "Funções como Primeira Classe",
-    order: 37,
+    order: 35,
     points: 10,
     bodyMd: `Funções são valores — atribua a variáveis, passe como argumentos.
 
@@ -1582,7 +1491,7 @@ Isso permite closures e padrões de programação funcional.`,
   {
     slug: "funcoes-arrow",
     title: "Funções Arrow (=>)",
-    order: 38,
+    order: 36,
     points: 10,
     bodyMd: `Funções arrow oferecem uma sintaxe mais curta.
 
@@ -1631,7 +1540,7 @@ CRIA processar = (x) => {
   {
     slug: "recursao",
     title: "Recursão",
-    order: 39,
+    order: 37,
     points: 10,
     bodyMd: `Funções podem chamar a si mesmas — XanaScript suporta recursão.
 
@@ -1675,97 +1584,9 @@ Sem otimização de recursão de cauda, recursão profunda pode estourar a pilha
     ],
   },
   {
-    slug: "funcoes-puras",
-    title: "Funções Puras",
-    order: 40,
-    points: 10,
-    bodyMd: `Funções puras não têm efeitos colaterais e sempre retornam a mesma saída para a mesma entrada.
-
-## Exemplo Puro
-
-\`\`\`xs
-CHAMA ESSE CARA soma(a, b) {
-  VOLTA a + b  // sem efeitos colaterais, determinístico
-}
-\`\`\`
-
-## Exemplo Impuro
-
-\`\`\`xs
-CRIA total = 0
-CHAMA ESSE CARA adicionar(n) {
-  total += n  // modifica estado externo
-}
-\`\`\`
-
-## Benefícios da Pureza
-
-- Mais fácil de testar (sem necessidade de configuração)
-- Transparente referencialmente (pode reordenar/inline)
-- Thread-safe (sem estado compartilhado)
-- Memoizável (armazenar resultados em cache)
-
-## Anotação Pura
-
-Use a palavra-chave \`PURO\` para impor pureza em tempo de compilação:
-
-\`\`\`xs
-CHAMA ESSE CARA PURO quadrado(x) {
-  VOLTA x * x
-}
-\`\`\`
-
-O compilador rejeita efeitos colaterais em funções \`PURO\`.`,
-    challenges: [
-      { question: "O que torna uma função pura?", answer: "sem efeitos colaterais, determinística", points: 3 },
-      { question: "Qual palavra-chave impõe pureza?", answer: "PURO", points: 5 },
-      { question: "Nomeie um benefício de funções puras", answer: "mais fácil de testar / thread-safe / memoizável", points: 3 },
-    ],
-  },
-  {
-    slug: "sobrecarga-de-funcoes",
-    title: "Sobrecarga de Funções",
-    order: 41,
-    points: 10,
-    bodyMd: `Defina múltiplas funções com o mesmo nome, mas diferentes tipos de parâmetros.
-
-## Sobrecarga Baseada em Tipo
-
-\`\`\`xs
-CHAMA ESSE CARA mostrar(x: NUMERO) {
-  SOLTA O GRITO("Número: " + x)
-}
-
-CHAMA ESSE CARA mostrar(x: TEXTO) {
-  SOLTA O GRITO("Texto: " + x)
-}
-
-mostrar(42)        // Número: 42
-mostrar("Olá")     // Texto: Olá
-\`\`\`
-
-## Contagem de Parâmetros
-
-\`\`\`xs
-CHAMA ESSE CARA criar() { ... }
-CHAMA ESSE CARA criar(nome: TEXTO) { ... }
-CHAMA ESSE CARA criar(nome: TEXTO, idade: NUMERO) { ... }
-\`\`\`
-
-## Resolução
-
-O compilador escolhe a melhor correspondência. Chamadas ambíguas produzem erro de compilação.
-
-Sobrecarga permite APIs expressivas sem nomes de função diferentes.`,
-    challenges: [
-      { question: "Você pode ter múltiplas funções com o mesmo nome?", answer: "sim, com diferentes tipos de parâmetros", points: 3 },
-      { question: "O que acontece em uma sobrecarga ambígua?", answer: "erro de compilação", points: 3 },
-    ],
-  },
-  {
     slug: "operacoes-com-listas",
     title: "Operações com Listas",
-    order: 42,
+    order: 38,
     points: 5,
     bodyMd: `Operações principais para trabalhar com listas.
 
@@ -1810,46 +1631,9 @@ Métodos retornam novas listas — a original não é alterada.`,
     ],
   },
   {
-    slug: "compreensao-de-listas",
-    title: "Compreensão de Listas",
-    order: 43,
-    points: 10,
-    bodyMd: `Construa novas listas com uma sintaxe declarativa.
-
-## Compreensão Básica
-
-\`\`\`xs
-CRIA quadrados = [n * n PARA n EM nums]
-\`\`\`
-
-## Com Filtro
-
-\`\`\`xs
-CRIA paresDobrados = [n * 2 PARA n EM nums SE n % 2 == 0]
-\`\`\`
-
-## Loops Aninhados
-
-\`\`\`xs
-CRIA pares = [(x, y) PARA x EM [1,2] PARA y EM [3,4]]
-// [(1,3), (1,4), (2,3), (2,4)]
-\`\`\`
-
-## Compreensão vs Métodos
-
-Use compreensões para legibilidade, \`mapa\`/\`filtra\` para transformações complexas.
-
-Compreensões compilam eficientemente — desempenho similar a loops manuais.`,
-    challenges: [
-      { question: "Qual sintaxe cria uma compreensão de lista?", answer: "[expr PARA var EM list]", points: 3 },
-      { question: "Como você adiciona um filtro a uma compreensão?", answer: "SE condicao no final", points: 3 },
-      { question: "Compreensões podem ter loops aninhados?", answer: "sim", points: 3 },
-    ],
-  },
-  {
     slug: "tipo-conjunto",
     title: "Tipo: CONJUNTO",
-    order: 44,
+    order: 39,
     points: 5,
     bodyMd: `Conjuntos são coleções não ordenadas de valores únicos.
 
@@ -1892,234 +1676,9 @@ PARA CADA (cor EM cores) {
     ],
   },
   {
-    slug: "tipo-tupla",
-    title: "Tipo: TUPLA",
-    order: 45,
-    points: 5,
-    bodyMd: `Tuplas são coleções ordenadas de tamanho fixo com tipos por posição.
-
-## Criando Tuplas
-
-\`\`\`xs
-CRIA ponto = (10, 20)
-CRIA usuario = ("Maria", 30, true)
-\`\`\`
-
-## Acesso por Posição
-
-\`\`\`xs
-CRIA x = ponto[0]  // 10
-CRIA y = ponto[1]  // 20
-\`\`\`
-
-## Desestruturação
-
-\`\`\`xs
-CRIA (nome, idade, ativo) = usuario
-SOLTA O GRITO(nome)  // Maria
-\`\`\`
-
-## Tuplas Tipadas
-
-\`\`\`xs
-CRIA par: (TEXTO, NUMERO) = ("chave", 42)
-\`\`\`
-
-Tuplas são imutáveis por padrão. Use-as para retornar múltiplos valores de funções.`,
-    challenges: [
-      { question: "Como você desestrutura uma tupla?", answer: "(var1, var2) = tupla", points: 3 },
-      { question: "Tuplas são mutáveis por padrão?", answer: "não", points: 3 },
-      { question: "Quando usar uma tupla em vez de uma lista?", answer: "para coleções de tamanho fixo com elementos tipados por posição", points: 5 },
-    ],
-  },
-  {
-    slug: "tipo-intervalo",
-    title: "Tipo: INTERVALO",
-    order: 46,
-    points: 5,
-    bodyMd: `Intervalos representam uma sequência de valores.
-
-## Criando Intervalos
-
-\`\`\`xs
-CRIA r1 = 1..5        // 1, 2, 3, 4, 5
-CRIA r2 = 1..<5       // 1, 2, 3, 4 (final exclusivo)
-CRIA r3 = 0..10..2    // 0, 2, 4, 6, 8, 10 (passo)
-\`\`\`
-
-## Usando Intervalos
-
-\`\`\`xs
-PARA CADA (i EM 1..5) {
-  SOLTA O GRITO(i)  // 1, 2, 3, 4, 5
-}
-\`\`\`
-
-## Pertinência
-
-\`\`\`xs
-CRIA dentro = 3 EM 1..10  // true
-CRIA fora = 20 EM 1..10   // false
-\`\`\`
-
-## Fatiamento
-
-Use intervalos para fatiar listas:
-
-\`\`\`xs
-CRIA items = [0, 1, 2, 3, 4, 5]
-CRIA slice = items[1..4]  // [1, 2, 3, 4]
-\`\`\`
-
-Intervalos são preguiçosos — elementos são computados sob demanda.`,
-    challenges: [
-      { question: "Como você cria um intervalo inclusivo de 1 a 5?", answer: "1..5", points: 3 },
-      { question: "Como você cria um intervalo com passo?", answer: "inicio..fim..passo", points: 3 },
-      { question: "Qual operador verifica pertinência em um intervalo?", answer: "EM", points: 3 },
-    ],
-  },
-  {
-    slug: "loop-para-cada",
-    title: "Loop PARA CADA",
-    order: 47,
-    points: 5,
-    bodyMd: `Itere sobre coleções com uma sintaxe limpa.
-
-## Sintaxe Básica
-
-\`\`\`xs
-CRIA frutas = ["maçã", "banana", "cereja"]
-PARA CADA (fruta EM frutas) {
-  SOLTA O GRITO(fruta)
-}
-\`\`\`
-
-## Acesso ao Índice
-
-\`\`\`xs
-PARA CADA ((i, fruta) EM frutas.comIndice()) {
-  SOLTA O GRITO(i + ": " + fruta)
-}
-\`\`\`
-
-## Iterando Dicionários
-
-\`\`\`xs
-PARA CADA (chave EM dict) {
-  SOLTA O GRITO(chave + " = " + dict[chave])
-}
-\`\`\`
-
-## Interrompendo Antecipadamente
-
-\`\`\`xs
-PARA CADA (n EM nums) {
-  SE LIGA SO (n > 100) { INTERROMPE }
-  SOLTA O GRITO(n)
-}
-\`\`\`
-
-\`INTERROMPE\` sai do loop.`,
-    challenges: [
-      { question: "Qual palavra-chave itera sobre uma coleção?", answer: "PARA CADA", points: 3 },
-      { question: "Como você acessa o índice no PARA CADA?", answer: "desestruturar (i, item) com comIndice()", points: 5 },
-      { question: "Qual palavra-chave sai de um loop?", answer: "INTERROMPE", points: 3 },
-    ],
-  },
-  {
-    slug: "loop-enquanto",
-    title: "Loop ENQUANTO",
-    order: 48,
-    points: 5,
-    bodyMd: `Loop enquanto uma condição for verdadeira.
-
-## Sintaxe Básica
-
-\`\`\`xs
-CRIA contador = 0
-ENQUANTO (contador < 5) {
-  SOLTA O GRITO(contador)
-  contador += 1
-}
-\`\`\`
-
-## Loop Infinito
-
-\`\`\`xs
-ENQUANTO (VERDADEIRO) {
-  CRIA entrada = leEntrada()
-  SE LIGA SO (entrada == "sair") { INTERROMPE }
-  processa(entrada)
-}
-\`\`\`
-
-## Do-While
-
-\`\`\`xs
-FAZ {
-  CRIA n = sorteia()
-  SOLTA O GRITO(n)
-} ENQUANTO (n != 0)
-\`\`\`
-
-Use \`ENQUANTO\` quando o número de iterações for desconhecido. Use \`PARA CADA\` para iterar coleções.`,
-    challenges: [
-      { question: "Qual palavra-chave inicia um loop while?", answer: "ENQUANTO", points: 3 },
-      { question: "Qual é a sintaxe do do-while?", answer: "FAZ { ... } ENQUANTO (cond)", points: 5 },
-      { question: "Quando usar ENQUANTO em vez de PARA CADA?", answer: "quando o número de iterações é desconhecido", points: 3 },
-    ],
-  },
-  {
-    slug: "controle-de-loop",
-    title: "Controle de Loop: CONTINUE e INTERROMPE",
-    order: 49,
-    points: 5,
-    bodyMd: `\`CONTINUE\` pula para a próxima iteração. \`INTERROMPE\` sai do loop.
-
-## CONTINUE
-
-\`\`\`xs
-PARA CADA (n EM 1..10) {
-  SE LIGA SO (n % 2 == 0) { CONTINUE }
-  SOLTA O GRITO(n)  // imprime números ímpares
-}
-\`\`\`
-
-## INTERROMPE
-
-\`\`\`xs
-PARA CADA (n EM nums) {
-  SE LIGA SO (n < 0) {
-    SOLTA O GRITO("Negativo encontrado!")
-    INTERROMPE
-  }
-}
-\`\`\`
-
-## Controle Rotulado
-
-Break/continue para loops externos:
-
-\`\`\`xs
-EXTERNO: PARA CADA (i EM 1..3) {
-  PARA CADA (j EM 1..3) {
-    SE LIGA SO (i * j > 4) { INTERROMPE EXTERNO }
-    SOLTA O GRITO(i * j)
-  }
-}
-\`\`\`
-
-Rótulos tornam o controle complexo de loop legível e preciso.`,
-    challenges: [
-      { question: "O que pula para a próxima iteração?", answer: "CONTINUE", points: 3 },
-      { question: "O que sai do loop completamente?", answer: "INTERROMPE", points: 3 },
-      { question: "Como você sai de um loop externo?", answer: "rotulo: INTERROMPE rotulo", points: 5 },
-    ],
-  },
-  {
     slug: "classes-basico",
     title: "Fundamentos de Classes com CLASSE",
-    order: 50,
+    order: 40,
     points: 5,
     bodyMd: `Classes são definidas com \`CLASSE\`.
 
@@ -2162,7 +1721,7 @@ O método \`init\` atua como construtor.`,
   {
     slug: "construtores-de-classe",
     title: "Construtores de Classe",
-    order: 51,
+    order: 41,
     points: 5,
     bodyMd: `O método \`init\` inicializa uma nova instância.
 
@@ -2222,7 +1781,7 @@ CLASSE User {
   {
     slug: "metodos-de-instancia-e-estaticos",
     title: "Métodos de Instância e Estáticos",
-    order: 52,
+    order: 42,
     points: 5,
     bodyMd: `Métodos podem ser de nível de instância ou de classe.
 
@@ -2275,7 +1834,7 @@ CLASSE Pessoa {
   {
     slug: "encapsulamento",
     title: "Encapsulamento",
-    order: 53,
+    order: 43,
     points: 5,
     bodyMd: `Controle o acesso aos membros da classe.
 
@@ -2329,580 +1888,9 @@ Encapsulamento reduz acoplamento e previne mau uso.`,
     ],
   },
   {
-    slug: "propriedades-computadas",
-    title: "Propriedades Computadas",
-    order: 54,
-    points: 10,
-    bodyMd: `Propriedades com lógica personalizada de get/set.
-
-## Getter
-
-\`\`\`xs
-CLASSE Circulo {
-  CRIA _raio
-
-  CHAMA ESSE CARA init(r) { ISTO._raio = r }
-
-  PEGA area() {
-    VOLTA 3.14159 * ISTO._raio * ISTO._raio
-  }
-
-  PEGA circunferencia() {
-    VOLTA 2 * 3.14159 * ISTO._raio
-  }
-}
-\`\`\`
-
-## Setter
-
-\`\`\`xs
-CLASSE Temperatura {
-  CRIA _celsius
-
-  PEGA fahrenheit() { VOLTA ISTO._celsius * 1.8 + 32 }
-
-  COLOCA fahrenheit(v) {
-    ISTO._celsius = (v - 32) / 1.8
-  }
-}
-\`\`\`
-
-## Uso
-
-\`\`\`xs
-CRIA t = Temperatura.novo()
-t.fahrenheit = 212
-SOLTA O GRITO(t._celsius)  // 100
-\`\`\`
-
-Propriedades computadas parecem campos, mas executam código no acesso.`,
-    challenges: [
-      { question: "O que define um getter?", answer: "PEGA", points: 3 },
-      { question: "O que define um setter?", answer: "COLOCA", points: 3 },
-      { question: "Propriedades computadas podem ter get e set?", answer: "sim", points: 3 },
-    ],
-  },
-  {
-    slug: "sobrecarga-de-operadores",
-    title: "Sobrecarga de Operadores",
-    order: 55,
-    points: 10,
-    bodyMd: `Defina comportamento personalizado para operadores em suas classes.
-
-## Operadores Sobrecarregáveis
-
-\`\`\`xs
-CLASSE Vetor {
-  CRIA x, y
-
-  CHAMA ESSE CARA init(x, y) {
-    ISTO.x = x; ISTO.y = y
-  }
-
-  OPERADOR + (outro) {
-    VOLTA Vetor.novo(ISTO.x + outro.x, ISTO.y + outro.y)
-  }
-
-  OPERADOR * (escalar) {
-    VOLTA Vetor.novo(ISTO.x * escalar, ISTO.y * escalar)
-  }
-
-  OPERADOR == (outro) {
-    VOLTA ISTO.x == outro.x E ISTO.y == outro.y
-  }
-
-  OPERADOR TEXTO() {
-    VOLTA "Vetor(" + ISTO.x + ", " + ISTO.y + ")"
-  }
-}
-\`\`\`
-
-## Uso
-
-\`\`\`xs
-CRIA v1 = Vetor.novo(1, 2)
-CRIA v2 = Vetor.novo(3, 4)
-CRIA soma = v1 + v2  // Vetor(4, 6)
-\`\`\`
-
-Operadores fazem tipos personalizados parecerem nativos.`,
-    challenges: [
-      { question: "Qual palavra-chave define sobrecarga de operador?", answer: "OPERADOR", points: 3 },
-      { question: "Qual operador você pode usar para conversão de string?", answer: "OPERADOR TEXTO", points: 5 },
-      { question: "A sobrecarga pode tornar o código mais legível?", answer: "sim", points: 3 },
-    ],
-  },
-  {
-    slug: "composicao-vs-heranca",
-    title: "Composição vs Herança",
-    order: 56,
-    points: 10,
-    bodyMd: `Prefira composição sobre herança.
-
-## Exemplo de Composição
-
-\`\`\`xs
-CLASSE Motor {
-  CHAMA ESSE CARA ligar() { SOLTA O GRITO("Motor ligado") }
-}
-
-CLASSE Carro {
-  CRIA motor
-
-  CHAMA ESSE CARA init() {
-    ISTO.motor = Motor.novo()
-  }
-
-  CHAMA ESSE CARA ligar() {
-    ISTO.motor.ligar()
-  }
-}
-\`\`\`
-
-## Quando Usar Herança
-
-Use quando houver uma clara relação "é-um":
-
-\`\`\`xs
-CLASSE Animal { ... }
-CLASSE Cachorro EXTENDE Animal { ... }
-\`\`\`
-
-## Favoreça Composição
-
-- Mais flexível (troque componentes em tempo de execução)
-- Mais fácil de testar (simule componentes)
-- Evita problemas de hierarquia profunda
-
-Use \`EXTENDE\` para verdadeiras relações de subtipo, composição para reuso de código.`,
-    challenges: [
-      { question: "Você deve preferir composição ou herança?", answer: "composição", points: 3 },
-      { question: "Quando a herança é apropriada?", answer: "quando há uma clara relação é-um", points: 5 },
-      { question: "Qual palavra-chave estende uma classe?", answer: "EXTENDE", points: 3 },
-    ],
-  },
-  {
-    slug: "membros-estaticos-e-singleton",
-    title: "Membros Estáticos e Singleton",
-    order: 57,
-    points: 10,
-    bodyMd: `Membros de nível de classe compartilhados entre todas as instâncias.
-
-## Propriedades Estáticas
-
-\`\`\`xs
-CLASSE Config {
-  CRIA ESTATICO _instancia = null
-  CRIA ESTATICO versao = "2.0"
-
-  CHAMA ESSE CARA ESTATICO getInstancia() {
-    SE LIGA SO (!Config._instancia) {
-      Config._instancia = Config.novo()
-    }
-    VOLTA Config._instancia
-  }
-}
-
-SOLTA O GRITO(Config.versao)  // 2.0
-\`\`\`
-
-## Padrão Singleton
-
-\`\`\`xs
-CLASSE DatabasePool {
-  PRIVADO CRIA ESTATICO _pool = null
-
-  CHAMA ESSE CARA ESTATICO conectar() {
-    SE LIGA SO (!DatabasePool._pool) {
-      DatabasePool._pool = DatabasePool.novo()
-    }
-    VOLTA DatabasePool._pool
-  }
-
-  PRIVADO CHAMA ESSE CARA init() {
-    // construtor privado
-  }
-}
-\`\`\`
-
-Membros estáticos são inicializados preguiçosamente.`,
-    challenges: [
-      { question: "Qual palavra-chave torna um membro estático?", answer: "ESTATICO", points: 3 },
-      { question: "Propriedades estáticas são compartilhadas entre instâncias?", answer: "sim", points: 3 },
-      { question: "O construtor init pode ser privado?", answer: "sim, com PRIVADO", points: 3 },
-    ],
-  },
-  {
-    slug: "heranca-com-extende",
-    title: "Herança com EXTENDE",
-    order: 58,
-    points: 5,
-    bodyMd: `Uma classe pode estender outra classe com \`EXTENDE\`.
-
-## Sintaxe
-
-\`\`\`xs
-CLASSE Animal {
-  CRIA nome
-
-  CHAMA ESSE CARA init(nome) { ISTO.nome = nome }
-  CHAMA ESSE CARA som() { SOLTA O GRITO("...") }
-}
-
-CLASSE Cachorro EXTENDE Animal {
-  CHAMA ESSE CARA som() {
-    SOLTA O GRITO("Au au!")
-  }
-}
-
-CRIA rex = Cachorro.novo("Rex")
-SOLTA O GRITO(rex.nome)  // Rex (herdado)
-rex.som()                // Au au! (sobrescrito)
-\`\`\`
-
-## Palavra-chave Super
-
-Chame métodos pai com \`SUPER\`:
-
-\`\`\`xs
-CLASSE Gato EXTENDE Animal {
-  CHAMA ESSE CARA som() {
-    SOLTA O GRITO("Miau!")
-    SUPER.som()
-  }
-}
-\`\`\``,
-    challenges: [
-      { question: "Qual palavra-chave estende uma classe?", answer: "EXTENDE", points: 3 },
-      { question: "Como você chama um método pai?", answer: "SUPER.metodo()", points: 3 },
-      { question: "Uma classe filha pode herdar propriedades?", answer: "sim", points: 3 },
-    ],
-  },
-  {
-    slug: "sobrescrita-de-metodos",
-    title: "Sobrescrita de Métodos",
-    order: 59,
-    points: 5,
-    bodyMd: `Classes filhas podem sobrescrever métodos da classe pai.
-
-## Regras de Sobrescrita
-
-\`\`\`xs
-CLASSE Forma {
-  CHAMA ESSE CARA area() { VOLTA 0 }
-}
-
-CLASSE Retangulo EXTENDE Forma {
-  CRIA largura, altura
-
-  CHAMA ESSE CARA init(l, a) { ISTO.largura = l; ISTO.altura = a }
-
-  CHAMA ESSE CARA area() {  // sobrescrita
-    VOLTA ISTO.largura * ISTO.altura
-  }
-}
-\`\`\`
-
-## Prevenindo Sobrescrita
-
-Use \`FINAL\` para prevenir sobrescrita:
-
-\`\`\`xs
-CLASSE Base {
-  CHAMA ESSE CARA FINAL naoPodeSobrescrever() { ... }
-}
-\`\`\`
-
-## Métodos Abstratos
-
-Defina assinaturas de método sem implementação:
-
-\`\`\`xs
-CLASSE Abstrata Forma {
-  CHAMA ESSE CARA area()  // abstrato — sem corpo
-}
-\`\`\`
-
-\`FINAL\` previne sobrescrita. Métodos sem corpo são abstratos.`,
-    challenges: [
-      { question: "Qual palavra-chave previne sobrescrita de método?", answer: "FINAL", points: 3 },
-      { question: "Como você define um método abstrato?", answer: "declare sem corpo", points: 5 },
-      { question: "Classes abstratas podem ser instanciadas?", answer: "não", points: 3 },
-    ],
-  },
-  {
-    slug: "polimorfismo",
-    title: "Polimorfismo",
-    order: 60,
-    points: 10,
-    bodyMd: `Objetos de diferentes tipos respondem à mesma interface.
-
-## Comportamento Polimórfico
-
-\`\`\`xs
-CLASSE Passaro {
-  CHAMA ESSE CARA mover() { SOLTA O GRITO("Voando") }
-}
-
-CLASSE Peixe {
-  CHAMA ESSE CARA mover() { SOLTA O GRITO("Nadando") }
-}
-
-CHAMA ESSE CARA fazerMover(animal) {
-  animal.mover()  // funciona para qualquer objeto com mover()
-}
-
-fazerMover(Passaro.novo())  // Voando
-fazerMover(Peixe.novo())    // Nadando
-\`\`\`
-
-## Com Herança
-
-\`\`\`xs
-CLASSE Veiculo {
-  CHAMA ESSE CARA mover() { }
-}
-
-CLASSE Carro EXTENDE Veiculo { CHAMA ESSE CARA mover() { ... } }
-CLASSE Bicicleta EXTENDE Veiculo { CHAMA ESSE CARA mover() { ... } }
-\`\`\`
-
-Polimorfismo permite designs flexíveis e extensíveis sem condicionais.`,
-    challenges: [
-      { question: "O que é polimorfismo?", answer: "objetos de diferentes tipos respondem à mesma interface", points: 3 },
-      { question: "Polimorfismo requer herança?", answer: "não, duck typing também funciona", points: 5 },
-      { question: "Qual é um benefício do polimorfismo?", answer: "reduz condicionais, permite extensibilidade", points: 3 },
-    ],
-  },
-  {
-    slug: "classes-abstratas",
-    title: "Classes Abstratas",
-    order: 61,
-    points: 10,
-    bodyMd: `Classes abstratas definem um template com alguns métodos não implementados.
-
-## Definindo Classe Abstrata
-
-\`\`\`xs
-CLASSE Abstrata Forma {
-  CHAMA ESSE CARA area()  // abstrato — sem corpo
-  CHAMA ESSE CARA descrever() {
-    SOLTA O GRITO("Área: " + ISTO.area())
-  }
-}
-
-CLASSE Quadrado EXTENDE Forma {
-  CRIA lado
-  CHAMA ESSE CARA init(l) { ISTO.lado = l }
-  CHAMA ESSE CARA area() { VOLTA ISTO.lado * ISTO.lado }
-}
-\`\`\`
-
-## Regras
-
-- Não é possível instanciar classes abstratas diretamente
-- Classes filhas devem implementar todos os métodos abstratos
-- Use a anotação \`Abstrata\` na classe
-
-Classes abstratas fornecem um contrato mais implementação compartilhada.`,
-    challenges: [
-      { question: "Você pode instanciar uma classe abstrata?", answer: "não", points: 3 },
-      { question: "Qual anotação torna uma classe abstrata?", answer: "Abstrata", points: 5 },
-      { question: "Classes filhas devem implementar todos os métodos abstratos?", answer: "sim", points: 3 },
-    ],
-  },
-  {
-    slug: "interfaces-com-protocolo",
-    title: "Interfaces com PROTOCOLO",
-    order: 62,
-    points: 10,
-    bodyMd: `Defina um contrato sem implementação.
-
-## Definição de Protocolo
-
-\`\`\`xs
-PROTOCOLO Imprimivel {
-  CHAMA ESSE CARA imprimir(): TEXTO
-  CHAMA ESSE CARA formato(): TEXTO
-}
-\`\`\`
-
-## Implementando um Protocolo
-
-\`\`\`xs
-CLASSE Documento IMPLEMENTA Imprimivel {
-  CRIA conteudo
-  CHAMA ESSE CARA init(c) { ISTO.conteudo = c }
-
-  CHAMA ESSE CARA imprimir() {
-    SOLTA O GRITO(ISTO.conteudo)
-  }
-
-  CHAMA ESSE CARA formato() {
-    VOLTA "Documento: " + ISTO.conteudo.tamanho + " chars"
-  }
-}
-\`\`\`
-
-## Múltiplos Protocolos
-
-\`\`\`xs
-CLASSE Relatorio IMPLEMENTA Imprimivel, Exportavel { ... }
-\`\`\`
-
-Protocolos suportam herança múltipla de contratos sem o problema do diamante.`,
-    challenges: [
-      { question: "Qual palavra-chave define uma interface?", answer: "PROTOCOLO", points: 3 },
-      { question: "Qual palavra-chave implementa um protocolo?", answer: "IMPLEMENTA", points: 3 },
-      { question: "Uma classe pode implementar múltiplos protocolos?", answer: "sim", points: 3 },
-    ],
-  },
-  {
-    slug: "heranca-multipla-via-protocolos",
-    title: "Herança Múltipla via Protocolos",
-    order: 63,
-    points: 10,
-    bodyMd: `Protocolos permitem herdar múltiplos contratos.
-
-## Combinando Protocolos
-
-\`\`\`xs
-PROTOCOLO Salvavel {
-  CHAMA ESSE CARA salvar(): TEXTO
-}
-
-PROTOCOLO Carregavel {
-  CHAMA ESSE CARA carregar(dados: TEXTO)
-}
-
-CLASSE Arquivo IMPLEMENTA Salvavel, Carregavel {
-  CRIA caminho
-
-  CHAMA ESSE CARA init(c) { ISTO.caminho = c }
-
-  CHAMA ESSE CARA salvar() {
-    // implementação
-  }
-
-  CHAMA ESSE CARA carregar(dados) {
-    // implementação
-  }
-}
-\`\`\`
-
-## Nominal vs Estrutural
-
-Protocolos são nominais — você deve declarar explicitamente \`IMPLEMENTA\`. Isso garante que a intenção seja clara.
-
-## Quando Usar
-
-Use protocolos quando classes diferentes compartilham capacidades, mas não hierarquia.`,
-    challenges: [
-      { question: "Uma classe pode implementar dois protocolos?", answer: "sim", points: 3 },
-      { question: "Os protocolos do XanaScript são nominais ou estruturais?", answer: "nominais", points: 5 },
-      { question: "Por que usar protocolos em vez de classes abstratas?", answer: "para compartilhar capacidades entre hierarquias não relacionadas", points: 3 },
-    ],
-  },
-  {
-    slug: "injecao-de-dependencia",
-    title: "Injeção de Dependência",
-    order: 64,
-    points: 10,
-    bodyMd: `Passe dependências em vez de criá-las internamente.
-
-## Sem DI (Acoplamento Forte)
-
-\`\`\`xs
-CLASSE Servico {
-  CRIA repo = Repositorio.novo()  // dependência fixa
-}
-\`\`\`
-
-## Com DI (Acoplamento Fraco)
-
-\`\`\`xs
-CLASSE Servico {
-  CRIA repo
-
-  CHAMA ESSE CARA init(repo) {
-    ISTO.repo = repo  // injetado
-  }
-}
-\`\`\`
-
-## Usando Interfaces
-
-\`\`\`xs
-PROTOCOLO RepoUsuario {
-  CHAMA ESSE CARA buscar(id): TEXTO
-}
-
-CLASSE Servico {
-  CRIA repo: RepoUsuario
-
-  CHAMA ESSE CARA init(repo: RepoUsuario) {
-    ISTO.repo = repo
-  }
-}
-\`\`\`
-
-DI permite testar com mocks e trocar implementações.`,
-    challenges: [
-      { question: "O que é injeção de dependência?", answer: "passar dependências em vez de criá-las internamente", points: 3 },
-      { question: "Qual é um benefício da DI?", answer: "testes mais fáceis e troca de implementações", points: 5 },
-      { question: "DI funciona bem com protocolos?", answer: "sim", points: 3 },
-    ],
-  },
-  {
-    slug: "principios-solid",
-    title: "Princípios SOLID",
-    order: 65,
-    points: 10,
-    bodyMd: `Cinco princípios para OOP sustentável.
-
-## S — Responsabilidade Única
-
-Uma classe deve ter um motivo para mudar:
-
-\`\`\`xs
-// Ruim: relatório e salvar juntos
-CLASSE Relatorio {
-  CHAMA ESSE CARA gerar() { ... }
-  CHAMA ESSE CARA salvar() { ... }
-}
-
-// Bom: separar responsabilidades
-CLASSE Relatorio { CHAMA ESSE CARA gerar() { ... } }
-CLASSE Repositorio { CHAMA ESSE CARA salvar(r) { ... } }
-\`\`\`
-
-## O — Aberto/Fechado
-
-Aberto para extensão, fechado para modificação.
-
-## L — Substituição de Liskov
-
-Subtipos devem ser substituíveis por tipos base.
-
-## I — Segregação de Interface
-
-Mantenha protocolos focados.
-
-## D — Inversão de Dependência
-
-Dependa de abstrações, não de concreções.
-
-Seguir SOLID produz código sustentável e testável.`,
-    challenges: [
-      { question: "O que significa o S em SOLID?", answer: "Responsabilidade Única", points: 3 },
-      { question: "O que significa o D em SOLID?", answer: "Inversão de Dependência", points: 3 },
-      { question: "O que significa Substituição de Liskov?", answer: "subtipos devem ser substituíveis por tipos base", points: 5 },
-    ],
-  },
-  {
     slug: "tratamento-de-erros-com-tente",
     title: "Tratamento de Erros com TENTE",
-    order: 66,
+    order: 44,
     points: 5,
     bodyMd: `Erros são tratados com \`TENTE\` (try), \`CAPTURA\` (catch), \`FINALLY\` (finally).
 
@@ -2948,61 +1936,9 @@ Use \`TENTE\` para operações que podem falhar.`,
     ],
   },
   {
-    slug: "lancando-erros",
-    title: "Lançando Erros",
-    order: 67,
-    points: 5,
-    bodyMd: `Use \`JOGAR\` (throw) para levantar um erro.
-
-## Throw Básico
-
-\`\`\`xs
-CHAMA ESSE CARA dividir(a, b) {
-  SE LIGA SO (b == 0) {
-    JOGAR "Divisão por zero"
-  }
-  VOLTA a / b
-}
-\`\`\`
-
-## Mensagens de Erro Personalizadas
-
-\`\`\`xs
-SE LIGA SO (!usuario) {
-  JOGAR "Usuário não encontrado"
-}
-
-SE LIGA SO (saldo < valor) {
-  JOGAR "Saldo insuficiente. Disponível: " + saldo
-}
-\`\`\`
-
-## Objetos de Erro
-
-\`\`\`xs
-JOGAR Erro.novo("Validacao", "Campo obrigatório")
-\`\`\`
-
-## Relançamento
-
-\`\`\`xs
-CAPTURA (erro) {
-  SOLTA O GRITO("Log: " + erro)
-  JOGAR erro  // relançar
-}
-\`\`\`
-
-Apenas lance erros para situações excepcionais, não para fluxo de controle.`,
-    challenges: [
-      { question: "Qual palavra-chave lança um erro?", answer: "JOGAR", points: 3 },
-      { question: "Você pode lançar uma string?", answer: "sim", points: 3 },
-      { question: "Qual padrão relança um erro capturado?", answer: "JOGAR erro dentro de CAPTURA", points: 3 },
-    ],
-  },
-  {
     slug: "classes-de-erro-personalizadas",
     title: "Classes de Erro Personalizadas",
-    order: 68,
+    order: 45,
     points: 10,
     bodyMd: `Crie erros específicos de domínio estendendo a classe de erro base.
 
@@ -3050,7 +1986,7 @@ Erros personalizados permitem tratamento preciso com dados específicos de domí
   {
     slug: "padroes-de-tratamento-de-erros",
     title: "Padrões de Tratamento de Erros",
-    order: 69,
+    order: 46,
     points: 10,
     bodyMd: `Padrões comuns para tratamento robusto de erros.
 
@@ -3103,59 +2039,9 @@ SE LIGA SO (r.sucesso) {
     ],
   },
   {
-    slug: "validacao-de-entrada",
-    title: "Validação de Entrada",
-    order: 70,
-    points: 5,
-    bodyMd: `Valide entradas antes de processar.
-
-## Validação Básica
-
-\`\`\`xs
-CHAMA ESSE CARA cadastrarUsuario(dados) {
-  SE LIGA SO (!dados.nome OU dados.nome.tamanho < 2) {
-    JOGAR "Nome deve ter ao menos 2 caracteres"
-  }
-
-  SE LIGA SO (!dados.email OU !dados.email.tem("@")) {
-    JOGAR "Email inválido"
-  }
-
-  SE LIGA SO (dados.idade < 18) {
-    JOGAR "Menor de idade não permitido"
-  }
-
-  // processar
-}
-\`\`\`
-
-## Biblioteca de Validação
-
-XanaScript fornece auxiliares de validação nativos:
-
-\`\`\`xs
-import { valida, regra } from "xs:validacao"
-
-CRIA regras = [
-  regra("nome", OBRIGATORIO),
-  regra("email", EMAIL),
-  regra("idade", NUMERICO, { min: 18 })
-]
-
-CRIA erros = valida(dados, regras)
-\`\`\`
-
-Sempre valide entrada externa antes de processar.`,
-    challenges: [
-      { question: "Você deve validar entradas antes de processar?", answer: "sim", points: 3 },
-      { question: "O que é uma regra de validação?", answer: "uma condição que a entrada deve satisfazer", points: 3 },
-      { question: "Onde a validação deve ocorrer?", answer: "nas fronteiras do sistema (API, formulários)", points: 3 },
-    ],
-  },
-  {
     slug: "registro-de-erros",
     title: "Registro de Erros (Logging)",
-    order: 71,
+    order: 47,
     points: 5,
     bodyMd: `Registre erros para depuração e monitoramento.
 
@@ -3206,7 +2092,7 @@ Registre o suficiente para diagnosticar problemas, não tanto que os logs sejam 
   {
     slug: "estrategias-de-recuperacao",
     title: "Estratégias de Recuperação de Erros",
-    order: 72,
+    order: 48,
     points: 10,
     bodyMd: `Estratégias para se recuperar de falhas.
 
@@ -3261,7 +2147,7 @@ Escolha a estratégia de recuperação baseada no tipo de erro e requisitos do s
   {
     slug: "melhores-praticas-de-erros",
     title: "Melhores Práticas de Tratamento de Erros",
-    order: 73,
+    order: 49,
     points: 10,
     bodyMd: `Diretrizes para tratamento robusto de erros.
 
@@ -3311,7 +2197,7 @@ Seguir estas práticas previne falhas silenciosas e corrupção de dados.`,
   {
     slug: "modulos-basico",
     title: "Fundamentos de Módulos",
-    order: 74,
+    order: 50,
     points: 5,
     bodyMd: `Organize código em módulos reutilizáveis.
 
@@ -3361,7 +2247,7 @@ Cada arquivo pode ter uma exportação padrão e múltiplas exportações nomead
   {
     slug: "imports-exports-nomeados",
     title: "Imports/Exports Nomeados",
-    order: 75,
+    order: 51,
     points: 5,
     bodyMd: `Importe e exporte nomes específicos.
 
@@ -3410,158 +2296,9 @@ Imports nomeados são explícitos e permitem tree-shaking.`,
     ],
   },
   {
-    slug: "resolucao-de-modulos",
-    title: "Resolução de Módulos",
-    order: 76,
-    points: 5,
-    bodyMd: `Como o XanaScript encontra módulos importados.
-
-## Caminhos Relativos
-
-Comece com \`./\` ou \`../\`:
-
-\`\`\`xs
-import { x } from "./utils.xs"
-import { y } from "../lib/helper.xs"
-\`\`\`
-
-## Nomes de Pacotes
-
-Sem prefixo de caminho, resolve de \`node_modules\`:
-
-\`\`\`xs
-import { express } from "express"
-\`\`\`
-
-## Módulos Nativos
-
-Use prefixo \`xs:\` para biblioteca padrão:
-
-\`\`\`xs
-import { readFile, writeFile } from "xs:fs"
-import { serve } from "xs:http"
-\`\`\`
-
-## Ordem de Resolução
-
-1. Nativo (\`xs:*\`)
-2. Relativo (\`./\`, \`../\`)
-3. Pacote (node_modules)
-
-O compilador armazena em cache caminhos resolvidos para recompilação rápida.`,
-    challenges: [
-      { question: "Qual prefixo denota um import relativo?", answer: "./ ou ../", points: 3 },
-      { question: "Qual prefixo denota módulos nativos?", answer: "xs:", points: 3 },
-      { question: "Onde o compilador procura por imports de pacote?", answer: "node_modules", points: 3 },
-    ],
-  },
-  {
-    slug: "dependencias-circulares",
-    title: "Dependências Circulares",
-    order: 77,
-    points: 10,
-    bodyMd: `Quando o módulo A importa de B e B importa de A.
-
-## O Problema
-
-\`\`\`xs
-// a.xs
-import { bFn } from "./b.xs"
-export CHAMA ESSE CARA aFn() { bFn() }
-
-// b.xs
-import { aFn } from "./a.xs"
-export CHAMA ESSE CARA bFn() { aFn() }
-\`\`\`
-
-## Como o XanaScript Lida
-
-O compilador detecta ciclos e permite se não causarem inicialização infinita:
-
-- Exports são içados (disponíveis antes da inicialização)
-- Erro em tempo de execução se um import circular for usado antes de suas exports resolverem
-
-## Melhores Práticas
-
-Evite ciclos:
-
-- Extraindo lógica compartilhada em um terceiro módulo
-- Usando injeção de dependência
-- Reestruturando para fluxo unidirecional
-
-\`\`\`xs
-// shared.xs (código comum extraído)
-export CHAMA ESSE CARA util() { ... }
-\`\`\`
-
-Ciclos são às vezes inevitáveis, mas devem ser minimizados.`,
-    challenges: [
-      { question: "XanaScript pode lidar com dependências circulares?", answer: "sim, com exports içados", points: 3 },
-      { question: "Qual é a melhor forma de resolver ciclos?", answer: "extrair lógica compartilhada em um terceiro módulo", points: 5 },
-    ],
-  },
-  {
-    slug: "criando-pacotes",
-    title: "Criando Pacotes",
-    order: 78,
-    points: 10,
-    bodyMd: `Empacote seus módulos para distribuição.
-
-## Estrutura do Pacote
-
-\`\`\`
-meu-pacote/
-  package.json
-  src/
-    index.xs
-    utils.xs
-  README.md
-\`\`\`
-
-## package.json
-
-\`\`\`json
-{
-  "name": "meu-pacote",
-  "version": "1.0.0",
-  "main": "src/index.xs",
-  "xs": {
-    "entry": "src/index.xs"
-  }
-}
-\`\`\`
-
-## Ponto de Entrada
-
-\`\`\`xs
-// src/index.xs
-export { soma } from "./utils.xs"
-export { Cliente } from "./cliente.xs"
-\`\`\`
-
-## Publicando
-
-\`\`\`bash
-xs publish
-\`\`\`
-
-Ou via npm:
-
-\`\`\`bash
-npm publish
-\`\`\`
-
-Pacotes permitem compartilhamento de código entre projetos e com a comunidade.`,
-    challenges: [
-      { question: "Qual arquivo configura um pacote?", answer: "package.json", points: 3 },
-      { question: "Qual campo especifica o ponto de entrada?", answer: "main ou xs.entry", points: 3 },
-      { question: "Como você publica um pacote?", answer: "xs publish ou npm publish", points: 3 },
-    ],
-  },
-  {
     slug: "ecossistema-de-pacotes",
     title: "Ecossistema de Pacotes",
-    order: 79,
+    order: 52,
     points: 5,
     bodyMd: `Visão geral das ferramentas de pacotes XanaScript.
 
@@ -3614,7 +2351,7 @@ O ecossistema fornece ferramentas para descoberta, instalação e atualização 
   {
     slug: "coleta-de-lixo",
     title: "Coleta de Lixo em XanaScript",
-    order: 80,
+    order: 53,
     points: 5,
     bodyMd: `XanaScript possui coleta de lixo automática.
 
@@ -3660,7 +2397,7 @@ A GC torna a gestão de memória automática, mas entenda suas implicações.`,
   {
     slug: "consideracoes-de-desempenho",
     title: "Considerações de Desempenho",
-    order: 81,
+    order: 54,
     points: 10,
     bodyMd: `Escreva código XanaScript eficiente.
 
@@ -3718,59 +2455,9 @@ Perfile antes de otimizar. Nunca otimize prematuramente.`,
     ],
   },
   {
-    slug: "otimizacoes-do-compilador",
-    title: "Otimizações do Compilador",
-    order: 82,
-    points: 10,
-    bodyMd: `Entenda como o compilador otimiza seu código.
-
-## Inline de Funções
-
-Funções pequenas são inlineadas para evitar overhead de chamada:
-
-\`\`\`xs
-// Pode ser inlineada
-CHAMA ESSE CARA dobrar(x) { VOLTA x * 2 }
-\`\`\`
-
-## Eliminação de Código Morto
-
-Código inalcançável é removido:
-
-\`\`\`xs
-CHAMA ESSE CARA exemplo() {
-  VOLTA 42
-  // Este código é removido
-  SOLTA O GRITO("nunca executado")
-}
-\`\`\`
-
-## Tree Shaking
-
-Módulos não utilizados são removidos do bundle final.
-
-## Especialização de Tipo
-
-Código é otimizado baseado em tipos conhecidos.
-
-## Compilação Adequada
-
-\`\`\`bash
-# Compilação de produção com otimizações
-xs build --otimizar
-\`\`\`
-
-O compilador aplica otimizações agressivas mantendo comportamento correto.`,
-    challenges: [
-      { question: "O que é inline de funções?", answer: "substituir chamada por corpo da função", points: 3 },
-      { question: "O que tree shaking remove?", answer: "módulos não utilizados", points: 5 },
-      { question: "Qual flag otimiza para produção?", answer: "--otimizar", points: 3 },
-    ],
-  },
-  {
     slug: "perfilamento-e-debugging",
     title: "Perfilamento e Depuração",
-    order: 83,
+    order: 55,
     points: 5,
     bodyMd: `Ferramentas para perfilar e depurar código XanaScript.
 
@@ -3822,7 +2509,7 @@ Use estas ferramentas para encontrar e corrigir problemas de desempenho.`,
   {
     slug: "escrevendo-testes-unitarios",
     title: "Escrevendo Testes Unitários",
-    order: 84,
+    order: 56,
     points: 5,
     bodyMd: `Teste funções e módulos individualmente.
 
@@ -3873,7 +2560,7 @@ Testes unitários garantem que componentes individuais funcionem corretamente.`,
   {
     slug: "testes-de-integracao",
     title: "Testes de Integração",
-    order: 85,
+    order: 57,
     points: 10,
     bodyMd: `Teste como componentes funcionam juntos.
 
@@ -3922,7 +2609,7 @@ Testes de integração pegam bugs de interação entre componentes que testes un
   {
     slug: "tdd-com-xanascript",
     title: "TDD com XanaScript",
-    order: 86,
+    order: 58,
     points: 10,
     bodyMd: `Desenvolvimento Orientado a Testes.
 
@@ -3972,50 +2659,9 @@ TDD leva a código mais confiável e bem projetado.`,
     ],
   },
   {
-    slug: "cobertura-de-testes",
-    title: "Cobertura de Testes",
-    order: 87,
-    points: 5,
-    bodyMd: `Meça quão bem seus testes cobrem o código.
-
-## Tipos de Cobertura
-
-- **Cobertura de Linhas**: quantas linhas são executadas
-- **Cobertura de Ramos**: quantos branchs são tomados
-- **Cobertura de Funções**: quantas funções são chamadas
-
-## Gerando Relatório
-
-\`\`\`bash
-xs test --cobertura
-\`\`\`
-
-## Interpretando Resultados
-
-\`\`\`
-Arquivo          | Linhas | Ramos | Funções
-src/math.xs      | 100%   | 100%  | 100%
-src/calc.xs      | 80%    | 75%   | 100%
-src/main.xs      | 45%    | 30%   | 50%
-\`\`\`
-
-## Metas de Cobertura
-
-- 80%+ é o ideal
-- 100% não significa código sem bugs
-- Foque em caminhos críticos
-
-Cobertura é uma métrica, não uma garantia. Teste caminhos importantes primeiro.`,
-    challenges: [
-      { question: "Cite um tipo de cobertura", answer: "cobertura de linhas, ramos ou funções", points: 3 },
-      { question: "100% de cobertura significa código sem bugs?", answer: "não", points: 5 },
-      { question: "Qual é uma boa meta de cobertura?", answer: "80%+", points: 3 },
-    ],
-  },
-  {
     slug: "tipos-de-testes-na-pratica",
     title: "Tipos de Testes na Prática",
-    order: 88,
+    order: 59,
     points: 5,
     bodyMd: `Visão geral de diferentes tipos de teste.
 
@@ -4065,7 +2711,7 @@ Misture tipos de teste para confiança máxima.`,
   {
     slug: "depuracao-avancada",
     title: "Depuração Avançada",
-    order: 89,
+    order: 60,
     points: 10,
     bodyMd: `Técnicas para depurar problemas complexos.
 
@@ -4125,7 +2771,7 @@ Depuração avançada requer as ferramentas certas e abordagem sistemática.`,
   {
     slug: "tratamento-de-erros-assincronos",
     title: "Tratamento de Erros Assíncronos",
-    order: 90,
+    order: 61,
     points: 10,
     bodyMd: `Trate erros em código assíncrono adequadamente.
 
@@ -4187,7 +2833,7 @@ Erros assíncronos são traiçoeiros. Sempre trate promessas.`,
   {
     slug: "event-loop-em-detalhe",
     title: "Event Loop em Detalhe",
-    order: 91,
+    order: 62,
     points: 10,
     bodyMd: `Aprofunde seu entendimento do event loop XanaScript.
 
@@ -4234,7 +2880,7 @@ Entender o event loop previne bugs de ordenação e desempenho.`,
   {
     slug: "trabalhando-com-streams",
     title: "Trabalhando com Streams",
-    order: 92,
+    order: 63,
     points: 10,
     bodyMd: `Processe dados em pedaços com streams.
 
@@ -4286,7 +2932,7 @@ Streams são eficientes para processar grandes conjuntos de dados sem carregar t
   {
     slug: "buffers-e-arrays-de-bytes",
     title: "Buffers e Arrays de Bytes",
-    order: 93,
+    order: 64,
     points: 5,
     bodyMd: `Trabalhe com dados binários.
 
@@ -4340,7 +2986,7 @@ Buffers são essenciais para protocolos de rede, criptografia e processamento de
   {
     slug: "operacoes-de-arquivo",
     title: "Operações de Arquivo",
-    order: 94,
+    order: 65,
     points: 5,
     bodyMd: `Leia e escreva arquivos com XanaScript.
 
@@ -4398,7 +3044,7 @@ Sempre use a versão assíncrona para IO, exceto em scripts de inicialização.`
   {
     slug: "programacao-de-rede",
     title: "Programação de Rede",
-    order: 95,
+    order: 66,
     points: 10,
     bodyMd: `Crie clientes e servidores de rede.
 
@@ -4459,7 +3105,7 @@ XanaScript fornece APIs de rede de alto nível para construção rápida de serv
   {
     slug: "processamento-assincrono-de-arquivos",
     title: "Processamento Assíncrono de Arquivos",
-    order: 96,
+    order: 67,
     points: 10,
     bodyMd: `Padrões para processamento eficiente de arquivos.
 
@@ -4518,7 +3164,7 @@ Use streams para conjuntos de dados que não cabem na memória.`,
   {
     slug: "conceitos-de-banco-de-dados",
     title: "Conceitos de Banco de Dados",
-    order: 97,
+    order: 68,
     points: 10,
     bodyMd: `Conecte e interaja com bancos de dados.
 
@@ -4580,7 +3226,7 @@ Always parameterize queries to prevent injection.`,
   {
     slug: "autenticacao-e-autorizacao",
     title: "Autenticação e Autorização",
-    order: 98,
+    order: 69,
     points: 10,
     bodyMd: `Implemente segurança em suas aplicações.
 
@@ -4644,7 +3290,7 @@ Nunca armazene senhas em texto puro; use hash + salt.`,
   {
     slug: "variaveis-de-ambiente-e-configuracao",
     title: "Variáveis de Ambiente e Configuração",
-    order: 99,
+    order: 70,
     points: 5,
     bodyMd: `Gerencie configurações de forma segura.
 
@@ -4702,7 +3348,7 @@ Mantenha configurações fora do código.`,
   {
     slug: "introducao-ao-cli-xanascript",
     title: "Introdução ao CLI XanaScript",
-    order: 100,
+    order: 71,
     points: 5,
     bodyMd: `Construa ferramentas de linha de comando.
 
@@ -4759,7 +3405,7 @@ XanaScript é excelente para ferramentas CLI rápidas e poderosas.`,
   {
     slug: "programacao-web-com-xanascript",
     title: "Programação Web com XanaScript",
-    order: 101,
+    order: 72,
     points: 5,
     bodyMd: `Construa aplicações web com XanaScript.
 
@@ -4814,7 +3460,7 @@ XanaScript torna a construção de APIs web rápida e intuitiva.`,
   {
     slug: "frameworks-web",
     title: "Frameworks Web",
-    order: 102,
+    order: 73,
     points: 10,
     bodyMd: `Use frameworks web para produtividade máxima.
 
@@ -4864,7 +3510,7 @@ Frameworks fornecem estrutura e convenções para construir aplicações consist
   {
     slug: "bancos-de-dados-relacionais",
     title: "Bancos de Dados Relacionais",
-    order: 103,
+    order: 74,
     points: 10,
     bodyMd: `Trabalhe com bancos SQL.
 
@@ -4931,7 +3577,7 @@ Bancos relacionais fornecem integridade de dados e consultas poderosas.`,
   {
     slug: "bancos-de-dados-nosql",
     title: "Bancos de Dados NoSQL",
-    order: 104,
+    order: 75,
     points: 10,
     bodyMd: `Trabalhe com bancos NoSQL como MongoDB.
 
@@ -4983,7 +3629,7 @@ NoSQL oferece flexibilidade de esquema e escalabilidade horizontal.`,
   {
     slug: "caching-com-xanascript",
     title: "Caching com XanaScript",
-    order: 105,
+    order: 76,
     points: 10,
     bodyMd: `Melhore desempenho com caching.
 
@@ -5041,7 +3687,7 @@ Cache melhora drasticamente a latência e reduz carga no banco.`,
   {
     slug: "introducao-a-eventos",
     title: "Introdução a Eventos",
-    order: 106,
+    order: 77,
     points: 5,
     bodyMd: `Programação orientada a eventos.
 
@@ -5091,7 +3737,7 @@ Objetos XanaScript podem estender EmissorEventos para expor eventos.`,
   {
     slug: "padrao-observador",
     title: "Padrão Observador",
-    order: 107,
+    order: 78,
     points: 5,
     bodyMd: `Um objeto (sujeito) notifica múltiplos observadores sobre mudanças.
 
@@ -5154,7 +3800,7 @@ sujeito.notificar({ msg: "teste", urgente: true })
   {
     slug: "programacao-reativa",
     title: "Programação Reativa",
-    order: 108,
+    order: 79,
     points: 10,
     bodyMd: `Programe com fluxos de dados assíncronos.
 
@@ -5209,7 +3855,7 @@ Programação reativa gerencia elegantemente fluxos de dados assíncronos e even
   {
     slug: "webhooks-e-event-driven",
     title: "Webhooks e Arquitetura Orientada a Eventos",
-    order: 109,
+    order: 80,
     points: 10,
     bodyMd: `Padrões para comunicação baseada em eventos.
 
@@ -5273,7 +3919,7 @@ EDA desacopla componentes e melhora escalabilidade.`,
   {
     slug: "filas-e-processamento-assincrono",
     title: "Filas e Processamento Assíncrono",
-    order: 110,
+    order: 81,
     points: 10,
     bodyMd: `Gerencie tarefas assíncronas com filas.
 
@@ -5334,7 +3980,7 @@ Filas permitem processamento assíncrono e desacoplamento entre serviços.`,
   {
     slug: "containerizacao-com-xanascript",
     title: "Containerização com XanaScript",
-    order: 111,
+    order: 82,
     points: 10,
     bodyMd: `Empacote aplicações XanaScript com Docker.
 
@@ -5404,7 +4050,7 @@ Containerização garante ambientes consistentes e deploy simplificado.`,
   {
     slug: "deploy-em-nuvem",
     title: "Deploy em Nuvem",
-    order: 112,
+    order: 83,
     points: 10,
     bodyMd: `Faça deploy de aplicações XanaScript na nuvem.
 
@@ -5465,7 +4111,7 @@ Escolha o provedor baseado em suas necessidades de escala e orçamento.`,
   {
     slug: "ci-cd-para-xanascript",
     title: "CI/CD para XanaScript",
-    order: 113,
+    order: 84,
     points: 10,
     bodyMd: `Automatize testes e deploys.
 
@@ -5522,7 +4168,7 @@ CI/CD automatizado previne regressões e acelera entregas.`,
   {
     slug: "monitoramento-e-observabilidade",
     title: "Monitoramento e Observabilidade",
-    order: 114,
+    order: 85,
     points: 10,
     bodyMd: `Monitore aplicações em produção.
 
@@ -5582,7 +4228,7 @@ Observabilidade permite entender o comportamento do sistema em produção.`,
   {
     slug: "serializacao-json",
     title: "Serialização JSON",
-    order: 115,
+    order: 86,
     points: 5,
     bodyMd: `Trabalhe com JSON em XanaScript.
 
@@ -5634,7 +4280,7 @@ JSON é o formato de intercâmbio de dados mais comum na web.`,
   {
     slug: "apis-rest-com-xanascript",
     title: "APIs REST com XanaScript",
-    order: 116,
+    order: 87,
     points: 10,
     bodyMd: `Construa APIs RESTful com XanaScript.
 
@@ -5698,7 +4344,7 @@ Siga convenções REST para APIs previsíveis e consistentes.`,
   {
     slug: "graphql-com-xanascript",
     title: "GraphQL com XanaScript",
-    order: 117,
+    order: 88,
     points: 10,
     bodyMd: `Construa APIs GraphQL.
 
@@ -5765,7 +4411,7 @@ GraphQL permite que clientes busquem exatamente os dados que precisam.`,
   {
     slug: "websockets-com-xanascript",
     title: "WebSockets com XanaScript",
-    order: 118,
+    order: 89,
     points: 10,
     bodyMd: `Comunicação bidirecional em tempo real.
 
@@ -5832,7 +4478,7 @@ WebSockets são perfeitos para aplicações que exigem baixa latência.`,
   {
     slug: "testes-de-api",
     title: "Testes de API",
-    order: 119,
+    order: 90,
     points: 10,
     bodyMd: `Teste suas APIs automaticamente.
 
@@ -5895,7 +4541,7 @@ Testes de API garantem que seus endpoints funcionem corretamente.`,
   {
     slug: "boas-praticas-de-seguranca",
     title: "Boas Práticas de Segurança",
-    order: 120,
+    order: 91,
     points: 10,
     bodyMd: `Proteja suas aplicações XanaScript.
 
@@ -5953,7 +4599,7 @@ Segurança é uma preocupação contínua, não uma configuração única.`,
   {
     slug: "lidando-com-cors",
     title: "Lidando com CORS",
-    order: 121,
+    order: 92,
     points: 5,
     bodyMd: `Gerencie Cross-Origin Resource Sharing.
 
@@ -6006,7 +4652,7 @@ Configure CORS corretamente para permitir acesso de origens confiáveis.`,
   {
     slug: "variaveis-de-ambiente-avancado",
     title: "Variáveis de Ambiente Avançado",
-    order: 122,
+    order: 93,
     points: 5,
     bodyMd: `Gerencie configurações complexas.
 
@@ -6069,7 +4715,7 @@ Valide configurações no startup para falhar rápido.`,
   {
     slug: "sessao-e-cookies",
     title: "Sessão e Cookies",
-    order: 123,
+    order: 94,
     points: 5,
     bodyMd: `Gerencie estado do usuário.
 
@@ -6127,7 +4773,7 @@ Sessões permitem estado persistente entre requisições HTTP.`,
   {
     slug: "upload-de-arquivos",
     title: "Upload de Arquivos",
-    order: 124,
+    order: 95,
     points: 10,
     bodyMd: `Receba e processe arquivos enviados.
 
@@ -6199,7 +4845,7 @@ Sempre valide tipo e tamanho de arquivos enviados.`,
   {
     slug: "processamento-de-imagens",
     title: "Processamento de Imagens",
-    order: 125,
+    order: 96,
     points: 10,
     bodyMd: `Manipule imagens com XanaScript.
 
@@ -6252,7 +4898,7 @@ Processamento de imagens permite otimizar uploads e criar variações.`,
   {
     slug: "internacionalizacao",
     title: "Internacionalização (i18n)",
-    order: 126,
+    order: 97,
     points: 5,
     bodyMd: `Prepare sua aplicação para múltiplos idiomas.
 
@@ -6313,7 +4959,7 @@ i18n torna sua aplicação acessível globalmente.`,
   {
     slug: "testes-de-carga-e-estresse",
     title: "Testes de Carga e Estresse",
-    order: 127,
+    order: 98,
     points: 10,
     bodyMd: `Teste desempenho sob pressão.
 
@@ -6367,7 +5013,7 @@ Testes de carga revelam gargalos antes de afetar usuários reais.`,
   {
     slug: "otimizacao-de-consultas",
     title: "Otimização de Consultas",
-    order: 128,
+    order: 99,
     points: 10,
     bodyMd: `Escreva consultas de banco de dados eficientes.
 
@@ -6430,7 +5076,7 @@ Consultas otimizadas são críticas para desempenho em escala.`,
   {
     slug: "caching-avancado",
     title: "Caching Avançado",
-    order: 129,
+    order: 100,
     points: 10,
     bodyMd: `Estratégias avançadas de cache.
 
@@ -6505,7 +5151,7 @@ Estratégias avançadas de cache maximizam taxa de acerto e minimizam latência.
   {
     slug: "testes-de-seguranca",
     title: "Testes de Segurança",
-    order: 130,
+    order: 101,
     points: 10,
     bodyMd: `Teste vulnerabilidades de segurança.
 
@@ -6572,7 +5218,7 @@ Testes de segurança previnem vulnerabilidades antes da produção.`,
   {
     slug: "logs-estruturados-e-agregacao",
     title: "Logs Estruturados e Agregação",
-    order: 131,
+    order: 102,
     points: 5,
     bodyMd: `Centralize e analise logs.
 
@@ -6636,7 +5282,7 @@ Logs estruturados permitem busca e análise eficientes.`,
   {
     slug: "tratamento-de-erros-em-producao",
     title: "Tratamento de Erros em Produção",
-    order: 132,
+    order: 103,
     points: 10,
     bodyMd: `Lide com erros em ambiente de produção.
 
@@ -6699,7 +5345,7 @@ Preparação para erros em produção é essencial para sistemas confiáveis.`,
   {
     slug: "ferramentas-de-linha-de-comando-avancado",
     title: "Ferramentas CLI Avançadas",
-    order: 133,
+    order: 104,
     points: 10,
     bodyMd: `Construa CLIs sofisticadas.
 
@@ -6775,7 +5421,7 @@ CLIs profissionais melhoram a experiência do desenvolvedor.`,
   {
     slug: "configuracao-de-projeto-escalavel",
     title: "Configuração de Projeto Escalável",
-    order: 134,
+    order: 105,
     points: 10,
     bodyMd: `Estruture projetos para escalar.
 
@@ -6852,587 +5498,9 @@ Organização consistente facilita navegação e manutenção.`,
     ],
   },
   {
-    slug: "introducao-ao-typescript-no-xanascript",
-    title: "TypeScript no XanaScript",
-    order: 135,
-    points: 10,
-    bodyMd: `XanaScript suporta TypeScript nativamente.
-
-## Tipagem Estática
-
-\`\`\`ts
-// Suporte a sintaxe TypeScript
-CHAMA ESSE CARA soma(a: numero, b: numero): numero {
-  VOLTA a + b
-}
-
-interface Usuario {
-  id: numero
-  nome: string
-  email: string
-}
-
-CLASSE RepoUsuario {
-  CHAMA ESSE CARA buscar(id: numero): Promise<Usuario | null> {
-    VOLTA db.consulta("SELECT * FROM usuarios WHERE id = ?", [id])
-  }
-}
-\`\`\`
-
-## Generics
-
-\`\`\`ts
-CHAMA ESSE CARA primeiro<T>(arr: T[]): T | undefined {
-  VOLTA arr[0]
-}
-
-CRIA num = primeiro([1, 2, 3])
-CRIA str = primeiro(["a", "b", "c"])
-\`\`\`
-
-## Utility Types
-
-\`\`\`ts
-type UsuarioParcial = Partial<Usuario>
-type UsuarioReadonly = Readonly<Usuario>
-type UsuarioSemEmail = Omit<Usuario, "email">
-\`\`\`
-
-## tsconfig
-
-\`\`\`json
-{
-  "compilerOptions": {
-    "strict": true,
-    "target": "ES2022",
-    "module": "ESNext"
-  }
-}
-\`\`\`
-
-TypeScript fornece segurança de tipos para grandes codebases.`,
-    challenges: [
-      { question: "Qual a vantagem do TypeScript?", answer: "segurança de tipos / type safety", points: 5 },
-      { question: "O que generics permitem?", answer: "funções que trabalham com múltiplos tipos", points: 3 },
-      { question: "Qual o nome do arquivo de config do TS?", answer: "tsconfig.json", points: 3 },
-    ],
-  },
-  {
-    slug: "decorators-e-metaprogramacao",
-    title: "Decorators e Metaprogramação",
-    order: 136,
-    points: 10,
-    bodyMd: `Decore e transforme classes e métodos.
-
-## Decorator de Classe
-
-\`\`\`xs
-CHAMA ESSE CARA selavel(construtor: Funcao) {
-  construtor.prototype.selavel = true
-}
-
-@selavel
-CLASSE Usuario {}
-\`\`\`
-
-## Decorator de Método
-
-\`\`\`xs
-CHAMA ESSE CARA logavel(alvo: objeto, chave: string, descritor: PropriedadeDescritor) {
-  CRIA original = descritor.valor
-  descritor.valor = function(...args: any[]) {
-    SOLTA O GRITO("Chamando " + chave, args)
-    VOLTA original.aplicar(ISTO, args)
-  }
-  VOLTA descritor
-}
-
-CLASSE Calculadora {
-  @logavel
-  soma(a: numero, b: numero): numero {
-    VOLTA a + b
-  }
-}
-\`\`\`
-
-## Decorator de Propriedade
-
-\`\`\`xs
-CHAMA ESSE CARA somenteLeitura(alvo, chave) {
-  Object.definirPropriedade(alvo, chave, { escrevivel: false })
-}
-
-CLASSE Config {
-  @somenteLeitura
-  CRIA versao = "1.0"
-}
-\`\`\`
-
-## Metaprogramação com Reflect
-
-\`\`\`xs
-import { Reflect } from "xs:reflect"
-
-// Obter metadados
-CRIA tipo = Reflect.obterMetadado("design:type", alvo, chave)
-\`\`\`
-
-Decorators permitem código mais limpo e separação de concerns.`,
-    challenges: [
-      { question: "Decorator de classe recebe ...", answer: "o construtor da classe", points: 3 },
-      { question: "Qual módulo fornece metaprogramação?", answer: "xs:reflect", points: 3 },
-      { question: "Decorators permitem ...", answer: "separação de concerns / código mais limpo", points: 3 },
-    ],
-  },
-  {
-    slug: "programacao-funcional-avancada",
-    title: "Programação Funcional Avançada",
-    order: 137,
-    points: 10,
-    bodyMd: `Conceitos avançados de FP.
-
-## Functors
-
-\`\`\`xs
-CLASSE Maybe {
-  CHAMA ESSE CARA ESTATICO de(valor) {
-    VOLTA valor == null ? Maybe.nada() : Maybe.justo(valor)
-  }
-
-  CHAMA ESSE CARA mapa(fn) {
-    VOLTA ISTO.valor == null ? ISTO : Maybe.justo(fn(ISTO.valor))
-  }
-}
-
-CRIA resultado = Maybe.de("Olá")
-  .mapa(s => s.maiusculo())
-  .mapa(s => s + " MUNDO")
-// Justo("OLÁ MUNDO")
-\`\`\`
-
-## Monads
-
-\`\`\`xs
-CLASSE AsyncMonad {
-  CHAMA ESSE CARA ESTATICO de(valor) {
-    VOLTA AsyncMonad.novo(Promise.resolver(valor))
-  }
-
-  CHAMA ESSE CARA ligar(fn) {
-    VOLTA AsyncMonad.novo(ISTO.valor.entao(fn))
-  }
-
-  CHAMA ESSE CARA mapa(fn) {
-    VOLTA ISTO.ligar(v => AsyncMonad.de(fn(v)))
-  }
-}
-
-CRIA asyncResult = ESPERA AsyncMonad.de(5)
-  .mapa(x => x * 2)
-  .mapa(x => x + 1)
-  .valor
-\`\`\`
-
-## Composição
-
-\`\`\`xs
-CHAMA ESSE CARA compor(...fns) {
-  VOLTA (x) => fns.reduce((acc, fn) => fn(acc), x)
-}
-
-CRIA processar = compor(
-  (s) => s.trim(),
-  (s) => s.maiusculo(),
-  (s) => s + "!"
-)
-
-SOLTA O GRITO(processar("  olá  ")) // "OLÁ!"
-\`\`\`
-
-FP traz previsibilidade e testabilidade.`,
-    challenges: [
-      { question: "Maybe é um ...", answer: "functor/monad para valores opcionais", points: 5 },
-      { question: "O que map faz?", answer: "aplica função dentro de um contexto", points: 3 },
-      { question: "Composição combina ...", answer: "múltiplas funções em uma", points: 3 },
-    ],
-  },
-  {
-    slug: "padroes-de-arquitetura",
-    title: "Padrões de Arquitetura",
-    order: 138,
-    points: 10,
-    bodyMd: `Padrões arquiteturais para aplicações maiores.
-
-## Clean Architecture
-
-\`\`\`xs
-// Camadas
-// 1. Entidades (regras de negócio)
-CLASSE Usuario {
-  CHAMA ESSE CARA alterarEmail(novoEmail) {
-    SE LIGA SO (!novoEmail.tem("@")) {
-      JOGAR "Email inválido"
-    }
-    ISTO.email = novoEmail
-  }
-}
-
-// 2. Casos de Uso
-CLASSE AlterarEmailCaso {
-  CHAMA ESSE CARA executar(usuarioId, novoEmail) {
-    CRIA usuario = ESPERA repo.buscar(usuarioId)
-    usuario.alterarEmail(novoEmail)
-    ESPERA repo.salvar(usuario)
-  }
-}
-
-// 3. Adaptadores
-CLASSE ControladorUsuario {
-  CHAMA ESSE CARA alterarEmail(req, res) {
-    ESPERA casoUso.executar(req.params.id, req.corpo.email)
-    res.json({ ok: true })
-  }
-}
-
-// 4. Frameworks (Express, DB)
-\`\`\`
-
-## Dependências Invertidas
-
-\`\`\`xs
-// Repositório abstrato (contrato)
-CLASSE RepoUsuario {
-  CHAMA ESSE CARA buscar(id) { JOGAR "não implementado" }
-  CHAMA ESSE CARA salvar(u) { JOGAR "não implementado" }
-}
-
-// Implementação concreta
-CLASSE RepoUsuarioSQL estende RepoUsuario {
-  CHAMA ESSE CARA buscar(id) {
-    VOLTA db.consulta("SELECT * FROM usuarios WHERE id = ?", [id])
-  }
-}
-\`\`\`
-
-Arquitetura limpa mantém regras de negócio independentes de frameworks.`,
-    challenges: [
-      { question: "Quais são as 4 camadas da Clean Architecture?", answer: "entidades, casos de uso, adaptadores, frameworks", points: 5 },
-      { question: "Qual princípio inverte dependências?", answer: "Dependency Inversion / Inversão de Dependência", points: 5 },
-      { question: "Regras de negócio ficam em qual camada?", answer: "entidades / entities", points: 3 },
-    ],
-  },
-  {
-    slug: "design-patterns-comportamentais",
-    title: "Padrões Comportamentais",
-    order: 139,
-    points: 10,
-    bodyMd: `Padrões que gerenciam algoritmos e responsabilidades.
-
-## Strategy
-
-\`\`\`xs
-CLASSE CalculadoraFrete {
-  CRIA estrategia
-
-  CHAMA ESSE CARA definirEstrategia(estrategia) {
-    ISTO.estrategia = estrategia
-  }
-
-  CHAMA ESSE CARA calcular(peso) {
-    VOLTA ISTO.estrategia.calcular(peso)
-  }
-}
-
-// Estratégias
-CLASSE FreteNormal {
-  CHAMA ESSE CARA calcular(peso) { VOLTA peso * 5 }
-}
-
-CLASSE FreteExpresso {
-  CHAMA ESSE CARA calcular(peso) { VOLTA peso * 10 + 15 }
-}
-
-CLASSE FreteInternacional {
-  CHAMA ESSE CARA calcular(peso) { VOLTA peso * 20 + 50 }
-}
-
-// Uso
-CRIA calc = CalculadoraFrete.novo()
-calc.definirEstrategia(FreteExpresso.novo())
-SOLTA O GRITO(calc.calcular(10)) // 115
-\`\`\`
-
-## Observer (Event Emitter)
-
-\`\`\`xs
-CLASSE Notificador {
-  CRIA listeners = {}
-
-  CHAMA ESSE CARA ao(evento, fn) {
-    (ISTO.listeners[evento] ||= []).push(fn)
-  }
-
-  CHAMA ESSE CARA emitir(evento, ...args) {
-    (ISTO.listeners[evento] || [])
-      .paraCada(fn => fn(...args))
-  }
-}
-\`\`\`
-
-## State
-
-\`\`\`xs
-CLASSE MaquinaEstado {
-  CRIA estadoAtual
-
-  CHAMA ESSE CARA transitar(estado) {
-    ISTO.estadoAtual = estado
-    estado.executar(ISTO)
-  }
-}
-\`\`\`
-
-Padrões comportamentais promovem flexibilidade em algoritmos e comunicação.`,
-    challenges: [
-      { question: "O padrão Strategy permite ...", answer: "trocar algoritmos em tempo de execução", points: 5 },
-      { question: "Observer implementa ...", answer: "comunicação um-para-muitos", points: 3 },
-      { question: "State modela ...", answer: "comportamento baseado em estado", points: 3 },
-    ],
-  },
-  {
-    slug: "design-patterns-estruturais",
-    title: "Padrões Estruturais",
-    order: 140,
-    points: 10,
-    bodyMd: `Padrões que gerenciam composição de classes e objetos.
-
-## Adapter
-
-\`\`\`xs
-// API antiga
-CLASSE ApiLegado {
-  CHAMA ESSE CARA buscaDados() {
-    VOLTA XML.de("<usuario><nome>João</nome></usuario>")
-  }
-}
-
-// Adapter
-CLASSE AdaptadorUsuario {
-  CRIA api = ApiLegado.novo()
-
-  CHAMA ESSE CARA buscarUsuario() {
-    CRIA xml = ISTO.api.buscaDados()
-    CRIA obj = {}
-    obj.nome = xml.buscar("usuario nome").texto
-    VOLTA obj
-  }
-}
-
-// Uso moderno
-CRIA adapter = AdaptadorUsuario.novo()
-CRIA usuario = adapter.buscarUsuario()
-SOLTA O GRITO(usuario.nome) // "João"
-\`\`\`
-
-## Decorator
-
-\`\`\`xs
-CLASSE NotificacaoBase {
-  CHAMA ESSE CARA enviar(msg) { SOLTA O GRITO("Notificação: " + msg) }
-}
-
-CLASSE NotificacaoDecorator {
-  CRIA wrappee
-
-  CHAMA ESSE CARA enviar(msg) {
-    ISTO.wrappee.enviar(msg)
-  }
-}
-
-CLASSE NotificacaoLog estende NotificacaoDecorator {
-  CHAMA ESSE CARA enviar(msg) {
-    SOLTA O GRITO("LOG: " + msg)
-    super.enviar(msg)
-  }
-}
-
-CLASSE NotificacaoPrioridade estende NotificacaoDecorator {
-  CHAMA ESSE CARA enviar(msg) {
-    super.enviar("[URGENTE] " + msg)
-  }
-}
-\`\`\`
-
-## Facade
-
-\`\`\`xs
-CLASSE FachadaSistema {
-  CHAMA ESSE CARA processarPedido(dados) {
-    validar(dados)
-    CRIA pedido = salvar(dados)
-    enviarEmail(pedido)
-    atualizarEstoque(pedido)
-    VOLTA pedido
-  }
-}
-\`\`\`
-
-Padrões estruturais simplificam a composição de sistemas complexos.`,
-    challenges: [
-      { question: "Adapter faz ...", answer: "compatibiliza interfaces incompatíveis", points: 5 },
-      { question: "Decorator adiciona ...", answer: "comportamento extra dinamicamente", points: 3 },
-      { question: "Facade simplifica ...", answer: "interação com subsistemas complexos", points: 3 },
-    ],
-  },
-  {
-    slug: "design-patterns-criacionais",
-    title: "Padrões Criacionais",
-    order: 141,
-    points: 10,
-    bodyMd: `Padrões que gerenciam criação de objetos.
-
-## Singleton
-
-\`\`\`xs
-CLASSE ConexaoBanco {
-  CRIA ESTATICO instancia
-
-  CHAMA ESSE CARA ESTATICO obter() {
-    SE LIGA SO (!ConexaoBanco.instancia) {
-      ConexaoBanco.instancia = ConexaoBanco.novo()
-    }
-    VOLTA ConexaoBanco.instancia
-  }
-
-  CHAMA ESSE CARA consultar(sql) {
-    // ...
-  }
-}
-
-// Uso
-CRIA db = ConexaoBanco.obter()
-\`\`\`
-
-## Factory Method
-
-\`\`\`xs
-CLASSE CriadorDocumento {
-  CHAMA ESSE CARA criarDocumento(tipo) {
-    SE LIGA SO (tipo === "pdf") { VOLTA DocumentoPDF.novo() }
-    SE LIGA SO (tipo === "html") { VOLTA DocumentoHTML.novo() }
-    JOGAR "Tipo desconhecido"
-  }
-}
-\`\`\`
-
-## Builder
-
-\`\`\`xs
-CLASSE ConstrutorUsuario {
-  CRIA usuario = {}
-
-  CHAMA ESSE CARA comNome(nome) {
-    ISTO.usuario.nome = nome
-    VOLTA ISTO
-  }
-
-  CHAMA ESSE CARA comEmail(email) {
-    ISTO.usuario.email = email
-    VOLTA ISTO
-  }
-
-  CHAMA ESSE CARA comIdade(idade) {
-    ISTO.usuario.idade = idade
-    VOLTA ISTO
-  }
-
-  CHAMA ESSE CARA construir() {
-    SE LIGA SO (!ISTO.usuario.nome) { JOGAR "Nome obrigatório" }
-    VOLTA ISTO.usuario
-  }
-}
-
-// Uso
-CRIA usuario = ConstrutorUsuario.novo()
-  .comNome("João")
-  .comEmail("joao@e.com")
-  .comIdade(30)
-  .construir()
-\`\`\`
-
-Padrões criacionais tornam a criação de objetos mais flexível e reutilizável.`,
-    challenges: [
-      { question: "Singleton garante ...", answer: "apenas uma instância da classe", points: 3 },
-      { question: "Factory Method cria ...", answer: "objetos baseado em parâmetros", points: 3 },
-      { question: "Builder facilita ...", answer: "construção de objetos complexos", points: 5 },
-    ],
-  },
-  {
-    slug: "introducao-a-testes-e2e",
-    title: "Introdução a Testes E2E",
-    order: 142,
-    points: 10,
-    bodyMd: `Teste fluxos completos do usuário.
-
-## Configuração
-
-\`\`\`xs
-import { navegador } from "xs:e2e"
-
-CRIA nav = ESPERA navegador.iniciar()
-CRIA pagina = ESPERA nav.novaPagina()
-\`\`\`
-
-## Navegação
-
-\`\`\`xs
-test("Fluxo de login completo", async () => {
-  // Navegar para login
-  ESPERA pagina.navegar("http://localhost:3000/login")
-
-  // Preencher formulário
-  ESPERA pagina.preencker("#email", "usuario@email.com")
-  ESPERA pagina.preencker("#senha", "minha-senha")
-
-  // Clicar
-  ESPERA pagina.clicar("#btn-login")
-
-  // Aguardar navegação
-  ESPERA pagina.esperarPorURL("/dashboard")
-
-  // Verificar
-  CRIA texto = ESPERA pagina.texto("#saudacao")
-  espera(texto).conter("Bem-vindo")
-})
-\`\`\`
-
-## Screenshots
-
-\`\`\`xs
-test("Screenshot de página", async () => {
-  ESPERA pagina.navegar("http://localhost:3000")
-  ESPERA pagina.screenshot({ caminho: "prints/homepage.png" })
-})
-\`\`\`
-
-## Testando Mobile
-
-\`\`\`xs
-ESPERA pagina.definirViewport({ largura: 375, altura: 812 })
-ESPERA pagina.navegar("http://localhost:3000")
-\`\`\`
-
-Testes E2E simulam a experiência real do usuário.`,
-    challenges: [
-      { question: "Qual função navega para uma URL?", answer: "pagina.navegar / page.goto", points: 3 },
-      { question: "Qual função tira screenshot?", answer: "pagina.screenshot", points: 3 },
-      { question: "Testes E2E são mais ...", answer: "lentos, mas cobrem fluxos reais", points: 5 },
-    ],
-  },
-  {
     slug: "documentacao-de-api",
     title: "Documentação de API",
-    order: 143,
+    order: 106,
     points: 5,
     bodyMd: `Documente suas APIs automaticamente.
 
@@ -7500,7 +5568,7 @@ APIs bem documentadas são fáceis de consumir e manter.`,
   {
     slug: "versionamento-de-api",
     title: "Versionamento de API",
-    order: 144,
+    order: 107,
     points: 5,
     bodyMd: `Gerencie mudanças em APIs.
 
@@ -7558,7 +5626,7 @@ Versionamento permite evoluir APIs sem quebrar clientes existentes.`,
   {
     slug: "microservicos-introducao",
     title: "Introdução a Microsserviços",
-    order: 145,
+    order: 108,
     points: 10,
     bodyMd: `Arquitetura baseada em serviços pequenos e independentes.
 
@@ -7617,7 +5685,7 @@ Microsserviços são poderosos para sistemas grandes, mas adicionam complexidade
   {
     slug: "filas-de-mensagens-e-streaming",
     title: "Filas de Mensagens e Streaming",
-    order: 146,
+    order: 109,
     points: 10,
     bodyMd: `Comunicação assíncrona entre serviços.
 
@@ -7674,7 +5742,7 @@ Streaming permite processamento em tempo real e desacoplamento.`,
   {
     slug: "tecnicas-avancadas-de-teste",
     title: "Técnicas Avançadas de Teste",
-    order: 147,
+    order: 110,
     points: 10,
     bodyMd: `Estratégias de teste para cenários complexos.
 
@@ -7737,128 +5805,9 @@ Testes avançados cobrem cenários de integração e produção.`,
     ],
   },
   {
-    slug: "testes-baseados-em-propriedades",
-    title: "Testes Baseados em Propriedades",
-    order: 148,
-    points: 10,
-    bodyMd: `Teste propriedades invariantes do código.
-
-## Conceito
-
-Em vez de exemplo -> resultado, teste propriedades que devem sempre ser verdade.
-
-## Exemplo
-
-\`\`\`xs
-import { testePropriedade } from "xs:test"
-
-// Propriedade: reverter duas vezes volta ao original
-testePropriedade(
-  "reverter é involutivo",
-  (arr) => {
-    CRIA invertido = arr.fatiar().reverter()
-    CRIA denovo = invertido.fatiar().reverter()
-    espera(denovo).serIgual(arr)
-  },
-  { gerar: "array:numero" }
-)
-\`\`\`
-
-## Geradores
-
-\`\`\`xs
-import { gerador } from "xs:test"
-
-CRIA geradorUsuario = gerador.objeto({
-  nome: gerador.string({ min: 1, max: 50 }),
-  email: gerador.email(),
-  idade: gerador.numero({ min: 0, max: 120 })
-})
-
-testePropriedade(
-  "usuário válido tem email",
-  (usuario) => {
-    espera(usuario.email).conter("@")
-  },
-  { gerar: geradorUsuario }
-)
-\`\`\`
-
-## Quando Usar
-
-- Funções puras
-- Algoritmos com invariantes
-- Parsers e serializadores
-- Validação de dados
-
-Testes de propriedade encontram casos de borda que testes de exemplo perdem.`,
-    challenges: [
-      { question: "Testes de propriedade testam ...", answer: "invariantes que sempre devem ser verdade", points: 5 },
-      { question: "Qual função testa propriedades?", answer: "testePropriedade / propertyTest", points: 3 },
-      { question: "O que geradores produzem?", answer: "dados de entrada aleatórios mas válidos", points: 5 },
-    ],
-  },
-  {
-    slug: "testes-de-mutacao",
-    title: "Testes de Mutação",
-    order: 149,
-    points: 10,
-    bodyMd: `Avalie a qualidade dos seus testes introduzindo bugs artificiais.
-
-## Conceito
-
-Mutantes são versões alteradas do seu código. Bons testes devem "matar" (detectar) mutantes.
-
-## Exemplo
-
-\`\`\`xs
-// Código original
-CHAMA ESSE CARA maior(a, b) { VOLTA a > b ? a : b }
-
-// Mutantes possíveis:
-// Mutante 1: VOLTA a < b ? a : b
-// Mutante 2: VOLTA a >= b ? a : b
-// Mutante 3: VOLTA b
-
-// Teste existente
-test("maior(3, 5) = 5", () => {
-  espera(maior(3, 5)).ser(5)
-})
-// Esse teste mata mutante 3, mas talvez não o 1 ou 2
-\`\`\`
-
-## Executando
-
-\`\`\`bash
-xs test --mutacao
-\`\`\`
-
-## Resultado
-
-\`\`\`
-Mutantes: 50
-Mortos:     45 (90%)
-Sobreviventes: 5 (10%)
-Pontuação de mutação: 90%
-\`\`\`
-
-## Interpretação
-
-- Mutantes sobreviventes indicam lacunas nos testes
-- Adicione testes para matar mutantes sobreviventes
-- Nem todo mutante precisa ser morto (alguns são equivalentes)
-
-Testes de mutação fornecem uma métrica mais rigorosa que cobertura de código.`,
-    challenges: [
-      { question: "O que é um mutante?", answer: "código com bug artificial", points: 3 },
-      { question: "Matar um mutante significa ...", answer: "o teste detecta a alteração", points: 5 },
-      { question: "Mutantes equivalentes são ...", answer: "mudanças que não alteram comportamento", points: 5 },
-    ],
-  },
-  {
     slug: "revisao-de-codigo-e-qualidade",
     title: "Revisão de Código e Qualidade",
-    order: 150,
+    order: 111,
     points: 10,
     bodyMd: `Mantenha qualidade através de revisões.
 
@@ -7913,450 +5862,6 @@ Revisões de código melhoram qualidade e compartilham conhecimento.`,
       { question: "Cite um aspecto para revisar", answer: "funcionalidade, manutenibilidade ou segurança", points: 3 },
       { question: "Qual comando executa o linter?", answer: "xs lint", points: 3 },
       { question: "O que complexidade ciclomática mede?", answer: "número de caminhos no código", points: 5 },
-    ],
-  },
-  {
-    slug: "tecnicas-de-refatoracao",
-    title: "Técnicas de Refatoração",
-    order: 151,
-    points: 10,
-    bodyMd: `Melhore código sem mudar comportamento.
-
-## Extrair Função
-
-\`\`\`xs
-// Antes
-CHAMA ESSE CARA processarPedido(pedido) {
-  // 20 linhas de validação...
-  SE LIGA SO (!pedido.itens || pedido.itens.tamanho === 0) { JOGAR "inválido" }
-  SE LIGA SO (!pedido.cliente) { JOGAR "inválido" }
-  // ...
-}
-
-// Depois
-CHAMA ESSE CARA validarPedido(pedido) {
-  SE LIGA SO (!pedido.itens || pedido.itens.tamanho === 0) { JOGAR "inválido" }
-  SE LIGA SO (!pedido.cliente) { JOGAR "inválido" }
-}
-
-CHAMA ESSE CARA processarPedido(pedido) {
-  validarPedido(pedido)
-  // ...
-}
-\`\`\`
-
-## Renomear
-
-\`\`\`xs
-// Antes
-CRIA x = calcular(d)
-
-// Depois
-CRIA total = calcularTotalPedido(dadosPedido)
-\`\`\`
-
-## Substituir Condicional por Polimorfismo
-
-\`\`\`xs
-// Antes
-SE LIGA SO (tipo === "pdf") { /* renderizar PDF */ }
-SE LIGA SO (tipo === "html") { /* renderizar HTML */ }
-
-// Depois
-CLASSE RenderizadorPDF estende Renderizador {
-  CHAMA ESSE CARA renderizar() { /* PDF */ }
-}
-CLASSE RenderizadorHTML estende Renderizador {
-  CHAMA ESSE CARA renderizar() { /* HTML */ }
-}
-\`\`\`
-
-## Dividir Condicional
-
-\`\`\`xs
-// Antes
-SE LIGA SO (deveEnviar && !estaBloqueado && temSaldo) { }
-// Depois
-SE LIGA SO (podeEnviar()) { }
-\`\`\`
-
-Refatore em pequenos passos com testes passando entre cada mudança.`,
-    challenges: [
-      { question: "Qual técnica extrai código em função?", answer: "extrair função / extract function", points: 3 },
-      { question: "Por que refatorar?", answer: "melhorar legibilidade e manutenibilidade sem mudar comportamento", points: 5 },
-      { question: "O que substituir condicional por polimorfismo reduz?", answer: "complexidade de condicionais", points: 5 },
-    ],
-  },
-  {
-    slug: "refatoracao-avancada",
-    title: "Refatoração Avançada",
-    order: 152,
-    points: 10,
-    bodyMd: `Técnicas avançadas de melhoria de código.
-
-## Extrair Classe
-
-\`\`\`xs
-// Antes: classe fazendo demais
-CLASSE Usuario {
-  CRIA nome, email
-  CRIA logins = []
-  CRIA preferencias = {}
-
-  CHAMA ESSE CARA logar() { /* ... */ }
-  CHAMA ESSE CARA definirPref(chave, valor) { /* ... */ }
-}
-
-// Depois: classes separadas
-CLASSE Usuario {
-  CRIA nome, email
-  CHAMA ESSE CARA logar() { /* ... */ }
-}
-
-CLASSE PreferenciasUsuario {
-  CRIA usuarioId, preferencias = {}
-  CHAMA ESSE CARA definir(chave, valor) { /* ... */ }
-}
-\`\`\`
-
-## Substituir Herança por Composição
-
-\`\`\`xs
-// Antes: herança
-CLASSE Carro estende Veiculo { }
-
-// Depois: composição
-CLASSE Carro {
-  CRIA veiculo = Veiculo.novo()
-  CRIA motor = Motor.novo()
-}
-\`\`\`
-
-## Introduzir Objeto Parâmetro
-
-\`\`\`xs
-// Antes: muitos parâmetros
-CHAMA ESSE CARA criarUsuario(nome, email, idade, endereco, telefone, cargo) {}
-
-// Depois: objeto parâmetro
-CLASSE DadosUsuario {
-  CRIA nome, email, idade, endereco, telefone, cargo
-}
-
-CHAMA ESSE CARA criarUsuario(dados: DadosUsuario) {}
-\`\`\`
-
-## Separar Query de Command
-
-Funções devem ou retornar dados (query) ou modificar estado (command), não ambos.
-
-Refatoração avançada melhora o design mantendo comportamento.`,
-    challenges: [
-      { question: "Extrair classe resolve ...", answer: "classes com muitas responsabilidades", points: 5 },
-      { question: "Composição é preferível a ...", answer: "herança", points: 3 },
-      { question: "Command modifica estado, Query ...", answer: "retorna dados", points: 3 },
-    ],
-  },
-  {
-    slug: "arquitetura-funcional",
-    title: "Arquitetura Funcional",
-    order: 153,
-    points: 10,
-    bodyMd: `Estruture aplicações usando princípios funcionais.
-
-## Separação Puro/Impuro
-
-\`\`\`xs
-// Funções puras (fáceis de testar)
-CHAMA ESSE CARA calcularTotal(itens) {
-  VOLTA itens.reduce((acc, item) => acc + item.preco * item.qtd, 0)
-}
-
-CHAMA ESSE CARA aplicarDesconto(total, cupom) {
-  SE LIGA SO (cupom.valido) { VOLTA total * (1 - cupom.porcentagem / 100) }
-  VOLTA total
-}
-
-// Função impura (efeitos colaterais)
-CHAMA ESSE CARA processarPedido(dadosPedido) {
-  CRIA itensValidos = validarItens(dadosPedido.itens)
-  CRIA total = calcularTotal(itensValidos)
-  CRIA totalComDesconto = aplicarDesconto(total, dadosPedido.cupom)
-  ESPERA salvarPedido(dadosPedido, totalComDesconto)
-}
-\`\`\`
-
-## Injeção de Dependência
-
-\`\`\`xs
-// Em vez de importar diretamente, receba dependências
-CHAMA ESSE CARA buscarUsuario(id, db) {
-  VOLTA db.consulta("SELECT * FROM usuarios WHERE id = ?", [id])
-}
-
-// Teste: passe mock
-CHAMA ESSE CARA testarBusca() {
-  CRIA mockDb = { consulta: () => Promise.resolver({ id: 1 }) }
-  ESPERA buscarUsuario(1, mockDb)
-}
-\`\`\`
-
-## Imutabilidade
-
-\`\`\`xs
-CHAMA ESSE CARA atualizarUsuario(usuario, mudancas) {
-  VOLTA { ...usuario, ...mudancas }
-}
-\`\`\`
-
-Arquitetura funcional produz código mais previsível e testável.`,
-    challenges: [
-      { question: "Função pura não tem ...", answer: "efeitos colaterais", points: 5 },
-      { question: "Injeção de dependência facilita ...", answer: "testes com mocks", points: 3 },
-      { question: "Imutabilidade evita ...", answer: "mutações acidentais de estado", points: 3 },
-    ],
-  },
-  {
-    slug: "domain-driven-design",
-    title: "Domain-Driven Design (DDD)",
-    order: 154,
-    points: 10,
-    bodyMd: `Modele software baseado no domínio do negócio.
-
-## Entidades
-
-Objetos com identidade única:
-
-\`\`\`xs
-CLASSE Usuario {
-  CRIA constructor(id, nome, email) {
-    ISTO.id = id        // identidade
-    ISTO.nome = nome
-    ISTO.email = email
-  }
-
-  CHAMA ESSE CARA igual(outro) {
-    VOLTA ISTO.id === outro.id
-  }
-}
-\`\`\`
-
-## Value Objects
-
-Objetos sem identidade, comparados por valor:
-
-\`\`\`xs
-CLASSE Endereco {
-  CRIA constructor(rua, cidade, cep) {
-    ISTO.rua = rua
-    ISTO.cidade = cidade
-    ISTO.cep = cep
-  }
-
-  CHAMA ESSE CARA igual(outro) {
-    VOLTA ISTO.cep === outro.cep
-  }
-}
-\`\`\`
-
-## Aggregates
-
-Grupo de entidades tratado como unidade:
-
-\`\`\`xs
-CLASSE Pedido {
-  CRIA id, itens = [], total = 0
-
-  CHAMA ESSE CARA adicionarItem(produto, qtd) {
-    ISTO.itens.push(ItemPedido.novo(produto, qtd))
-    ISTO.total = ISTO.calcularTotal()
-  }
-
-  CHAMA ESSE CARA calcularTotal() {
-    return ISTO.itens.reduce((s, i) => s + i.subtotal, 0)
-  }
-}
-\`\`\`
-
-## Domain Events
-
-\`\`\`xs
-CLASSE PedidoCriado {
-  CRIA constructor(pedidoId, data) {
-    ISTO.pedidoId = pedidoId
-    ISTO.data = data
-  }
-}
-\`\`\`
-
-DDD alinha modelo de software com linguagem do negócio.`,
-    challenges: [
-      { question: "Entidades são definidas por ...", answer: "identidade única", points: 5 },
-      { question: "Value Objects são comparados por ...", answer: "valor / atributos", points: 3 },
-      { question: "Aggregate é ...", answer: "grupo de entidades tratado como unidade", points: 5 },
-    ],
-  },
-  {
-    slug: "event-sourcing",
-    title: "Event Sourcing",
-    order: 155,
-    points: 10,
-    bodyMd: `Armazene estado como sequência de eventos.
-
-## Conceito
-
-Em vez de armazenar estado atual, armazene todos os eventos que levaram a ele.
-
-## Eventos
-
-\`\`\`xs
-CLASSE Eventos {
-  CRIA ESTATICO tipos = {
-    USUARIO_CRIADO: "usuario.criado",
-    EMAIL_ALTERADO: "usuario.email.alterado",
-    USUARIO_BLOQUEADO: "usuario.bloqueado"
-  }
-}
-
-CLASSE UsuarioCriado {
-  CRIA constructor(id, nome, email, data) {
-    ISTO.tipo = Eventos.tipos.USUARIO_CRIADO
-    ISTO.id = id
-    ISTO.nome = nome
-    ISTO.email = email
-    ISTO.data = data
-  }
-}
-\`\`\`
-
-## Event Store
-
-\`\`\`xs
-CLASSE EventStore {
-  CRIA eventos = []
-
-  CHAMA ESSE CARA async salvarEvento(agregadoId, evento) {
-    evento.versao = ISTO.eventos
-      .filter(e => e.agregadoId === agregadoId)
-      .tamanho + 1
-    evento.agregadoId = agregadoId
-    ISTO.eventos.push(evento)
-    ESPERA db.salvar(evento)
-  }
-
-  CHAMA ESSE CARA async buscarEventos(agregadoId) {
-    VOLTA db.consulta(
-      "SELECT * FROM eventos WHERE agregadoId = ? ORDER BY versao",
-      [agregadoId]
-    )
-  }
-}
-\`\`\`
-
-## Reconstrução de Estado
-
-\`\`\`xs
-CHAMA ESSE CARA reconstruirUsuario(id) {
-  CRIA eventos = ESPERA eventStore.buscarEventos(id)
-  CRIA usuario = Usuario.novo()
-
-  eventos.paraCada(evt => {
-    SE LIGA SO (evt.tipo === "usuario.criado") {
-      usuario.id = evt.id
-      usuario.nome = evt.nome
-    } SENAO SE LIGA SO (evt.tipo === "usuario.email.alterado") {
-      usuario.email = evt.email
-    }
-  })
-
-  return usuario
-}
-\`\`\`
-
-Event Sourcing fornece auditoria completa e histórico de mudanças.`,
-    challenges: [
-      { question: "Event Sourcing armazena ...", answer: "eventos em vez de estado atual", points: 5 },
-      { question: "Como o estado é recuperado?", answer: "reproduzindo eventos (reconstrução)", points: 5 },
-      { question: "Qual benefício do Event Sourcing?", answer: "auditoria completa e histórico", points: 5 },
-    ],
-  },
-  {
-    slug: "cqrs",
-    title: "CQRS (Command Query Responsibility Segregation)",
-    order: 156,
-    points: 10,
-    bodyMd: `Separe operações de leitura e escrita.
-
-## Conceito
-
-- **Commands**: alteram estado (escrita)
-- **Queries**: retornam dados (leitura)
-- Modelos separados para cada operação
-
-## Command
-
-\`\`\`xs
-CLASSE CriarUsuarioCommand {
-  CRIA constructor(nome, email, senha) {
-    ISTO.nome = nome
-    ISTO.email = email
-    ISTO.senha = senha
-  }
-}
-
-CLASSE HandlerCriarUsuario {
-  CHAMA ESSE CARA async executar(cmd) {
-    CRIA usuario = Usuario.novo(cmd.nome, cmd.email, cmd.senha)
-    ESPERA usuarioRepo.salvar(usuario)
-    ESPERA eventBus.publicar(UsuarioCriado.novo(usuario))
-    return usuario
-  }
-}
-\`\`\`
-
-## Query
-
-\`\`\`xs
-CLASSE BuscarUsuariosQuery {
-  CRIA constructor(filtros) {
-    ISTO.ativo = filtros.ativo
-    ISTO.pagina = filtros.pagina || 1
-  }
-}
-
-CLASSE HandlerBuscarUsuarios {
-  CHAMA ESSE CARA async executar(query) {
-    // Pode usar um modelo de leitura otimizado
-    VOLTA leituraRepo.buscarUsuarios(query.ativo, query.pagina)
-  }
-}
-\`\`\`
-
-## Modelos Separados
-
-\`\`\`xs
-// Modelo de escrita (normalizado)
-CLASSE UsuarioEscrita {
-  CRIA id, nome, email, senhaHash
-}
-
-// Modelo de leitura (desnormalizado para consultas)
-CLASSE UsuarioLeitura {
-  CRIA id, nome, email, totalPedidos, ultimoLogin
-}
-\`\`\`
-
-## Quando Usar
-
-- Sistemas com padrões de leitura/escrita muito diferentes
-- Alta carga de leitura
-- Equipes separadas para leitura e escrita
-
-CQRS permite otimizar leitura e escrita independentemente.`,
-    challenges: [
-      { question: "CQRS separa ...", answer: "commands (escrita) de queries (leitura)", points: 5 },
-      { question: "Command altera ...", answer: "estado / dados", points: 3 },
-      { question: "Query retorna ...", answer: "dados sem modificar estado", points: 3 },
     ],
   },
 ];
