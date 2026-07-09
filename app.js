@@ -131,8 +131,7 @@ app.use("/api/stats", statsRouter);
 app.use("/api/webhooks", webhooksRouter);
 
 app.use((req, res) => {
-  const fallbackLang = req.lang || "en";
-  res.status(404).render(`${fallbackLang}/404`, { lang: fallbackLang });
+  res.status(404).render("en/404", { lang: "en" });
 });
 
 app.use((err, req, res, next) => {
@@ -147,8 +146,7 @@ app.use((err, req, res, next) => {
     console.error("Unhandled error:", err.stack || err.message);
   }
   if (req.accepts("html")) {
-    const fallbackLang = req.lang || "en";
-    return res.status(500).render(`${fallbackLang}/500`, { lang: fallbackLang, error: process.env.NODE_ENV === "development" ? err.message : "Internal server error" });
+    return res.status(500).render("en/500", { lang: "en", error: process.env.NODE_ENV === "development" ? err.message : "Internal server error" });
   }
   res.status(500).json({ ok: false, error: "Internal server error" });
 });

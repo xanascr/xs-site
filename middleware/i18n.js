@@ -11,35 +11,13 @@ for (const f of fs.readdirSync(dir)) {
   locales[lang] = JSON.parse(fs.readFileSync(path.join(dir, f), "utf-8"));
 }
 
-const SUPPORTED = ["en", "pt", "es"];
-
 export function i18n(req, res, next) {
-  let lang = "en";
-  const urlLang = req.path.match(/^\/(en|pt|es)(\/|$)/)?.[1];
-  if (SUPPORTED.includes(urlLang)) lang = urlLang;
-  if (!urlLang) {
-    const accept = req.headers["accept-language"];
-    if (accept) {
-      for (const s of accept.split(",")) {
-        const code = s.trim().slice(0, 2);
-        if (SUPPORTED.includes(code)) { lang = code; break; }
-      }
-    }
-  }
-  if (SUPPORTED.includes(req.query.lang)) lang = req.query.lang;
-
-  req.lang = lang;
-  res.locals.lang = lang;
+  res.locals.lang = "en";
   res.locals.t = (key, ...args) => {
-    let v = locales[lang]?.[key] ?? locales.en?.[key] ?? key;
+    let v = locales.en?.[key] ?? key;
     args.forEach((a, i) => { v = v.replace(`{${i}}`, a); });
     return v;
   };
-  const pathWithoutLang = req.path.replace(/^\/(en|pt|es)(\/|$)/, "/");
-  res.locals.alternates = SUPPORTED.map(l => ({
-    lang: l,
-    href: `/${l === "en" ? "" : l}${pathWithoutLang}`,
-  }));
-
+  res.locals.alternates = [{ lang: "en", href: req.path }];
   next();
 }

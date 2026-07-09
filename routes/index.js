@@ -95,7 +95,7 @@ const examples = [
   {
     title: "Classes & OOP",
     lang: "xs",
-    code: `CLASSE Animal {\n  CONSTRUTOR(nome) {\n    ISTO.nome = nome\n  }\n  METODO speak() {\n    SOLTA O GRITO(ISTO.nome + " makes a sound")\n  }\n}\n\nCLASSE Dog HERDA Animal {\n  METODO speak() {\n    SOLTA O GRITO(ISTO.nome + " says: Woof!")\n  }\n}\n\nCRIA a = NOVA Animal("Generic")\nCRIA d = NOVA Dog("Rex")\na.speak()\nd.speak()\n\nSOLTA O GRITO("d is Dog?", d instanceof Dog)\nSOLTA O GRITO("d is Animal?", d instanceof Animal)`,
+    code: `CLASSE Animal {\n  CONSTRUTOR(nome) {\n    ISTO.nome = nome\n  }\n  METODO speak() {\n    SOLTA O GRITO(ISTO.nome + " makes a sound")\n  }\n}\n\nCLASSE Dog HERDA Animal {\n  METODO speak() {\n    SOLTA O GRITO(ISTO.nome + " says: Woof!")\n  }\n}\n\nCRIA a = NOVA Animal("Generic")\nCRIA d = NOVO Dog("Rex")\na.speak()\nd.speak()\n\nSOLTA O GRITO("d is Dog?", d instanceof Dog)\nSOLTA O GRITO("d is Animal?", d instanceof Animal)`,
     desc: "Class-based OOP with inheritance, constructor, methods, and instanceof operator."
   },
   {
@@ -113,50 +113,33 @@ const examples = [
 ];
 
 router.get("/", (req, res) => {
-  const lang = req.lang || "en";
-  if (lang !== "en") {
-    return res.redirect(`/${lang}/`);
-  }
   res.render("en/index", { lang: "en", examples, changelog, benchmarks, page: "home" });
 });
 
-router.get("/:lang(en|pt|es)?", (req, res) => {
-  const lang = req.params.lang || "en";
-  res.render(`${lang}/index`, { lang, examples, changelog, benchmarks, page: "home" });
+router.get("/docs", (req, res) => {
+  res.render("en/docs", { lang: "en", page: "docs" });
 });
 
-router.get("/:lang(en|pt|es)?/docs", (req, res) => {
-  const lang = req.params.lang || "en";
-  res.render(`${lang}/docs`, { lang, page: "docs" });
+router.get("/docs/:doc", (req, res) => {
+  res.render("en/docs", { lang: "en", doc: req.params.doc, page: "docs" });
 });
 
-router.get("/:lang(en|pt|es)?/docs/:doc", (req, res) => {
-  const lang = req.params.lang || "en";
-  const doc = req.params.doc;
-  res.render(`${lang}/docs`, { lang, doc, page: "docs" });
+router.get("/examples", (req, res) => {
+  res.render("en/examples", { lang: "en", examples, page: "examples" });
 });
 
-router.get("/:lang(en|pt|es)?/examples", (req, res) => {
-  const lang = req.params.lang || "en";
-  res.render(`${lang}/examples`, { lang, examples, page: "examples" });
+router.get("/benchmark", (req, res) => {
+  res.render("en/benchmark", { lang: "en", benchmarks, page: "benchmark" });
 });
 
-router.get("/:lang(en|pt|es)?/benchmark", (req, res) => {
-  const lang = req.params.lang || "en";
-  res.render(`${lang}/benchmark`, { lang, benchmarks, page: "benchmark" });
+router.get("/changelog", (req, res) => {
+  res.render("en/changelog", { lang: "en", changelog, page: "changelog" });
 });
 
-router.get("/:lang(en|pt|es)?/changelog", (req, res) => {
-  const lang = req.params.lang || "en";
-  res.render(`${lang}/changelog`, { lang, changelog, page: "changelog" });
+router.get("/login", (req, res) => {
+  res.render("en/login", { lang: "en", page: "login" });
 });
 
-router.get("/:lang(en|pt|es)?/login", (req, res) => {
-  const lang = req.params.lang || "en";
-  res.render(`${lang}/login`, { lang, page: "login" });
-});
-
-// Helper to get enrollment from cookie
 async function getEnrollment(courseId, req) {
   const token = req.headers.cookie?.match(/xs_token=([^;]+)/)?.[1];
   if (!token) return null;
@@ -167,10 +150,7 @@ async function getEnrollment(courseId, req) {
   } catch { return null; }
 }
 
-// ── Courses ──────────────────────────────────────────────────────────────
-// ── Dashboard ────────────────────────────────────────────────────────────
-router.get("/:lang(en|pt|es)?/dashboard", async (req, res) => {
-  const lang = req.params.lang || "en";
+router.get("/dashboard", async (req, res) => {
   try {
     const token = req.headers.cookie?.match(/xs_token=([^;]+)/)?.[1];
     let userData = null;
@@ -182,71 +162,63 @@ router.get("/:lang(en|pt|es)?/dashboard", async (req, res) => {
         userData = await User.findById(payload.id).select("xp level streak username email").lean();
       } catch {}
     }
-    res.render(`${lang}/dashboard`, { lang, user: userData, page: "dashboard" });
-  } catch { res.status(404).render(`${lang}/404`, { lang }); }
+    res.render("en/dashboard", { lang: "en", user: userData, page: "dashboard" });
+  } catch { res.status(404).render("en/404", { lang: "en" }); }
 });
 
-router.get("/:lang(en|pt|es)?/courses", async (req, res) => {
-  const lang = req.params.lang || "en";
+router.get("/courses", async (req, res) => {
   try {
-    let courses = await Course.find({ published: true, lang }).select("title slug description image category level duration totalPoints").sort({ createdAt: -1 }).lean();
-    if (!courses.length) {
-      courses = await Course.find({ published: true }).select("title slug description image category level duration totalPoints").sort({ createdAt: -1 }).lean();
-    }
-    res.render(`${lang}/courses/index`, { lang, courses, page: "courses" });
+    let courses = await Course.find({ published: true }).select("title slug description image category level duration totalPoints").sort({ createdAt: -1 }).lean();
+    res.render("en/courses/index", { lang: "en", courses, page: "courses" });
   } catch {
-    res.render(`${lang}/courses/index`, { lang, courses: [], page: "courses" });
+    res.render("en/courses/index", { lang: "en", courses: [], page: "courses" });
   }
 });
 
-router.get("/:lang(en|pt|es)?/courses/:slug", async (req, res) => {
-  const lang = req.params.lang || "en";
+router.get("/courses/:slug", async (req, res) => {
   try {
     const course = await Course.findOne({ slug: req.params.slug, published: true }).lean();
-    if (!course) return res.status(404).render(`${lang}/404`, { lang });
+    if (!course) return res.status(404).render("en/404", { lang: "en" });
     const enrollment = await getEnrollment(course._id, req);
-    res.render(`${lang}/courses/show`, { lang, course, enrollment, page: "courses" });
+    res.render("en/courses/show", { lang: "en", course, enrollment, page: "courses" });
   } catch {
-    res.status(404).render(`${lang}/404`, { lang });
+    res.status(404).render("en/404", { lang: "en" });
   }
 });
 
-router.get("/:lang(en|pt|es)?/courses/:slug/lessons/:lessonSlug", async (req, res) => {
-  const lang = req.params.lang || "en";
+router.get("/courses/:slug/lessons/:lessonSlug", async (req, res) => {
   try {
     const course = await Course.findOne({ slug: req.params.slug, published: true }).lean();
-    if (!course) return res.status(404).render(`${lang}/404`, { lang });
+    if (!course) return res.status(404).render("en/404", { lang: "en" });
     const lesson = course.lessons.find(l => l.slug === req.params.lessonSlug);
-    if (!lesson) return res.status(404).render(`${lang}/404`, { lang });
+    if (!lesson) return res.status(404).render("en/404", { lang: "en" });
 
     const marked = (await import("marked")).marked;
     const lessonHtml = lesson.bodyMd ? marked.parse(lesson.bodyMd, { async: false }) : (lesson.bodyHtml || lesson.contentHtml || lesson.content || "");
     const enrollment = await getEnrollment(course._id, req);
 
-    res.render(`${lang}/courses/lesson`, { lang, course, lesson, lessonHtml, enrollment, page: "courses" });
+    res.render("en/courses/lesson", { lang: "en", course, lesson, lessonHtml, enrollment, page: "courses" });
   } catch {
-    res.status(404).render(`${lang}/404`, { lang });
+    res.status(404).render("en/404", { lang: "en" });
   }
 });
 
-router.get("/:lang(en|pt|es)?/courses/:slug/quiz/:moduleIdx", async (req, res) => {
-  const lang = req.params.lang || "en";
+router.get("/courses/:slug/quiz/:moduleIdx", async (req, res) => {
   try {
     const course = await Course.findOne({ slug: req.params.slug, published: true }).lean();
-    if (!course) return res.status(404).render(`${lang}/404`, { lang });
+    if (!course) return res.status(404).render("en/404", { lang: "en" });
     const moduleIndex = parseInt(req.params.moduleIdx);
-    if (isNaN(moduleIndex)) return res.status(404).render(`${lang}/404`, { lang });
+    if (isNaN(moduleIndex)) return res.status(404).render("en/404", { lang: "en" });
     const quiz = await ModuleQuiz.findOne({ courseId: course._id, moduleIndex }).lean();
-    if (!quiz) return res.status(404).render(`${lang}/404`, { lang });
-    res.render(`${lang}/courses/quiz`, { lang, course, quiz, moduleIndex, page: "courses" });
-  } catch { res.status(404).render(`${lang}/404`, { lang }); }
+    if (!quiz) return res.status(404).render("en/404", { lang: "en" });
+    res.render("en/courses/quiz", { lang: "en", course, quiz, moduleIndex, page: "courses" });
+  } catch { res.status(404).render("en/404", { lang: "en" }); }
 });
 
-router.get("/:lang(en|pt|es)?/courses/:slug/certificate", async (req, res) => {
-  const lang = req.params.lang || "en";
+router.get("/courses/:slug/certificate", async (req, res) => {
   try {
     const course = await Course.findOne({ slug: req.params.slug, published: true }).lean();
-    if (!course) return res.status(404).render(`${lang}/404`, { lang });
+    if (!course) return res.status(404).render("en/404", { lang: "en" });
 
     let enrollment = null;
     let certificate = null;
@@ -259,124 +231,102 @@ router.get("/:lang(en|pt|es)?/courses/:slug/certificate", async (req, res) => {
         certificate = await Certificate.findOne({ userId: payload.id, courseId: course._id }).lean();
       } catch {}
     }
-    res.render(`${lang}/courses/certificate`, { lang, course, enrollment, certificate, page: "courses" });
+    res.render("en/courses/certificate", { lang: "en", course, enrollment, certificate, page: "courses" });
   } catch {
-    res.status(404).render(`${lang}/404`, { lang });
+    res.status(404).render("en/404", { lang: "en" });
   }
 });
 
-router.get("/:lang(en|pt|es)?/certificates/validate", (req, res) => {
-  const lang = req.params.lang || "en";
-  res.render(`${lang}/certificates/validate`, { lang, page: "certificates", result: null });
+router.get("/certificates/validate", (req, res) => {
+  res.render("en/certificates/validate", { lang: "en", page: "certificates", result: null });
 });
 
-router.get("/:lang(en|pt|es)?/admin/certificates", (req, res) => {
-  const lang = req.params.lang || "en";
-  res.render(`${lang}/admin/certificates`, { lang, page: "admin" });
+router.get("/signup", (req, res) => {
+  res.render("en/signup", { lang: "en", page: "signup" });
 });
 
-router.get("/:lang(en|pt|es)?/signup", (req, res) => {
-  const lang = req.params.lang || "en";
-  res.render(`${lang}/signup`, { lang, page: "signup" });
+router.get("/settings", (req, res) => {
+  res.render("en/settings", { lang: "en", page: "settings" });
 });
 
-router.get("/:lang(en|pt|es)?/settings", (req, res) => {
-  const lang = req.params.lang || "en";
-  res.render(`${lang}/settings`, { lang, page: "settings" });
+router.get("/admin", (req, res) => {
+  res.render("en/admin", { lang: "en", page: "admin" });
 });
 
-router.get("/:lang(en|pt|es)?/admin", (req, res) => {
-  const lang = req.params.lang || "en";
-  res.render(`${lang}/admin`, { lang, page: "admin" });
+router.get("/donate", (req, res) => {
+  res.render("en/donate", { lang: "en", page: "donate" });
 });
 
-router.get("/:lang(en|pt|es)?/donate", (req, res) => {
-  const lang = req.params.lang || "en";
-  res.render(`${lang}/donate`, { lang, page: "donate" });
+router.get("/privacy", (req, res) => {
+  res.render("en/privacy", { lang: "en", page: "privacy" });
 });
 
-router.get("/:lang(en|pt|es)?/privacy", (req, res) => {
-  const lang = req.params.lang || "en";
-  res.render(`${lang}/privacy`, { lang, page: "privacy" });
+router.get("/leaderboard", async (req, res) => {
+  res.render("en/leaderboard", { lang: "en", page: "leaderboard" });
 });
 
-router.get("/:lang(en|pt|es)?/leaderboard", async (req, res) => {
-  const lang = req.params.lang || "en";
-  res.render(`${lang}/leaderboard`, { lang, page: "leaderboard" });
+router.get("/playground", (req, res) => {
+  res.render("en/playground", { lang: "en", code: req.query.code || "", page: "playground" });
 });
 
-router.get("/:lang(en|pt|es)?/playground", (req, res) => {
-  res.render("en/playground", { lang: req.params.lang || "en", code: req.query.code || "", page: "playground" });
+router.get("/forgot-password", (req, res) => {
+  res.render("en/forgot-password", { lang: "en", page: "forgot-password", sent: req.query.sent, error: req.query.error });
 });
 
-router.get("/:lang(en|pt|es)?/forgot-password", (req, res) => {
-  const lang = req.params.lang || "en";
-  res.render(`${lang}/forgot-password`, { lang, page: "forgot-password", sent: req.query.sent, error: req.query.error });
+router.get("/reset-password", (req, res) => {
+  res.render("en/reset-password", { lang: "en", page: "reset-password", token: req.query.token || "" });
 });
 
-router.get("/:lang(en|pt|es)?/reset-password", (req, res) => {
-  const lang = req.params.lang || "en";
-  res.render(`${lang}/reset-password`, { lang, page: "reset-password", token: req.query.token || "" });
+router.get("/reset-password/:token", (req, res) => {
+  res.render("en/reset-password", { lang: "en", page: "reset-password", token: req.params.token });
 });
 
-router.get("/:lang(en|pt|es)?/reset-password/:token", (req, res) => {
-  const lang = req.params.lang || "en";
-  res.render(`${lang}/reset-password`, { lang, page: "reset-password", token: req.params.token });
-});
-
-// ── Packages (lang-prefixed) ────────────────────────────────────────────
 function sanitizeSearch(q) {
   return (q || "").replace(/[(){}\[\]"'~*?\\-]/g, " ").trim().slice(0, 100);
 }
 
-router.get("/:lang(en|pt|es)?/packages", async (req, res) => {
-  const lang = req.params.lang || "en";
+router.get("/packages", async (req, res) => {
   try {
     const q = sanitizeSearch(req.query.q);
     const filter = { status: "approved" };
     if (q) filter.$text = { $search: q };
     const packages = await Package.find(filter).sort({ downloads: -1 }).limit(50).lean();
-    res.render(`${lang}/packages/index`, { lang, packages, query: q, page: "packages" });
+    res.render("en/packages/index", { lang: "en", packages, query: q, page: "packages" });
   } catch {
-    res.render(`${lang}/packages/index`, { lang, packages: [], query: "", page: "packages" });
+    res.render("en/packages/index", { lang: "en", packages: [], query: "", page: "packages" });
   }
 });
 
-router.get("/:lang(en|pt|es)?/packages/dashboard", (req, res) => {
-  const lang = req.params.lang || "en";
-  res.render(`${lang}/packages/dashboard`, { lang, page: "packages" });
+router.get("/packages/dashboard", (req, res) => {
+  res.render("en/packages/dashboard", { lang: "en", page: "packages" });
 });
 
-router.get("/:lang(en|pt|es)?/packages/:name", async (req, res) => {
-  const lang = req.params.lang || "en";
+router.get("/packages/:name", async (req, res) => {
   try {
     const pkg = await Package.findOne({ name: req.params.name, status: "approved" }).lean();
-    if (!pkg) return res.status(404).render(`${lang}/404`, { lang });
+    if (!pkg) return res.status(404).render("en/404", { lang: "en" });
 
-    // Get versions list (sorted newest first)
     const versions = (pkg.versions || [])
       .map(v => v.version)
       .sort((a, b) => semver.rcompare(a, b));
 
     if (pkg.readme) pkg.readmeSanitized = sanitizeHtml(pkg.readme);
-    res.render(`${lang}/packages/show`, { lang, pkg, versions, page: "packages" });
+    res.render("en/packages/show", { lang: "en", pkg, versions, page: "packages" });
   } catch (e) {
     console.error("Error rendering package show:", e);
-    res.status(404).render(`${lang}/404`, { lang });
+    res.status(404).render("en/404", { lang: "en" });
   }
 });
 
-router.get("/:lang(en|pt|es)?/packages/:name/:version", async (req, res) => {
-  const lang = req.params.lang || "en";
+router.get("/packages/:name/:version", async (req, res) => {
   try {
     const pkg = await Package.findOne({ name: req.params.name, status: "approved" }).lean();
-    if (!pkg) return res.status(404).render(`${lang}/404`, { lang });
+    if (!pkg) return res.status(404).render("en/404", { lang: "en" });
 
     const reqVer = req.params.version;
     const versionData = (pkg.versions || []).find(v => v.version === reqVer);
-    if (!versionData) return res.status(404).render(`${lang}/404`, { lang });
+    if (!versionData) return res.status(404).render("en/404", { lang: "en" });
 
-    // Override with version-specific data
     pkg.version = versionData.version;
     if (versionData.description) pkg.description = versionData.description;
     if (versionData.license) pkg.license = versionData.license;
@@ -392,9 +342,9 @@ router.get("/:lang(en|pt|es)?/packages/:name/:version", async (req, res) => {
       .sort((a, b) => semver.rcompare(a, b));
 
     if (pkg.readme) pkg.readmeSanitized = sanitizeHtml(pkg.readme);
-    res.render(`${lang}/packages/show`, { lang, pkg, versions, page: "packages" });
+    res.render("en/packages/show", { lang: "en", pkg, versions, page: "packages" });
   } catch {
-    res.status(404).render(`${lang}/404`, { lang });
+    res.status(404).render("en/404", { lang: "en" });
   }
 });
 

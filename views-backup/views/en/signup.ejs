@@ -1,0 +1,58 @@
+<%- include('../partials/head', { lang, t, alternates }) %>
+<%- include('../partials/navbar', { lang, t }) %>
+
+<section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen flex items-center justify-center">
+  <div class="w-full max-w-sm animate-fade-in">
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pinky-50 border border-pinky-100 text-pinky-500 text-xs font-semibold mb-4">Get started</div>
+      <h1 class="text-3xl font-black">Create Account</h1>
+    </div>
+
+    <div class="xs-card p-6">
+      <form id="signupForm" class="space-y-4">
+        <input name="username" type="text" placeholder="Username (3-32 chars)" pattern="^[a-z0-9_-]{3,32}$" required class="xs-input">
+        <input name="email" type="email" placeholder="Email" required class="xs-input">
+        <input name="password" type="password" placeholder="Password (min 8 chars)" minlength="8" required class="xs-input">
+
+        <div class="bg-pinky-50 border border-pinky-200 rounded-xl p-4 space-y-3">
+          <label class="flex items-start gap-3 cursor-pointer">
+            <input type="checkbox" name="privacyConsent" required class="mt-0.5 accent-pinky-400 w-4 h-4 shrink-0">
+            <span class="text-xs text-gray-600 leading-relaxed">
+              I agree to the <a href="/<%= lang %>/privacy" class="text-pinky-500 hover:underline font-semibold">Privacy Policy</a> and consent to the processing of my personal data under <strong class="text-gray-700">LGPD</strong> (Brazilian Data Protection Law).
+            </span>
+          </label>
+          <p class="text-xs text-gray-400 ml-7 leading-relaxed">
+            Your data is used only for authentication and package management. You can request data export or account deletion at any time.
+          </p>
+        </div>
+
+        <div id="signupError" class="text-red-500 text-sm hidden"></div>
+        <button type="submit" class="xs-btn xs-btn-primary w-full justify-center">Create Account</button>
+      </form>
+    </div>
+    <p class="text-center text-sm text-gray-400 mt-6">Already registered? <a href="/<%= lang %>/login" class="text-pinky-400 hover:underline font-semibold">Login</a></p>
+  </div>
+</section>
+
+<script>
+document.getElementById('signupForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const errEl = document.getElementById('signupError');
+  errEl.classList.add('hidden');
+  try {
+    const res = await fetch('/api/auth/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: fd.get('username'), email: fd.get('email'), password: fd.get('password'), privacyConsent: fd.get('privacyConsent') === 'on' }),
+    });
+    const data = await res.json();
+    if (!data.ok) { errEl.textContent = data.error; errEl.classList.remove('hidden'); return; }
+    localStorage.setItem('xs_token', data.token);
+    localStorage.setItem('xs_user', JSON.stringify(data.user));
+    window.location.href = '/<%= lang %>/packages/dashboard';
+  } catch (e) { errEl.textContent = 'Network error'; errEl.classList.remove('hidden'); }
+});
+</script>
+
+<%- include('../partials/footer', { lang, t }) %>

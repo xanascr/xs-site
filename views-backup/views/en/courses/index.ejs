@@ -1,0 +1,41 @@
+<%- include('../../partials/head', { lang, t, alternates }) %>
+<%- include('../../partials/navbar', { lang, t }) %>
+
+<section class="pt-28 pb-20 px-4 sm:px-6 min-h-screen">
+  <div class="max-w-5xl mx-auto">
+    <h1 class="text-3xl sm:text-4xl font-black mb-2 animate-fade-in">Interactive Courses</h1>
+    <p class="text-gray-500 mb-8 sm:mb-12 text-sm sm:text-base font-light animate-slide-up">Learn XanaScript step by step with hands-on lessons, challenges, and certificates.</p>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% if (courses.length === 0) { %>
+        <div class="md:col-span-2 lg:col-span-3 text-center py-16">
+          <p class="text-gray-400 text-sm">No courses available yet. Check back soon!</p>
+        </div>
+      <% } %>
+      <% courses.forEach(function(c) { %>
+        <a href="/<%= lang %>/courses/<%= c.slug %>" class="xs-card xs-card-glass group no-underline block animate-up" style="--delay: <%= ((courses.indexOf(c) % 9) * 0.05).toFixed(2) %>s">
+          <div class="flex flex-col h-full">
+            <% if (c.image) { %>
+              <img src="<%= c.image %>" alt="<%= c.title %>" class="w-full h-36 object-cover rounded-t-2xl" loading="lazy">
+            <% } %>
+            <div class="p-5 flex flex-col flex-1">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="xs-tag xs-tag-primary"><%= c.category || 'General' %></span>
+                <span class="xs-tag xs-tag-ghost"><%= c.level || 'Beginner' %></span>
+              </div>
+              <h3 class="font-bold text-gray-800 text-lg mb-1 group-hover:text-pinky-500 transition-colors"><%= c.title %></h3>
+              <p class="text-sm text-gray-500 mb-3 flex-1 line-clamp-2"><%= c.description || '' %></p>
+              <div class="flex items-center justify-between text-xs text-gray-400 mt-auto pt-3 border-t border-gray-100">
+                <span><%= c.lessons ? c.lessons.length : 0 %> lessons</span>
+                <span><%= c.duration || 'Self-paced' %></span>
+                <span><%= c.totalPoints || 0 %> pts</span>
+              </div>
+            </div>
+          </div>
+        </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<%- include('../../partials/footer', { lang, t }) %>
