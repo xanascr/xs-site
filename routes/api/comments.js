@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { auth, optionalAuth } from "../middleware/auth.js";
+import { auth, optionalAuth } from "../../middleware/auth.js";
 import Comment from "../models/Comment.js";
 import Course from "../models/Course.js";
 import User from "../models/User.js";

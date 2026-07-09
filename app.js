@@ -16,6 +16,8 @@ import authRouter from "./routes/auth.js";
 import adminRouter from "./routes/admin.js";
 import reviewsRouter from "./routes/api/reviews.js";
 import commentsRouter from "./routes/api/comments.js";
+import leaderboardRouter from "./routes/api/leaderboard.js";
+import searchRouter from "./routes/api/search.js";
 import multer from "multer";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -109,6 +111,8 @@ app.use("/api/courses", apiCoursesRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/packages", reviewsRouter);
 app.use("/api/courses", commentsRouter);
+app.use("/api/leaderboard", leaderboardRouter);
+app.use("/api/search", searchRouter);
 
 app.use((req, res) => {
   const fallbackLang = req.lang || "en";

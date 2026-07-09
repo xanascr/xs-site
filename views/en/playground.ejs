@@ -1,0 +1,140 @@
+<%- include('../partials/head', { lang, t, alternates, page: "playground" }) %>
+<%- include('../partials/navbar', { lang, t }) %>
+
+<section class="min-h-[100dvh] pt-14 pb-0 px-0 bg-gradient-to-b from-pinky-50 to-white relative overflow-hidden">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-4">
+    <div class="text-center mb-4 animate-fade-in">
+      <h1 class="text-2xl sm:text-4xl font-black">XanaScript <span class="text-pinky-400">Playground</span></h1>
+      <p class="text-sm text-gray-500 mt-1"><%= t('hero.subtitle') %></p>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-4 animate-slide-up min-h-[calc(100dvh-12rem)]">
+      <div class="flex-1 min-h-[40vh] lg:min-h-0 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-white flex flex-col">
+        <div class="flex items-center gap-1.5 px-3 sm:px-4 py-2.5 sm:py-3 bg-gray-100 border-b border-gray-200">
+          <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400"></div>
+          <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
+          <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
+          <span class="text-gray-500 text-xs sm:text-sm ml-2 sm:ml-3 font-medium">app.xs</span>
+          <div class="ml-auto flex gap-1 sm:gap-2">
+            <button id="runBtn" class="bg-pinky-400 hover:bg-pinky-500 text-white px-4 sm:px-5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all shadow-md shadow-pinky-200 active:scale-95"><%= t('playground.run') %></button>
+            <button id="shareBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-600 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all active:scale-95">Share</button>
+          </div>
+        </div>
+        <div id="examplesBar" class="flex items-center gap-1.5 px-3 sm:px-4 py-1.5 bg-gray-50 border-b border-gray-200 overflow-x-auto touch-pan-x snap-x snap-mandatory scrollbar-thin">
+          <div class="snap-start shrink-0"></div>
+        </div>
+        <textarea id="codeEditor" name="codeEditor" spellcheck="false"><%= typeof code !== 'undefined' && code ? code : `CRIA nome = "XanaScript"\nCRIA idade = 25\n\nCHAMA ESSE CARA saudacao(nome, idade) {\n  VOLTA "Ola, " + nome + "! Tenho " + idade + " anos."\n}\n\nSOLTA O GRITO(saudacao(nome, idade))\n\nCRIA soma = 0\nREPETE NA MORAL (CRIA i = 1; i <= 10; i += 1) {\n  soma = soma + i\n}\n\nSOLTA O GRITO("Soma de 1 a 10: " + soma)` %></textarea>
+        <div id="editorContainer"></div>
+      </div>
+
+      <div class="flex-1 min-h-[40vh] lg:min-h-0 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-white flex flex-col">
+        <div class="flex items-center gap-1.5 px-3 sm:px-4 py-2.5 sm:py-3 bg-gray-100 border-b border-gray-200">
+          <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400"></div>
+          <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
+          <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-400"></div>
+          <span class="text-gray-500 text-xs sm:text-sm ml-2 sm:ml-3 font-medium">Output</span>
+          <button id="clearBtn" class="ml-auto text-xs text-gray-400 hover:text-gray-600 px-2 py-1"><%= t('playground.clear') %></button>
+        </div>
+        <pre id="output" class="flex-1 p-4 sm:p-6 text-sm font-mono text-gray-500 overflow-auto whitespace-pre-wrap break-words"><%= t('playground.ready') %></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer', { lang, t }) %>
+
+<script>
+(function() {
+  var output = document.getElementById('output');
+  var runBtn = document.getElementById('runBtn');
+  var clearBtn = document.getElementById('clearBtn');
+  var shareBtn = document.getElementById('shareBtn');
+  var codeEditor = document.getElementById('codeEditor');
+  var editorContainer = document.getElementById('editorContainer');
+  var examplesBar = document.getElementById('examplesBar');
+  if (!runBtn || !codeEditor || !editorContainer) return;
+
+  var cmEditor = CodeMirror(editorContainer, {
+    value: codeEditor.value,
+    mode: 'javascript',
+    theme: 'default',
+    lineNumbers: true,
+    indentUnit: 2,
+    tabSize: 2,
+    lineWrapping: false,
+    styleActiveLine: true,
+    viewportMargin: Infinity,
+    extraKeys: {
+      'Ctrl-Enter': function(cm) { run(); },
+      'Cmd-Enter': function(cm) { run(); }
+    }
+  });
+  codeEditor.style.display = 'none';
+
+  var examples = {
+    'Hello World': 'CRIA nome = "XanaScript"\nSOLTA O GRITO("Hello from " + nome)',
+    'Fibonacci': 'CHAMA FUNCAO fib(n) {\n  SE (n <= 1) { VOLTA n }\n  VOLTA fib(n - 1) + fib(n - 2)\n}\n\nCRIA i = 0\nREPETE AI (i <= 10) {\n  SOLTA O GRITO("fib(" + i + ") = " + fib(i))\n  i = i + 1\n}',
+    'Loop Sum': 'CRIA soma = 0\nREPETE NA MORAL (CRIA i = 1; i <= 100; i += 1) {\n  soma = soma + i\n}\nSOLTA O GRITO("Sum 1..100 = " + soma)',
+    'Classes': 'CLASSE Animal {\n  CONSTRUTOR(nome) {\n    ISTO.nome = nome\n  }\n  METODO falar() {\n    SOLTA O GRITO(ISTO.nome + " makes a sound")\n  }\n}\n\nCLASSE Cachorro HERDA Animal {\n  METODO falar() {\n    SOLTA O GRITO(ISTO.nome + " says: Woof!")\n  }\n}\n\nCRIA rex = NOVA Cachorro("Rex")\nrex.falar()',
+    'Pattern Match': 'CRIA descrever = (valor) => COMBINA (valor) {\n  CASO 0 => "zero"\n  CASO 1 => "one"\n  CASO _ => "something else"\n}\n\nSOLTA O GRITO(descrever(0))\nSOLTA O GRITO(descrever(1))\nSOLTA O GRITO(descrever(42))',
+    'Array Ops': 'CRIA nums = [1, 2, 3, 4, 5]\nCRIA doubled = []\nCRIA i = 0\nREPETE AI (i < TAMANHO(nums)) {\n  doubled[i] = nums[i] * 2\n  i = i + 1\n}\nSOLTA O GRITO("Original: " + nums)\nSOLTA O GRITO("Doubled: " + doubled)'
+  };
+
+  if (examplesBar) {
+    for (var name in examples) {
+      var btn = document.createElement('button');
+      btn.textContent = name;
+      btn.className = 'text-xs px-2.5 py-1 rounded-md border border-gray-200 bg-white text-gray-500 hover:bg-pinky-50 hover:border-pinky-200 hover:text-pinky-600 transition-colors whitespace-nowrap flex-shrink-0';
+      btn.addEventListener('click', (function(code) { return function() { cmEditor.setValue(code); }; })(examples[name]));
+      examplesBar.appendChild(btn);
+    }
+  }
+
+  function run() {
+    if (!output) return;
+    output.textContent = '';
+    output.style.color = '#374151';
+    if (runBtn) { runBtn.disabled = true; runBtn.textContent = 'Running...'; runBtn.classList.add('opacity-75'); }
+    var code = cmEditor.getValue();
+    window.location.hash = '#code=' + encodeURIComponent(code);
+    if (typeof window.playgroundRun !== 'function') {
+      output.textContent = 'Engine not loaded. Try refreshing.';
+      if (runBtn) { runBtn.disabled = false; runBtn.textContent = '<%= t('playground.run') %>'; runBtn.classList.remove('opacity-75'); }
+      return;
+    }
+    window.playgroundRun(code).then(function(out) {
+      output.textContent = out || 'Program finished (no output)';
+      if (runBtn) { runBtn.disabled = false; runBtn.textContent = '<%= t('playground.run') %>'; runBtn.classList.remove('opacity-75'); }
+    }).catch(function(err) {
+      output.textContent = err.message || String(err);
+      if (runBtn) { runBtn.disabled = false; runBtn.textContent = '<%= t('playground.run') %>'; runBtn.classList.remove('opacity-75'); }
+    });
+  }
+
+  if (runBtn) runBtn.addEventListener('click', run);
+  if (clearBtn) {
+    clearBtn.addEventListener('click', function() {
+      if (!output) return;
+      output.textContent = '<%= t('playground.ready') %>';
+      output.style.color = '#374151';
+    });
+  }
+  if (shareBtn) {
+    shareBtn.addEventListener('click', function() {
+      var code = cmEditor.getValue();
+      var url = window.location.origin + window.location.pathname + '?code=' + encodeURIComponent(code);
+      navigator.clipboard.writeText(url).then(function() {
+        var orig = shareBtn.textContent;
+        shareBtn.textContent = 'Copied!';
+        setTimeout(function() { shareBtn.textContent = orig; }, 2000);
+      });
+    });
+  }
+
+  (function() {
+    var params = new URLSearchParams(window.location.search);
+    var c = params.get('code');
+    if (c) cmEditor.setValue(decodeURIComponent(c));
+  })();
+})();
+</script>

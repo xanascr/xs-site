@@ -59,5 +59,7 @@
   "course.points": "pts",
   "course.selfPaced": "Auto-ritmo",
   "course.certificate": "Certificado",
-  "course.validate": "Validar Certificado"
+  "course.validate": "Validar Certificado",
+  "nav.leaderboard": "Clasificacion",
+  "nav.search": "Buscar"
 }

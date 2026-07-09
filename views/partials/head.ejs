@@ -227,6 +227,8 @@ pre::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
   <p class="text-gray-300 text-center sm:text-left text-xs sm:text-sm">We use only essential cookies for authentication. No tracking. <a href="<%= lang === 'en' ? '' : '/' + lang %>/privacy" class="text-pinky-400 hover:underline">Learn more</a></p>
   <button id="cookieConsentBtn" class="xs-btn xs-btn-primary">Got it</button>
 </div>
+<%- include('search-modal') %>
+
 <script>
 if (localStorage.getItem('xs_cookie_consent')) document.getElementById('cookieConsent').classList.add('hidden');
 document.getElementById('cookieConsentBtn').addEventListener('click', function() {

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { auth } from "../middleware/auth.js";
+import { auth } from "../../middleware/auth.js";
 import Review from "../models/Review.js";
 import Package from "../models/Package.js";
 import User from "../models/User.js";

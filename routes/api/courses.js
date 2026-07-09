@@ -98,6 +98,7 @@ router.post("/:slug/lessons/:lessonSlug/complete", auth, async (req, res) => {
 
     // Award XP to user
     const user = await User.findById(req.user.id);
+    let newBadges = [];
     if (user) {
       user.xp = (user.xp || 0) + earned;
 
@@ -121,9 +122,11 @@ router.post("/:slug/lessons/:lessonSlug/complete", auth, async (req, res) => {
       }
       user.lastActivityAt = now;
       await user.save();
+
+      newBadges = await (await import("../../services/badges.js")).checkAndAwardBadges(req.user.id);
     }
 
-    res.json({ ok: true, completed: true, points: enrollment.points, earned, certificateEligible: enrollment.certificateEligible });
+    res.json({ ok: true, completed: true, points: enrollment.points, earned, certificateEligible: enrollment.certificateEligible, badges: newBadges });
   } catch (e) {
     res.status(500).json({ ok: false, error: e.message });
   }
@@ -243,6 +246,17 @@ router.get("/dashboard/enrollments", auth, async (req, res) => {
     const enrollments = await Enrollment.find({ userId: req.user.id }).populate("courseId", "title slug lang lessons").lean();
     const user = await User.findById(req.user.id).select("xp level streak").lean();
     res.json({ ok: true, enrollments, user });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
+
+// ── Dashboard: user badges ───────────────────────────────────────────────
+router.get("/dashboard/badges", auth, async (req, res) => {
+  try {
+    const Badge = (await import("../../models/Badge.js")).default;
+    const badges = await Badge.find({ userId: req.user.id }).sort({ earnedAt: -1 }).lean();
+    res.json({ ok: true, badges });
   } catch (e) {
     res.status(500).json({ ok: false, error: e.message });
   }

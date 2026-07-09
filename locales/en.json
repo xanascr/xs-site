@@ -59,5 +59,7 @@
   "course.points": "pts",
   "course.selfPaced": "Self-paced",
   "course.certificate": "Certificate",
-  "course.validate": "Validate Certificate"
+  "course.validate": "Validate Certificate",
+  "nav.leaderboard": "Leaderboard",
+  "nav.search": "Search"
 }

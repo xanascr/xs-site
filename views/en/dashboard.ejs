@@ -45,6 +45,12 @@
         </div>
       </div>
 
+      <!-- Badges -->
+      <h2 class="text-xl font-bold mb-3">Badges</h2>
+      <div id="badgesGrid" class="flex flex-wrap gap-3 mb-8">
+        <div class="text-center py-4 text-gray-400 text-sm w-full">Loading...</div>
+      </div>
+
       <!-- Enrollments -->
       <h2 class="text-xl font-bold mb-4">My Courses</h2>
       <div id="enrollmentsList" class="space-y-3">
@@ -110,6 +116,31 @@
   } catch(e) {
     document.getElementById('enrollmentsList').innerHTML = '<div class="text-center py-8 text-gray-400">Failed to load.</div>';
   }
+})();
+
+// Load badges
+(async function() {
+  var token = localStorage.getItem('xs_token');
+  if (!token) return;
+  try {
+    var res = await fetch('/api/courses/dashboard/badges', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    var data = await res.json();
+    if (!data.ok) return;
+    var grid = document.getElementById('badgesGrid');
+    if (!data.badges || data.badges.length === 0) {
+      grid.innerHTML = '<div class="text-center py-4 text-gray-400 text-sm w-full">Complete lessons to earn badges!</div>';
+      return;
+    }
+    grid.innerHTML = '';
+    data.badges.forEach(function(b) {
+      grid.innerHTML += '<div class="flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm" title="' + escapeHtml(b.description) + '">'
+        + '<span>' + (b.icon || '🎖️') + '</span>'
+        + '<span class="font-medium text-gray-700">' + escapeHtml(b.name) + '</span>'
+        + '</div>';
+    });
+  } catch(e) {}
 })();
 </script>
 

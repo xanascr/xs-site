@@ -281,6 +281,15 @@ router.get("/:lang(en|pt|es)?/privacy", (req, res) => {
   res.render(`${lang}/privacy`, { lang, page: "privacy" });
 });
 
+router.get("/:lang(en|pt|es)?/leaderboard", async (req, res) => {
+  const lang = req.params.lang || "en";
+  res.render(`${lang}/leaderboard`, { lang, page: "leaderboard" });
+});
+
+router.get("/:lang(en|pt|es)?/playground", (req, res) => {
+  res.render("en/playground", { lang: req.params.lang || "en", code: req.query.code || "", page: "playground" });
+});
+
 router.get("/:lang(en|pt|es)?/forgot-password", (req, res) => {
   const lang = req.params.lang || "en";
   res.render(`${lang}/forgot-password`, { lang, page: "forgot-password", sent: req.query.sent, error: req.query.error });
