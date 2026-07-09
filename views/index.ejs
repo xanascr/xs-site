@@ -3,17 +3,17 @@
 <%- include('partials/navbar', {}) %>
 
 <!-- Hero + Playground -->
-<section class="min-h-[100dvh] lg:min-h-0 pt-20 sm:pt-24 pb-10 sm:pb-16 px-4 sm:px-6 bg-gradient-to-b from-pinky-50 to-white relative overflow-hidden">
+<section class="pt-16 sm:pt-24 pb-8 sm:pb-16 px-2 sm:px-6 bg-gradient-to-b from-pinky-50 to-white relative overflow-hidden">
   <div class="max-w-6xl mx-auto">
-    <div class="text-center mb-6 sm:mb-8 animate-fade-in">
-      <h1 class="text-2xl sm:text-5xl md:text-7xl font-black leading-tight mb-3 sm:mb-4">
+    <div class="text-center mb-4 sm:mb-8 animate-fade-in">
+      <h1 class="text-xl sm:text-5xl md:text-7xl font-black leading-tight mb-2 sm:mb-4 px-2">
         XanaScript <span class="text-pinky-400">Playground</span>
       </h1>
-      <p class="text-sm sm:text-lg md:text-xl text-gray-500 max-w-2xl mx-auto px-2 font-light">Uma linguagem de programação completa com compilador otimizador, ORM nativo, macros em tempo de compilação e WebAssembly nativo.</p>
+      <p class="text-xs sm:text-lg md:text-xl text-gray-500 max-w-2xl mx-auto px-2 font-light">Uma linguagem de programação completa com compilador otimizador, ORM nativo, macros em tempo de compilação e WebAssembly nativo.</p>
     </div>
 
-    <div class="flex flex-col lg:flex-row gap-4 sm:gap-6 animate-slide-up min-h-[calc(100dvh-16rem)] lg:min-h-0" style="height: auto;">
-      <div class="flex-1 min-h-[40vh] lg:min-h-0 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-white flex flex-col">
+    <div class="flex flex-col lg:flex-row gap-2 sm:gap-6 animate-slide-up">
+      <div class="flex-1 min-h-[35vh] sm:min-h-[40vh] lg:min-h-[50vh] rounded-xl sm:rounded-2xl overflow-hidden shadow-lg sm:shadow-2xl border border-gray-200 bg-white flex flex-col">
         <div class="flex items-center gap-1.5 px-3 sm:px-4 py-2.5 sm:py-3 bg-gray-100 border-b border-gray-200">
           <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400"></div>
           <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
@@ -44,7 +44,7 @@ SOLTA O GRITO("Soma de 1 a 10: " + soma)</textarea>
         <div id="editorContainer"></div>
       </div>
 
-      <div class="flex-1 min-h-[40vh] lg:min-h-0 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-white flex flex-col">
+      <div class="flex-1 min-h-[20vh] sm:min-h-[40vh] lg:min-h-[50vh] rounded-xl sm:rounded-2xl overflow-hidden shadow-lg sm:shadow-2xl border border-gray-200 bg-white flex flex-col">
         <div class="flex items-center gap-1.5 px-3 sm:px-4 py-2.5 sm:py-3 bg-gray-100 border-b border-gray-200">
           <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400"></div>
           <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-400"></div>
@@ -67,10 +67,10 @@ SOLTA O GRITO("Soma de 1 a 10: " + soma)</textarea>
   <div class="max-w-5xl mx-auto">
     <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Instalação</h2>
     <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Instale via npm — a maneira mais fácil de começar.</p>
-    <div class="grid md:grid-cols-2 gap-6">
-      <div class="bg-pinky-50 rounded-2xl p-6 sm:p-8 border border-pinky-100">
-        <h3 class="text-lg sm:text-xl font-bold mb-3">npm (Multiplataforma)</h3>
-        <p class="text-gray-500 text-sm mb-4">Requer Node.js. Funciona no Windows, Linux e macOS.</p>
+<div class="grid sm:grid-cols-2 gap-4 sm:gap-6">
+        <div class="bg-pinky-50 rounded-xl sm:rounded-2xl p-5 sm:p-8 border border-pinky-100">
+          <h3 class="text-base sm:text-xl font-bold mb-2 sm:mb-3">npm (Multiplataforma)</h3>
+          <p class="text-gray-500 text-xs sm:text-sm mb-3 sm:mb-4">Requer Node.js. Funciona no Windows, Linux e macOS.</p>
         <div class="code-block bg-white rounded-xl border border-gray-200 overflow-hidden">
           <div class="px-4 py-2 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">Bash</div>
           <pre class="p-4 text-sm">npm install -g xanascript</pre>
@@ -102,7 +102,7 @@ SOLTA O GRITO("Soma de 1 a 10: " + soma)</textarea>
   <div class="max-w-5xl mx-auto">
     <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Sintaxe Completa</h2>
     <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Cada palavra-chave &eacute; portugu&ecirc;s claro. O c&oacute;digo se explica sozinho.</p>
-    <div class="grid md:grid-cols-2 gap-6">
+    <div class="grid sm:grid-cols-2 gap-6">
       <div>
         <h4 class="font-semibold mb-3 text-gray-700 text-sm sm:text-base">Vari&aacute;veis &amp; Fun&ccedil;&otilde;es</h4>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
@@ -257,7 +257,7 @@ rex.falar()</pre>
   <div class="max-w-5xl mx-auto">
     <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">WebAssembly Nativo</h2>
     <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Emiss&atilde;o direta <code>.wasm</code> - sem Emscripten, sem wabt.js, sem LLVM.</p>
-    <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
+    <div class="grid sm:grid-cols-2 gap-6 sm:gap-8">
       <div>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
           <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
@@ -299,7 +299,7 @@ rex.falar()</pre>
   <div class="max-w-5xl mx-auto">
     <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">ORM Integrado</h2>
     <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Tabelas como um n&oacute; AST de primeira classe - analisadas, verificadas por tipo e geradas no pipeline do compilador.</p>
-    <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
+    <div class="grid sm:grid-cols-2 gap-6 sm:gap-8">
       <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
         <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
         <pre class="p-4 text-xs sm:text-sm overflow-x-auto"><span class="kw">TABELA</span> <span class="fn">Product</span> {
@@ -338,7 +338,7 @@ repo.delete(<span class="num">2</span>)</pre>
   <div class="max-w-5xl mx-auto">
     <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Macros em Tempo de Compila&ccedil;&atilde;o</h2>
     <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Substitui&ccedil;&atilde;o em n&iacute;vel de AST - expandidas durante a fase de otimiza&ccedil;&atilde;o, removidas antes da gera&ccedil;&atilde;o de c&oacute;digo.</p>
-    <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
+    <div class="grid sm:grid-cols-2 gap-6 sm:gap-8">
       <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
         <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
         <pre class="p-4 text-xs sm:text-sm overflow-x-auto"><span class="kw">MACRO</span> <span class="fn">square</span>(x) { x * x }
@@ -365,7 +365,7 @@ repo.delete(<span class="num">2</span>)</pre>
   <div class="max-w-5xl mx-auto">
     <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Executor de Testes</h2>
     <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">N&oacute;s AST <code>TESTE</code> e <code>AFIRMA</code> de primeira classe - analisados, interpretados e relatados pelo pr&oacute;prio compilador.</p>
-    <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
+    <div class="grid sm:grid-cols-2 gap-6 sm:gap-8">
       <div>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
           <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
@@ -405,7 +405,7 @@ repo.delete(<span class="num">2</span>)</pre>
   <div class="max-w-5xl mx-auto">
     <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">LSP - Protocolo de Servidor de Linguagem</h2>
     <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Servidor LSP sem estado via stdin/stdout JSON-RPC - an&aacute;lise &uacute;nica por requisi&ccedil;&atilde;o, sem estado persistente.</p>
-    <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
+    <div class="grid sm:grid-cols-2 gap-6 sm:gap-8">
       <div>
         <p class="text-gray-600 text-sm sm:text-base mb-3">Inicie o servidor com <code class="bg-pinky-50">xs lsp</code>. Implementa <code>textDocument/completion</code> (itens de completa&ccedil;&atilde;o de palavra-chave/builtin/identificador com tipo e detalhe), <code>textDocument/hover</code> (documenta&ccedil;&atilde;o Markdown para fun&ccedil;&otilde;es embutidas com assinatura), <code>textDocument/definition</code> (resolve declara&ccedil;&otilde;es de vari&aacute;veis/fun&ccedil;&otilde;es para sua localiza&ccedil;&atilde;o de origem) e <code>textDocument/diagnostic</code> (sa&iacute;da completa de erro do compilador mapeada para Range, incluindo c&oacute;digo de erro e gravidade).</p>
         <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden mb-6">
@@ -444,7 +444,7 @@ repo.delete(<span class="num">2</span>)</pre>
   <div class="max-w-5xl mx-auto">
     <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Erros Estilo Rust</h2>
     <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">Objetos de erro estruturados com c&oacute;digo, localiza&ccedil;&atilde;o de origem, linha anotada, dica e ajuda - sa&iacute;da para stderr.</p>
-    <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
+    <div class="grid sm:grid-cols-2 gap-6 sm:gap-8">
       <div class="code-block bg-white rounded-2xl border border-gray-200 overflow-hidden">
         <div class="px-4 py-2.5 border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider font-semibold">XS</div>
         <pre class="p-4 text-xs sm:text-sm overflow-x-auto"><span class="kw">CRIA</span> x = <span class="num">10</span>
@@ -540,7 +540,7 @@ Ajuda: Adicione `CRIA z = value` antes de us&aacute;-la</pre>
   <div class="max-w-5xl mx-auto">
     <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3 sm:mb-4">Roadmap</h2>
     <p class="text-center text-gray-500 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-lg font-light">O que implementamos e o que est&aacute; por vir.</p>
-    <div class="grid md:grid-cols-2 gap-8">
+    <div class="grid sm:grid-cols-2 gap-8">
       <div>
         <div class="flex items-center gap-3 mb-5">
           <div class="w-3 h-3 rounded-full bg-green-500 shadow-sm shadow-green-200"></div>
