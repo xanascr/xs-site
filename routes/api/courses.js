@@ -145,6 +145,7 @@ router.post("/:slug/certificate/request", auth, async (req, res) => {
     if (existing) return res.json({ ok: true, certificate: existing, alreadyRequested: true });
 
     const user = await (await import("../../models/User.js")).default.findById(req.user.id).select("username email");
+    if (!user) return res.status(404).json({ ok: false, error: "User not found" });
 
     const cert = await Certificate.create({
       code: Certificate.generateCode(),

@@ -160,8 +160,7 @@ router.get("/courses/:slug/lessons/:lessonSlug", async (req, res) => {try {const
     const lesson = course.lessons.find(l => l.slug === req.params.lessonSlug);
     if (!lesson) return res.status(404).render("404", {});
 
-    const marked = (await import("marked")).marked;
-    const lessonHtml = lesson.bodyMd ? marked.parse(lesson.bodyMd, {async: false }) : (lesson.bodyHtml || lesson.contentHtml || lesson.content || "");
+    const lessonHtml = lesson.bodyMd ? sanitizeHtml(marked.parse(lesson.bodyMd, {async: false })) : (lesson.bodyHtml || lesson.contentHtml || lesson.content || "");
     const enrollment = await getEnrollment(course._id, req);
 
     res.render("courses/lesson", { course, lesson, lessonHtml, enrollment, page: "courses" });

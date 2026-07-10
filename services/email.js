@@ -7,6 +7,11 @@ import { enqueue } from "./emailQueue.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const TEMPLATES_DIR = path.join(__dirname, "..", "emails");
 
+if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+  console.error("FATAL: EMAIL_USER and EMAIL_PASS environment variables are required");
+  process.exit(1);
+}
+
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST || "smtp.hostinger.com",
   port: parseInt(process.env.EMAIL_PORT || "587"),
@@ -18,7 +23,7 @@ const transporter = nodemailer.createTransport({
 });
 
 const SITE_URL = process.env.SITE_URL || "https://xanascript.xyz";
-const FROM = `"XanaScript" <${process.env.EMAIL_USER}>`;
+const FROM = `"XanaScript" <${process.env.EMAIL_USER || "noreply@xanascript.xyz"}>`;
 
 function renderTemplate(templateName, data) {
   const filePath = path.join(TEMPLATES_DIR, `${templateName}.ejs`);

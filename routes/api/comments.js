@@ -28,6 +28,7 @@ router.post("/:slug/lessons/:lessonSlug/comments", auth, async (req, res) => {
     if (!body || !body.trim()) return res.status(400).json({ ok: false, error: "Comment body is required" });
     if (body.length > 2000) return res.status(400).json({ ok: false, error: "Comment too long (max 2000)" });
     const user = await User.findById(req.user.id).select("username").lean();
+    if (!user) return res.status(404).json({ ok: false, error: "User not found" });
     const comment = await Comment.create({
       courseId: course._id,
       lessonSlug: req.params.lessonSlug,

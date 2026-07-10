@@ -138,7 +138,7 @@ app.use((err, req, res, next) => {
     console.error("Unhandled error:", err.stack || err.message);
   }
   if (req.accepts("html")) {
-    res.status(500).render("500", { error: process.env.NODE_ENV === "development" ? err.message : "Internal server error" });
+    return void res.status(500).render("500", { error: process.env.NODE_ENV === "development" ? err.message : "Internal server error" });
   }
   res.status(500).json({ ok: false, error: "Internal server error" });
 });

@@ -14,22 +14,24 @@ export function signToken(user) {
   );
 }
 
-export function auth(req, res, next) {
+export async function auth(req, res, next) {
   const header = req.headers.authorization;
   if (!header || !header.startsWith("Bearer ")) {
     return res.status(401).json({ ok: false, error: "Missing token" });
   }
   try {
     const payload = jwt.verify(header.slice(7), SECRET);
-    User.findById(payload.id).select("tokenVersion").then(user => {
+    try {
+      const user = await User.findById(payload.id).select("tokenVersion");
       if (!user || (user.tokenVersion ?? 0) !== (payload.tokenVersion ?? 0)) {
         return res.status(401).json({ ok: false, error: "Token revoked" });
       }
       req.user = payload;
       next();
-    }).catch(() => {
+    } catch (err) {
+      console.error("Auth DB error:", err);
       res.status(500).json({ ok: false, error: "Internal server error" });
-    });
+    }
   } catch {
     return res.status(401).json({ ok: false, error: "Invalid or expired token" });
   }
