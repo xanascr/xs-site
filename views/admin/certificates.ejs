@@ -32,7 +32,7 @@
     .then(function(r) { return r.json(); })
     .then(function(data) {
       if (!data.ok || data.user.role !== 'admin') {
-        window.location.href = '//packages/dashboard';
+        window.location.href = '/login';
         return;
       }
       document.getElementById('adminRoot').classList.remove('hidden');
@@ -89,10 +89,11 @@
 
           document.querySelectorAll('.issue-btn').forEach(function(btn) {
             btn.addEventListener('click', function() {
-              if (!confirm('Emitir este certificado? O usuário poderá validá-lo.')) return;
+              if (!confirm('Emitir este certificado? O usuario podera valida-lo.')) return;
               fetch('/api/courses/admin/certificates/' + this.dataset.code + '/issue', { method: 'POST', headers: { 'Authorization': 'Bearer ' + tkn } })
                 .then(function(r) { return r.json(); })
-                .then(function(d) { if (d.ok) loadCerts(currentStatus); });
+                .then(function(d) { if (d.ok) loadCerts(currentStatus); else alert(d.error || 'Falhou'); })
+                .catch(function() { alert('Erro de rede'); });
             });
           });
 
@@ -100,7 +101,8 @@
             btn.addEventListener('click', function() {
               fetch('/api/courses/admin/certificates/' + this.dataset.code + '/emailed', { method: 'POST', headers: { 'Authorization': 'Bearer ' + tkn } })
                 .then(function(r) { return r.json(); })
-                .then(function(d) { if (d.ok) loadCerts(currentStatus); });
+                .then(function(d) { if (d.ok) loadCerts(currentStatus); else alert(d.error || 'Falhou'); })
+                .catch(function() { alert('Erro de rede'); });
             });
           });
         })

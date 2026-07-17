@@ -176,7 +176,9 @@
           + '<span class="text-gray-400 text-lg">*</span>'
           + '<span class="font-medium text-gray-700">' + escapeHtml(b.name) + '</span></div>';
       });
-    } catch(e) {}
+    } catch(e) {
+      grid.innerHTML = '<div class="text-center py-4 text-gray-400 text-sm w-full">Falha ao carregar medalhas.</div>';
+    }
   })();
 
   // ── My Packages ──

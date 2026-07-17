@@ -65,7 +65,7 @@
     .then(function(r) { return r.json(); })
     .then(function(data) {
       if (!data.ok || data.user.role !== 'admin') {
-        window.location.href = '//packages/dashboard';
+        window.location.href = '/login';
         return;
       }
       document.getElementById('adminRoot').classList.remove('hidden');
@@ -129,17 +129,19 @@
               e.stopPropagation();
               fetch('/api/admin/packages/' + this.dataset.name + '/approve', { method: 'POST', headers: { 'Authorization': 'Bearer ' + tkn } })
                 .then(function(r) { return r.json(); })
-                .then(function(d) { if (d.ok) loadPackages(currentStatus); });
+                .then(function(d) { if (d.ok) loadPackages(currentStatus); else alert(d.error || 'Falhou'); })
+                .catch(function() { alert('Erro de rede'); });
             };
           });
           document.querySelectorAll('.reject-btn').forEach(function(btn) {
             btn.onclick = function(e) {
               e.stopPropagation();
-              var reason = prompt('Motivo da rejeição:');
+              var reason = prompt('Motivo da rejeicao:');
               if (reason === null) return;
               fetch('/api/admin/packages/' + this.dataset.name + '/reject', { method: 'POST', headers: { 'Authorization': 'Bearer ' + tkn, 'Content-Type': 'application/json' }, body: JSON.stringify({ reason: reason || 'Nenhum motivo informado' }) })
                 .then(function(r) { return r.json(); })
-                .then(function(d) { if (d.ok) loadPackages(currentStatus); });
+                .then(function(d) { if (d.ok) loadPackages(currentStatus); else alert(d.error || 'Falhou'); })
+                .catch(function() { alert('Erro de rede'); });
             };
           });
         })

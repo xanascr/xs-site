@@ -303,7 +303,7 @@ if (lesson.bodyMd) {
         completeBtn.disabled = false;
         completeBtn.textContent = 'Marcar como Concluído';
       });
-    });
+    }).catch(function(){ /* ignore */ });
   }
 
   // ── Check answers ───────────────────────────────────────────────────
@@ -367,7 +367,7 @@ if (lesson.bodyMd) {
             if (!confirm('Excluir este comentário?')) return;
             fetch('/api/courses/' + courseSlug + '/lessons/' + lessonSlug + '/comments/' + id, {
               method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token }
-            }).then(function(r) { return r.json(); }).then(function(d) { if (d.ok) loadComments(); else alert(d.error || 'Falhou'); });
+            }).then(function(r) { return r.json(); }).then(function(d) { if (d.ok) loadComments(); else alert(d.error || 'Falhou'); }).catch(function() { alert('Erro de rede'); });
           });
         });
       });

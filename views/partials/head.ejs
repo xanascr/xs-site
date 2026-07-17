@@ -217,9 +217,10 @@ pre::-webkit-scrollbar { width: 6px; height: 6px; }
 
 /* ── Responsive refinements ── */
 @media (max-width: 640px) {
+  .code-block pre { font-size: 12px; }
   .lesson-prose { font-size: 0.9375rem; line-height: 1.65; }
   .lesson-prose pre { font-size: 12px; padding: 0.75rem; margin: 1rem -0.75rem; border-radius: 0; width: calc(100% + 1.5rem); max-width: calc(100% + 1.5rem); }
-  .lesson-prose table { font-size: 13px; }
+  .lesson-prose table { font-size: 13px; display: block; overflow-x: auto; white-space: nowrap; }
   .lesson-prose table .table-wrapper { margin: 0 -0.75rem; border-radius: 0; }
   .lesson-prose h1 { font-size: 1.5rem; }
   .lesson-prose h2 { font-size: 1.25rem; }
@@ -258,6 +259,22 @@ document.getElementById('cookieConsentBtn').addEventListener('click', function()
   document.getElementById('cookieConsent').classList.add('hidden');
   localStorage.setItem('xs_cookie_consent','1');
 });
+
+// ── Global fetch wrapper: auto-redirect to login on 401 ──
+(function() {
+  var origFetch = window.fetch;
+  window.fetch = function(url, opts) {
+    return origFetch(url, opts).then(function(res) {
+      if (res.status === 401) {
+        localStorage.removeItem('xs_token');
+        localStorage.removeItem('xs_user');
+        window.location.href = '/login';
+      }
+      return res;
+    });
+  };
+})();
+
 document.addEventListener('click', function(e) {
   var el = e.target.closest('[data-cmd]');
   if (!el) { el = e.target.closest('.xs-cmd'); }

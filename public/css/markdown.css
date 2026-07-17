@@ -400,7 +400,11 @@
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
-  min-width: max-content;
+}
+
+.markdown-body .table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .markdown-body table th,

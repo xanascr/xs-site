@@ -205,7 +205,7 @@ function loadReviews() {
           + (r.body ? '<p class="text-sm text-gray-600 mt-1">' + escapeHtml(r.body) + '</p>' : '')
           + '</div>';
       });
-    });
+    }).catch(function(){ /* ignore */ });
 }
 
 function starsHtml(n) {
@@ -317,7 +317,7 @@ loadReviews();
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email })
     }).then(function(r){return r.json()}).then(function(d){
       showWebhookMsg(d.message, d.ok ? 'text-green-500' : 'text-red-500');
-    });
+    }).catch(function(){ showWebhookMsg('Erro de rede', 'text-red-500'); });
   });
   document.getElementById('webhookUnsubscribeBtn').addEventListener('click', function() {
     var email = webhookEmail.value.trim();
@@ -326,7 +326,7 @@ loadReviews();
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email })
     }).then(function(r){return r.json()}).then(function(d){
       showWebhookMsg(d.message, d.ok ? 'text-green-500' : 'text-red-500');
-    });
+    }).catch(function(){ showWebhookMsg('Erro de rede', 'text-red-500'); });
   });
   function showWebhookMsg(msg, cls) {
     var el = document.getElementById('webhookMsg');
