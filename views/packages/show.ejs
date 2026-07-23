@@ -1,0 +1,18 @@
+<%- include('../layouts/main', { body: `
+<div class="max-w-4xl mx-auto px-4 py-12">
+  <a href="/packages" class="text-sm text-primary hover:underline mb-6 inline-block">&larr; Todos os pacotes</a>
+  <div class="bg-bg-2 border border-border rounded p-8">
+    <h1 class="font-heading font-800 text-3xl mb-2"><%= pkg.name %></h1>
+    <div class="flex items-center gap-3 text-sm text-text-2 mb-6">
+      <span>v<%= pkg.version %></span>
+      <span>por <%= pkg.author?.username || '?' %></span>
+      <span><%= pkg.downloads %> downloads</span>
+    </div>
+    <p class="text-text-2 mb-6"><%= pkg.description %></p>
+    <div class="bg-bg-3 border border-border rounded p-4 font-mono text-sm text-text-2 mb-6">
+      xs install <%= pkg.name %>
+    </div>
+    <div class="prose prose-invert max-w-none text-text-2 leading-relaxed"><%= pkg.readme || 'Sem README.' %></div>
+  </div>
+</div>
+`}) %>

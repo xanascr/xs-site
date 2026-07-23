@@ -1,0 +1,66 @@
+<%- include('../layouts/main', { body: `
+<div class="max-w-4xl mx-auto px-4 py-12">
+  <a href="/hackathons" class="text-sm text-primary hover:underline mb-6 inline-block">&larr; Todos os hackathons</a>
+  <div class="bg-bg-2 border border-border rounded p-8 mb-8">
+    <div class="flex items-start justify-between mb-4">
+      <h1 class="font-heading font-800 text-3xl"><%= hackathon.title %></h1>
+      <span class="text-xs px-2 py-1 rounded <%= hackathon.active ? 'bg-success/10 text-success' : 'bg-bg-3 text-text-2' %>"><%= hackathon.active ? 'Ativo' : 'Encerrado' %></span>
+    </div>
+    <div class="flex gap-4 text-sm text-text-2 mb-6">
+      <span>Início: <%= new Date(hackathon.startDate).toLocaleDateString() %></span>
+      <span>Fim: <%= new Date(hackathon.endDate).toLocaleDateString() %></span>
+    </div>
+    <p class="text-text-2 mb-4"><%= hackathon.description %></p>
+    <% if (hackathon.rules) { %>
+      <div class="bg-bg-3 border border-border rounded p-4 text-sm text-text-2 whitespace-pre-wrap"><%= hackathon.rules %></div>
+    <% } %>
+    <% if (hackathon.prize) { %>
+      <p class="mt-4 text-primary font-600">Prêmio: <%= hackathon.prize %></p>
+    <% } %>
+  </div>
+
+  <div class="bg-bg-2 border border-border rounded p-6 mb-8">
+    <h2 class="font-heading font-700 text-lg mb-4">Submissões</h2>
+    <% if (submissions.length === 0) { %>
+      <p class="text-text-2 text-sm">Nenhuma submissão ainda.</p>
+    <% } else { %>
+      <div class="space-y-3">
+        <% submissions.forEach(s => { %>
+          <div class="bg-bg-3 border border-border rounded p-4">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="font-600"><%= s.title %></h3>
+              <span class="text-xs text-text-2">por <%= s.user?.username %></span>
+            </div>
+            <p class="text-sm text-text-2"><%= s.description %></p>
+            <% if (s.link) { %><a href="<%= s.link %>" target="_blank" class="text-primary text-sm hover:underline">Ver projeto</a><% } %>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+
+  <% if (hackathon.active) { %>
+    <div class="bg-bg-2 border border-border rounded p-6">
+      <h2 class="font-heading font-700 text-lg mb-4">Submeter Projeto</h2>
+      <form id="submit-form" class="space-y-4">
+        <input name="title" placeholder="Título do projeto" class="w-full bg-bg-3 border border-border rounded px-4 py-2.5 text-text text-sm focus:outline-none focus:border-primary">
+        <textarea name="description" rows="3" placeholder="Descrição" class="w-full bg-bg-3 border border-border rounded px-4 py-2.5 text-text text-sm focus:outline-none focus:border-primary"></textarea>
+        <input name="link" placeholder="Link (opcional)" class="w-full bg-bg-3 border border-border rounded px-4 py-2.5 text-text text-sm focus:outline-none focus:border-primary">
+        <button type="submit" class="px-6 py-2.5 bg-primary text-white rounded font-heading font-600 text-sm hover:bg-primary-hover transition-colors">Submeter</button>
+      </form>
+    </div>
+  <% } %>
+</div>
+<script>
+document.getElementById('submit-form')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const token = localStorage.getItem('token');
+  if (!token) { window.location.href = '/login'; return; }
+  const data = Object.fromEntries(new FormData(e.target));
+  const res = await fetch('/api/hackathons/<%= hackathon._id %>/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify(data) });
+  const json = await res.json();
+  if (json.ok) { alert('Projeto submetido!'); location.reload(); }
+  else alert(json.error);
+});
+</script>
+`}) %>

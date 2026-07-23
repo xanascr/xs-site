@@ -1,0 +1,21 @@
+<%- include('../layouts/main', { body: `
+<div class="max-w-6xl mx-auto px-4 py-12">
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="font-heading font-800 text-3xl">Pacotes</h1>
+    <a href="/packages/dashboard" class="px-4 py-2 bg-primary text-white rounded text-sm font-600 hover:bg-primary-hover transition-colors">Meus Pacotes</a>
+  </div>
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <% packages.forEach(p => { %>
+      <a href="/packages/<%= p.name %>" class="block bg-bg-2 border border-border rounded p-6 hover:border-primary transition-colors group">
+        <h2 class="font-heading font-700 text-lg group-hover:text-primary transition-colors"><%= p.name %></h2>
+        <p class="text-text-2 text-sm mt-2 line-clamp-2"><%= p.description %></p>
+        <div class="flex items-center gap-3 mt-4 text-xs text-text-2">
+          <span>v<%= p.version %></span>
+          <span><%= p.author?.username || '?' %></span>
+          <span><%= p.downloads %> downloads</span>
+        </div>
+      </a>
+    <% }) %>
+  </div>
+</div>
+`}) %>

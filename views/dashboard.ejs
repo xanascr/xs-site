@@ -1,0 +1,54 @@
+<%- include('layouts/main', { body: `
+<div class="max-w-6xl mx-auto px-4 py-12">
+  <h1 class="font-heading font-800 text-3xl mb-8">Dashboard</h1>
+  <div class="grid md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-bg-2 border border-border rounded p-6">
+      <span class="material-symbols-outlined text-primary text-3xl mb-2">school</span>
+      <p class="text-2xl font-heading font-700"><%= enrollments.length %></p>
+      <p class="text-text-2 text-sm">Cursos matriculados</p>
+    </div>
+    <div class="bg-bg-2 border border-border rounded p-6">
+      <span class="material-symbols-outlined text-primary text-3xl mb-2">inventory_2</span>
+      <p class="text-2xl font-heading font-700"><%= packages.length %></p>
+      <p class="text-text-2 text-sm">Pacotes publicados</p>
+    </div>
+    <div class="bg-bg-2 border border-border rounded p-6">
+      <span class="material-symbols-outlined text-primary text-3xl mb-2">workspace_premium</span>
+      <p class="text-2xl font-heading font-700"><%= enrollments.filter(e => e.completed).length %></p>
+      <p class="text-text-2 text-sm">Cursos concluídos</p>
+    </div>
+  </div>
+
+  <div class="bg-bg-2 border border-border rounded p-6 mb-6">
+    <h2 class="font-heading font-700 text-lg mb-4">Meus Cursos</h2>
+    <% if (enrollments.length === 0) { %>
+      <p class="text-text-2 text-sm">Nenhum curso ainda. <a href="/courses" class="text-primary hover:underline">Ver cursos</a></p>
+    <% } else { %>
+      <div class="space-y-3">
+        <% enrollments.forEach(e => { %>
+          <a href="/courses/<%= e.course.slug %>" class="flex items-center justify-between p-3 rounded hover:bg-bg-3 transition-colors">
+            <span><%= e.course.title %></span>
+            <span class="text-xs text-text-2"><%= e.completedLessons.length %> aulas • <%= e.completed ? '✅ Concluído' : 'Em andamento' %></span>
+          </a>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+
+  <div class="bg-bg-2 border border-border rounded p-6">
+    <h2 class="font-heading font-700 text-lg mb-4">Meus Pacotes</h2>
+    <% if (packages.length === 0) { %>
+      <p class="text-text-2 text-sm">Nenhum pacote ainda.</p>
+    <% } else { %>
+      <div class="space-y-3">
+        <% packages.forEach(p => { %>
+          <a href="/packages/<%= p.name %>" class="flex items-center justify-between p-3 rounded hover:bg-bg-3 transition-colors">
+            <span><%= p.name %></span>
+            <span class="text-xs text-text-2">v<%= p.version %> • <%= p.downloads %} downloads</span>
+          </a>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</div>
+`}) %>

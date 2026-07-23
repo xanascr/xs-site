@@ -1,0 +1,50 @@
+<%- include('layouts/main', { body: `
+<div class="max-w-2xl mx-auto px-4 py-12">
+  <h1 class="font-heading font-800 text-3xl mb-8">Configurações</h1>
+  <form id="profile-form" class="bg-bg-2 border border-border rounded p-6 mb-6">
+    <h2 class="font-heading font-700 text-lg mb-4">Perfil</h2>
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm text-text-2 mb-1">Usuário</label>
+        <input name="username" value="<%= user.username %>" class="w-full bg-bg-3 border border-border rounded px-4 py-2.5 text-text focus:outline-none focus:border-primary">
+      </div>
+      <div>
+        <label class="block text-sm text-text-2 mb-1">Email</label>
+        <input name="email" value="<%= user.email %>" class="w-full bg-bg-3 border border-border rounded px-4 py-2.5 text-text focus:outline-none focus:border-primary">
+      </div>
+      <button type="submit" class="px-6 py-2.5 bg-primary text-white rounded font-heading font-600 text-sm hover:bg-primary-hover transition-colors">Salvar</button>
+    </div>
+  </form>
+
+  <form id="password-form" class="bg-bg-2 border border-border rounded p-6">
+    <h2 class="font-heading font-700 text-lg mb-4">Alterar Senha</h2>
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm text-text-2 mb-1">Senha atual</label>
+        <input type="password" name="currentPassword" class="w-full bg-bg-3 border border-border rounded px-4 py-2.5 text-text focus:outline-none focus:border-primary">
+      </div>
+      <div>
+        <label class="block text-sm text-text-2 mb-1">Nova senha</label>
+        <input type="password" name="newPassword" class="w-full bg-bg-3 border border-border rounded px-4 py-2.5 text-text focus:outline-none focus:border-primary">
+      </div>
+      <button type="submit" class="px-6 py-2.5 bg-primary text-white rounded font-heading font-600 text-sm hover:bg-primary-hover transition-colors">Alterar</button>
+    </div>
+  </form>
+</div>
+<script>
+document.getElementById('profile-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target));
+  const res = await fetch('/api/auth/me', { method: 'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') }, body: JSON.stringify(data) });
+  const json = await res.json();
+  if (!json.ok) alert(json.error);
+});
+document.getElementById('password-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target));
+  const res = await fetch('/api/auth/password', { method: 'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') }, body: JSON.stringify(data) });
+  const json = await res.json();
+  alert(json.ok ? 'Senha alterada' : json.error);
+});
+</script>
+`}) %>

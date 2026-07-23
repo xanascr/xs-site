@@ -1,0 +1,43 @@
+<%- include('../layouts/main', { body: `
+<div class="max-w-2xl mx-auto px-4 py-12">
+  <h1 class="font-heading font-800 text-3xl mb-2"><%= quiz.title %></h1>
+  <p class="text-text-2 mb-8"><%= course.title %></p>
+  <form id="quiz-form" class="space-y-6">
+    <% quiz.questions.forEach((q, i) => { %>
+      <div class="bg-bg-2 border border-border rounded p-6">
+        <p class="font-heading font-600 mb-3"><%= i + 1 %>. <%= q.question %></p>
+        <% if (q.options?.length) { %>
+          <div class="space-y-2">
+            <% q.options.forEach(o => { %>
+              <label class="flex items-center gap-2 text-sm text-text-2 cursor-pointer">
+                <input type="radio" name="q<%= i %>" value="<%= o %>" class="accent-primary">
+                <%= o %>
+              </label>
+            <% }) %>
+          </div>
+        <% } else { %>
+          <input name="q<%= i %>" class="w-full bg-bg-3 border border-border rounded px-4 py-2 text-sm text-text focus:outline-none focus:border-primary">
+        <% } %>
+      </div>
+    <% }) %>
+    <button type="submit" class="w-full py-3 bg-primary text-white rounded font-heading font-600 text-sm hover:bg-primary-hover transition-colors">Enviar respostas</button>
+  </form>
+  <div id="quiz-result" class="mt-4 text-center text-lg font-heading font-700 hidden"></div>
+</div>
+<script>
+document.getElementById('quiz-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = new FormData(e.target);
+  let score = 0;
+  const total = <%= quiz.questions.length %>;
+  const answers = <%= JSON.stringify(quiz.questions.map(q => q.answer)) %>;
+  answers.forEach((ans, i) => {
+    if (form.get('q' + i) === ans) score++;
+  });
+  const result = document.getElementById('quiz-result');
+  result.classList.remove('hidden');
+  result.innerHTML = 'Você acertou ' + score + ' de ' + total + ' (' + Math.round(score/total*100) + '%)';
+  result.className = score >= total/2 ? 'mt-4 text-center text-lg font-heading font-700 text-success' : 'mt-4 text-center text-lg font-heading font-700 text-error';
+});
+</script>
+`}) %>

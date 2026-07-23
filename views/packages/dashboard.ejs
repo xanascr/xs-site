@@ -1,0 +1,28 @@
+<%- include('../layouts/main', { body: `
+<div class="max-w-4xl mx-auto px-4 py-12">
+  <h1 class="font-heading font-800 text-3xl mb-8">Meus Pacotes</h1>
+  <% if (packages.length === 0) { %>
+    <div class="bg-bg-2 border border-border rounded p-8 text-center">
+      <p class="text-text-2 mb-4">Você não publicou nenhum pacote ainda.</p>
+      <p class="text-text-2 text-sm">Use <code class="text-primary">xs publish</code> no terminal para publicar seu primeiro pacote.</p>
+    </div>
+  <% } else { %>
+    <div class="bg-bg-2 border border-border rounded overflow-hidden">
+      <table class="w-full text-sm">
+        <thead><tr class="bg-bg-3 text-text-2"><th class="text-left p-3">Nome</th><th class="text-left p-3">Versão</th><th class="text-left p-3">Downloads</th><th class="text-left p-3">Aprovado</th><th class="text-left p-3">Criado</th></tr></thead>
+        <tbody>
+          <% packages.forEach(p => { %>
+            <tr class="border-t border-border">
+              <td class="p-3"><a href="/packages/<%= p.name %>" class="text-primary hover:underline"><%= p.name %></a></td>
+              <td class="p-3 text-text-2">v<%= p.version %></td>
+              <td class="p-3"><%= p.downloads %></td>
+              <td class="p-3"><%= p.approved ? '<span class="text-success">Sim</span>' : '<span class="text-text-2">Pendente</span>' %></td>
+              <td class="p-3 text-text-2 text-xs"><%= new Date(p.createdAt).toLocaleDateString() %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</div>
+`}) %>

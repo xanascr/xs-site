@@ -1,0 +1,23 @@
+<%- include('layouts/main', { body: `
+<div class="max-w-4xl mx-auto px-4 py-12">
+  <h1 class="font-heading font-800 text-3xl mb-8">Benchmark</h1>
+  <p class="text-text-2 mb-8">Comparativo de performance entre XanaScript, JavaScript, Python e Lua.</p>
+  <div class="bg-bg-2 border border-border rounded overflow-hidden">
+    <table class="w-full text-sm">
+      <thead><tr class="bg-bg-3 text-text-2"><th class="text-left p-3">Teste</th><th class="text-right p-3">XS</th><th class="text-right p-3">JS</th><th class="text-right p-3">Python</th><th class="text-right p-3">Lua</th></tr></thead>
+      <tbody>
+        <% benchmarks.forEach(b => { %>
+          <tr class="border-t border-border">
+            <td class="p-3"><%= b.name %></td>
+            <td class="p-3 text-right text-primary font-600"><%= b.xs %> <%= b.unit %></td>
+            <td class="p-3 text-right"><%= b.js %> <%= b.unit %></td>
+            <td class="p-3 text-right"><%= b.python %> <%= b.unit %></td>
+            <td class="p-3 text-right"><%= b.lua %> <%= b.unit %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+  <p class="text-text-2 text-xs mt-4">* XS compilado para JS com otimizações. Menor = melhor.</p>
+</div>
+`}) %>
