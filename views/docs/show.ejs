@@ -1,0 +1,17 @@
+<%- include('../layouts/main', { body: `
+<div class="max-w-6xl mx-auto px-4 py-12 flex flex-col md:flex-row gap-8">
+  <aside class="md:w-64 shrink-0">
+    <nav class="md:sticky md:top-20 space-y-1">
+      <% all.forEach(a => { %>
+        <a href="/docs/<%= a.slug %>" class="block text-sm py-1.5 px-3 rounded transition-colors <%= a.slug === article.slug ? 'bg-primary-soft text-primary font-600' : 'text-text-2 hover:text-text hover:bg-bg-2' %>">
+          <%= a.title %>
+        </a>
+      <% }) %>
+    </nav>
+  </aside>
+  <article class="flex-1 min-w-0 prose prose-invert max-w-none">
+    <h1 class="font-heading font-800 text-3xl mb-6"><%= article.title %></h1>
+    <div class="text-text-2 leading-relaxed"><%- article.body %></div>
+  </article>
+</div>
+`}) %>

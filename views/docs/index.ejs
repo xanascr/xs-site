@@ -1,0 +1,19 @@
+<%- include('../layouts/main', { body: `
+<div class="max-w-6xl mx-auto px-4 py-12">
+  <h1 class="font-heading font-800 text-3xl mb-8">Documentação</h1>
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <% Object.entries(categories).forEach(([cat, articles]) => { %>
+      <div class="bg-bg-2 border border-border rounded p-6">
+        <h2 class="font-heading font-700 text-lg mb-3 capitalize"><%= cat %></h2>
+        <ul class="space-y-2">
+          <% articles.forEach(a => { %>
+            <li>
+              <a href="/docs/<%= a.slug %>" class="text-text-2 hover:text-primary transition-colors text-sm"><%= a.title %></a>
+            </li>
+          <% }) %>
+        </ul>
+      </div>
+    <% }) %>
+  </div>
+</div>
+`}) %>

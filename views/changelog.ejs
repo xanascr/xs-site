@@ -1,0 +1,23 @@
+<%- include('layouts/main', { body: `
+<div class="max-w-4xl mx-auto px-4 py-12">
+  <h1 class="font-heading font-800 text-3xl mb-8">Changelog</h1>
+  <div class="space-y-4">
+    <% changelog.forEach(v => { %>
+      <div class="bg-bg-2 border border-border rounded p-6">
+        <div class="flex items-center gap-3 mb-2">
+          <span class="font-heading font-700 text-lg">v<%= v.version %></span>
+          <span class="text-xs text-text-2"><%= v.date %></span>
+          <span class="text-xs px-2 py-0.5 rounded <%= v.type === 'major' ? 'bg-primary-soft text-primary' : v.type === 'minor' ? 'bg-bg-3 text-text-2' : 'bg-bg-3 text-text-2' %>"><%= v.type %></span>
+        </div>
+        <ul class="space-y-1">
+          <% v.changes.forEach(c => { %>
+            <li class="text-sm text-text-2 flex items-start gap-2">
+              <span class="text-primary mt-1">•</span><%= c %>
+            </li>
+          <% }) %>
+        </ul>
+      </div>
+    <% }) %>
+  </div>
+</div>
+`}) %>

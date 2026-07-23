@@ -1,0 +1,38 @@
+<nav class="fixed top-0 left-0 right-0 z-50 bg-bg border-b border-border h-16">
+  <div class="max-w-6xl mx-auto px-4 h-full flex items-center justify-between">
+    <a href="/" class="font-heading font-800 text-lg text-text hover:text-primary transition-colors">
+      XanaScript
+    </a>
+    <div class="hidden md:flex items-center gap-6 text-sm text-text-2">
+      <a href="/docs" class="hover:text-text transition-colors">Docs</a>
+      <a href="/playground" class="hover:text-text transition-colors">Playground</a>
+      <a href="/courses" class="hover:text-text transition-colors">Cursos</a>
+      <a href="/packages" class="hover:text-text transition-colors">Pacotes</a>
+      <% if (locals.user) { %>
+        <a href="/dashboard" class="hover:text-text transition-colors">Dashboard</a>
+        <a href="/admin" class="hover:text-text transition-colors">Admin</a>
+        <a href="/api/auth/logout" class="text-primary hover:text-primary-hover transition-colors">Sair</a>
+      <% } else { %>
+        <a href="/login" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-hover transition-colors text-sm font-heading font-600">Entrar</a>
+      <% } %>
+    </div>
+    <button class="md:hidden text-text" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+      <span class="material-symbols-outlined text-2xl">menu</span>
+    </button>
+  </div>
+  <div id="mobile-menu" class="hidden md:hidden bg-bg-2 border-b border-border px-4 py-4">
+    <div class="flex flex-col gap-3 text-sm">
+      <a href="/docs" class="text-text-2 hover:text-text">Docs</a>
+      <a href="/playground" class="text-text-2 hover:text-text">Playground</a>
+      <a href="/courses" class="text-text-2 hover:text-text">Cursos</a>
+      <a href="/packages" class="text-text-2 hover:text-text">Pacotes</a>
+      <% if (locals.user) { %>
+        <a href="/dashboard" class="text-text-2 hover:text-text">Dashboard</a>
+        <a href="/api/auth/logout" class="text-primary">Sair</a>
+      <% } else { %>
+        <a href="/login" class="text-primary font-600">Entrar</a>
+      <% } %>
+    </div>
+  </div>
+</nav>
+<div class="h-16"></div>

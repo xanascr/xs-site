@@ -1,0 +1,40 @@
+<%- include('../layouts/main', { body: `
+<div class="max-w-6xl mx-auto px-4 py-12">
+  <div class="flex flex-col md:flex-row gap-8">
+    <aside class="md:w-64 shrink-0">
+      <nav class="md:sticky md:top-20 space-y-1">
+        <h3 class="font-heading font-700 text-sm mb-3 text-text-2 uppercase tracking-wider">Módulos</h3>
+        <% course.modules.forEach(m => { %>
+          <div class="mb-3">
+            <p class="font-heading font-600 text-sm mb-1"><%= m.title %></p>
+            <div class="space-y-0.5">
+              <% m.lessons.forEach(l => { %>
+                <a href="/courses/<%= course.slug %>/lessons/<%= l.slug %>" class="block text-sm py-1 px-3 rounded text-text-2 hover:text-text hover:bg-bg-2 transition-colors"><%= l.title %></a>
+              <% }) %>
+            </div>
+          </div>
+        <% }) %>
+      </nav>
+    </aside>
+    <div class="flex-1 min-w-0">
+      <h1 class="font-heading font-800 text-3xl mb-4"><%= course.title %></h1>
+      <p class="text-text-2 mb-6"><%= course.description %></p>
+      <div class="space-y-6">
+        <% course.modules.forEach(m => { %>
+          <div class="bg-bg-2 border border-border rounded p-6">
+            <h2 class="font-heading font-700 text-xl mb-4"><%= m.title %></h2>
+            <div class="space-y-2">
+              <% m.lessons.forEach(l => { %>
+                <a href="/courses/<%= course.slug %>/lessons/<%= l.slug %>" class="flex items-center gap-3 p-3 rounded hover:bg-bg-3 transition-colors group">
+                  <span class="material-symbols-outlined text-primary text-lg">play_circle</span>
+                  <span class="text-sm group-hover:text-primary transition-colors"><%= l.title %></span>
+                </a>
+              <% }) %>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+</div>
+`}) %>
