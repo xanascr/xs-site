@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema({
   twoFactorSecret: { type: String, default: null },
   twoFactorEnabled: { type: Boolean, default: false },
   twoFactorBackupCodes: [String],
+  apiKeys: [{ token: String, name: String, createdAt: { type: Date, default: Date.now } }],
 }, { timestamps: true });
 
 userSchema.pre("save", async function (next) {

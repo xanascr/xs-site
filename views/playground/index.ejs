@@ -5,7 +5,7 @@
     <select id="example-select" class="bg-bg-2 border border-border rounded px-4 py-2 text-sm text-text">
       <option value="">Exemplos...</option>
       <% examples.forEach(e => { %>
-        <option value="<%= e.code %>"><%= e.title %></option>
+        <option value="<%= e._id %>"><%= e.title %></option>
       <% }) %>
     </select>
     <button onclick="runCode()" class="px-6 py-2 bg-primary text-white rounded font-heading font-600 text-sm hover:bg-primary-hover transition-colors md:col-span-3">
@@ -14,7 +14,7 @@
   </div>
   <div class="grid md:grid-cols-2 gap-4">
     <textarea id="code-editor" class="w-full h-[500px] bg-code border border-border rounded p-4 font-mono text-sm text-text resize-none focus:outline-none focus:border-primary" placeholder="Escreva seu código XS aqui..."></textarea>
-    <div id="output" class="w-full h-[500px] bg-code border border-border rounded p-4 font-mono text-sm text-text-2 overflow-y-auto"></div>
+    <div id="output" class="w-full h-[500px] bg-code border border-border rounded p-4 font-mono text-sm text-text-2 overflow-y-auto whitespace-pre-wrap"></div>
   </div>
 </div>
 <script>
@@ -22,8 +22,11 @@ const editor = document.getElementById('code-editor');
 const output = document.getElementById('output');
 const select = document.getElementById('example-select');
 
+const examples = <%- JSON.stringify(examples.map(e => ({ _id: e._id, title: e.title, code: e.code }))) %>;
+
 select.addEventListener('change', () => {
-  if (select.value) editor.value = select.value;
+  const ex = examples.find(e => e._id === select.value);
+  if (ex) editor.value = ex.code;
 });
 
 document.addEventListener('keydown', (e) => {
@@ -31,7 +34,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 async function runCode() {
-  output.innerHTML = '<span class="text-text-2">Executando...</span>';
+  output.textContent = 'Executando...';
   try {
     const res = await fetch('/api/playground/run', {
       method: 'POST',
@@ -39,14 +42,12 @@ async function runCode() {
       body: JSON.stringify({ code: editor.value }),
     });
     const data = await res.json();
-    output.innerHTML = data.ok
-      ? (data.output || '<span class="text-success">OK (sem saída)</span>')
-      : '<span class="text-error">' + (data.error || 'Erro') + '</span>';
+    output.textContent = data.ok
+      ? (data.output || 'OK (sem saída)')
+      : 'Erro: ' + (data.error || 'Erro desconhecido');
   } catch (e) {
-    output.innerHTML = '<span class="text-error">' + e.message + '</span>';
+    output.textContent = 'Erro: ' + e.message;
   }
 }
-
-editor.addEventListener('input', () => select.value = '');
 </script>
 `}) %>

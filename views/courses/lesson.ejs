@@ -5,50 +5,72 @@
   <p class="text-text-2 text-sm mb-8"><%= course.title %></p>
 
   <div class="prose prose-invert max-w-none mb-8">
-    <div class="bg-bg-2 border border-border rounded p-6 text-text-2 leading-relaxed whitespace-pre-wrap"><%= lesson.bodyMd %></div>
+    <div class="bg-bg-2 border border-border rounded p-6 text-text-2 leading-relaxed whitespace-pre-wrap"><%- lesson.bodyMd %></div>
   </div>
 
   <div class="flex items-center gap-4">
-    <% if (enrollment) { %>
+    <% if (locals.user) { %>
       <button id="complete-btn" onclick="completeLesson('<%= course.slug %>', '<%= lesson.slug %>')" class="px-6 py-3 bg-primary text-white rounded font-heading font-600 text-sm hover:bg-primary-hover transition-colors">
-        <%= enrollment.completedLessons.some(l => l.lessonSlug === lesson.slug) ? '✅ Concluído' : 'Marcar como concluído' %>
+        <%= enrollment?.completedLessons?.some(l => l.lessonSlug === lesson.slug) ? '✅ Concluído' : 'Marcar como concluído' %>
       </button>
     <% } else { %>
-      <a href="/api/courses/<%= course.slug %>/enroll" class="px-6 py-3 bg-primary text-white rounded font-heading font-600 text-sm hover:bg-primary-hover transition-colors">Inscrever-se</a>
+      <a href="/login" class="px-6 py-3 bg-primary text-white rounded font-heading font-600 text-sm hover:bg-primary-hover transition-colors">Faça login para se inscrever</a>
     <% } %>
   </div>
 
   <div class="mt-8 bg-bg-2 border border-border rounded p-6">
     <h2 class="font-heading font-700 text-lg mb-4">Comentários</h2>
     <div id="comments"></div>
-    <form id="comment-form" class="mt-4 hidden">
-      <textarea name="body" rows="3" class="w-full bg-bg-3 border border-border rounded px-4 py-2.5 text-text text-sm focus:outline-none focus:border-primary mb-2" placeholder="Comentário..."></textarea>
-      <button type="submit" class="px-4 py-2 bg-primary text-white rounded text-sm font-600 hover:bg-primary-hover transition-colors">Enviar</button>
-    </form>
+    <% if (locals.user) { %>
+      <form id="comment-form" class="mt-4">
+        <textarea name="body" rows="3" class="w-full bg-bg-3 border border-border rounded px-4 py-2.5 text-text text-sm focus:outline-none focus:border-primary mb-2" placeholder="Comentário..." maxlength="5000"></textarea>
+        <button type="submit" class="px-4 py-2 bg-primary text-white rounded text-sm font-600 hover:bg-primary-hover transition-colors">Enviar</button>
+      </form>
+    <% } %>
   </div>
 </div>
 <script>
 const token = localStorage.getItem('token');
-if (token) document.getElementById('comment-form').classList.remove('hidden');
 
 async function loadComments() {
   const res = await fetch('/api/courses/<%= course._id %>/comments?lesson=<%= lesson.slug %>');
   const json = await res.json();
   const el = document.getElementById('comments');
-  if (!json.comments?.length) { el.innerHTML = '<p class="text-text-2 text-sm">Nenhum comentário ainda.</p>'; return; }
-  el.innerHTML = json.comments.map(c => '<div class="mb-3"><p class="text-sm"><span class="font-600">' + c.user?.username + '</span> <span class="text-text-2 text-xs">' + new Date(c.createdAt).toLocaleDateString() + '</span></p><p class="text-text-2 text-sm">' + c.body + '</p></div>').join('');
+  if (!json.comments?.length) { el.textContent = 'Nenhum comentário ainda.'; return; }
+  el.innerHTML = '';
+  json.comments.forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'mb-3';
+    div.innerHTML = '<p class="text-sm"><span class="font-600">' + escapeHtml(c.user?.username || '?') + '</span> <span class="text-text-2 text-xs">' + new Date(c.createdAt).toLocaleDateString() + '</span></p><p class="text-text-2 text-sm"></p>';
+    div.querySelector('p:last-child').textContent = c.body;
+    el.appendChild(div);
+  });
 }
 
-document.getElementById('comment-form').addEventListener('submit', async (e) => {
+function escapeHtml(str) {
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+document.getElementById('comment-form')?.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const body = e.target.body.value;
-  await fetch('/api/courses/<%= course._id %>/comments', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify({ lessonSlug: '<%= lesson.slug %>', body }) });
+  const body = e.target.body.value.trim();
+  if (!body) return;
+  await fetch('/api/courses/<%= course._id %>/comments', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+    body: JSON.stringify({ lessonSlug: '<%= lesson.slug %>', body }),
+  });
   e.target.body.value = '';
   loadComments();
 });
 
 async function completeLesson(courseSlug, lessonSlug) {
-  await fetch('/api/courses/' + courseSlug + '/lessons/' + lessonSlug + '/complete', { method: 'POST', headers: { 'Authorization': 'Bearer ' + token } });
+  await fetch('/api/courses/' + courseSlug + '/lessons/' + lessonSlug + '/complete', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + token },
+  });
   document.getElementById('complete-btn').textContent = '✅ Concluído';
 }
 

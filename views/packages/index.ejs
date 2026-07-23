@@ -1,21 +1,47 @@
 <%- include('../layouts/main', { body: `
 <div class="max-w-6xl mx-auto px-4 py-12">
-  <div class="flex justify-between items-center mb-8">
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
     <h1 class="font-heading font-800 text-3xl">Pacotes</h1>
-    <a href="/packages/dashboard" class="px-4 py-2 bg-primary text-white rounded text-sm font-600 hover:bg-primary-hover transition-colors">Meus Pacotes</a>
+    <a href="/packages/dashboard" class="px-4 py-2 bg-primary text-white rounded text-sm font-600 hover:bg-primary-hover transition-colors shrink-0">Meus Pacotes</a>
   </div>
-  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-    <% packages.forEach(p => { %>
-      <a href="/packages/<%= p.name %>" class="block bg-bg-2 border border-border rounded p-6 hover:border-primary transition-colors group">
-        <h2 class="font-heading font-700 text-lg group-hover:text-primary transition-colors"><%= p.name %></h2>
-        <p class="text-text-2 text-sm mt-2 line-clamp-2"><%= p.description %></p>
-        <div class="flex items-center gap-3 mt-4 text-xs text-text-2">
-          <span>v<%= p.version %></span>
-          <span><%= p.author?.username || '?' %></span>
-          <span><%= p.downloads %> downloads</span>
-        </div>
-      </a>
-    <% }) %>
-  </div>
+
+  <form action="/packages" method="GET" class="mb-8">
+    <div class="flex gap-2">
+      <input type="text" name="q" value="<%= query %>" placeholder="Buscar pacotes..." class="flex-1 bg-bg-2 border border-border rounded px-4 py-2 text-sm text-text placeholder-text-2 focus:outline-none focus:border-primary">
+      <button type="submit" class="px-6 py-2 bg-primary text-white rounded text-sm font-600 hover:bg-primary-hover transition-colors">Buscar</button>
+    </div>
+  </form>
+
+  <% if (packages.length === 0) { %>
+    <div class="bg-bg-2 border border-border rounded p-12 text-center">
+      <span class="material-symbols-outlined text-4xl text-text-2 mb-4">package_2</span>
+      <p class="text-text-2"><%= query ? 'Nenhum pacote encontrado para "' + query + '".' : 'Nenhum pacote publicado ainda.' %></p>
+      <% if (!query) { %>
+        <p class="text-text-2 text-sm mt-2">Use <code class="text-primary">xs publish</code> para publicar o seu.</p>
+      <% } %>
+    </div>
+  <% } else { %>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <% packages.forEach(p => { %>
+        <a href="/packages/<%= p.name %>" class="block bg-bg-2 border border-border rounded p-6 hover:border-primary transition-colors group">
+          <h2 class="font-heading font-700 text-lg group-hover:text-primary transition-colors truncate"><%= p.name %></h2>
+          <p class="text-text-2 text-sm mt-2 line-clamp-2"><%= p.description || 'Sem descrição' %></p>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-4 text-xs text-text-2">
+            <span>v<%= p.version %></span>
+            <span><%= p.author?.username || '?' %></span>
+            <span><%= p.downloads %> downloads</span>
+            <% if (p.license && p.license !== 'MIT') { %><span><%= p.license %></span><% } %>
+          </div>
+          <% if (p.keywords && p.keywords.length > 0) { %>
+            <div class="flex flex-wrap gap-1 mt-3">
+              <% p.keywords.slice(0, 3).forEach(k => { %>
+                <span class="px-2 py-0.5 bg-bg-3 text-text-2 rounded text-[10px]"><%= k %></span>
+              <% }) %>
+            </div>
+          <% } %>
+        </a>
+      <% }) %>
+    </div>
+  <% } %>
 </div>
 `}) %>

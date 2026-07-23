@@ -13,49 +13,69 @@ export function signToken(user) {
   );
 }
 
-export async function auth(req, res, next) {
-  const header = req.headers.authorization;
-  if (!header || !header.startsWith("Bearer ")) {
-    return res.status(401).json({ ok: false, error: "Token ausente" });
-  }
+async function verifyToken(header) {
+  if (!header?.startsWith("Bearer ")) return null;
   try {
-    const payload = jwt.verify(header.slice(7), SECRET);
-    const user = await User.findById(payload.id).select("tokenVersion");
-    if (!user || (user.tokenVersion ?? 0) !== (payload.tokenVersion ?? 0)) {
-      return res.status(401).json({ ok: false, error: "Token revogado" });
-    }
-    req.user = payload;
-    next();
+    return jwt.verify(header.slice(7), SECRET);
   } catch {
-    return res.status(401).json({ ok: false, error: "Token inválido ou expirado" });
+    return null;
   }
 }
 
-export function optionalAuth(req, res, next) {
-  const header = req.headers.authorization;
-  if (header && header.startsWith("Bearer ")) {
-    try {
-      req.user = jwt.verify(header.slice(7), SECRET);
-    } catch {
-      req.user = undefined;
+async function checkTokenVersion(payload) {
+  try {
+    const user = await User.findById(payload.id).select("tokenVersion");
+    if (!user || (user.tokenVersion ?? 0) !== (payload.tokenVersion ?? 0)) return null;
+    return payload;
+  } catch {
+    return null;
+  }
+}
+
+export async function auth(req, res, next) {
+  try {
+    const apiKey = req.headers["x-api-key"];
+    if (apiKey) {
+      const user = await User.findOne({ "apiKeys.token": apiKey }).select("-password");
+      if (!user) return res.status(401).json({ ok: false, error: "API key inválida" });
+      req.user = { id: user._id, username: user.username, role: user.role, tokenVersion: user.tokenVersion };
+      return next();
     }
+
+    const payload = await verifyToken(req.headers.authorization);
+    if (!payload) return res.status(401).json({ ok: false, error: "Token ausente ou inválido" });
+    const valid = await checkTokenVersion(payload);
+    if (!valid) return res.status(401).json({ ok: false, error: "Token revogado" });
+    req.user = payload;
+    next();
+  } catch (e) {
+    res.status(500).json({ ok: false, error: "Erro interno" });
+  }
+}
+
+export async function optionalAuth(req, res, next) {
+  const payload = await verifyToken(req.headers.authorization);
+  if (payload) {
+    const valid = await checkTokenVersion(payload);
+    req.user = valid || undefined;
   }
   next();
 }
 
-export function adminAuth(req, res, next) {
-  const header = req.headers.authorization;
-  if (!header || !header.startsWith("Bearer ")) {
-    return res.status(401).json({ ok: false, error: "Token ausente" });
-  }
+export async function adminAuth(req, res, next) {
   try {
-    const payload = jwt.verify(header.slice(7), SECRET);
-    if (payload.role !== "admin") {
-      return res.status(403).json({ ok: false, error: "Apenas admin" });
-    }
-    req.user = payload;
+    const payload = await verifyToken(req.headers.authorization);
+    if (!payload) return res.status(401).json({ ok: false, error: "Token ausente ou inválido" });
+    const valid = await checkTokenVersion(payload);
+    if (!valid) return res.status(401).json({ ok: false, error: "Token revogado" });
+    if (valid.role !== "admin") return res.status(403).json({ ok: false, error: "Apenas admin" });
+    req.user = valid;
     next();
-  } catch {
-    return res.status(401).json({ ok: false, error: "Token inválido" });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: "Erro interno" });
   }
+}
+
+export function asyncHandler(fn) {
+  return (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next);
 }

@@ -1,28 +1,119 @@
 <%- include('../layouts/main', { body: `
-<div class="max-w-4xl mx-auto px-4 py-12">
+<div class="max-w-5xl mx-auto px-4 py-12">
   <h1 class="font-heading font-800 text-3xl mb-8">Meus Pacotes</h1>
-  <% if (packages.length === 0) { %>
-    <div class="bg-bg-2 border border-border rounded p-8 text-center">
-      <p class="text-text-2 mb-4">Você não publicou nenhum pacote ainda.</p>
-      <p class="text-text-2 text-sm">Use <code class="text-primary">xs publish</code> no terminal para publicar seu primeiro pacote.</p>
+
+  <div class="bg-bg-2 border border-border rounded p-6 mb-8">
+    <h2 class="font-heading font-700 text-lg mb-4">Publicar novo pacote</h2>
+    <form id="publish-form" enctype="multipart/form-data" class="space-y-4">
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm text-text-2 mb-1">Nome *</label>
+          <input type="text" name="name" required pattern="[a-z0-9_-]+" title="Apenas a-z, 0-9, _, -" class="w-full bg-bg-3 border border-border rounded px-4 py-2 text-sm text-text placeholder-text-2 focus:outline-none focus:border-primary">
+        </div>
+        <div>
+          <label class="block text-sm text-text-2 mb-1">Versão *</label>
+          <input type="text" name="version" required value="1.0.0" class="w-full bg-bg-3 border border-border rounded px-4 py-2 text-sm text-text placeholder-text-2 focus:outline-none focus:border-primary">
+        </div>
+      </div>
+      <div>
+        <label class="block text-sm text-text-2 mb-1">Descrição</label>
+        <textarea name="description" rows="2" class="w-full bg-bg-3 border border-border rounded px-4 py-2 text-sm text-text placeholder-text-2 focus:outline-none focus:border-primary resize-none"></textarea>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm text-text-2 mb-1">Licença</label>
+          <input type="text" name="license" value="MIT" class="w-full bg-bg-3 border border-border rounded px-4 py-2 text-sm text-text placeholder-text-2 focus:outline-none focus:border-primary">
+        </div>
+        <div>
+          <label class="block text-sm text-text-2 mb-1">Repositório</label>
+          <input type="url" name="repository" placeholder="https://" class="w-full bg-bg-3 border border-border rounded px-4 py-2 text-sm text-text placeholder-text-2 focus:outline-none focus:border-primary">
+        </div>
+      </div>
+      <div>
+        <label class="block text-sm text-text-2 mb-1">Keywords (separadas por vírgula)</label>
+        <input type="text" name="keywords" placeholder="xs, linguagem, utilitário" class="w-full bg-bg-3 border border-border rounded px-4 py-2 text-sm text-text placeholder-text-2 focus:outline-none focus:border-primary">
+      </div>
+      <div>
+        <label class="block text-sm text-text-2 mb-1">Dependências (separadas por vírgula)</label>
+        <input type="text" name="dependencies" placeholder="axios, lodash" class="w-full bg-bg-3 border border-border rounded px-4 py-2 text-sm text-text placeholder-text-2 focus:outline-none focus:border-primary">
+      </div>
+      <div>
+        <label class="block text-sm text-text-2 mb-1">README (Markdown)</label>
+        <textarea name="readme" rows="6" class="w-full bg-bg-3 border border-border rounded px-4 py-2 text-sm text-text font-mono placeholder-text-2 focus:outline-none focus:border-primary resize-none"></textarea>
+      </div>
+      <div>
+        <label class="block text-sm text-text-2 mb-1">Tarball (.tar.gz) <span class="text-text-2/60">— máx 5MB</span></label>
+        <input type="file" name="tarball" accept=".tar.gz,.tgz,.tar" class="w-full text-sm text-text-2 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-600 file:bg-primary file:text-white hover:file:bg-primary-hover">
+      </div>
+      <button type="submit" class="px-6 py-2 bg-primary text-white rounded text-sm font-600 hover:bg-primary-hover transition-colors">Publicar</button>
+    </form>
+    <div id="publish-result" class="mt-4 text-sm hidden"></div>
+  </div>
+
+  <div class="bg-bg-2 border border-border rounded overflow-hidden">
+    <div class="p-4 border-b border-border">
+      <h2 class="font-heading font-700 text-lg">Pacotes publicados</h2>
     </div>
-  <% } else { %>
-    <div class="bg-bg-2 border border-border rounded overflow-hidden">
+    <% if (packages.length === 0) { %>
+      <div class="p-8 text-center">
+        <p class="text-text-2">Você não publicou nenhum pacote ainda.</p>
+        <p class="text-text-2 text-sm mt-2">Use o formulário acima ou <code class="text-primary">xs publish</code> no terminal.</p>
+      </div>
+    <% } else { %>
       <table class="w-full text-sm">
-        <thead><tr class="bg-bg-3 text-text-2"><th class="text-left p-3">Nome</th><th class="text-left p-3">Versão</th><th class="text-left p-3">Downloads</th><th class="text-left p-3">Aprovado</th><th class="text-left p-3">Criado</th></tr></thead>
+        <thead><tr class="bg-bg-3 text-text-2"><th class="text-left p-3">Nome</th><th class="text-left p-3">Versão</th><th class="text-left p-3">Versões</th><th class="text-left p-3">Downloads</th><th class="text-left p-3">Status</th><th class="text-left p-3">Criado</th></tr></thead>
         <tbody>
           <% packages.forEach(p => { %>
             <tr class="border-t border-border">
               <td class="p-3"><a href="/packages/<%= p.name %>" class="text-primary hover:underline"><%= p.name %></a></td>
               <td class="p-3 text-text-2">v<%= p.version %></td>
+              <td class="p-3 text-text-2"><%= (p.versions || []).length %></td>
               <td class="p-3"><%= p.downloads %></td>
-              <td class="p-3"><%= p.approved ? '<span class="text-success">Sim</span>' : '<span class="text-text-2">Pendente</span>' %></td>
+              <td class="p-3">
+                <% if (p.status === 'approved') { %><span class="text-success">Aprovado</span>
+                <% } else if (p.status === 'rejected') { %><span class="text-error">Rejeitado</span>
+                <% } else { %><span class="text-text-2">Pendente</span><% } %>
+              </td>
               <td class="p-3 text-text-2 text-xs"><%= new Date(p.createdAt).toLocaleDateString() %></td>
             </tr>
           <% }) %>
         </tbody>
       </table>
-    </div>
-  <% } %>
+    <% } %>
+  </div>
 </div>
+
+<script>
+document.getElementById('publish-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const resultEl = document.getElementById('publish-result');
+  resultEl.className = 'mt-4 text-sm';
+  resultEl.textContent = 'Publicando...';
+  resultEl.classList.remove('hidden');
+
+  const formData = new FormData(form);
+  const token = localStorage.getItem('token');
+
+  try {
+    const res = await fetch('/api/packages', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + token },
+      body: formData,
+    });
+    const data = await res.json();
+    if (data.ok) {
+      resultEl.className = 'mt-4 text-sm text-success';
+      resultEl.textContent = 'Pacote publicado com sucesso!';
+      setTimeout(() => window.location.reload(), 1500);
+    } else {
+      resultEl.className = 'mt-4 text-sm text-error';
+      resultEl.textContent = data.error || 'Erro ao publicar';
+    }
+  } catch (e) {
+    resultEl.className = 'mt-4 text-sm text-error';
+    resultEl.textContent = 'Erro: ' + e.message;
+  }
+});
+</script>
 `}) %>

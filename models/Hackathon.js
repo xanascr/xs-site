@@ -1,5 +1,14 @@
 import mongoose from "mongoose";
 
+const submissionSchema = new mongoose.Schema({
+  hackathon: { type: mongoose.Schema.Types.ObjectId, ref: "Hackathon", required: true },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  title: { type: String, required: true },
+  description: { type: String, default: "" },
+  link: { type: String, default: "" },
+  createdAt: { type: Date, default: Date.now },
+});
+
 const hackathonSchema = new mongoose.Schema({
   title: { type: String, required: true },
   slug: { type: String, required: true, unique: true },
@@ -10,15 +19,6 @@ const hackathonSchema = new mongoose.Schema({
   endDate: { type: Date, required: true },
   active: { type: Boolean, default: true },
 }, { timestamps: true });
-
-const submissionSchema = new mongoose.Schema({
-  hackathon: { type: mongoose.Schema.Types.ObjectId, ref: "Hackathon", required: true },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  title: { type: String, required: true },
-  description: { type: String, default: "" },
-  link: { type: String, default: "" },
-  createdAt: { type: Date, default: Date.now },
-});
 
 hackathonSchema.index({ active: 1 });
 

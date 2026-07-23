@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { asyncHandler } from "../../middleware/auth.js";
 import { execSync } from "child_process";
 import { writeFileSync, unlinkSync } from "fs";
 import { tmpdir } from "os";
@@ -7,8 +8,8 @@ import { randomBytes } from "crypto";
 
 const router = Router();
 
-router.post("/run", async (req, res) => {
-  const { code } = req.body;
+router.post("/run", asyncHandler(async (req, res) => {
+  const code = req.body.code?.trim();
   if (!code) return res.status(400).json({ ok: false, error: "Código vazio" });
 
   const tmpFile = join(tmpdir(), `xs-playground-${randomBytes(4).toString("hex")}.xs`);
@@ -17,13 +18,14 @@ router.post("/run", async (req, res) => {
     const stdout = execSync(`node ${join(process.cwd(), "..", "bin", "xs.js")} run "${tmpFile}" 2>&1 || true`, {
       timeout: 5000,
       encoding: "utf-8",
+      maxBuffer: 1024 * 1024,
     });
-    res.json({ ok: true, output: stdout || "(sem saída)" });
+    res.json({ ok: true, output: String(stdout) || "(sem saída)" });
   } catch (e) {
-    res.json({ ok: false, error: e.message });
+    res.json({ ok: false, error: "Erro ao executar código" });
   } finally {
     try { unlinkSync(tmpFile); } catch {}
   }
-});
+}));
 
 export default router;

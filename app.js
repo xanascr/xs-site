@@ -14,6 +14,9 @@ import apiCoursesRouter from "./routes/api/courses.js";
 import apiCommentsRouter from "./routes/api/comments.js";
 import apiHackathonsRouter from "./routes/api/hackathons.js";
 import apiPlaygroundRouter from "./routes/api/playground.js";
+import apiQuizRouter from "./routes/api/quiz.js";
+import apiReviewsRouter from "./routes/api/reviews.js";
+import apiSearchRouter from "./routes/api/search.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -40,16 +43,17 @@ app.set("trust proxy", 1);
 app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: true }));
 
-const loginLimiter = (await import("express-rate-limit")).default({
-  windowMs: 60 * 1000,
-  max: 10,
-  validate: { xForwardedForHeader: true },
-  skip: req => !["/signup", "/login", "/forgot-password", "/reset-password"].some(p => req.path === `/api/auth${p}`),
-});
-app.use(loginLimiter);
-
-app.use((req, res, next) => {
-  res.locals.user = req.user || null;
+app.use(async (req, res, next) => {
+  const header = req.headers.authorization;
+  if (header?.startsWith("Bearer ")) {
+    try {
+      const jwt = await import("jsonwebtoken");
+      req.user = jwt.verify(header.slice(7), process.env.JWT_SECRET);
+    } catch {
+      req.user = null;
+    }
+  }
+  res.locals.user = req.user;
   res.locals.path = req.path;
   next();
 });
@@ -62,12 +66,22 @@ app.use("/api/courses", apiCoursesRouter);
 app.use("/api/courses", apiCommentsRouter);
 app.use("/api/hackathons", apiHackathonsRouter);
 app.use("/api/playground", apiPlaygroundRouter);
+app.use("/api/courses", apiQuizRouter);
+app.use("/api/packages", apiReviewsRouter);
+app.use("/api/search", apiSearchRouter);
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use((req, res) => {
   res.status(404).render("404", { page: "404" });
 });
 
 app.use((err, req, res, next) => {
+  if (err?.name === "MulterError") {
+    return res.status(400).json({ ok: false, error: `Erro no upload: ${err.message}` });
+  }
+  if (err?.type === "entity.too.large") {
+    return res.status(413).json({ ok: false, error: "Arquivo muito grande" });
+  }
   console.error("Unhandled error:", err.stack || err.message);
   if (req.accepts("html")) {
     return void res.status(500).render("500", { error: process.env.NODE_ENV === "development" ? err.message : "Erro interno" });

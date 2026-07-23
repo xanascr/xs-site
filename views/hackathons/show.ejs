@@ -32,7 +32,7 @@
               <span class="text-xs text-text-2">por <%= s.user?.username %></span>
             </div>
             <p class="text-sm text-text-2"><%= s.description %></p>
-            <% if (s.link) { %><a href="<%= s.link %>" target="_blank" class="text-primary text-sm hover:underline">Ver projeto</a><% } %>
+            <% if (s.link && s.link.startsWith('http')) { %><a href="<%= s.link %>" target="_blank" rel="noopener noreferrer" class="text-primary text-sm hover:underline">Ver projeto</a><% } %>
           </div>
         <% }) %>
       </div>

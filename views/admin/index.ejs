@@ -1,6 +1,6 @@
-<%- include('layouts/main', { body: `
+<%- include('../layouts/main', { body: `
 <div class="max-w-6xl mx-auto px-4 py-12">
-  <nav class="flex gap-2 mb-8">
+  <nav class="flex gap-2 mb-8 flex-wrap">
     <a href="/admin" class="px-4 py-2 rounded text-sm <%= path === '/admin' ? 'bg-primary text-white' : 'bg-bg-2 text-text-2 hover:text-text' %> transition-colors">Dashboard</a>
     <a href="/admin/users" class="px-4 py-2 rounded text-sm <%= path === '/admin/users' ? 'bg-primary text-white' : 'bg-bg-2 text-text-2 hover:text-text' %> transition-colors">Usuários</a>
     <a href="/admin/courses" class="px-4 py-2 rounded text-sm <%= path === '/admin/courses' ? 'bg-primary text-white' : 'bg-bg-2 text-text-2 hover:text-text' %> transition-colors">Cursos</a>
@@ -15,17 +15,23 @@
 const token = localStorage.getItem('token');
 if (!token) { window.location.href = '/login'; }
 
-const path = window.location.pathname;
-const section = path.split('/').pop() || 'dashboard';
+const section = window.location.pathname.split('/').pop() || 'dashboard';
 const content = document.getElementById('admin-content');
 
+function escapeHtml(str) {
+  if (!str) return '';
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
 async function loadSection() {
-  content.innerHTML = '<p class="text-text-2">Carregando...</p>';
+  content.textContent = 'Carregando...';
   try {
     if (section === 'dashboard') {
       const res = await fetch('/api/admin/stats', { headers: { 'Authorization': 'Bearer ' + token } });
       const json = await res.json();
-      if (!json.ok) { content.innerHTML = '<p class="text-error">' + json.error + '</p>'; return; }
+      if (!json.ok) { content.textContent = json.error; return; }
       content.innerHTML = '<div class="grid md:grid-cols-4 gap-4">' +
         Object.entries(json.stats).map(([k, v]) => '<div class="bg-bg-2 border border-border rounded p-6"><p class="text-2xl font-heading font-700">' + v + '</p><p class="text-text-2 text-sm capitalize">' + k + '</p></div>').join('') +
         '</div>';
@@ -33,46 +39,20 @@ async function loadSection() {
       const res = await fetch('/api/admin/users', { headers: { 'Authorization': 'Bearer ' + token } });
       const json = await res.json();
       content.innerHTML = '<div class="bg-bg-2 border border-border rounded overflow-hidden"><table class="w-full text-sm"><thead><tr class="bg-bg-3 text-text-2"><th class="text-left p-3">Usuário</th><th class="text-left p-3">Email</th><th class="text-left p-3">Role</th><th class="text-left p-3">Ações</th></tr></thead><tbody>' +
-        json.users.map(u => '<tr class="border-t border-border"><td class="p-3">' + u.username + '</td><td class="p-3 text-text-2">' + u.email + '</td><td class="p-3">' + u.role + '</td><td class="p-3"><button onclick="toggleRole(\'' + u._id + '\')" class="text-primary hover:underline text-xs">' + (u.role === 'admin' ? 'Remover admin' : 'Tornar admin') + '</button></td></tr>').join('') +
+        json.users.map(u => '<tr class="border-t border-border"><td class="p-3">' + escapeHtml(u.username) + '</td><td class="p-3 text-text-2">' + escapeHtml(u.email) + '</td><td class="p-3">' + escapeHtml(u.role) + '</td><td class="p-3"><button onclick="toggleRole(\'' + u._id + '\')" class="text-primary hover:underline text-xs">' + (u.role === 'admin' ? 'Remover admin' : 'Tornar admin') + '</button></td></tr>').join('') +
         '</tbody></table></div>';
     } else if (section === 'courses') {
       const res = await fetch('/api/admin/courses', { headers: { 'Authorization': 'Bearer ' + token } });
       const json = await res.json();
-      content.innerHTML = '<div class="flex justify-between items-center mb-4"><h2 class="font-heading font-700 text-lg">Cursos</h2><a href="/admin/courses/new" class="px-4 py-2 bg-primary text-white rounded text-sm font-600">Novo Curso</a></div>' +
+      content.innerHTML = '<div class="flex justify-between items-center mb-4"><h2 class="font-heading font-700 text-lg">Cursos</h2><button onclick="showCourseForm()" class="px-4 py-2 bg-primary text-white rounded text-sm font-600">Novo Curso</button></div>' +
         '<div class="bg-bg-2 border border-border rounded overflow-hidden"><table class="w-full text-sm"><thead><tr class="bg-bg-3 text-text-2"><th class="text-left p-3">Título</th><th class="text-left p-3">Slug</th><th class="text-left p-3">Status</th><th class="text-left p-3">Ações</th></tr></thead><tbody>' +
-        json.courses.map(c => '<tr class="border-t border-border"><td class="p-3">' + c.title + '</td><td class="p-3 text-text-2">' + c.slug + '</td><td class="p-3">' + (c.published ? '<span class="text-success">Publicado</span>' : '<span class="text-text-2">Rascunho</span>') + '</td><td class="p-3"><button onclick="deleteCourse(\'' + c._id + '\')" class="text-error hover:underline text-xs">Excluir</button></td></tr>').join('') +
+        json.courses.map(c => '<tr class="border-t border-border"><td class="p-3">' + escapeHtml(c.title) + '</td><td class="p-3 text-text-2">' + escapeHtml(c.slug) + '</td><td class="p-3">' + (c.published ? '<span class="text-success">Publicado</span>' : '<span class="text-text-2">Rascunho</span>') + '</td><td class="p-3"><button onclick="deleteCourse(\'' + c._id + '\')" class="text-error hover:underline text-xs">Excluir</button></td></tr>').join('') +
         '</tbody></table></div>';
-    } else if (section === 'docs') {
-      const res = await fetch('/api/admin/docs', { headers: { 'Authorization': 'Bearer ' + token } });
-      const json = await res.json();
-      content.innerHTML = '<div class="flex justify-between items-center mb-4"><h2 class="font-heading font-700 text-lg">Documentação</h2><button onclick="showDocForm()" class="px-4 py-2 bg-primary text-white rounded text-sm font-600">Novo Artigo</button></div>' +
-        '<div class="bg-bg-2 border border-border rounded overflow-hidden"><table class="w-full text-sm"><thead><tr class="bg-bg-3 text-text-2"><th class="text-left p-3">Título</th><th class="text-left p-3">Categoria</th><th class="text-left p-3">Ordem</th><th class="text-left p-3">Ações</th></tr></thead><tbody>' +
-        json.docs.map(d => '<tr class="border-t border-border"><td class="p-3">' + d.title + '</td><td class="p-3 text-text-2">' + d.category + '</td><td class="p-3">' + d.order + '</td><td class="p-3"><button onclick="deleteDoc(\'' + d._id + '\')" class="text-error hover:underline text-xs">Excluir</button></td></tr>').join('') +
-        '</tbody></table></div>';
-    } else if (section === 'examples') {
-      const res = await fetch('/api/admin/playground-examples', { headers: { 'Authorization': 'Bearer ' + token } });
-      const json = await res.json();
-      content.innerHTML = '<div class="flex justify-between items-center mb-4"><h2 class="font-heading font-700 text-lg">Playground</h2><button onclick="showExampleForm()" class="px-4 py-2 bg-primary text-white rounded text-sm font-600">Novo Exemplo</button></div>' +
-        '<div class="bg-bg-2 border border-border rounded overflow-hidden"><table class="w-full text-sm"><thead><tr class="bg-bg-3 text-text-2"><th class="text-left p-3">Título</th><th class="text-left p-3">Categoria</th><th class="text-left p-3">Ações</th></tr></thead><tbody>' +
-        json.examples.map(e => '<tr class="border-t border-border"><td class="p-3">' + e.title + '</td><td class="p-3 text-text-2">' + e.category + '</td><td class="p-3"><button onclick="deleteExample(\'' + e._id + '\')" class="text-error hover:underline text-xs">Excluir</button></td></tr>').join('') +
-        '</tbody></table></div>';
-    } else if (section === 'hackathons') {
-      const res = await fetch('/api/admin/hackathons', { headers: { 'Authorization': 'Bearer ' + token } });
-      const json = await res.json();
-      content.innerHTML = '<div class="flex justify-between items-center mb-4"><h2 class="font-heading font-700 text-lg">Hackathons</h2><button onclick="showHackathonForm()" class="px-4 py-2 bg-primary text-white rounded text-sm font-600">Novo Hackathon</button></div>' +
-        '<div class="bg-bg-2 border border-border rounded overflow-hidden"><table class="w-full text-sm"><thead><tr class="bg-bg-3 text-text-2"><th class="text-left p-3">Título</th><th class="text-left p-3">Início</th><th class="text-left p-3">Fim</th><th class="text-left p-3">Status</th><th class="text-left p-3">Ações</th></tr></thead><tbody>' +
-        json.hackathons.map(h => '<tr class="border-t border-border"><td class="p-3">' + h.title + '</td><td class="p-3 text-text-2">' + new Date(h.startDate).toLocaleDateString() + '</td><td class="p-3 text-text-2">' + new Date(h.endDate).toLocaleDateString() + '</td><td class="p-3">' + (h.active ? '<span class="text-success">Ativo</span>' : '<span class="text-text-2">Encerrado</span>') + '</td><td class="p-3"><button onclick="deleteHackathon(\'' + h._id + '\')" class="text-error hover:underline text-xs">Excluir</button></td></tr>').join('') +
-        '</tbody></table></div>';
-    } else if (section === 'packages') {
-      const res = await fetch('/api/admin/packages', { headers: { 'Authorization': 'Bearer ' + token } });
-      const json = await res.json();
-      content.innerHTML = '<h2 class="font-heading font-700 text-lg mb-4">Pacotes</h2>' +
-        '<div class="bg-bg-2 border border-border rounded overflow-hidden"><table class="w-full text-sm"><thead><tr class="bg-bg-3 text-text-2"><th class="text-left p-3">Nome</th><th class="text-left p-3">Autor</th><th class="text-left p-3">Downloads</th><th class="text-left p-3">Aprovado</th><th class="text-left p-3">Ações</th></tr></thead><tbody>' +
-        json.packages.map(p => '<tr class="border-t border-border"><td class="p-3">' + p.name + '</td><td class="p-3 text-text-2">' + (p.author?.username || '?') + '</td><td class="p-3">' + p.downloads + '</td><td class="p-3">' + (p.approved ? '<span class="text-success">Sim</span>' : '<span class="text-text-2">Não</span>') + '</td><td class="p-3">' + (!p.approved ? '<button onclick="approvePkg(\'' + p._id + '\')" class="text-primary hover:underline text-xs">Aprovar</button>' : '') + '</td></tr>').join('') +
-        '</tbody></table></div>';
+    } else {
+      content.innerHTML = '<p class="text-text-2">Selecione uma seção no menu acima.</p>';
     }
   } catch (e) {
-    content.innerHTML = '<p class="text-error">' + e.message + '</p>';
+    content.textContent = 'Erro: ' + e.message;
   }
 }
 
@@ -83,10 +63,6 @@ async function toggleRole(id) {
   loadSection();
 }
 async function deleteCourse(id) { if (confirm('Excluir curso?')) { await fetch('/api/admin/courses/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token } }); loadSection(); } }
-async function deleteDoc(id) { if (confirm('Excluir artigo?')) { await fetch('/api/admin/docs/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token } }); loadSection(); } }
-async function deleteExample(id) { if (confirm('Excluir exemplo?')) { await fetch('/api/admin/playground-examples/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token } }); loadSection(); } }
-async function deleteHackathon(id) { if (confirm('Excluir hackathon?')) { await fetch('/api/admin/hackathons/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token } }); loadSection(); } }
-async function approvePkg(id) { await fetch('/api/admin/packages/' + id + '/approve', { method: 'PATCH', headers: { 'Authorization': 'Bearer ' + token } }); loadSection(); }
 
 loadSection();
 </script>
