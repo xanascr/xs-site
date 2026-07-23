@@ -1,3 +1,2 @@
-node_modules/
-.env
-esc-website/
+node_modules
+old/node_modules
