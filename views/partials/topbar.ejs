@@ -1,0 +1,13 @@
+<header class="topbar">
+  <div class="topbar-title">
+    <span class="crumb-item"><%= typeof pageTitle !== 'undefined' && pageTitle ? pageTitle : (typeof title !== 'undefined' && title ? title : 'XanaScript') %></span>
+  </div>
+  <div class="topbar-user">
+    <% if (typeof user !== 'undefined' && user) { %>
+      <span class="avatar"><%= user.username.charAt(0).toUpperCase() %></span>
+    <% } %>
+    <form class="inline-form" action="/api/auth/logout" method="POST">
+      <button type="submit" class="btn btn-secondary btn-sm">Sair</button>
+    </form>
+  </div>
+</header>

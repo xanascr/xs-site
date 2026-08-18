@@ -4,7 +4,7 @@ import multer from "multer";
 import rateLimit from "express-rate-limit";
 import path from "path";
 import fs from "fs";
-import tar from "tar";
+import * as tar from "tar";
 import { randomBytes } from "crypto";
 import { fileURLToPath } from "url";
 import Package from "../../models/Package.js";

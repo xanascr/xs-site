@@ -5,19 +5,19 @@ export default {
     extend: {
       colors: {
         bg: {
-          DEFAULT: "#000000",
-          2: "#111111",
-          3: "#1a1a1a",
+          DEFAULT: "#ffffff",
+          2: "#f7f7f8",
+          3: "#f1f1f3",
         },
-        border: "#2a2a2a",
+        border: "#e6e6e9",
         primary: {
           DEFAULT: "#ec4899",
           hover: "#db2777",
-          soft: "rgba(236, 72, 153, 0.1)",
+          soft: "rgba(236, 72, 153, 0.08)",
         },
         text: {
-          DEFAULT: "#f5f5f5",
-          2: "#a3a3a3",
+          DEFAULT: "#161616",
+          2: "#6b7280",
         },
         code: "#0d0d0d",
       },

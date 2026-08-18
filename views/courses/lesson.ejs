@@ -1,32 +1,35 @@
-<%- include('../layouts/main', { body: `
-<div class="max-w-4xl mx-auto px-4 py-12">
-  <a href="/courses/<%= course.slug %>" class="text-sm text-primary hover:underline mb-6 inline-block">&larr; Voltar ao curso</a>
-  <h1 class="font-heading font-800 text-3xl mb-2"><%= lesson.title %></h1>
-  <p class="text-text-2 text-sm mb-8"><%= course.title %></p>
+<div class="l-page l-page-narrow">
+  <a href="/courses/<%= course.slug %>" class="back-link">&larr; Voltar ao curso</a>
+  <h1 class="sub-title"><%= lesson.title %></h1>
+  <p class="muted mb-24"><%= course.title %></p>
 
-  <div class="prose prose-invert max-w-none mb-8">
-    <div class="bg-bg-2 border border-border rounded p-6 text-text-2 leading-relaxed whitespace-pre-wrap"><%- lesson.bodyMd %></div>
+  <div class="card mb-16">
+    <div class="card-body md-raw"><%- lesson.bodyMd %></div>
   </div>
 
-  <div class="flex items-center gap-4">
-    <% if (locals.user) { %>
-      <button id="complete-btn" onclick="completeLesson('<%= course.slug %>', '<%= lesson.slug %>')" class="px-6 py-3 bg-primary text-white rounded font-heading font-600 text-sm hover:bg-primary-hover transition-colors">
-        <%= enrollment?.completedLessons?.some(l => l.lessonSlug === lesson.slug) ? '✅ Concluído' : 'Marcar como concluído' %>
+  <div class="filters mb-24">
+    <% if (typeof user !== 'undefined' && user) { %>
+      <button id="complete-btn" onclick="completeLesson('<%= course.slug %>', '<%= lesson.slug %>')" class="btn">
+        <%= typeof enrollment !== 'undefined' && enrollment?.completedLessons?.some(l => l.lessonSlug === lesson.slug) ? 'Concluído' : 'Marcar como concluído' %>
       </button>
     <% } else { %>
-      <a href="/login" class="px-6 py-3 bg-primary text-white rounded font-heading font-600 text-sm hover:bg-primary-hover transition-colors">Faça login para se inscrever</a>
+      <a href="/login" class="btn">Faça login para se inscrever</a>
     <% } %>
   </div>
 
-  <div class="mt-8 bg-bg-2 border border-border rounded p-6">
-    <h2 class="font-heading font-700 text-lg mb-4">Comentários</h2>
-    <div id="comments"></div>
-    <% if (locals.user) { %>
-      <form id="comment-form" class="mt-4">
-        <textarea name="body" rows="3" class="w-full bg-bg-3 border border-border rounded px-4 py-2.5 text-text text-sm focus:outline-none focus:border-primary mb-2" placeholder="Comentário..." maxlength="5000"></textarea>
-        <button type="submit" class="px-4 py-2 bg-primary text-white rounded text-sm font-600 hover:bg-primary-hover transition-colors">Enviar</button>
-      </form>
-    <% } %>
+  <div class="card">
+    <div class="card-header">Comentários</div>
+    <div class="card-body">
+      <div id="comments"></div>
+      <% if (typeof user !== 'undefined' && user) { %>
+        <form id="comment-form" class="mt-16">
+          <div class="form-group">
+            <textarea class="form-control" name="body" rows="3" placeholder="Comentário..." maxlength="5000"></textarea>
+          </div>
+          <button type="submit" class="btn">Enviar</button>
+        </form>
+      <% } %>
+    </div>
   </div>
 </div>
 <script>
@@ -40,8 +43,8 @@ async function loadComments() {
   el.innerHTML = '';
   json.comments.forEach(c => {
     const div = document.createElement('div');
-    div.className = 'mb-3';
-    div.innerHTML = '<p class="text-sm"><span class="font-600">' + escapeHtml(c.user?.username || '?') + '</span> <span class="text-text-2 text-xs">' + new Date(c.createdAt).toLocaleDateString() + '</span></p><p class="text-text-2 text-sm"></p>';
+    div.style.marginBottom = '12px';
+    div.innerHTML = '<p style="font-size:14px;"><strong>' + escapeHtml(c.user?.username || '?') + '</strong> <span class="muted" style="font-size:12px;">' + new Date(c.createdAt).toLocaleDateString() + '</span></p><p class="muted" style="font-size:14px;"></p>';
     div.querySelector('p:last-child').textContent = c.body;
     el.appendChild(div);
   });
@@ -71,9 +74,8 @@ async function completeLesson(courseSlug, lessonSlug) {
     method: 'POST',
     headers: { 'Authorization': 'Bearer ' + token },
   });
-  document.getElementById('complete-btn').textContent = '✅ Concluído';
+  document.getElementById('complete-btn').textContent = 'Concluído';
 }
 
 loadComments();
 </script>
-`}) %>

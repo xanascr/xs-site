@@ -1,54 +1,66 @@
-<%- include('layouts/main', { body: `
-<div class="max-w-6xl mx-auto px-4 py-12">
-  <h1 class="font-heading font-800 text-3xl mb-8">Dashboard</h1>
-  <div class="grid md:grid-cols-3 gap-6 mb-8">
-    <div class="bg-bg-2 border border-border rounded p-6">
-      <span class="material-symbols-outlined text-primary text-3xl mb-2">school</span>
-      <p class="text-2xl font-heading font-700"><%= enrollments.length %></p>
-      <p class="text-text-2 text-sm">Cursos matriculados</p>
-    </div>
-    <div class="bg-bg-2 border border-border rounded p-6">
-      <span class="material-symbols-outlined text-primary text-3xl mb-2">inventory_2</span>
-      <p class="text-2xl font-heading font-700"><%= packages.length %></p>
-      <p class="text-text-2 text-sm">Pacotes publicados</p>
-    </div>
-    <div class="bg-bg-2 border border-border rounded p-6">
-      <span class="material-symbols-outlined text-primary text-3xl mb-2">workspace_premium</span>
-      <p class="text-2xl font-heading font-700"><%= enrollments.filter(e => e.completed).length %></p>
-      <p class="text-text-2 text-sm">Cursos concluídos</p>
-    </div>
+<div class="page-header">
+  <div>
+    <h1>Dashboard</h1>
+    <p>Visão geral da sua conta</p>
   </div>
+</div>
 
-  <div class="bg-bg-2 border border-border rounded p-6 mb-6">
-    <h2 class="font-heading font-700 text-lg mb-4">Meus Cursos</h2>
+<div class="grid grid-3 mb-16">
+  <div class="card stat-card">
+    <span class="stat-icon"><span class="material-symbols-outlined">school</span></span>
+    <span class="stat-label">Cursos matriculados</span>
+    <span class="stat-value"><%= enrollments.length %></span>
+  </div>
+  <div class="card stat-card">
+    <span class="stat-icon"><span class="material-symbols-outlined">inventory_2</span></span>
+    <span class="stat-label">Pacotes publicados</span>
+    <span class="stat-value"><%= packages.length %></span>
+  </div>
+  <div class="card stat-card">
+    <span class="stat-icon"><span class="material-symbols-outlined">workspace_premium</span></span>
+    <span class="stat-label">Cursos concluídos</span>
+    <span class="stat-value"><%= enrollments.filter(e => e.completed).length %></span>
+  </div>
+</div>
+
+<div class="card mb-16">
+  <div class="card-header">Meus Cursos</div>
+  <div class="card-body">
     <% if (enrollments.length === 0) { %>
-      <p class="text-text-2 text-sm">Nenhum curso ainda. <a href="/courses" class="text-primary hover:underline">Ver cursos</a></p>
-    <% } else { %>
-      <div class="space-y-3">
-        <% enrollments.forEach(e => { %>
-          <a href="/courses/<%= e.course.slug %>" class="flex items-center justify-between p-3 rounded hover:bg-bg-3 transition-colors">
-            <span><%= e.course.title %></span>
-            <span class="text-xs text-text-2"><%= e.completedLessons.length %> aulas • <%= e.completed ? '✅ Concluído' : 'Em andamento' %></span>
-          </a>
-        <% }) %>
+      <div class="empty-state">
+        <div class="icon material-symbols-outlined">school</div>
+        Nenhum curso ainda. <a href="/courses">Ver cursos</a>
       </div>
-    <% } %>
-  </div>
-
-  <div class="bg-bg-2 border border-border rounded p-6">
-    <h2 class="font-heading font-700 text-lg mb-4">Meus Pacotes</h2>
-    <% if (packages.length === 0) { %>
-      <p class="text-text-2 text-sm">Nenhum pacote ainda.</p>
     <% } else { %>
-      <div class="space-y-3">
-        <% packages.forEach(p => { %>
-          <a href="/packages/<%= p.name %>" class="flex items-center justify-between p-3 rounded hover:bg-bg-3 transition-colors">
-            <span><%= p.name %></span>
-            <span class="text-xs text-text-2">v<%= p.version %> • <%= p.downloads %} downloads</span>
+      <div class="quick-links">
+        <% enrollments.forEach(e => { %>
+          <a class="quick-link" href="/courses/<%= e.course.slug %>">
+            <div class="name"><%= e.course.title %></div>
+            <div class="desc"><%= e.completedLessons.length %> aulas <%= e.completed ? '• Concluído' : '' %></div>
           </a>
         <% }) %>
       </div>
     <% } %>
   </div>
 </div>
-`}) %>
+
+<div class="card">
+  <div class="card-header">Meus Pacotes</div>
+  <div class="card-body">
+    <% if (packages.length === 0) { %>
+      <div class="empty-state">
+        <div class="icon material-symbols-outlined">inventory_2</div>
+        Nenhum pacote ainda. <a href="/packages/dashboard">Publicar um</a>
+      </div>
+    <% } else { %>
+      <div class="quick-links">
+        <% packages.forEach(p => { %>
+          <a class="quick-link" href="/packages/<%= p.name %>">
+            <div class="name"><%= p.name %></div>
+            <div class="desc">v<%= p.version %> • <%= p.downloads %> downloads</div>
+          </a>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</div>

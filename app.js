@@ -5,6 +5,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import helmet from "helmet";
 import morgan from "morgan";
+import expressLayouts from "express-ejs-layouts";
 
 import indexRouter from "./routes/index.js";
 import authRouter from "./routes/auth.js";
@@ -23,13 +24,16 @@ const app = express();
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+app.set("layout", "layouts/main");
+
+app.use(expressLayouts);
 
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "https://cdn.tailwindcss.com", "https://fonts.googleapis.com", "'unsafe-inline'"],
-      styleSrc: ["'self'", "https://cdn.tailwindcss.com", "https://fonts.googleapis.com", "'unsafe-inline'"],
+      scriptSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"],
+      styleSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"],
       imgSrc: ["'self'", "data:", "https:"],
       connectSrc: ["'self'", "https://fonts.googleapis.com", "https://fonts.gstatic.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],

@@ -89,29 +89,62 @@ router.get("/courses/:slug/certificate", auth, asyncHandler(async (req, res) => 
 router.get("/packages", asyncHandler(async (req, res) => {
   const filter = { status: "approved" };
   if (req.query.q) filter.$text = { $search: req.query.q };
-  const packages = await Package.find(filter).populate("author", "username").sort({ downloads: -1 }).lean();
+  const packages = await Package.find(filter).sort({ downloads: -1 }).lean();
+  const usernameCache = new Map();
+  for (const p of packages) {
+    if (p.author && typeof p.author === "object" && p.author._id) {
+      p.authorUsername = p.author.username;
+    } else if (p.author && typeof p.author === "string") {
+      if (!usernameCache.has(p.author)) {
+        const author = await User.findOne({ username: p.author }).select("username").lean();
+        usernameCache.set(p.author, author ? author.username : p.author);
+      }
+      p.authorUsername = usernameCache.get(p.author);
+    } else {
+      p.authorUsername = "?";
+    }
+    delete p.author;
+  }
   res.render("packages/index", { packages, title: "Pacotes", query: req.query.q || "" });
 }));
 
 router.get("/packages/dashboard", auth, asyncHandler(async (req, res) => {
   const packages = await Package.find({ author: req.user.id }).sort({ createdAt: -1 }).lean();
-  res.render("packages/dashboard", { packages, title: "Meus Pacotes" });
+  res.render("packages/dashboard", { layout: "layouts/app", activeNav: "packages", packages, title: "Meus Pacotes" });
 }));
 
 router.get("/packages/:name", asyncHandler(async (req, res) => {
-  const pkg = await Package.findOne({ name: req.params.name }).populate("author", "username").lean();
+  const pkg = await Package.findOne({ name: req.params.name }).lean();
   if (!pkg) return res.status(404).render("404");
+  if (pkg.author && typeof pkg.author === "object" && pkg.author._id) {
+    pkg.authorUsername = pkg.author.username;
+  } else if (pkg.author && typeof pkg.author === "string") {
+    const author = await User.findOne({ username: pkg.author }).select("username").lean();
+    pkg.authorUsername = author ? author.username : pkg.author;
+  } else {
+    pkg.authorUsername = "?";
+  }
+  delete pkg.author;
   const Review = (await import("../models/Review.js")).default;
   const reviews = await Review.find({ package: pkg._id }).populate("user", "username").sort({ createdAt: -1 }).limit(50).lean();
   res.render("packages/show", { pkg, reviews, title: pkg.name });
 }));
 
 router.get("/packages/:name/:version", asyncHandler(async (req, res) => {
-  const pkg = await Package.findOne({ name: req.params.name }).populate("author", "username").lean();
+  const pkg = await Package.findOne({ name: req.params.name }).lean();
   if (!pkg) return res.status(404).render("404");
   const ver = pkg.versions.find(v => v.version === req.params.version);
   if (!ver) return res.status(404).render("404");
   const versionPkg = { ...pkg, ...ver, version: ver.version };
+  if (versionPkg.author && typeof versionPkg.author === "object" && versionPkg.author._id) {
+    versionPkg.authorUsername = versionPkg.author.username;
+  } else if (versionPkg.author && typeof versionPkg.author === "string") {
+    const author = await User.findOne({ username: versionPkg.author }).select("username").lean();
+    versionPkg.authorUsername = author ? author.username : versionPkg.author;
+  } else {
+    versionPkg.authorUsername = "?";
+  }
+  delete versionPkg.author;
   const Review = (await import("../models/Review.js")).default;
   const reviews = await Review.find({ package: pkg._id }).populate("user", "username").sort({ createdAt: -1 }).limit(50).lean();
   res.render("packages/show", { pkg: versionPkg, reviews, title: `${pkg.name} v${ver.version}` });
@@ -132,19 +165,19 @@ router.get("/hackathons/:id", asyncHandler(async (req, res) => {
 router.get("/dashboard", auth, asyncHandler(async (req, res) => {
   const enrollments = await Enrollment.find({ user: req.user.id }).populate("course", "title slug");
   const packages = await Package.find({ author: req.user.id });
-  res.render("dashboard", { enrollments, packages, title: "Dashboard" });
+  res.render("dashboard", { layout: "layouts/app", activeNav: "dashboard", enrollments, packages, title: "Dashboard" });
 }));
 
 router.get("/settings", auth, asyncHandler(async (req, res) => {
   const user = await User.findById(req.user.id).select("-password");
-  res.render("settings", { user, title: "Configurações" });
+  res.render("settings", { layout: "layouts/app", activeNav: "settings", user, title: "Configurações" });
 }));
 
-router.get("/forgot-password", (req, res) => res.render("auth/forgot-password", { title: "Recuperar senha" }));
-router.get("/reset-password/:token", (req, res) => res.render("auth/reset-password", { token: req.params.token, title: "Nova senha" }));
-router.get("/login", (req, res) => res.render("auth/login", { title: "Entrar" }));
-router.get("/signup", (req, res) => res.render("auth/signup", { title: "Criar conta" }));
-router.get("/admin*", (req, res) => res.render("admin/index", { title: "Admin" }));
+router.get("/forgot-password", (req, res) => res.render("auth/forgot-password", { layout: "layouts/auth", title: "Recuperar senha" }));
+router.get("/reset-password/:token", (req, res) => res.render("auth/reset-password", { layout: "layouts/auth", token: req.params.token, title: "Nova senha" }));
+router.get("/login", (req, res) => res.render("auth/login", { layout: "layouts/auth", title: "Entrar" }));
+router.get("/signup", (req, res) => res.render("auth/signup", { layout: "layouts/auth", title: "Criar conta" }));
+router.get("/admin*", (req, res) => res.render("admin/index", { layout: "layouts/app", activeNav: "admin", title: "Admin" }));
 router.get("/examples", (req, res) => res.render("examples", { title: "Exemplos" }));
 router.get("/privacy", (req, res) => res.render("privacy", { title: "Privacidade" }));
 router.get("/donate", (req, res) => res.render("donate", { title: "Doar" }));

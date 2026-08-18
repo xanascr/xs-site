@@ -1,18 +1,30 @@
-<%- include('../layouts/main', { body: `
-<div class="max-w-md mx-auto px-4 py-12">
-  <h1 class="font-heading font-800 text-3xl text-center mb-8">Entrar</h1>
-  <form id="login-form" class="space-y-4">
-    <div>
-      <label class="block text-sm text-text-2 mb-1">Email</label>
-      <input type="email" name="email" required class="w-full bg-bg-2 border border-border rounded px-4 py-2.5 text-text focus:outline-none focus:border-primary">
+<div class="auth-form-card">
+  <div class="auth-form-head">
+    <h1>Entrar</h1>
+    <p>Bem-vindo de volta! Acesse a plataforma.</p>
+  </div>
+  <%- include('../partials/alerts') %>
+  <form id="login-form">
+    <div class="form-group">
+      <label for="email">E-mail</label>
+      <div class="input-icon">
+        <span class="material-symbols-outlined">mail</span>
+        <input class="form-control form-control-lg" type="email" id="email" name="email" placeholder="seu@email.com" required autocomplete="email" autofocus>
+      </div>
     </div>
-    <div>
-      <label class="block text-sm text-text-2 mb-1">Senha</label>
-      <input type="password" name="password" required class="w-full bg-bg-2 border border-border rounded px-4 py-2.5 text-text focus:outline-none focus:border-primary">
+    <div class="form-group">
+      <label for="password">Senha</label>
+      <div class="input-icon">
+        <span class="material-symbols-outlined">lock</span>
+        <input class="form-control form-control-lg" type="password" id="password" name="password" placeholder="Sua senha" required autocomplete="current-password">
+      </div>
+      <div class="label-row">
+        <a class="label-link" href="/forgot-password">Esqueci minha senha</a>
+      </div>
     </div>
-    <button type="submit" class="w-full py-3 bg-primary text-white rounded font-heading font-600 text-sm hover:bg-primary-hover transition-colors">Entrar</button>
-    <p id="login-error" class="text-error text-sm text-center hidden"></p>
-    <p class="text-center text-sm text-text-2">Não tem conta? <a href="/signup" class="text-primary hover:underline">Criar</a></p>
+    <p id="login-error" class="alert alert-error" style="display:none"></p>
+    <button type="submit" class="btn btn-lg btn-block">Entrar</button>
+    <p class="mt-16 muted" style="text-align:center">Não tem conta? <a href="/signup">Criar conta</a></p>
   </form>
 </div>
 <script>
@@ -21,14 +33,13 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
   const data = Object.fromEntries(new FormData(e.target));
   const res = await fetch('/api/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
   const json = await res.json();
+  const el = document.getElementById('login-error');
   if (json.ok) {
     localStorage.setItem('token', json.token);
     window.location.href = '/';
   } else {
-    const el = document.getElementById('login-error');
     el.textContent = json.error;
-    el.classList.remove('hidden');
+    el.style.display = 'block';
   }
 });
 </script>
-`}) %>

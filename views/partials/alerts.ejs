@@ -1,0 +1,14 @@
+<% if (typeof flash !== 'undefined' && flash) { %>
+  <% if (flash.success && flash.success.length) { %>
+    <% flash.success.forEach(function (msg) { %><div class="alert alert-success"><%= msg %></div><% }); %>
+  <% } %>
+  <% if (flash.error && flash.error.length) { %>
+    <% flash.error.forEach(function (msg) { %><div class="alert alert-error"><%= msg %></div><% }); %>
+  <% } %>
+  <% if (flash.warning && flash.warning.length) { %>
+    <% flash.warning.forEach(function (msg) { %><div class="alert alert-warning"><%= msg %></div><% }); %>
+  <% } %>
+  <% if (flash.info && flash.info.length) { %>
+    <% flash.info.forEach(function (msg) { %><div class="alert alert-info"><%= msg %></div><% }); %>
+  <% } %>
+<% } %>

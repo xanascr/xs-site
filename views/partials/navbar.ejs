@@ -1,51 +1,25 @@
-<nav class="fixed top-0 left-0 right-0 z-50 bg-bg border-b border-border h-16">
-  <div class="max-w-6xl mx-auto px-4 h-full flex items-center justify-between">
-    <a href="/" class="font-heading font-800 text-lg text-text hover:text-primary transition-colors">
-      XanaScript
-      <span class="text-text-2 text-xs font-normal ml-2">by @flazo0</span>
-    </a>
-    <div class="hidden md:flex items-center gap-6 text-sm text-text-2">
-      <a href="/docs" class="hover:text-text transition-colors">Docs</a>
-      <a href="/playground" class="hover:text-text transition-colors">Playground</a>
-      <a href="/courses" class="hover:text-text transition-colors">Cursos</a>
-      <a href="/packages" class="hover:text-text transition-colors">Pacotes</a>
-      <a href="/hackathons" class="hover:text-text transition-colors">Hackathons</a>
-      <% if (locals.user) { %>
-        <a href="/dashboard" class="hover:text-text transition-colors">Dashboard</a>
-        <a href="/admin" class="hover:text-text transition-colors">Admin</a>
-        <form action="/api/auth/logout" method="POST" class="inline" id="logout-form">
-          <button type="submit" class="text-primary hover:text-primary-hover transition-colors cursor-pointer bg-transparent border-0 text-sm">Sair</button>
-        </form>
-      <% } else { %>
-        <a href="/login" class="px-4 py-2 bg-primary text-white rounded hover:bg-primary-hover transition-colors text-sm font-heading font-600">Entrar</a>
-      <% } %>
-    </div>
-    <button class="md:hidden text-text" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
-      <span class="material-symbols-outlined text-2xl">menu</span>
-    </button>
-  </div>
-  <div id="mobile-menu" class="hidden md:hidden bg-bg-2 border-b border-border px-4 py-4">
-    <div class="flex flex-col gap-3 text-sm">
-      <a href="/docs" class="text-text-2 hover:text-text">Docs</a>
-      <a href="/playground" class="text-text-2 hover:text-text">Playground</a>
-      <a href="/courses" class="text-text-2 hover:text-text">Cursos</a>
-      <a href="/packages" class="text-text-2 hover:text-text">Pacotes</a>
-      <a href="/hackathons" class="text-text-2 hover:text-text">Hackathons</a>
-      <% if (locals.user) { %>
-        <a href="/dashboard" class="text-text-2 hover:text-text">Dashboard</a>
-        <a href="/admin" class="text-text-2 hover:text-text">Admin</a>
-        <form action="/api/auth/logout" method="POST">
-          <button type="submit" class="text-primary bg-transparent border-0 cursor-pointer text-sm">Sair</button>
-        </form>
-      <% } else { %>
-        <a href="/login" class="text-primary font-600">Entrar</a>
-      <% } %>
+<header class="l-header">
+  <div class="l-container">
+    <div class="l-nav">
+      <a class="l-brand" href="/"><img class="l-brand-logo" src="/icon.png" alt="XanaScript"></a>
+      <nav class="l-nav-links">
+        <a href="/docs" class="<%= path && path.startsWith('/docs') ? 'active' : '' %>">Docs</a>
+        <a href="/playground" class="<%= path && path.startsWith('/playground') ? 'active' : '' %>">Playground</a>
+        <a href="/courses" class="<%= path && path.startsWith('/courses') ? 'active' : '' %>">Cursos</a>
+        <a href="/packages" class="<%= path && path.startsWith('/packages') ? 'active' : '' %>">Pacotes</a>
+        <a href="/hackathons" class="<%= path && path.startsWith('/hackathons') ? 'active' : '' %>">Hackathons</a>
+      </nav>
+      <div class="l-nav-cta">
+        <% if (typeof user !== 'undefined' && user) { %>
+          <a class="btn-outline" href="/dashboard">Dashboard</a>
+          <form action="/api/auth/logout" method="POST" class="inline-form">
+            <button type="submit" class="btn-outline">Sair</button>
+          </form>
+        <% } else { %>
+          <a class="btn-outline" href="/login">Entrar</a>
+          <a class="btn-primary" href="/signup">Criar conta</a>
+        <% } %>
+      </div>
     </div>
   </div>
-</nav>
-<div class="h-16"></div>
-<script>
-document.getElementById('logout-form')?.addEventListener('submit', function() {
-  localStorage.removeItem('token');
-});
-</script>
+</header>

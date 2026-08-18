@@ -1,0 +1,25 @@
+<aside class="sidebar">
+  <div class="sidebar-brand"><a href="/">XanaScript</a></div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-section">Plataforma</div>
+    <a class="sidebar-link <%= typeof activeNav !== 'undefined' && activeNav === 'dashboard' ? 'active' : '' %>" href="/dashboard"><span class="material-symbols-outlined">space_dashboard</span>Dashboard</a>
+    <a class="sidebar-link <%= typeof activeNav !== 'undefined' && activeNav === 'courses' ? 'active' : '' %>" href="/courses"><span class="material-symbols-outlined">school</span>Cursos</a>
+    <a class="sidebar-link <%= typeof activeNav !== 'undefined' && activeNav === 'packages' ? 'active' : '' %>" href="/packages/dashboard"><span class="material-symbols-outlined">inventory_2</span>Pacotes</a>
+    <a class="sidebar-link <%= typeof activeNav !== 'undefined' && activeNav === 'hackathons' ? 'active' : '' %>" href="/hackathons"><span class="material-symbols-outlined">emoji_events</span>Hackathons</a>
+    <div class="sidebar-section">Conta</div>
+    <a class="sidebar-link <%= typeof activeNav !== 'undefined' && activeNav === 'settings' ? 'active' : '' %>" href="/settings"><span class="material-symbols-outlined">settings</span>Configuracoes</a>
+    <a class="sidebar-link" href="/"><span class="material-symbols-outlined">home</span>Site</a>
+    <% if (typeof user !== 'undefined' && user && user.role === 'admin') { %>
+      <div class="sidebar-section">Admin</div>
+      <a class="sidebar-link <%= typeof activeNav !== 'undefined' && activeNav === 'admin' ? 'active' : '' %>" href="/admin"><span class="material-symbols-outlined">admin_panel_settings</span>Painel</a>
+    <% } %>
+  </nav>
+  <div class="sidebar-footer">
+    <div><%= typeof user !== 'undefined' && user ? user.username : '' %></div>
+    <div class="muted"><%= typeof user !== 'undefined' && user ? user.role : '' %></div>
+    <div class="sidebar-legal">
+      <a href="/privacy">Privacidade</a>
+      <a href="/changelog">Changelog</a>
+    </div>
+  </div>
+</aside>

@@ -1,27 +1,21 @@
-<%- include('layouts/main', { body: `
-<div class="max-w-4xl mx-auto px-4 py-12">
-  <h1 class="font-heading font-800 text-3xl mb-8">Exemplos</h1>
-  <div class="grid md:grid-cols-2 gap-6">
-    <a href="/playground" class="block bg-bg-2 border border-border rounded p-6 hover:border-primary transition-colors group">
-      <span class="material-symbols-outlined text-primary text-3xl mb-2">code</span>
-      <h2 class="font-heading font-700 text-lg group-hover:text-primary transition-colors">Playground</h2>
-      <p class="text-text-2 text-sm mt-2">Experimente XanaScript diretamente no navegador com exemplos prontos.</p>
+<div class="l-page">
+  <h1>Exemplos</h1>
+  <div class="grid grid-2">
+    <a class="quick-link stat-card-link" href="/playground">
+      <div class="name"><span class="material-symbols-outlined link-icon">code</span> Playground</div>
+      <div class="desc mt-8">Experimente XanaScript diretamente no navegador com exemplos prontos.</div>
     </a>
-    <a href="/docs" class="block bg-bg-2 border border-border rounded p-6 hover:border-primary transition-colors group">
-      <span class="material-symbols-outlined text-primary text-3xl mb-2">menu_book</span>
-      <h2 class="font-heading font-700 text-lg group-hover:text-primary transition-colors">Documentação</h2>
-      <p class="text-text-2 text-sm mt-2">Guia completo da linguagem com exemplos de código.</p>
+    <a class="quick-link stat-card-link" href="/docs">
+      <div class="name"><span class="material-symbols-outlined link-icon">menu_book</span> Documentação</div>
+      <div class="desc mt-8">Guia completo da linguagem com exemplos de código.</div>
     </a>
-    <a href="https://github.com/xanascr/xs/tree/main/examples" target="_blank" class="block bg-bg-2 border border-border rounded p-6 hover:border-primary transition-colors group">
-      <span class="material-symbols-outlined text-primary text-3xl mb-2">folder</span>
-      <h2 class="font-heading font-700 text-lg group-hover:text-primary transition-colors">Repositório de Exemplos</h2>
-      <p class="text-text-2 text-sm mt-2">Exemplos no GitHub organizados por categoria.</p>
+    <a class="quick-link stat-card-link" href="https://github.com/xanascr/xs/tree/main/examples" target="_blank" rel="noopener">
+      <div class="name"><span class="material-symbols-outlined link-icon">folder</span> Repositório de Exemplos</div>
+      <div class="desc mt-8">Exemplos no GitHub organizados por categoria.</div>
     </a>
-    <a href="/courses" class="block bg-bg-2 border border-border rounded p-6 hover:border-primary transition-colors group">
-      <span class="material-symbols-outlined text-primary text-3xl mb-2">school</span>
-      <h2 class="font-heading font-700 text-lg group-hover:text-primary transition-colors">Cursos</h2>
-      <p class="text-text-2 text-sm mt-2">Aprenda XanaScript passo a passo com cursos gratuitos.</p>
+    <a class="quick-link stat-card-link" href="/courses">
+      <div class="name"><span class="material-symbols-outlined link-icon">school</span> Cursos</div>
+      <div class="desc mt-8">Aprenda XanaScript passo a passo com cursos gratuitos.</div>
     </a>
   </div>
 </div>
-`}) %>

@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="bg-bg">
+<html lang="pt-BR">
 <head>
-  <%- include('../partials/head') %>
+  <%- include('../partials/head', { extraStyles: '/css/landing.css' }) %>
 </head>
-<body class="bg-bg text-text font-sans antialiased min-h-screen flex flex-col">
+<body class="landing">
   <%- include('../partials/navbar') %>
-  <main class="flex-1">
+  <main>
     <%- body %>
   </main>
   <%- include('../partials/footer') %>
+  <%- include('../partials/foot') %>
 </body>
 </html>

@@ -1,20 +1,20 @@
-<%- include('../layouts/main', { body: `
-<div class="max-w-6xl mx-auto px-4 py-12">
-  <h1 class="font-heading font-800 text-3xl mb-8">Playground</h1>
-  <div class="grid md:grid-cols-4 gap-4 mb-6">
-    <select id="example-select" class="bg-bg-2 border border-border rounded px-4 py-2 text-sm text-text">
+<div class="l-page">
+  <div class="page-header">
+    <h1>Playground</h1>
+    <span class="badge badge-brand">Ctrl+Enter para executar</span>
+  </div>
+  <div class="filters">
+    <select id="example-select" class="form-control playground-select">
       <option value="">Exemplos...</option>
       <% examples.forEach(e => { %>
         <option value="<%= e._id %>"><%= e.title %></option>
       <% }) %>
     </select>
-    <button onclick="runCode()" class="px-6 py-2 bg-primary text-white rounded font-heading font-600 text-sm hover:bg-primary-hover transition-colors md:col-span-3">
-      Executar (Ctrl+Enter)
-    </button>
+    <button onclick="runCode()" class="btn btn-lg">Executar</button>
   </div>
-  <div class="grid md:grid-cols-2 gap-4">
-    <textarea id="code-editor" class="w-full h-[500px] bg-code border border-border rounded p-4 font-mono text-sm text-text resize-none focus:outline-none focus:border-primary" placeholder="Escreva seu código XS aqui..."></textarea>
-    <div id="output" class="w-full h-[500px] bg-code border border-border rounded p-4 font-mono text-sm text-text-2 overflow-y-auto whitespace-pre-wrap"></div>
+  <div class="grid grid-2 playground-grid">
+    <textarea id="code-editor" class="code-block playground-editor" placeholder="Escreva seu código XS aqui..."></textarea>
+    <div id="output" class="code-block playground-output"></div>
   </div>
 </div>
 <script>
@@ -50,4 +50,3 @@ async function runCode() {
   }
 }
 </script>
-`}) %>

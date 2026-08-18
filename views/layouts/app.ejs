@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <%- include('../partials/head') %>
+</head>
+<body>
+  <div class="layout">
+    <%- include('../partials/sidebar') %>
+    <div class="main">
+      <%- include('../partials/topbar') %>
+      <div class="content">
+        <%- include('../partials/alerts') %>
+        <%- body %>
+      </div>
+    </div>
+  </div>
+  <%- include('../partials/foot') %>
+</body>
+</html>

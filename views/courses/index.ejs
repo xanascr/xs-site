@@ -1,17 +1,19 @@
-<%- include('../layouts/main', { body: `
-<div class="max-w-6xl mx-auto px-4 py-12">
-  <h1 class="font-heading font-800 text-3xl mb-8">Cursos</h1>
-  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <% courses.forEach(c => { %>
-      <a href="/courses/<%= c.slug %>" class="block bg-bg-2 border border-border rounded p-6 hover:border-primary transition-colors group">
-        <h2 class="font-heading font-700 text-lg group-hover:text-primary transition-colors"><%= c.title %></h2>
-        <p class="text-text-2 text-sm mt-2 line-clamp-2"><%= c.description %></p>
-        <div class="flex items-center gap-3 mt-4 text-xs text-text-2">
-          <span class="capitalize"><%= c.level %></span>
-          <span><%= c.modules.length %> módulos</span>
-        </div>
-      </a>
-    <% }) %>
+<div class="l-page">
+  <div class="page-header">
+    <h1>Cursos</h1>
   </div>
+  <% if (courses.length === 0) { %>
+    <div class="card"><div class="empty-state"><div class="icon material-symbols-outlined">school</div>Nenhum curso publicado ainda.</div></div>
+  <% } else { %>
+    <div class="grid grid-3">
+      <% courses.forEach(c => { %>
+        <a class="quick-link stat-card-link" href="/courses/<%= c.slug %>">
+          <div class="name"><%= c.title %></div>
+          <div class="stat-big"><%= c.modules.length %></div>
+          <div class="desc"><%= c.description %></div>
+          <div class="desc capitalize mt-8"><span class="badge badge-neutral"><%= c.level %></span> <span class="badge badge-neutral"><%= c.modules.length %> módulos</span></div>
+        </a>
+      <% }) %>
+    </div>
+  <% } %>
 </div>
-`}) %>

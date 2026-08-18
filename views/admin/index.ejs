@@ -1,16 +1,20 @@
-<%- include('../layouts/main', { body: `
-<div class="max-w-6xl mx-auto px-4 py-12">
-  <nav class="flex gap-2 mb-8 flex-wrap">
-    <a href="/admin" class="px-4 py-2 rounded text-sm <%= path === '/admin' ? 'bg-primary text-white' : 'bg-bg-2 text-text-2 hover:text-text' %> transition-colors">Dashboard</a>
-    <a href="/admin/users" class="px-4 py-2 rounded text-sm <%= path === '/admin/users' ? 'bg-primary text-white' : 'bg-bg-2 text-text-2 hover:text-text' %> transition-colors">Usuários</a>
-    <a href="/admin/courses" class="px-4 py-2 rounded text-sm <%= path === '/admin/courses' ? 'bg-primary text-white' : 'bg-bg-2 text-text-2 hover:text-text' %> transition-colors">Cursos</a>
-    <a href="/admin/docs" class="px-4 py-2 rounded text-sm <%= path === '/admin/docs' ? 'bg-primary text-white' : 'bg-bg-2 text-text-2 hover:text-text' %> transition-colors">Docs</a>
-    <a href="/admin/examples" class="px-4 py-2 rounded text-sm <%= path === '/admin/examples' ? 'bg-primary text-white' : 'bg-bg-2 text-text-2 hover:text-text' %> transition-colors">Playground</a>
-    <a href="/admin/hackathons" class="px-4 py-2 rounded text-sm <%= path === '/admin/hackathons' ? 'bg-primary text-white' : 'bg-bg-2 text-text-2 hover:text-text' %> transition-colors">Hackathons</a>
-    <a href="/admin/packages" class="px-4 py-2 rounded text-sm <%= path === '/admin/packages' ? 'bg-primary text-white' : 'bg-bg-2 text-text-2 hover:text-text' %> transition-colors">Pacotes</a>
-  </nav>
-  <div id="admin-content"></div>
+<div class="page-header">
+  <div>
+    <h1>Admin</h1>
+    <p>Gerenciamento da plataforma</p>
+  </div>
 </div>
+
+<div class="filters">
+  <a class="btn <%= path === '/admin' ? 'btn-secondary' : 'btn' %>" href="/admin">Dashboard</a>
+  <a class="btn <%= path === '/admin/users' ? 'btn-secondary' : 'btn' %>" href="/admin/users">Usuários</a>
+  <a class="btn <%= path === '/admin/courses' ? 'btn-secondary' : 'btn' %>" href="/admin/courses">Cursos</a>
+  <a class="btn <%= path === '/admin/docs' ? 'btn-secondary' : 'btn' %>" href="/admin/docs">Docs</a>
+  <a class="btn <%= path === '/admin/examples' ? 'btn-secondary' : 'btn' %>" href="/admin/examples">Playground</a>
+  <a class="btn <%= path === '/admin/hackathons' ? 'btn-secondary' : 'btn' %>" href="/admin/hackathons">Hackathons</a>
+  <a class="btn <%= path === '/admin/packages' ? 'btn-secondary' : 'btn' %>" href="/admin/packages">Pacotes</a>
+</div>
+<div id="admin-content"></div>
 <script>
 const token = localStorage.getItem('token');
 if (!token) { window.location.href = '/login'; }
@@ -26,30 +30,29 @@ function escapeHtml(str) {
 }
 
 async function loadSection() {
-  content.textContent = 'Carregando...';
+  content.innerHTML = '<div class="empty-state">Carregando...</div>';
   try {
     if (section === 'dashboard') {
       const res = await fetch('/api/admin/stats', { headers: { 'Authorization': 'Bearer ' + token } });
       const json = await res.json();
       if (!json.ok) { content.textContent = json.error; return; }
-      content.innerHTML = '<div class="grid md:grid-cols-4 gap-4">' +
-        Object.entries(json.stats).map(([k, v]) => '<div class="bg-bg-2 border border-border rounded p-6"><p class="text-2xl font-heading font-700">' + v + '</p><p class="text-text-2 text-sm capitalize">' + k + '</p></div>').join('') +
+      content.innerHTML = '<div class="grid grid-4">' +
+        Object.entries(json.stats).map(([k, v]) => '<div class="card stat-card"><span class="stat-value">' + v + '</span><span class="stat-label">' + k + '</span></div>').join('') +
         '</div>';
     } else if (section === 'users') {
       const res = await fetch('/api/admin/users', { headers: { 'Authorization': 'Bearer ' + token } });
       const json = await res.json();
-      content.innerHTML = '<div class="bg-bg-2 border border-border rounded overflow-hidden"><table class="w-full text-sm"><thead><tr class="bg-bg-3 text-text-2"><th class="text-left p-3">Usuário</th><th class="text-left p-3">Email</th><th class="text-left p-3">Role</th><th class="text-left p-3">Ações</th></tr></thead><tbody>' +
-        json.users.map(u => '<tr class="border-t border-border"><td class="p-3">' + escapeHtml(u.username) + '</td><td class="p-3 text-text-2">' + escapeHtml(u.email) + '</td><td class="p-3">' + escapeHtml(u.role) + '</td><td class="p-3"><button onclick="toggleRole(\'' + u._id + '\')" class="text-primary hover:underline text-xs">' + (u.role === 'admin' ? 'Remover admin' : 'Tornar admin') + '</button></td></tr>').join('') +
-        '</tbody></table></div>';
+      content.innerHTML = '<div class="card"><div class="table-wrap"><table><thead><tr><th>Usuário</th><th>Email</th><th>Role</th><th>Ações</th></tr></thead><tbody>' +
+        json.users.map(u => '<tr><td>' + escapeHtml(u.username) + '</td><td class="muted">' + escapeHtml(u.email) + '</td><td>' + escapeHtml(u.role) + '</td><td><button onclick="toggleRole(\'' + u._id + '\')" class="btn btn-secondary btn-sm">' + (u.role === 'admin' ? 'Remover admin' : 'Tornar admin') + '</button></td></tr>').join('') +
+        '</tbody></table></div></div>';
     } else if (section === 'courses') {
       const res = await fetch('/api/admin/courses', { headers: { 'Authorization': 'Bearer ' + token } });
       const json = await res.json();
-      content.innerHTML = '<div class="flex justify-between items-center mb-4"><h2 class="font-heading font-700 text-lg">Cursos</h2><button onclick="showCourseForm()" class="px-4 py-2 bg-primary text-white rounded text-sm font-600">Novo Curso</button></div>' +
-        '<div class="bg-bg-2 border border-border rounded overflow-hidden"><table class="w-full text-sm"><thead><tr class="bg-bg-3 text-text-2"><th class="text-left p-3">Título</th><th class="text-left p-3">Slug</th><th class="text-left p-3">Status</th><th class="text-left p-3">Ações</th></tr></thead><tbody>' +
-        json.courses.map(c => '<tr class="border-t border-border"><td class="p-3">' + escapeHtml(c.title) + '</td><td class="p-3 text-text-2">' + escapeHtml(c.slug) + '</td><td class="p-3">' + (c.published ? '<span class="text-success">Publicado</span>' : '<span class="text-text-2">Rascunho</span>') + '</td><td class="p-3"><button onclick="deleteCourse(\'' + c._id + '\')" class="text-error hover:underline text-xs">Excluir</button></td></tr>').join('') +
-        '</tbody></table></div>';
+      content.innerHTML = '<div class="card"><div class="card-header">Cursos</div><div class="table-wrap"><table><thead><tr><th>Título</th><th>Slug</th><th>Status</th><th>Ações</th></tr></thead><tbody>' +
+        json.courses.map(c => '<tr><td>' + escapeHtml(c.title) + '</td><td class="muted">' + escapeHtml(c.slug) + '</td><td>' + (c.published ? '<span class="badge badge-success">Publicado</span>' : '<span class="badge badge-neutral">Rascunho</span>') + '</td><td><button onclick="deleteCourse(\'' + c._id + '\')" class="btn btn-outline-danger btn-sm">Excluir</button></td></tr>').join('') +
+        '</tbody></table></div></div>';
     } else {
-      content.innerHTML = '<p class="text-text-2">Selecione uma seção no menu acima.</p>';
+      content.innerHTML = '<div class="empty-state">Selecione uma seção no menu acima.</div>';
     }
   } catch (e) {
     content.textContent = 'Erro: ' + e.message;
@@ -66,4 +69,3 @@ async function deleteCourse(id) { if (confirm('Excluir curso?')) { await fetch('
 
 loadSection();
 </script>
-`}) %>
