@@ -62,6 +62,20 @@ app.use(async (req, res, next) => {
   next();
 });
 
+// Maintenance/launch gate: every page request renders only the countdown.
+const LAUNCH_AT = new Date("2026-08-20T14:00:00-03:00");
+app.use((req, res, next) => {
+  if (req.method !== "GET") return next();
+  if (req.path.startsWith("/uploads/")) return next();
+  if (req.path.startsWith("/api/")) return next();
+  if (req.accepts("html")) {
+    if (LAUNCH_AT.getTime() - Date.now() > 0) {
+      return res.render("launch", { layout: false });
+    }
+  }
+  next();
+});
+
 app.use("/", indexRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/admin", adminRouter);

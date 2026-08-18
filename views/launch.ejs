@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <script>document.documentElement.classList.add('js');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>XanaScript — Em breve</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght,MONO@0,300..800,1;1,300..800,1&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="/css/landing.css">
+  <style>
+    body { margin: 0; }
+    .launch {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .launch::before {
+      content: '';
+      position: absolute;
+      top: -140px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 720px;
+      height: 420px;
+      background: radial-gradient(closest-side, rgba(245, 139, 142, 0.4), transparent 70%);
+      pointer-events: none;
+      animation: glow-pulse 9s ease-in-out infinite;
+    }
+    .launch-logo {
+      height: 44px;
+      width: auto;
+      margin-bottom: 28px;
+      position: relative;
+      animation: logo-float 3.2s ease-in-out infinite;
+    }
+    .launch-title {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 800;
+      font-size: clamp(38px, 5vw, 56px);
+      letter-spacing: -0.04em;
+      color: var(--lp-text);
+      margin: 0 0 14px;
+      position: relative;
+    }
+    .launch-title span {
+      background: linear-gradient(120deg, #f58b8e 0%, #f25b66 55%, #e24b54 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .launch-sub {
+      font-family: "Google Sans Code", "Inter Tight", sans-serif;
+      font-size: 16px;
+      color: var(--lp-muted);
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 auto 40px;
+      position: relative;
+    }
+    .launch-count {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      margin-bottom: 48px;
+      position: relative;
+    }
+    .launch-count-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      min-width: 96px;
+      padding: 20px 12px;
+      background: var(--lp-bg-3);
+      border: 1px solid rgba(242, 91, 102, 0.2);
+      border-radius: var(--lp-radius);
+    }
+    .launch-count-num {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 800;
+      font-size: 44px;
+      line-height: 1;
+      color: var(--lp-primary-hover);
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+    }
+    .launch-count-label {
+      font-family: "Google Sans Code", monospace;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--lp-muted);
+    }
+    .launch-count-sep {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 800;
+      font-size: 32px;
+      color: var(--lp-pastel);
+      margin-top: -16px;
+    }
+    .launch-foot {
+      position: relative;
+      font-family: "Google Sans Code", monospace;
+      font-size: 13px;
+      color: var(--lp-muted);
+      padding-top: 18px;
+      border-top: 1px solid var(--lp-border);
+      margin: 0 35%;
+    }
+    @media (max-width: 560px) {
+      .launch-count { gap: 8px; }
+      .launch-count-item { min-width: 68px; padding: 14px 6px; }
+      .launch-count-num { font-size: 28px; }
+      .launch-foot { margin: 0 10%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="launch">
+    <img class="launch-logo" src="/icon.png" alt="XanaScript">
+    <h1 class="launch-title">xana<span>script</span></h1>
+    <p class="launch-sub">A linguagem de programação em português está quase pronta. O site abre em:</p>
+    <div class="launch-count" id="launch-countdown">
+      <div class="launch-count-item"><span class="launch-count-num" id="lc-days">0</span><span class="launch-count-label">dias</span></div>
+      <span class="launch-count-sep">:</span>
+      <div class="launch-count-item"><span class="launch-count-num" id="lc-hours">0</span><span class="launch-count-label">horas</span></div>
+      <span class="launch-count-sep">:</span>
+      <div class="launch-count-item"><span class="launch-count-num" id="lc-minutes">0</span><span class="launch-count-label">min</span></div>
+      <span class="launch-count-sep">:</span>
+      <div class="launch-count-item"><span class="launch-count-num" id="lc-seconds">0</span><span class="launch-count-label">seg</span></div>
+    </div>
+    <a class="launch-foot" href="https://www.instagram.com/flazo0/" target="_blank" rel="noopener">xanascript · by flazo0</a>
+  </div>
+  <script>
+  (function () {
+    var target = new Date('2026-08-20T14:00:00-03:00');
+    var days = document.getElementById('lc-days');
+    var hours = document.getElementById('lc-hours');
+    var minutes = document.getElementById('lc-minutes');
+    var seconds = document.getElementById('lc-seconds');
+    function pad(n) { return n < 10 ? '0' + n : String(n); }
+    function tick() {
+      var diff = target.getTime() - Date.now();
+      if (diff <= 0) {
+        days.textContent = '0';
+        hours.textContent = '00';
+        minutes.textContent = '00';
+        seconds.textContent = '00';
+        return;
+      }
+      var d = Math.floor(diff / 86400000);
+      var h = Math.floor((diff % 86400000) / 3600000);
+      var m = Math.floor((diff % 3600000) / 60000);
+      var s = Math.floor((diff % 60000) / 1000);
+      days.textContent = String(d);
+      hours.textContent = pad(h);
+      minutes.textContent = pad(m);
+      seconds.textContent = pad(s);
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+  </script>
+</body>
+</html>
