@@ -3,6 +3,38 @@
 </div>
 <script>
 (function () {
+  var target = new Date('2026-08-20T14:00:00-03:00');
+  var daysEl = document.getElementById('cd-days');
+  var hoursEl = document.getElementById('cd-hours');
+  var minutesEl = document.getElementById('cd-minutes');
+  var secondsEl = document.getElementById('cd-seconds');
+  function pad(n) { return n < 10 ? '0' + n : String(n); }
+  function tick() {
+    var diff = target.getTime() - Date.now();
+    if (diff <= 0) {
+      daysEl.textContent = '0';
+      hoursEl.textContent = '00';
+      minutesEl.textContent = '00';
+      secondsEl.textContent = '00';
+      return;
+    }
+    var d = Math.floor(diff / 86400000);
+    var h = Math.floor((diff % 86400000) / 3600000);
+    var m = Math.floor((diff % 3600000) / 60000);
+    var s = Math.floor((diff % 60000) / 1000);
+    daysEl.textContent = String(d);
+    hoursEl.textContent = pad(h);
+    minutesEl.textContent = pad(m);
+    secondsEl.textContent = pad(s);
+  }
+  if (daysEl) {
+    tick();
+    setInterval(tick, 1000);
+  }
+})();
+</script>
+<script>
+(function () {
   var loader = document.getElementById('page-loader');
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function hide() {
