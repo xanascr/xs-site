@@ -15,12 +15,6 @@ function buildTestUri(baseUri) {
 }
 
 beforeAll(async () => {
-  if (process.env.MONGODB_URI) {
-    process.env.MONGODB_URI = buildTestUri(process.env.MONGODB_URI);
-    process.env.JWT_SECRET = "test-secret-key-for-vitest";
-    await mongoose.connect(process.env.MONGODB_URI);
-    return;
-  }
   const { MongoMemoryServer } = await import("mongodb-memory-server");
   mongoServer = await MongoMemoryServer.create({
     instance: {

@@ -1,6 +1,17 @@
 <div class="l-page l-page-narrow">
+  <a href="/courses/<%= course.slug %>" class="back-link">&larr; Voltar ao curso</a>
   <h1 class="sub-title"><%= quiz.title %></h1>
-  <p class="muted mb-24"><%= course.title %></p>
+  <p class="muted mb-24"><%= course.title %> • <%= quiz.questions.length %> perguntas</p>
+
+  <% if (typeof enrollment !== 'undefined' && enrollment?.quizPassed) { %>
+    <div class="alert alert-success mb-24">
+      Você já passou neste quiz (última nota: <%= enrollment.quizScore %>/<%= enrollment.quizTotal %>).
+      <% if (enrollment.completed) { %>
+        <a href="/courses/<%= course.slug %>/certificate" class="btn mt-16">Ver certificado</a>
+      <% } %>
+    </div>
+  <% } %>
+
   <form id="quiz-form">
     <% quiz.questions.forEach((q, i) => { %>
       <div class="card">
@@ -20,24 +31,43 @@
     <% }) %>
     <button type="submit" class="btn btn-lg btn-block">Enviar respostas</button>
   </form>
-  <p id="quiz-result" class="alert" style="display:none;"></p>
+  <div id="quiz-result" style="display:none;"></div>
 </div>
-<script>
-document.getElementById('quiz-form').addEventListener('submit', async (e) => {
+<script nonce="<%= cspNonce %>">
+const token = localStorage.getItem('token');
+const authHeader = token ? { 'Authorization': 'Bearer ' + token } : {};
+const form = document.getElementById('quiz-form');
+const result = document.getElementById('quiz-result');
+
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const form = new FormData(e.target);
+  const formData = new FormData(form);
   const answers = [];
   const total = <%= quiz.questions.length %>;
-  for (let i = 0; i < total; i++) answers.push(form.get('q' + i) || '');
-  const res = await fetch('/api/courses/<%= course._id %>/quiz/submit', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (localStorage.getItem('token') || '') },
-    body: JSON.stringify({ answers, quizId: '<%= quiz._id %>' }),
-  });
+  for (let i = 0; i < total; i++) answers.push(formData.get('q' + i) || '');
+  const attempt = async (headers) => {
+    return fetch('/api/courses/<%= course._id %>/quiz/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...headers },
+      body: JSON.stringify({ answers, quizId: '<%= quiz._id %>' }),
+    });
+  };
+  let res = await attempt(authHeader);
+  if (res.status === 401 && token) {
+    res = await attempt({});
+  }
   const json = await res.json();
-  const el = document.getElementById('quiz-result');
-  el.style.display = 'block';
-  el.textContent = 'Você acertou ' + json.score + ' de ' + json.total + ' (' + json.percent + '%)';
-  el.className = 'alert text-center font-bold ' + (json.score >= json.total / 2 ? 'alert-success' : 'alert-error');
+  result.style.display = 'block';
+  if (json.ok) {
+    const passed = json.score >= json.total / 2;
+    result.className = 'alert text-center font-bold ' + (passed ? 'alert-success' : 'alert-error');
+    result.innerHTML = 'Você acertou ' + json.score + ' de ' + json.total + ' (' + json.percent + '%) — ' + (passed ? 'Passou!' : 'Tente novamente!');
+    if (json.courseCompleted) {
+      result.innerHTML += '<br><a href="/courses/<%= course.slug %>/certificate" class="btn mt-16">Ver certificado</a>';
+    }
+  } else {
+    result.className = 'alert alert-error text-center font-bold';
+    result.textContent = json.error || 'Erro ao enviar respostas';
+  }
 });
 </script>

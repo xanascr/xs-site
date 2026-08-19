@@ -115,26 +115,10 @@ Painel administrativo completo, tudo editável:
 - **Documentação:** CRUD de artigos, reordenar, ativar/desativar
 - **Playground:** CRUD de exemplos
 - **Cursos:** CRUD de cursos, módulos, aulas, quizzes
-- **Hackathons:** criar, editar, encerrar, avaliar submissões
 - **Pacotes:** aprovar/rejeitar
 - **Usuários:** listar, banir, promover a admin
 - **Certificados:** emitir manualmente
 - **Estatísticas:** visão geral do site
-
-**Status:** 🔲
-
----
-
-## Fase 8 — Hackathons
-
-Nova seção no lugar do leaderboard:
-
-- Model `Hackathon`: título, descrição, regras, datas, prêmio, ativo
-- Model `HackathonSubmission`: usuário, projeto, descrição, link, data
-- `/hackathons` — listagem (ativos e passados)
-- `/hackathons/:id` — página do hackathon
-- Admin gerencia tudo (criar, editar datas, avaliar)
-- Seed inicial vazio (admin cria quando quiser)
 
 **Status:** 🔲
 

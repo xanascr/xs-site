@@ -1,13 +1,12 @@
 import { Router } from "express";
 import { asyncHandler } from "../middleware/auth.js";
-import { auth, optionalAuth } from "../middleware/auth.js";
+import { auth, optionalAuth, adminPageAuth } from "../middleware/auth.js";
 import DocArticle from "../models/DocArticle.js";
 import PlaygroundExample from "../models/PlaygroundExample.js";
 import Course from "../models/Course.js";
 import Enrollment from "../models/Enrollment.js";
 import Certificate from "../models/Certificate.js";
 import Package from "../models/Package.js";
-import { Hackathon, HackathonSubmission } from "../models/Hackathon.js";
 import User from "../models/User.js";
 
 const router = Router();
@@ -60,10 +59,22 @@ router.get("/courses", asyncHandler(async (req, res) => {
   res.render("courses/index", { courses, title: "Cursos", description: "Cursos gratuitos de XanaScript: aprenda a programar em português do zero ao avançado." });
 }));
 
-router.get("/courses/:slug", asyncHandler(async (req, res) => {
+router.get("/courses/:slug", optionalAuth, asyncHandler(async (req, res) => {
   const course = await Course.findOne({ slug: req.params.slug, published: true });
   if (!course) return res.status(404).render("404");
-  res.render("courses/show", { course, title: course.title, description: course.description || `Curso de XanaScript: ${course.title}.`, canonicalPath: `/courses/${course.slug}`, jsonLd: {
+  const { Quiz } = await import("../models/Quiz.js");
+  const quiz = await Quiz.findOne({ course: course._id, published: true }).select("title slug moduleSlug questions");
+  let enrollment = null;
+  if (req.user) enrollment = await Enrollment.findOne({ user: req.user.id, course: course._id });
+  const allLessons = course.modules.flatMap(m => m.lessons);
+  const completedSlugs = enrollment?.completedLessons?.map(l => l.lessonSlug) || [];
+  const progress = {
+    total: allLessons.length,
+    done: completedSlugs.length,
+    percent: allLessons.length ? Math.round((completedSlugs.length / allLessons.length) * 100) : 0,
+    quizDone: !!enrollment?.quizPassed,
+  };
+  res.render("courses/show", { course, quiz, enrollment, progress, user: req.user, title: course.title, description: course.description || `Curso de XanaScript: ${course.title}.`, canonicalPath: `/courses/${course.slug}`, jsonLd: {
     "@context": "https://schema.org",
     "@type": "Course",
     name: course.title,
@@ -77,39 +88,76 @@ router.get("/courses/:slug/lessons/:lessonSlug", optionalAuth, asyncHandler(asyn
   const course = await Course.findOne({ slug: req.params.slug, published: true });
   if (!course) return res.status(404).render("404");
   let lesson = null;
-  for (const m of course.modules) {
-    lesson = m.lessons.find(l => l.slug === req.params.lessonSlug);
-    if (lesson) break;
+  let lessonIndex = -1;
+  const allLessons = course.modules.flatMap(m => m.lessons);
+  for (let i = 0; i < allLessons.length; i++) {
+    if (allLessons[i].slug === req.params.lessonSlug) { lesson = allLessons[i]; lessonIndex = i; break; }
   }
   if (!lesson) return res.status(404).render("404");
+  const prevLesson = lessonIndex > 0 ? allLessons[lessonIndex - 1] : null;
+  const nextLesson = lessonIndex < allLessons.length - 1 ? allLessons[lessonIndex + 1] : null;
   let enrollment = null;
   if (req.user) enrollment = await Enrollment.findOne({ user: req.user.id, course: course._id });
-  res.render("courses/lesson", { course, lesson, enrollment, title: lesson.title, user: req.user });
+  const { Quiz } = await import("../models/Quiz.js");
+  const quiz = await Quiz.findOne({ course: course._id, published: true }).select("title");
+  res.render("courses/lesson", { course, lesson, prevLesson, nextLesson, allLessons, lessonIndex, quiz, enrollment, title: lesson.title, user: req.user });
+}));
+
+router.post("/courses/:slug/lessons/:lessonSlug/complete", auth, asyncHandler(async (req, res) => {
+  const course = await Course.findOne({ slug: req.params.slug });
+  if (!course) return res.status(404).render("404");
+  const enrollment = await Enrollment.findOne({ user: req.user.id, course: course._id });
+  if (!enrollment) {
+    await Enrollment.create({ user: req.user.id, course: course._id, completedLessons: [] });
+  }
+  const isDone = enrollment?.completedLessons?.some(l => l.lessonSlug === req.params.lessonSlug);
+  if (!isDone) {
+    const updated = await Enrollment.findOneAndUpdate(
+      { user: req.user.id, course: course._id },
+      { $push: { completedLessons: { lessonSlug: req.params.lessonSlug, completedAt: new Date() } } },
+      { new: true }
+    );
+    const allLessons = course.modules.flatMap(m => m.lessons);
+    const completed = updated.completedLessons.map(l => l.lessonSlug);
+    const allDone = allLessons.every(l => completed.includes(l.slug));
+    const isComplete = allDone && updated.quizPassed;
+    updated.completed = isComplete;
+    updated.completedAt = isComplete ? new Date() : null;
+    await updated.save();
+  }
+  res.redirect(303, `/courses/${course.slug}/lessons/${req.params.lessonSlug}`);
 }));
 
 router.get("/courses/:slug/quiz/:quizId", optionalAuth, asyncHandler(async (req, res) => {
   const course = await Course.findOne({ slug: req.params.slug, published: true });
   if (!course) return res.status(404).render("404");
   const Quiz = (await import("../models/Quiz.js")).Quiz;
-  const quiz = await Quiz.findById(req.params.quizId);
+  const quiz = await Quiz.findById(req.params.quizId).catch(() => null);
   if (!quiz) return res.status(404).render("404");
-  res.render("courses/quiz", { course, quiz, title: quiz.title });
+  if (String(quiz.course) !== String(course._id)) return res.status(404).render("404");
+  let enrollment = null;
+  if (req.user) enrollment = await Enrollment.findOne({ user: req.user.id, course: course._id });
+  res.render("courses/quiz", { course, quiz, enrollment, user: req.user, title: quiz.title });
 }));
 
 router.get("/courses/:slug/certificate", auth, asyncHandler(async (req, res) => {
   const course = await Course.findOne({ slug: req.params.slug });
   if (!course) return res.status(404).render("404");
+  const enrollment = await Enrollment.findOne({ user: req.user.id, course: course._id });
+  if (!enrollment?.completed) {
+    return res.render("courses/certificate-locked", { course, title: "Certificado", description: `Complete o curso ${course.title} para desbloquear o certificado.`, seoIndexable: false });
+  }
   let cert = await Certificate.findOne({ user: req.user.id, course: course._id }).populate("user", "username");
   if (!cert) {
     const crypto = await import("crypto");
     cert = await Certificate.create({
       user: req.user.id,
       course: course._id,
-      code: crypto.randomBytes(8).toString("hex").toUpperCase(),
+      code: crypto.randomBytes(16).toString("hex").toUpperCase(),
     });
     cert = await cert.populate("user", "username");
   }
-  res.render("courses/certificate", { course, cert, title: "Certificado" });
+  res.render("courses/certificate", { course, cert, enrollment, user: req.user, title: "Certificado", description: `Certificado de conclusão do curso ${course.title}.`, seoIndexable: false });
 }));
 
 router.get("/packages", asyncHandler(async (req, res) => {
@@ -193,27 +241,8 @@ router.get("/packages/:name/:version", asyncHandler(async (req, res) => {
   } });
 }));
 
-router.get("/hackathons", asyncHandler(async (req, res) => {
-  const hackathons = await Hackathon.find().sort({ startDate: -1 });
-  res.render("hackathons/index", { hackathons, title: "Hackathons", description: "Participe dos hackathons de XanaScript: desafios, prêmios e projetos da comunidade em português." });
-}));
-
-router.get("/hackathons/:id", asyncHandler(async (req, res) => {
-  const hackathon = await Hackathon.findById(req.params.id);
-  if (!hackathon) return res.status(404).render("404");
-  const submissions = await HackathonSubmission.find({ hackathon: hackathon._id }).populate("user", "username");
-  res.render("hackathons/show", { hackathon, submissions, title: hackathon.title, description: hackathon.description || `Hackathon de XanaScript: ${hackathon.title}.`, canonicalPath: `/hackathons/${hackathon._id}`, jsonLd: {
-    "@context": "https://schema.org",
-    "@type": "Event",
-    name: hackathon.title,
-    description: hackathon.description || `Hackathon de XanaScript: ${hackathon.title}.`,
-    startDate: hackathon.startDate ? hackathon.startDate.toISOString() : undefined,
-    url: `https://xanascript.xyz/hackathons/${hackathon._id}`,
-  } });
-}));
-
 router.get("/dashboard", auth, asyncHandler(async (req, res) => {
-  const enrollments = await Enrollment.find({ user: req.user.id }).populate("course", "title slug");
+  const enrollments = await Enrollment.find({ user: req.user.id }).populate("course", "title slug modules");
   const packages = await Package.find({ author: req.user.id });
   res.render("dashboard", { layout: "layouts/app", activeNav: "dashboard", enrollments, packages, title: "Dashboard" });
 }));
@@ -227,7 +256,7 @@ router.get("/forgot-password", (req, res) => res.render("auth/forgot-password", 
 router.get("/reset-password/:token", (req, res) => res.render("auth/reset-password", { layout: "layouts/auth", token: req.params.token, title: "Nova senha", seoIndexable: false }));
 router.get("/login", (req, res) => res.render("auth/login", { layout: "layouts/auth", title: "Entrar", seoIndexable: false }));
 router.get("/signup", (req, res) => res.render("auth/signup", { layout: "layouts/auth", title: "Criar conta", seoIndexable: false }));
-router.get("/admin*", (req, res) => res.render("admin/index", { layout: "layouts/app", activeNav: "admin", title: "Admin", seoIndexable: false }));
+router.get("/admin*", adminPageAuth, (req, res) => res.render("admin/index", { layout: "layouts/app", activeNav: "admin", title: "Admin", seoIndexable: false }));
 router.get("/examples", (req, res) => res.render("examples", { title: "Exemplos", description: "Exemplos de código em XanaScript: sintaxe, loops, funções e ORM embutido para aprender programando." }));
 router.get("/privacy", (req, res) => res.render("privacy", { title: "Privacidade", description: "Política de privacidade do XanaScript: como coletamos, usamos e protegemos seus dados.", canonicalPath: "/privacy" }));
 router.get("/donate", (req, res) => res.render("donate", { title: "Doar", description: "Apoie o desenvolvimento do XanaScript. Sua doação mantém a linguagem gratuita e open source.", canonicalPath: "/donate" }));
@@ -243,6 +272,8 @@ router.get("/benchmark", (req, res) => {
 
 router.get("/changelog", (req, res) => {
   const changelog = [
+    { version: "3.0.1", date: "2026-08-17", type: "patch", changes: ["Formatter (`xana fmt`) corrigido: sem espaços duplicados e com suporte a `i++`/`++i`", "Precedência de operadores respeitada na formatação", "Correções em módulos locais e no desligamento do servidor HTTP"] },
+    { version: "3.0.0", date: "2026-08-17", type: "major", changes: ["Type checker com inferência estática (`xana check`)", "Debug Adapter Protocol (`xana debuga`)", "Geração WebAssembly mais robusta com fallback WAT", "ORM com validação de campos e deep copies", "Arrow functions assíncronas e novas palavras-chave de tipo", "Test runner com `--watch` e `crush(...)`", "Docs unificadas"] },
     { version: "2.2.8", date: "2026-07-23", type: "patch", changes: ["Auto-install de dependências", "Melhorias no sistema de import", "Correções de segurança"] },
     { version: "2.0.0", date: "2026-07-01", type: "major", changes: ["Compilador otimizante", "ORM embutido", "LSP server", "Gerenciador de pacotes"] },
   ];

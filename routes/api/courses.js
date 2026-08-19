@@ -37,32 +37,46 @@ router.post("/:slug/enroll", auth, asyncHandler(async (req, res) => {
 router.post("/:slug/lessons/:lessonSlug/complete", auth, asyncHandler(async (req, res) => {
   const course = await Course.findOne({ slug: req.params.slug });
   if (!course) return res.status(404).json({ ok: false, error: "Curso não encontrado" });
-  const enrollment = await Enrollment.findOneAndUpdate(
-    { user: req.user.id, course: course._id },
-    { $addToSet: { completedLessons: { lessonSlug: req.params.lessonSlug, completedAt: new Date() } } },
-    { upsert: true, new: true }
-  );
+
+  let enrollment = await Enrollment.findOne({ user: req.user.id, course: course._id });
+  if (!enrollment) {
+    enrollment = await Enrollment.create({ user: req.user.id, course: course._id, completedLessons: [] });
+  }
+
+  const isDone = enrollment.completedLessons.some(l => l.lessonSlug === req.params.lessonSlug);
+  if (!isDone) {
+    enrollment.completedLessons.push({ lessonSlug: req.params.lessonSlug, completedAt: new Date() });
+  }
+
   const allLessons = course.modules.flatMap(m => m.lessons);
   const completed = enrollment.completedLessons.map(l => l.lessonSlug);
   const allDone = allLessons.every(l => completed.includes(l.slug));
-  if (allDone && !enrollment.completed) {
+  const isComplete = allDone && enrollment.quizPassed;
+  if (isComplete && !enrollment.completed) {
     enrollment.completed = true;
     enrollment.completedAt = new Date();
-    await enrollment.save();
+  } else if (!isComplete && enrollment.completed) {
+    enrollment.completed = false;
+    enrollment.completedAt = null;
   }
+  await enrollment.save();
   res.json({ ok: true, enrollment });
 }));
 
 router.get("/:slug/certificate", auth, asyncHandler(async (req, res) => {
   const course = await Course.findOne({ slug: req.params.slug });
   if (!course) return res.status(404).json({ ok: false, error: "Curso não encontrado" });
+  const enrollment = await Enrollment.findOne({ user: req.user.id, course: course._id });
+  if (!enrollment?.completed) {
+    return res.status(403).json({ ok: false, error: "Complete o curso para desbloquear o certificado" });
+  }
   let cert = await Certificate.findOne({ user: req.user.id, course: course._id });
   if (!cert) {
     const crypto = await import("crypto");
     cert = await Certificate.create({
       user: req.user.id,
       course: course._id,
-      code: crypto.randomBytes(8).toString("hex").toUpperCase(),
+      code: crypto.randomBytes(16).toString("hex").toUpperCase(),
     });
   }
   res.json({ ok: true, certificate: cert });

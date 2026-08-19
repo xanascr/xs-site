@@ -36,7 +36,6 @@ router.get("/sitemap.xml", async (_req, res) => {
     `<url><loc>${baseUrl}/playground</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>`,
     `<url><loc>${baseUrl}/courses</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>`,
     `<url><loc>${baseUrl}/packages</loc><lastmod>${today}</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>`,
-    `<url><loc>${baseUrl}/hackathons</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>`,
     `<url><loc>${baseUrl}/changelog</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>`,
     `<url><loc>${baseUrl}/benchmark</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.4</priority></url>`,
     `<url><loc>${baseUrl}/donate</loc><lastmod>${today}</lastmod><changefreq>yearly</changefreq><priority>0.2</priority></url>`,

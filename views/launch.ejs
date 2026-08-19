@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <script>document.documentElement.classList.add('js');</script>
+  <script nonce="<%= cspNonce %>">document.documentElement.classList.add('js');</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
@@ -142,7 +142,7 @@
     </div>
     <a class="launch-foot" href="https://www.instagram.com/flazo0/" target="_blank" rel="noopener">xanascript · by flazo0</a>
   </div>
-  <script>
+  <script nonce="<%= cspNonce %>">
   (function () {
     var target = new Date('2026-08-20T14:00:00-03:00');
     var days = document.getElementById('lc-days');

@@ -4,8 +4,6 @@ import multer from "multer";
 import rateLimit from "express-rate-limit";
 import path from "path";
 import fs from "fs";
-import * as tar from "tar";
-import { randomBytes } from "crypto";
 import { fileURLToPath } from "url";
 import Package from "../../models/Package.js";
 import Review from "../../models/Review.js";
@@ -40,6 +38,12 @@ const publishLimiter = rateLimit({
   windowMs: 60 * 1000,
   max: 10,
   message: { ok: false, error: "Muitas requisições. Aguarde um minuto." },
+});
+
+const downloadLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 60,
+  message: { ok: false, error: "Muitos downloads. Aguarde um minuto." },
 });
 
 const storage = multer.diskStorage({
@@ -91,7 +95,7 @@ router.get("/mine", auth, asyncHandler(async (req, res) => {
   res.json({ ok: true, packages });
 }));
 
-router.get("/:name", asyncHandler(async (req, res) => {
+router.get("/:name", optionalAuth, asyncHandler(async (req, res) => {
   const pkg = await Package.findOne({ name: req.params.name }).populate("author", "username").lean();
   if (!pkg) return res.status(404).json({ ok: false, error: "Pacote não encontrado" });
 
@@ -284,7 +288,7 @@ router.post("/batch", auth, asyncHandler(async (req, res) => {
   res.status(201).json({ ok: true, results });
 }));
 
-router.post("/:name/download", asyncHandler(async (req, res) => {
+router.post("/:name/download", downloadLimiter, asyncHandler(async (req, res) => {
   const pkg = await Package.findOne({ name: req.params.name });
   if (!pkg) return res.status(404).json({ ok: false, error: "Pacote não encontrado" });
 
@@ -317,63 +321,6 @@ router.post("/:name/download", asyncHandler(async (req, res) => {
   res.setHeader("Content-Type", "application/gzip");
   res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
   res.sendFile(filePath);
-}));
-
-router.get("/:name/source", optionalAuth, asyncHandler(async (req, res) => {
-  const pkg = await Package.findOne({ name: req.params.name });
-  if (!pkg) return res.status(404).json({ ok: false, error: "Pacote não encontrado" });
-
-  const isOwner = req.user && String(pkg.author) === req.user.id;
-  const isAdmin = req.user?.role === "admin";
-  if (pkg.status !== "approved" && !isOwner && !isAdmin) {
-    return res.status(403).json({ ok: false, error: "Pacote não aprovado" });
-  }
-
-  let version = pkg.version;
-  if (req.query.version) {
-    const ver = pkg.versions.find(v => v.version === req.query.version);
-    if (!ver) return res.status(404).json({ ok: false, error: "Versão não encontrada" });
-    version = ver.version;
-  }
-
-  const versionData = pkg.versions.find(v => v.version === version);
-  const filePath = versionData?.filePath;
-  if (!filePath || !fs.existsSync(filePath)) {
-    return res.status(404).json({ ok: false, error: "Arquivo não encontrado" });
-  }
-
-  const extractId = randomBytes(4).toString("hex");
-  const targetDir = path.join(EXTRACT_DIR, `${pkg.name}-${version}-${extractId}`);
-
-  try {
-    fs.mkdirSync(targetDir, { recursive: true });
-
-    await tar.extract({ file: filePath, cwd: targetDir, strict: true });
-
-    const files = [];
-    function walk(dir) {
-      const entries = fs.readdirSync(dir, { withFileTypes: true });
-      for (const entry of entries) {
-        const fullPath = path.join(dir, entry.name);
-        if (!isPathInside(fullPath, targetDir)) continue;
-        if (entry.isSymbolicLink()) continue;
-        if (entry.isDirectory()) {
-          walk(fullPath);
-        } else {
-          const content = fs.readFileSync(fullPath, "utf-8");
-          const relativePath = path.relative(targetDir, fullPath).replace(/\\/g, "/");
-          files.push({ path: relativePath, content });
-        }
-      }
-    }
-    walk(targetDir);
-
-    res.json({ ok: true, files });
-  } catch (e) {
-    res.json({ ok: false, error: "Erro ao extrair fonte: " + e.message });
-  } finally {
-    try { fs.rmSync(targetDir, { recursive: true, force: true }); } catch {}
-  }
 }));
 
 export default router;

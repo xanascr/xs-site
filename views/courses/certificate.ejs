@@ -1,17 +1,75 @@
-<div class="l-page l-page-center">
-  <div class="page-icon"><span class="material-symbols-outlined">workspace_premium</span></div>
-  <h1 class="sub-title">Certificado de Conclusão</h1>
-  <p class="muted mb-16">Certificamos que</p>
-  <p class="cert-name"><%= cert.user?.username || user?.username %></p>
-  <p class="muted mb-8">concluiu o curso</p>
-  <p class="cert-course"><%= course.title %></p>
-  <div class="card inline-block mb-24">
-    <div class="card-body">
-      <p class="muted text-xs">Código de verificação</p>
-      <p class="mono cert-code"><%= cert.code %></p>
+<div class="l-page l-page-center cert-page">
+  <div id="cert-shell" class="cert-shell">
+    <div class="cert-inner">
+      <div class="cert-corner cert-corner-tl"></div>
+      <div class="cert-corner cert-corner-tr"></div>
+      <div class="cert-corner cert-corner-bl"></div>
+      <div class="cert-corner cert-corner-br"></div>
+
+      <img class="cert-logo" src="/icon.png" alt="XanaScript">
+      <p class="cert-brand">XanaScript</p>
+      <p class="cert-title">Certificado de Conclusão</p>
+
+      <div class="cert-divider"><span></span></div>
+
+      <p class="cert-msg">Certificamos que</p>
+      <p class="cert-name"><%= cert.user?.username || user?.username %></p>
+      <p class="cert-msg">concluiu com êxito o curso</p>
+      <p class="cert-course"><%= course.title %></p>
+
+      <p class="cert-date">
+        Concluído em <%= new Date(enrollment?.completedAt || cert.createdAt).toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" }) %>
+      </p>
+
+      <div class="cert-footer">
+        <div class="cert-signature">
+          <div class="cert-sign-line"></div>
+          <p class="cert-sign-name">XanaScript</p>
+          <p class="cert-sign-role">Equipe XanaScript</p>
+        </div>
+        <div class="cert-verify">
+          <span class="material-symbols-outlined cert-verify-icon">verified</span>
+          <p class="mono cert-code"><%= cert.code %></p>
+          <p class="cert-verify-label">Código de verificação</p>
+        </div>
+      </div>
     </div>
   </div>
-  <div>
-    <button onclick="window.print()" class="btn btn-lg">Imprimir</button>
+
+  <div class="cert-actions">
+    <button type="button" class="btn btn-lg cert-print-btn"><span class="material-symbols-outlined btn-icon">print</span> Imprimir</button>
+    <button type="button" class="btn btn-lg cert-download-btn"><span class="material-symbols-outlined btn-icon">download</span> Baixar PNG</button>
+    <a href="/courses/<%= course.slug %>" class="btn-outline btn-lg">Voltar ao curso</a>
   </div>
 </div>
+<script src="/js/html2canvas.min.js"></script>
+<script nonce="<%= cspNonce %>">
+(function () {
+  var downloadBtn = document.querySelector('.cert-download-btn');
+  if (!downloadBtn) return;
+  downloadBtn.addEventListener('click', function () {
+    var shell = document.getElementById('cert-shell');
+    if (!shell) return;
+    var original = downloadBtn.innerHTML;
+    downloadBtn.innerHTML = '<span class="material-symbols-outlined btn-icon">download</span> Gerando...';
+    downloadBtn.disabled = true;
+    html2canvas(shell, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: null,
+      windowWidth: shell.scrollWidth + 60,
+      windowHeight: shell.scrollHeight + 60,
+    }).then(function (canvas) {
+      var a = document.createElement('a');
+      a.download = 'certificado-<%= course.slug %>-<%= cert.code.toLowerCase() %>.png';
+      a.href = canvas.toDataURL('image/png');
+      a.click();
+    }).catch(function () {
+      alert('Não foi possível gerar o PNG. Tente usar Imprimir.');
+    }).finally(function () {
+      downloadBtn.innerHTML = original;
+      downloadBtn.disabled = false;
+    });
+  });
+})();
+</script>

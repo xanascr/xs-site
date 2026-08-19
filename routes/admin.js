@@ -4,7 +4,6 @@ import User from "../models/User.js";
 import Course from "../models/Course.js";
 import DocArticle from "../models/DocArticle.js";
 import PlaygroundExample from "../models/PlaygroundExample.js";
-import { Hackathon } from "../models/Hackathon.js";
 import Package from "../models/Package.js";
 
 const router = Router();
@@ -107,23 +106,6 @@ router.put("/playground-examples/:id", asyncHandler(async (req, res) => {
 router.delete("/playground-examples/:id", asyncHandler(async (req, res) => {
   await PlaygroundExample.findByIdAndDelete(req.params.id);
   res.json({ ok: true });
-}));
-
-router.get("/hackathons", asyncHandler(async (req, res) => {
-  const hackathons = await Hackathon.find().sort({ startDate: -1 });
-  res.json({ ok: true, hackathons });
-}));
-
-router.post("/hackathons", asyncHandler(async (req, res) => {
-  const data = pick(req.body, ["title", "slug", "description", "rules", "prize", "startDate", "endDate", "active"]);
-  const h = await Hackathon.create(data);
-  res.status(201).json({ ok: true, hackathon: h });
-}));
-
-router.put("/hackathons/:id", asyncHandler(async (req, res) => {
-  const data = pick(req.body, ["title", "slug", "description", "rules", "prize", "startDate", "endDate", "active"]);
-  const h = await Hackathon.findByIdAndUpdate(req.params.id, data, { new: true, runValidators: true });
-  res.json({ ok: true, hackathon: h });
 }));
 
 router.get("/packages", asyncHandler(async (req, res) => {

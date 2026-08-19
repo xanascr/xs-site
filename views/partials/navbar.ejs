@@ -7,18 +7,43 @@
         <a href="/playground" class="<%= path && path.startsWith('/playground') ? 'active' : '' %>">Playground</a>
         <a href="/courses" class="<%= path && path.startsWith('/courses') ? 'active' : '' %>">Cursos</a>
         <a href="/packages" class="<%= path && path.startsWith('/packages') ? 'active' : '' %>">Pacotes</a>
-        <a href="/hackathons" class="<%= path && path.startsWith('/hackathons') ? 'active' : '' %>">Hackathons</a>
       </nav>
-      <div class="l-nav-cta">
+      <div class="l-nav-cta" id="nav-auth">
         <% if (typeof user !== 'undefined' && user) { %>
-          <a class="btn-outline" href="/dashboard">Dashboard</a>
-          <form action="/api/auth/logout" method="POST" class="inline-form">
-            <button type="submit" class="btn-outline">Sair</button>
-          </form>
+          <span class="auth-user" data-auth="user">
+            <a class="btn-outline" href="/dashboard">Dashboard</a>
+            <button type="button" class="btn-outline" onclick="logout()">Sair</button>
+          </span>
         <% } else { %>
-          <a class="btn-outline" href="/login">Entrar</a>
-          <a class="btn-primary" href="/signup">Criar conta</a>
+          <span class="auth-guest" data-auth="guest">
+            <a class="btn-outline" href="/login">Entrar</a>
+            <a class="btn-primary" href="/signup">Criar conta</a>
+          </span>
         <% } %>
+      </div>
+      <button type="button" class="l-nav-toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span class="material-symbols-outlined l-nav-toggle-icon" id="nav-toggle-icon">menu</span>
+      </button>
+      <div class="l-mobile-menu" id="mobile-menu" aria-hidden="true">
+        <nav class="l-mobile-links">
+          <a href="/docs" class="<%= path && path.startsWith('/docs') ? 'active' : '' %>">Docs</a>
+          <a href="/playground" class="<%= path && path.startsWith('/playground') ? 'active' : '' %>">Playground</a>
+          <a href="/courses" class="<%= path && path.startsWith('/courses') ? 'active' : '' %>">Cursos</a>
+          <a href="/packages" class="<%= path && path.startsWith('/packages') ? 'active' : '' %>">Pacotes</a>
+        </nav>
+        <div class="l-mobile-cta" id="nav-auth-mobile">
+          <% if (typeof user !== 'undefined' && user) { %>
+            <span class="auth-user" data-auth="user">
+              <a class="btn-outline" href="/dashboard">Dashboard</a>
+              <button type="button" class="btn-outline" onclick="logout()">Sair</button>
+            </span>
+          <% } else { %>
+            <span class="auth-guest" data-auth="guest">
+              <a class="btn-outline" href="/login">Entrar</a>
+              <a class="btn-primary" href="/signup">Criar conta</a>
+            </span>
+          <% } %>
+        </div>
       </div>
     </div>
   </div>

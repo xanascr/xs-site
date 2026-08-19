@@ -47,20 +47,9 @@
       <% if (pkg.readme) { %>
         <div class="readme-block">
           <h2 class="readme-title">README</h2>
-          <div class="muted code-block md-raw"><%= pkg.readme %></div>
+          <div class="md-body"><%- renderMarkdown(pkg.readme) %></div>
         </div>
       <% } %>
-    </div>
-  </div>
-
-  <div class="card mb-16">
-    <div class="card-header">Source</div>
-    <div class="card-body">
-      <button id="source-btn" onclick="toggleSource()" class="btn btn-secondary">Ver arquivos</button>
-      <div id="source-container" class="source-container">
-        <p id="source-loading" class="muted">Carregando...</p>
-        <div id="source-files"></div>
-      </div>
     </div>
   </div>
 
@@ -84,7 +73,7 @@
     </div>
   </div>
 </div>
-<script>
+<script nonce="<%= cspNonce %>">
 const pkgName = '<%= pkg.name %>';
 const versions = <%- JSON.stringify((pkg.versions || []).map(v => v.version)) %>;
 const sel = document.getElementById('version-select');
@@ -108,38 +97,6 @@ async function downloadPkg() {
 
 function copyCmd() {
   navigator.clipboard.writeText('xs install ' + pkgName);
-}
-
-let sourceLoaded = false;
-async function toggleSource() {
-  const container = document.getElementById('source-container');
-  const btn = document.getElementById('source-btn');
-  if (!container.classList.contains('open')) {
-    container.classList.add('open');
-    btn.textContent = 'Ocultar arquivos';
-    if (!sourceLoaded) {
-      sourceLoaded = true;
-      const ver = sel ? sel.value : '<%= pkg.version %>';
-      try {
-        const res = await fetch('/api/packages/' + pkgName + '/source?version=' + ver);
-        const data = await res.json();
-        document.getElementById('source-loading').style.display = 'none';
-        if (data.ok && data.files) {
-          document.getElementById('source-files').innerHTML = data.files.map(f =>
-            '<div class="code-block file-block"><div class="muted text-xs file-path">' + escapeHtml(f.path) + '</div><pre class="file-pre"><code>' + escapeHtml(f.content) + '</code></pre></div>'
-          ).join('');
-        } else {
-          document.getElementById('source-files').innerHTML = '<p class="muted">' + (data.error || 'Erro ao carregar fonte') + '</p>';
-        }
-      } catch (e) {
-        document.getElementById('source-loading').style.display = 'none';
-        document.getElementById('source-files').innerHTML = '<p class="error-text">Erro: ' + e.message + '</p>';
-      }
-    }
-  } else {
-    container.classList.remove('open');
-    btn.textContent = 'Ver arquivos';
-  }
 }
 
 function escapeHtml(str) {

@@ -188,15 +188,10 @@ Regras:
 - Conteúdo todo do banco, admin gerencia
 
 ### Admin
-- Sidebar com seções: Páginas, Docs, Playground, Cursos, Hackathons, Pacotes, Usuários, Certificados
+- Sidebar com seções: Páginas, Docs, Playground, Cursos, Pacotes, Usuários, Certificados
 - CRUD completo de cada modelo
 - Preview integrado
 - Tabelas com filtro e busca
-
-### Hackathons
-- Lista de hackathons ativos/passados
-- Página individual com regras, datas, submissões
-- Admin cria e avalia
 
 ---
 

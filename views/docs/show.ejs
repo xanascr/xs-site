@@ -13,7 +13,7 @@
     <article class="card docs-article">
       <div class="card-body">
         <h1 class="doc-title"><%= article.title %></h1>
-        <div class="muted md-raw"><%- article.body %></div>
+        <div class="md-body"><%- renderMarkdown(article.body) %></div>
       </div>
     </article>
   </div>

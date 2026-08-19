@@ -11,11 +11,10 @@
   <a class="btn <%= path === '/admin/courses' ? 'btn-secondary' : 'btn' %>" href="/admin/courses">Cursos</a>
   <a class="btn <%= path === '/admin/docs' ? 'btn-secondary' : 'btn' %>" href="/admin/docs">Docs</a>
   <a class="btn <%= path === '/admin/examples' ? 'btn-secondary' : 'btn' %>" href="/admin/examples">Playground</a>
-  <a class="btn <%= path === '/admin/hackathons' ? 'btn-secondary' : 'btn' %>" href="/admin/hackathons">Hackathons</a>
   <a class="btn <%= path === '/admin/packages' ? 'btn-secondary' : 'btn' %>" href="/admin/packages">Pacotes</a>
 </div>
 <div id="admin-content"></div>
-<script>
+<script nonce="<%= cspNonce %>">
 const token = localStorage.getItem('token');
 if (!token) { window.location.href = '/login'; }
 

@@ -40,7 +40,7 @@
     </div>
   </div>
 </form>
-<script>
+<script nonce="<%= cspNonce %>">
 document.getElementById('profile-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const data = Object.fromEntries(new FormData(e.target));

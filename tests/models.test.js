@@ -4,7 +4,6 @@ import Course from "../models/Course.js";
 import DocArticle from "../models/DocArticle.js";
 import PlaygroundExample from "../models/PlaygroundExample.js";
 import Review from "../models/Review.js";
-import { Hackathon, HackathonSubmission } from "../models/Hackathon.js";
 import Package from "../models/Package.js";
 import Comment from "../models/Comment.js";
 import Enrollment from "../models/Enrollment.js";
@@ -93,20 +92,6 @@ describe("PlaygroundExample", () => {
       title: "Hello", slug: "hello", code: 'SOLTA O GRITO("hi")', category: "basico", order: 1,
     });
     expect(ex.slug).toBe("hello");
-  });
-});
-
-describe("Hackathon", () => {
-  it("creates hackathon with submissions", async () => {
-    const user = await User.create({ username: "hackuser", email: "hack@x.com", password: "123456" });
-    const hack = await Hackathon.create({
-      title: "Hack 1", slug: "hack1", startDate: new Date(), endDate: new Date(Date.now() + 86400000),
-    });
-    const sub = await HackathonSubmission.create({
-      hackathon: hack._id, user: user._id, title: "My Project", description: "A project",
-    });
-    expect(sub.title).toBe("My Project");
-    expect(String(sub.hackathon)).toBe(String(hack._id));
   });
 });
 

@@ -1,52 +1,299 @@
-<div class="l-page">
-  <div class="page-header">
-    <h1>Playground</h1>
-    <span class="badge badge-brand">Ctrl+Enter para executar</span>
+<div class="l-page pg-page">
+  <div class="page-header no-border">
+    <div>
+      <h1 style="font-size:30px; font-weight: 500;" class="l-accent-hot">Playground</h1>
+      <p>Escreve, roda e resolve direto no navegador.</p>
+    </div>
+    <span class="badge badge-brand pg-hint"><span class="material-symbols-outlined">keyboard_command_key</span> Enter</span>
   </div>
-  <div class="filters">
-    <select id="example-select" class="form-control playground-select">
-      <option value="">Exemplos...</option>
-      <% examples.forEach(e => { %>
-        <option value="<%= e._id %>"><%= e.title %></option>
-      <% }) %>
-    </select>
-    <button onclick="runCode()" class="btn btn-lg">Executar</button>
+
+  <div class="pg-toolbar">
+    <div class="pg-toolbar-left">
+      <button id="btn-examples" type="button" class="btn-outline btn-sm" title="Escolher exemplo">
+        <span class="material-symbols-outlined pg-btn-icon">grid_view</span> <span id="current-example">Exemplos</span>
+        <span class="material-symbols-outlined pg-chevron">expand_more</span>
+      </button>
+    </div>
+    <div class="pg-toolbar-actions">
+      <button id="btn-download" type="button" class="btn-outline btn-sm" title="Baixar código .xs">
+        <span class="material-symbols-outlined pg-btn-icon">download</span> Baixar
+      </button>
+      <button id="btn-format" type="button" class="btn-outline btn-sm" title="Formatar código (Ctrl+Shift+F)">
+        <span class="material-symbols-outlined pg-btn-icon">auto_fix_high</span> Formatar
+      </button>
+      <button id="btn-run" type="button" class="btn-primary btn-sm" title="Executar (Ctrl+Enter)">
+        <span class="material-symbols-outlined pg-btn-icon">play_arrow</span> Executar
+      </button>
+    </div>
   </div>
-  <div class="grid grid-2 playground-grid">
-    <textarea id="code-editor" class="code-block playground-editor" placeholder="Escreva seu código XS aqui..."></textarea>
-    <div id="output" class="code-block playground-output"></div>
+
+  <div class="pg-grid">
+    <div class="pg-pane">
+      <div class="pg-pane-head">
+        <span class="pg-dot pg-dot-pink"></span>
+        <span class="pg-dot pg-dot-amber"></span>
+        <span class="pg-dot pg-dot-green"></span>
+        <span class="pg-pane-title">codigo.xs</span>
+      </div>
+      <div class="pg-editor" id="editor">
+        <div class="pg-gutter" id="gutter" aria-hidden="true"></div>
+        <pre class="pg-highlight" id="highlight" aria-hidden="true"><code id="hlcode"></code></pre>
+        <textarea id="code" class="pg-textarea" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="Escreva seu código XanaScript aqui..."></textarea>
+      </div>
+    </div>
+
+    <div class="pg-pane">
+      <div class="pg-pane-head">
+        <span class="pg-pane-title pg-pane-title-out"><span class="material-symbols-outlined">terminal</span> Saída</span>
+        <span id="run-status" class="pg-status"></span>
+      </div>
+      <pre id="output" class="pg-output" aria-live="polite"># saída aparecerá aqui</pre>
+    </div>
+  </div>
+
+  <div id="example-modal" class="pg-modal" hidden>
+    <div class="pg-modal-backdrop" data-close></div>
+    <div class="pg-modal-panel" role="dialog" aria-modal="true" aria-label="Escolher exemplo">
+      <div class="pg-modal-body">
+        <div id="example-groups" class="pg-modal-groups"></div>
+      </div>
+    </div>
   </div>
 </div>
-<script>
-const editor = document.getElementById('code-editor');
-const output = document.getElementById('output');
-const select = document.getElementById('example-select');
 
-const examples = <%- JSON.stringify(examples.map(e => ({ _id: e._id, title: e.title, code: e.code }))) %>;
+<script nonce="<%= cspNonce %>">
+(function () {
+  const KEYWORDS = new Set([
+    "cria", "lei", "fofoca", "se-pah", "ai", "repete-na-moral", "repete-enquanto",
+    "resolve", "volta", "traz-ai", "manda-ai", "grita-ae", "sussurra", "horinha",
+    "stalkeia", "aguenta-ai", "escolhe", "desembola", "bisbilhota", "verdadeiro",
+    "falso", "nulo", "tenta", "fodeu", "no-fim", "mete-o-pe", "segue-o-baile",
+    "assincrono", "classe", "herda", "spawna", "esse-cara", "novo", "metodo",
+    "vai-de", "se-for", "se-nao-der", "ve-se", "bateu-com", "qualquer-coisa",
+    "escuta", "terminamos!", "tamanho", "divide-texto", "encontra",
+    "decodifica-url", "juntar", "crush", "deu-match", "date", "tarefa", "DB",
+    "tpm", "tipo", "crud", "tipo-de", "instancia-de", "vdd?", "traduz-ai",
+  ]);
+  const TYPES = new Set([
+    "eh-numero", "eh-palavra", "eh-booleano", "eh-data", "eh-nada", "eh-qualquer",
+    "vdd", "sla", "nah", "nunca", "sus", "bagulho", "faz-ai", "sepah", "crush",
+    "promessa", "TEXTO", "NUMERO", "BOOLEANO", "DATA", "QUALQUER", "data",
+  ]);
 
-select.addEventListener('change', () => {
-  const ex = examples.find(e => e._id === select.value);
-  if (ex) editor.value = ex.code;
-});
+  const editor = document.getElementById('editor');
+  const gutter = document.getElementById('gutter');
+  const hl = document.getElementById('hlcode');
+  const code = document.getElementById('code');
+  const output = document.getElementById('output');
+  const status = document.getElementById('run-status');
+  const btnRun = document.getElementById('btn-run');
+  const btnFormat = document.getElementById('btn-format');
+  const btnDownload = document.getElementById('btn-download');
+  const btnExamples = document.getElementById('btn-examples');
+  const currentExample = document.getElementById('current-example');
+  const modal = document.getElementById('example-modal');
+  const groups = document.getElementById('example-groups');
 
-document.addEventListener('keydown', (e) => {
-  if (e.ctrlKey && e.key === 'Enter') runCode();
-});
+  const examples = <%- JSON.stringify(examples.map(e => ({ _id: e._id, title: e.title, code: e.code, description: e.description, category: e.category }))) %>;
 
-async function runCode() {
-  output.textContent = 'Executando...';
-  try {
-    const res = await fetch('/api/playground/run', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code: editor.value }),
-    });
-    const data = await res.json();
-    output.textContent = data.ok
-      ? (data.output || 'OK (sem saída)')
-      : 'Erro: ' + (data.error || 'Erro desconhecido');
-  } catch (e) {
-    output.textContent = 'Erro: ' + e.message;
+  function esc(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
-}
+
+  function highlight(src) {
+    const tokenRe = /(\/\/[^\n]*|\/\*[\s\S]*?\*\/)|(`(?:[^`\\]|\\.)*`)|("(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*')|\b(\d+(?:\.\d+)?)\b|([a-zA-ZÀ-ÖØ-öø-ÿ_][a-zA-Z0-9À-ÖØ-öø-ÿ_?!]*)/g;
+    let out = '';
+    let last = 0;
+    let m;
+    while ((m = tokenRe.exec(src)) !== null) {
+      if (m.index > last) out += esc(src.slice(last, m.index));
+      last = tokenRe.lastIndex;
+      if (m[1] !== undefined) {
+        out += '<span class="tok-comment">' + esc(m[1]) + '</span>';
+      } else if (m[2] !== undefined) {
+        out += '<span class="tok-string">' + esc(m[2]) + '</span>';
+      } else if (m[3] !== undefined) {
+        out += '<span class="tok-string">' + esc(m[3]) + '</span>';
+      } else if (m[4] !== undefined) {
+        out += '<span class="tok-number">' + esc(m[4]) + '</span>';
+      } else {
+        const w = m[5];
+        if (KEYWORDS.has(w)) out += '<span class="tok-keyword">' + esc(w) + '</span>';
+        else if (TYPES.has(w)) out += '<span class="tok-type">' + esc(w) + '</span>';
+        else out += esc(w);
+      }
+    }
+    if (last < src.length) out += esc(src.slice(last));
+    return out;
+  }
+
+  function render() {
+    const value = code.value;
+    hl.innerHTML = highlight(value) + '\n';
+    updateGutter();
+  }
+
+  function updateGutter() {
+    const lines = code.value.split('\n').length;
+    let html = '';
+    for (let i = 1; i <= lines; i++) html += '<span>' + i + '</span>';
+    gutter.innerHTML = html;
+  }
+
+  function syncScroll() {
+    hl.scrollTop = code.scrollTop;
+    hl.scrollLeft = code.scrollLeft;
+    gutter.scrollTop = code.scrollTop;
+  }
+
+  code.addEventListener('input', render);
+  code.addEventListener('scroll', syncScroll);
+  window.addEventListener('resize', syncScroll);
+
+  function setStatus(msg, ok) {
+    status.textContent = msg;
+    status.className = 'pg-status' + (ok === true ? ' ok' : ok === false ? ' err' : '');
+  }
+
+  function setOutput(text, isError) {
+    output.textContent = text;
+    output.className = 'pg-output' + (isError ? ' err' : '');
+    status.textContent = '';
+    status.className = 'pg-status';
+  }
+
+  async function runCode() {
+    const src = code.value.trim();
+    if (!src) return setOutput('código vazio.', true);
+    setStatus('executando...');
+    btnRun.disabled = true;
+    try {
+      const res = await fetch('/api/playground/run', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: src }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setOutput(data.output || 'OK (sem saída)', false);
+        setStatus('ok', true);
+      } else {
+        setOutput(data.error || 'Erro desconhecido', true);
+        setStatus('erro', false);
+      }
+    } catch (e) {
+      setOutput('Erro: ' + e.message, true);
+      setStatus('erro', false);
+    } finally {
+      btnRun.disabled = false;
+    }
+  }
+
+  async function formatCode() {
+    const src = code.value.trim();
+    if (!src) return;
+    setStatus('formatando...');
+    btnFormat.disabled = true;
+    try {
+      const res = await fetch('/api/playground/format', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: src }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        code.value = data.code;
+        render();
+        setStatus('formatado', true);
+      } else {
+        setStatus('erro ao formatar', false);
+        setOutput(data.error || 'Erro ao formatar', true);
+      }
+    } catch (e) {
+      setStatus('erro', false);
+    } finally {
+      btnFormat.disabled = false;
+    }
+  }
+
+  btnRun.addEventListener('click', runCode);
+  btnFormat.addEventListener('click', formatCode);
+
+  function slugify(s) {
+    return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  }
+
+  function downloadCode() {
+    const blob = new Blob([code.value], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = (currentExample.dataset.slug || 'codigo') + '.xs';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  function applyExample(ex) {
+    code.value = ex.code;
+    render();
+    currentExample.textContent = ex.title;
+    currentExample.dataset.slug = ex.slug || slugify(ex.title);
+    closeModal();
+    code.focus();
+  }
+
+  function renderGroups() {
+    const rows = [3, 4, 5, 6, 7];
+    let html = '';
+    let idx = 0;
+    rows.forEach(function (count, r) {
+      html += '<div class="pg-ex-row pg-row-' + count + '">';
+      for (let k = 0; k < count && idx < examples.length; k++, idx++) {
+        const ex = examples[idx];
+        html += '<button type="button" class="pg-ex-btn" data-id="' + ex._id + '" title="' + esc(ex.title) + '">';
+        html += '<span class="pg-ex-name">' + ex.title + '</span>';
+        html += '</button>';
+      }
+      html += '</div>';
+    });
+    groups.innerHTML = html;
+    groups.querySelectorAll('.pg-ex-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const ex = examples.find(function (e) { return e._id === btn.dataset.id; });
+        if (ex) applyExample(ex);
+      });
+    });
+  }
+
+  function openModal() {
+    modal.hidden = false;
+    renderGroups();
+    document.body.classList.add('pg-modal-open');
+  }
+
+  function closeModal() {
+    modal.hidden = true;
+    document.body.classList.remove('pg-modal-open');
+  }
+
+  btnExamples.addEventListener('click', openModal);
+  modal.addEventListener('click', function (e) {
+    if (e.target.closest('[data-close]')) closeModal();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !modal.hidden) closeModal();
+  });
+  btnDownload.addEventListener('click', downloadCode);
+
+  document.addEventListener('keydown', function (e) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); runCode(); }
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'f') { e.preventDefault(); formatCode(); }
+  });
+
+  code.value = '';
+  render();
+  currentExample.textContent = 'Exemplos';
+})();
 </script>

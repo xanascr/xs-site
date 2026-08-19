@@ -4,7 +4,6 @@ import app from "../app.js";
 import User from "../models/User.js";
 import Course from "../models/Course.js";
 import { Quiz } from "../models/Quiz.js";
-import { Hackathon } from "../models/Hackathon.js";
 import Package from "../models/Package.js";
 
 async function createUserToken() {
@@ -138,36 +137,6 @@ describe("API Comments", () => {
     const res = await request(app).get(`/api/courses/${course._id}/comments`);
     expect(res.status).toBe(200);
     expect(res.body.comments).toHaveLength(1);
-  });
-});
-
-describe("API Hackathons", () => {
-  it("GET /api/hackathons returns list", async () => {
-    const res = await request(app).get("/api/hackathons");
-    expect(res.status).toBe(200);
-  });
-
-  it("POST /:id/submit creates submission", async () => {
-    const token = await createUserToken();
-    const hack = await Hackathon.create({ title: "Live Hack", slug: "live", startDate: new Date(), endDate: new Date(Date.now() + 86400000), active: true });
-    const res = await request(app).post(`/api/hackathons/${hack._id}/submit`).set("Authorization", `Bearer ${token}`).send({ title: "My Project", description: "Desc" });
-    expect(res.status).toBe(201);
-    expect(res.body.submission.title).toBe("My Project");
-  });
-
-  it("POST /:id/submit rejects duplicate", async () => {
-    const token = await createUserToken();
-    const hack = await Hackathon.create({ title: "Unique Hack", slug: "unique-hack", startDate: new Date(), endDate: new Date(Date.now() + 86400000), active: true });
-    await request(app).post(`/api/hackathons/${hack._id}/submit`).set("Authorization", `Bearer ${token}`).send({ title: "First", description: "First" });
-    const res = await request(app).post(`/api/hackathons/${hack._id}/submit`).set("Authorization", `Bearer ${token}`).send({ title: "Second", description: "Second" });
-    expect(res.status).toBe(409);
-  });
-
-  it("POST /:id/submit rejects inactive", async () => {
-    const token = await createUserToken();
-    const hack = await Hackathon.create({ title: "Inactive", slug: "inactive", startDate: new Date(), endDate: new Date(), active: false });
-    const res = await request(app).post(`/api/hackathons/${hack._id}/submit`).set("Authorization", `Bearer ${token}`).send({ title: "P", description: "D" });
-    expect(res.status).toBe(400);
   });
 });
 

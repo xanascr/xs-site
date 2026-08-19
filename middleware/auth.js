@@ -13,10 +13,18 @@ export function signToken(user) {
   );
 }
 
-async function verifyToken(header) {
-  if (!header?.startsWith("Bearer ")) return null;
+export function tokenFromRequest(req) {
+  const header = req.headers.authorization;
+  if (header?.startsWith("Bearer ")) return header.slice(7);
+  const cookieToken = (req.headers.cookie || "").split(";").find(c => c.trim().startsWith("xana_token="));
+  if (cookieToken) return cookieToken.split("=").slice(1).join("=");
+  return null;
+}
+
+async function verifyToken(token) {
+  if (!token) return null;
   try {
-    return jwt.verify(header.slice(7), SECRET);
+    return jwt.verify(token, SECRET);
   } catch {
     return null;
   }
@@ -42,7 +50,7 @@ export async function auth(req, res, next) {
       return next();
     }
 
-    const payload = await verifyToken(req.headers.authorization);
+    const payload = await verifyToken(tokenFromRequest(req));
     if (!payload) return res.status(401).json({ ok: false, error: "Token ausente ou inválido" });
     const valid = await checkTokenVersion(payload);
     if (!valid) return res.status(401).json({ ok: false, error: "Token revogado" });
@@ -54,7 +62,7 @@ export async function auth(req, res, next) {
 }
 
 export async function optionalAuth(req, res, next) {
-  const payload = await verifyToken(req.headers.authorization);
+  const payload = await verifyToken(tokenFromRequest(req));
   if (payload) {
     const valid = await checkTokenVersion(payload);
     req.user = valid || undefined;
@@ -64,7 +72,7 @@ export async function optionalAuth(req, res, next) {
 
 export async function adminAuth(req, res, next) {
   try {
-    const payload = await verifyToken(req.headers.authorization);
+    const payload = await verifyToken(tokenFromRequest(req));
     if (!payload) return res.status(401).json({ ok: false, error: "Token ausente ou inválido" });
     const valid = await checkTokenVersion(payload);
     if (!valid) return res.status(401).json({ ok: false, error: "Token revogado" });
@@ -73,6 +81,20 @@ export async function adminAuth(req, res, next) {
     next();
   } catch (e) {
     res.status(500).json({ ok: false, error: "Erro interno" });
+  }
+}
+
+export async function adminPageAuth(req, res, next) {
+  try {
+    const payload = await verifyToken(tokenFromRequest(req));
+    if (!payload) return res.redirect("/login");
+    const valid = await checkTokenVersion(payload);
+    if (!valid) return res.redirect("/login");
+    if (valid.role !== "admin") return res.status(404).render("404", { page: "404" });
+    req.user = valid;
+    next();
+  } catch (e) {
+    res.status(500).render("500", { error: "Erro interno" });
   }
 }
 

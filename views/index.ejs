@@ -1,54 +1,100 @@
-<section class="l-hero l-launch-hero">
+<section class="l-hero">
   <div class="l-container">
     <h1 class="hero-in hero-2">xana<span class="l-accent">script</span></h1>
     <p class="l-hero-sub hero-in hero-3">
-      A linguagem de programação em português está chegando.
-      Prepare-se para escrever código do seu jeito.
+      A linguagem de programação em português chegou. Código que você lê de primeira, sem dicionário.
     </p>
-    <div class="l-countdown hero-in hero-4" id="countdown">
-      <div class="l-count-item"><span class="l-count-num" id="cd-days">0</span><span class="l-count-label">dias</span></div>
-      <div class="l-count-sep">:</div>
-      <div class="l-count-item"><span class="l-count-num" id="cd-hours">0</span><span class="l-count-label">horas</span></div>
-      <div class="l-count-sep">:</div>
-      <div class="l-count-item"><span class="l-count-num" id="cd-minutes">0</span><span class="l-count-label">min</span></div>
-      <div class="l-count-sep">:</div>
-      <div class="l-count-item"><span class="l-count-num" id="cd-seconds">0</span><span class="l-count-label">seg</span></div>
-    </div>
-    <div class="l-hero-trust hero-in hero-5">
-      <span>20 de agosto</span>
-      <span>14h00</span>
+    <div class="l-hero-trust hero-in hero-4">
       <span>100% open source</span>
+      <span>ORM embutido</span>
+      <span>Compilador otimizante</span>
     </div>
+    <div class="l-social hero-in hero-5" id="social-proof">
+      <div class="l-social-avatars" id="social-avatars" aria-hidden="true"></div>
+      <p class="l-social-text">Junte-se a <strong id="social-count">500+ devs</strong> programando em português</p>
+    </div>
+<div class="l-hero-cta hero-in hero-6">
+      <a class="btn-primary" href="/playground">Experimentar no Playground</a>
+      <a class="btn-outline" href="https://github.com/xanascr" target="_blank" rel="noopener">Ver no GitHub</a>
+    </div>
+    <a class="l-hero-scroll" href="#como-funciona" aria-label="Rolar para baixo">
+      <span class="material-symbols-outlined font-black">stat_minus_2</span>
+    </a>
   </div>
 </section>
 
 <section class="l-section l-section-alt" id="como-funciona">
   <div class="l-container">
     <div class="l-section-head">
-      <span class="l-kicker">Como funciona</span>
-      <h2>Do zero ao deploy em 4 passos</h2>
-      <p>Instale, escreva em português e publique. Sem fricção.</p>
+      <h1 style="font-size: 30px;"><span class="l-accent-hot">4 passos pra virar dev raiz!</span></h1>
+      <p>Instale, escreva em português e publique. Sem fricção, sem dependências, sem complicação.</p>
     </div>
     <div class="l-steps">
       <div class="l-step reveal">
-        <div class="l-step-num">1</div>
+        <div class="l-step-top">
+          <span class="material-symbols-outlined l-step-icon">download</span>
+          <span class="l-step-num">1</span>
+        </div>
         <h3>Instale</h3>
-        <p>Um binário só com CLI, compilador e ORM. <code class="mono">npm install -g xanascript</code></p>
+        <p>Um binário só com CLI, compilador e ORM embutido. Roda em Windows, macOS e Linux.</p>
+        <div class="l-step-code">
+          <div class="l-code-bar"><span class="l-code-file">terminal</span></div>
+          <pre><code>npm install -g xanascript</code></pre>
+        </div>
       </div>
       <div class="l-step reveal" style="transition-delay:0.08s;">
-        <div class="l-step-num">2</div>
+        <div class="l-step-top">
+          <span class="material-symbols-outlined l-step-icon">edit_note</span>
+          <span class="l-step-num">2</span>
+        </div>
         <h3>Escreva</h3>
-        <p>CRIA, FUNCAO, TABELA, REPETE NA MORAL — tudo no seu idioma.</p>
+        <p>cria, resolve, DB, repete-na-moral — keywords e erros de compilação no seu idioma.</p>
+        <div class="l-step-code">
+          <div class="l-code-bar"><span class="l-code-file">ola.xs</span></div>
+          <pre><code>grita-ae("Ola, mundo!")</code></pre>
+        </div>
       </div>
       <div class="l-step reveal" style="transition-delay:0.16s;">
-        <div class="l-step-num">3</div>
+        <div class="l-step-top">
+          <span class="material-symbols-outlined l-step-icon">bolt</span>
+          <span class="l-step-num">3</span>
+        </div>
         <h3>Compile</h3>
-        <p>Saída otimizada para JavaScript ou WebAssembly, pronta para qualquer runtime.</p>
+        <p>Saída otimizada para JavaScript ou WebAssembly, com constant folding e loop unrolling.</p>
+        <div class="l-step-code">
+          <div class="l-code-bar"><span class="l-code-file">terminal</span></div>
+          <pre><code>xs compile --target wasm</code></pre>
+        </div>
       </div>
       <div class="l-step reveal" style="transition-delay:0.24s;">
-        <div class="l-step-num">4</div>
+        <div class="l-step-top">
+          <span class="material-symbols-outlined l-step-icon">rocket_launch</span>
+          <span class="l-step-num">4</span>
+        </div>
         <h3>Publique</h3>
-        <p>Publique pacotes direto do terminal e compartilhe com a comunidade.</p>
+        <p>Publique pacotes direto do terminal e compartilhe com a comunidade. Versionamento incluso.</p>
+        <div class="l-step-code">
+          <div class="l-code-bar"><span class="l-code-file">terminal</span></div>
+          <pre><code>xs publish</code></pre>
+        </div>
+      </div>
+    </div>
+    <div class="l-steps-stats reveal">
+      <div class="l-step-stat">
+        <strong>0</strong>
+        <span>dependências externas</span>
+      </div>
+      <div class="l-step-stat">
+        <strong>2</strong>
+        <span>alvos de compilação</span>
+      </div>
+      <div class="l-step-stat">
+        <strong>4</strong>
+        <span>sistemas, incluindo Android</span>
+      </div>
+      <div class="l-step-stat">
+        <strong>∞</strong>
+        <span>código no seu idioma</span>
       </div>
     </div>
   </div>
@@ -57,20 +103,19 @@
 <section class="l-section" id="recursos">
   <div class="l-container">
     <div class="l-section-head">
-      <span class="l-kicker">Recursos</span>
-      <h2>Tudo embutido na linguagem</h2>
-      <p>Sem dependências. O que você precisa já vem junto.</p>
+      <h1 style="font-size: 30px;"><span class="l-accent-hot">tudo dentro. nada faltando.</span></h1>
+      <p>CRUD, HTTP, testes e WebAssembly nativos. Sem instalar nada além do XanaScript.</p>
     </div>
     <div class="l-grid">
       <div class="l-service reveal">
         <span class="material-symbols-outlined">translate</span>
         <h3>Sintaxe em português</h3>
-        <p>SE, ENQUANTO, CLASSE, ESCOLHE — keywords e erros de compilação no seu idioma.</p>
+        <p>se-pah, vai-de, repete-na-moral, cria — keywords e erros de compilação no seu idioma.</p>
       </div>
       <div class="l-service reveal" style="transition-delay:0.07s;">
         <span class="material-symbols-outlined">database</span>
         <h3>ORM embutido</h3>
-        <p>Declare uma TABELA e ganhe CRUD automático sem dependências externas.</p>
+        <p>Declare um DB e ganhe CRUD automático sem dependências externas.</p>
       </div>
       <div class="l-service reveal" style="transition-delay:0.14s;">
         <span class="material-symbols-outlined">bolt</span>
@@ -99,34 +144,50 @@
 <section class="l-section l-section-alt">
   <div class="l-container">
     <div class="l-section-head">
-      <span class="l-kicker">Exemplo</span>
-      <h2>Linguagem de verdade</h2>
-      <p>Um programa XanaScript de exemplo, com ORM embutido.</p>
+      <h1 style="font-size: 30px;"><span class="l-accent-hot">escreve, roda, resolve.</span></h1>
+      <p>Um programa XanaScript de verdade: função, loop e ORM embutido, tudo no seu idioma.</p>
     </div>
-    <div class="l-code reveal-scale">
-      <div class="l-code-bar">
-        <span class="l-code-dot" style="background:#dc2626"></span>
-        <span class="l-code-dot" style="background:#d97706"></span>
-        <span class="l-code-dot" style="background:#16a34a"></span>
-        <span class="l-code-file">exemplo.xs</span>
+    <div class="l-example reveal-scale">
+      <div class="l-code">
+        <div class="l-code-bar">
+          <span class="l-code-dot" style="background:#dc2626"></span>
+          <span class="l-code-dot" style="background:#d97706"></span>
+          <span class="l-code-dot" style="background:#16a34a"></span>
+          <span class="l-code-file">exemplo.xs</span>
+        </div>
+        <pre><code><span class="kw">cria</span> fib = (n) => <span class="kw">vai-de</span> (n) {
+  <span class="kw">se-for</span> 0 => 0
+  <span class="kw">se-for</span> 1 => 1
+  <span class="kw">se-nao-der</span> => fib(n - 1) + fib(n - 2)
+}
+
+<span class="kw">cria</span> nomes = [<span class="str">"Ana"</span>, <span class="str">"Bia"</span>, <span class="str">"Caio"</span>]
+<span class="kw">repete-na-moral</span> (<span class="kw">cria</span> i = 0; i &lt; 3; i++) {
+  <span class="kw">grita-ae</span>(<span class="str">"Olá, "</span> + nomes[i])
+}
+
+<span class="str">// ORM</span>
+<span class="kw">DB</span> Produto {
+  nome: <span class="type">eh-palavra</span>
+  preco: <span class="type">eh-numero</span>
+}
+<span class="kw">cria</span> repo = <span class="kw">DB</span> Produto
+repo.bota-ai({nome: <span class="str">"Teclado"</span>, preco: 250})</code></pre>
       </div>
-      <pre><code>CRIA fib = (n) => ESCOLHE (n) {
-  CASO 0 => 0
-  CASO 1 => 1
-  PADRAO => fib(n - 1) + fib(n - 2)
-}
-
-CRIA nomes = ["Ana", "Bia", "Caio"]
-REPETE NA MORAL (CRIA i = 0; i &lt; 3; i++) {
-  SOLTA O GRITO("Olá, " + nomes[i])
-}
-
-CRIA TABELA Produto {
-  nome: TEXTO
-  preco: NUMERO
-}
-CRIA repo = CRIA Produto
-repo.criar({nome: "Teclado", preco: 250})</code></pre>
+      <div class="l-example-side">
+        <div class="l-example-output">
+          <div class="l-code-bar"><span class="l-code-file">saída</span></div>
+          <pre><code>Olá, Ana
+Olá, Bia
+Olá, Caio
+repo.bota-ai → ok</code></pre>
+        </div>
+        <ul class="l-example-points">
+          <li><span class="material-symbols-outlined">function</span> Funções e closures nativas</li>
+          <li><span class="material-symbols-outlined">database</span> ORM embutido com typesafety</li>
+          <li><span class="material-symbols-outlined">bolt</span> Compila pra JS e WebAssembly</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -134,24 +195,27 @@ repo.criar({nome: "Teclado", preco: 250})</code></pre>
 <section class="l-section" id="faq">
   <div class="l-container l-container-narrow">
     <div class="l-section-head">
-      <span class="l-kicker">Dúvidas</span>
-      <h2>Perguntas frequentes</h2>
+      <h1 style="font-size: 30px;"><span class="l-accent-hot">fica suave, a gente explica</span></h1>
     </div>
     <div class="l-faq">
       <details class="l-faq-item reveal">
-        <summary>XanaScript é gratuito?</summary>
+        <summary><span class="material-symbols-outlined l-faq-icon">gesture</span>XanaScript é gratuito?</summary>
         <p>Sim. 100% open source sob licença MIT. Use em projetos pessoais, comerciais ou acadêmicos sem pagar nada.</p>
       </details>
       <details class="l-faq-item reveal">
-        <summary>Funciona no meu sistema?</summary>
+        <summary><span class="material-symbols-outlined l-faq-icon">gesture</span>Funciona no meu sistema?</summary>
         <p>Sim. O CLI roda em Windows, macOS e Linux via Node.js. O código compila para JavaScript e WebAssembly, então roda em qualquer plataforma.</p>
       </details>
       <details class="l-faq-item reveal">
-        <summary>Preciso saber inglês para programar?</summary>
+        <summary><span class="material-symbols-outlined l-faq-icon">gesture</span>Dá pra programar no celular?</summary>
+        <p>Sim. Dá pra codar XanaScript no Android — já testado e funcionando. Instale o Node no aparelho, rode o <code class="mono">xs</code> no terminal e bora codar de onde estiver.</p>
+      </details>
+      <details class="l-faq-item reveal">
+        <summary><span class="material-symbols-outlined l-faq-icon">gesture</span>Preciso saber inglês para programar?</summary>
         <p>Não. Essa é a proposta da linguagem: tudo em português, de keywords a erros de compilação.</p>
       </details>
       <details class="l-faq-item reveal">
-        <summary>Como publico um pacote?</summary>
+        <summary><span class="material-symbols-outlined l-faq-icon">gesture</span>Como publico um pacote?</summary>
         <p>Crie sua conta, use o <code class="mono">xs publish</code> no terminal e acompanhe no site em Pacotes.</p>
       </details>
     </div>
@@ -160,11 +224,88 @@ repo.criar({nome: "Teclado", preco: 250})</code></pre>
 
 <section class="l-cta">
   <div class="l-container l-cta-inner">
-    <h2 class="reveal">Pronto para codar?</h2>
-    <p class="reveal" style="transition-delay:0.1s;">Instale com npm e comece a programar em português agora mesmo.</p>
+    <div class="l-section-head">
+      <h1 style="font-size: 30px;"><span class="l-accent-hot">vamos codar? =)</span></h1>
+      <p style="transition-delay:0.1s;">Instala com npm e começa a programar em português agora mesmo. É grátis e open source.</p>
+    </div>
     <div class="l-code reveal-scale" style="display:inline-block; min-width:320px;">
       <div class="l-code-bar"><span class="l-code-file">terminal</span></div>
       <pre><code>npm install -g xanascript</code></pre>
     </div>
+    <div class="l-cta-buttons reveal" style="transition-delay:0.2s;">
+      <a class="btn-primary" href="/docs">Ler a documentação</a>
+      <a class="btn-outline" href="/playground">Testar no Playground</a>
+    </div>
   </div>
 </section>
+<script nonce="<%= cspNonce %>">
+(function () {
+  var GITHUB_USERS = [
+    'gabsmsenna',
+    'flazo0',
+    'luanderson-dev',
+    'KelvinLR',
+    'l3riel',
+    'BryanPinheiro77',
+    'luiz-freitass',
+    '0064558',
+    'rytechh',
+    'guithepc',
+    'lorena-naraujo',
+    'euudanilo',
+    'thiagoferlopes',
+    'MatheusDev0705',
+    'LuisG-santos',
+    'Fernandofvsouza'
+  ];
+  var MAX_AVATARS = 6;
+  var POOL_LIMIT = 100;
+  var TOTAL_DEVS = 300;
+
+  function shuffle(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = arr[i];
+      arr[i] = arr[j];
+      arr[j] = tmp;
+    }
+    return arr;
+  }
+
+  var container = document.getElementById('social-avatars');
+  var countEl = document.getElementById('social-count');
+  if (!container || !countEl || !GITHUB_USERS.length) return;
+
+  var pool = shuffle(GITHUB_USERS.slice()).slice(0, POOL_LIMIT);
+  var shown = pool.slice(0, MAX_AVATARS);
+
+  shown.forEach(function (user, i) {
+    var span = document.createElement('span');
+    span.className = 'l-avatar';
+    span.style.background = 'linear-gradient(135deg,#f25b66,#e24b54)';
+    var link = document.createElement('a');
+    link.href = 'https://github.com/' + encodeURIComponent(user);
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.title = '@' + user;
+    var img = document.createElement('img');
+    img.src = 'https://avatars.githubusercontent.com/' + encodeURIComponent(user) + '?size=128';
+    img.alt = '@' + user;
+    img.width = 34;
+    img.height = 34;
+    img.loading = 'lazy';
+    link.appendChild(img);
+    span.appendChild(link);
+    container.appendChild(span);
+  });
+
+  if (TOTAL_DEVS > shown.length) {
+    var more = document.createElement('span');
+    more.className = 'l-avatar l-avatar-more';
+    more.textContent = '+' + (TOTAL_DEVS - shown.length);
+    container.appendChild(more);
+  }
+
+  countEl.textContent = TOTAL_DEVS + '+ devs';
+})();
+</script>

@@ -119,19 +119,6 @@ describe("Admin Routes", () => {
     expect(del.status).toBe(200);
   });
 
-  it("CRUD hackathons", async () => {
-    const token = await createAdminToken();
-
-    const create = await request(app).post("/api/admin/hackathons").set("Authorization", `Bearer ${token}`).send({
-      title: "Hack 1", slug: "hack-1", startDate: new Date().toISOString(), endDate: new Date(Date.now() + 86400000).toISOString(),
-    });
-    expect(create.status).toBe(201);
-    const hackId = create.body.hackathon._id;
-
-    const list = await request(app).get("/api/admin/hackathons").set("Authorization", `Bearer ${token}`);
-    expect(list.body.hackathons.length).toBeGreaterThanOrEqual(1);
-  });
-
   it("approve package", async () => {
     const adminToken = await createAdminToken();
     const userToken = await createUserToken();

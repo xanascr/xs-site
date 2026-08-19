@@ -2,8 +2,36 @@
   <a href="/courses" class="back-link">&larr; Todos os cursos</a>
   <div class="card mb-16">
     <div class="card-body-lg">
-      <h1 class="sub-title"><%= course.title %></h1>
+      <h1 style="font-size:30px; font-weight: 500;" class="sub-title"><%= course.title %></h1>
       <p class="muted mb-20"><%= course.description %></p>
+
+      <% if (typeof user !== 'undefined' && user) { %>
+        <div class="filters mb-24">
+          <% if (typeof enrollment !== 'undefined' && enrollment) { %>
+            <% if (enrollment.completed) { %>
+              <a href="/courses/<%= course.slug %>/certificate" class="btn">Certificado disponível</a>
+            <% } else { %>
+              <span class="btn" disabled>Inscrito • <%= progress.percent %>%</span>
+            <% } %>
+          <% } else { %>
+            <button id="enroll-btn" onclick="enroll('<%= course.slug %>')" class="btn">Inscrever-se no curso</button>
+          <% } %>
+        </div>
+        <% if (typeof enrollment !== 'undefined' && enrollment) { %>
+          <div class="mb-24">
+            <div style="height:10px;background:rgba(242,91,102,.15);border-radius:999px;overflow:hidden;margin-bottom:8px;">
+              <div style="height:100%;width:<%= progress.percent %>%;background:var(--lp-primary);border-radius:999px;transition:width .4s;"></div>
+            </div>
+            <p class="muted text-xs"><%= progress.done %> de <%= progress.total %> aulas concluídas<%= enrollment.completed ? ' • Curso concluído' : '' %></p>
+          </div>
+        <% } %>
+      <% } else { %>
+        <div class="filters mb-24">
+          <a href="/login" class="btn">Entre para se inscrever</a>
+        </div>
+      <% } %>
+
+      <% const done = typeof enrollment !== 'undefined' && enrollment ? enrollment.completedLessons.map(l => l.lessonSlug) : []; %>
       <% course.modules.forEach(m => { %>
         <div class="card mb-12">
           <div class="card-header"><%= m.title %></div>
@@ -11,13 +39,92 @@
             <div class="lesson-list">
               <% m.lessons.forEach(l => { %>
                 <a href="/courses/<%= course.slug %>/lessons/<%= l.slug %>" class="lesson-link">
-                  <span class="material-symbols-outlined">play_circle</span><%= l.title %>
+                  <span class="material-symbols-outlined"><%= done.includes(l.slug) ? 'check_circle' : 'play_circle' %></span><%= l.title %>
                 </a>
               <% }) %>
             </div>
           </div>
         </div>
       <% }) %>
+      <% if (typeof quiz !== 'undefined' && quiz) { %>
+        <div class="card mb-12">
+          <div class="card-header"><%= quiz.title %></div>
+          <div class="card-body">
+            <div class="lesson-list">
+              <a href="/courses/<%= course.slug %>/quiz/<%= quiz._id %>" class="lesson-link">
+                <span class="material-symbols-outlined"><%= done.includes('quiz') ? 'check_circle' : 'quiz' %></span>
+                <%= quiz.questions.length %> perguntas<%= typeof enrollment !== 'undefined' && enrollment?.quizPassed ? ' • Passou!' : '' %>
+              </a>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">Comentários</div>
+    <div class="card-body">
+      <div id="comments"></div>
+      <% if (typeof user !== 'undefined' && user) { %>
+        <form id="comment-form" class="mt-16">
+          <div class="form-group">
+            <textarea class="form-control" name="body" rows="3" placeholder="Comentário..." maxlength="5000"></textarea>
+          </div>
+          <button type="submit" class="btn">Enviar</button>
+        </form>
+      <% } %>
     </div>
   </div>
 </div>
+<script nonce="<%= cspNonce %>">
+const token = localStorage.getItem('token');
+const authHeader = token ? { 'Authorization': 'Bearer ' + token } : {};
+
+async function enroll(courseSlug) {
+  const btn = document.getElementById('enroll-btn');
+  if (btn) btn.disabled = true;
+  const res = await fetch('/api/courses/' + courseSlug + '/enroll', {
+    method: 'POST',
+    headers: authHeader,
+  });
+  if (res.ok) window.location.reload();
+  else if (btn) btn.disabled = false;
+}
+
+async function loadComments() {
+  const res = await fetch('/api/courses/<%= course._id %>/comments');
+  const json = await res.json();
+  const el = document.getElementById('comments');
+  if (!json.comments?.length) { el.textContent = 'Nenhum comentário ainda.'; return; }
+  el.innerHTML = '';
+  json.comments.forEach(c => {
+    const div = document.createElement('div');
+    div.style.marginBottom = '12px';
+    div.innerHTML = '<p style="font-size:14px;"><strong>' + escapeHtml(c.user?.username || '?') + '</strong> <span class="muted" style="font-size:12px;">' + new Date(c.createdAt).toLocaleDateString() + '</span></p><p class="muted" style="font-size:14px;"></p>';
+    div.querySelector('p:last-child').textContent = c.body;
+    el.appendChild(div);
+  });
+}
+
+function escapeHtml(str) {
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+document.getElementById('comment-form')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const body = e.target.body.value.trim();
+  if (!body) return;
+  await fetch('/api/courses/<%= course._id %>/comments', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...authHeader },
+    body: JSON.stringify({ body }),
+  });
+  e.target.body.value = '';
+  loadComments();
+});
+
+loadComments();
+</script>

@@ -34,9 +34,17 @@
     <% } else { %>
       <div class="quick-links">
         <% enrollments.forEach(e => { %>
+          <%
+            const total = e.course.modules?.flatMap(m => m.lessons)?.length || 0;
+            const done = e.completedLessons?.length || 0;
+            const pct = total ? Math.round((done / total) * 100) : 0;
+          %>
           <a class="quick-link" href="/courses/<%= e.course.slug %>">
             <div class="name"><%= e.course.title %></div>
-            <div class="desc"><%= e.completedLessons.length %> aulas <%= e.completed ? '• Concluído' : '' %></div>
+            <div class="desc"><%= done %> de <%= total %> aulas<%= e.completed ? ' • Concluído' : '' %></div>
+            <div style="height:6px;background:rgba(242,91,102,.15);border-radius:999px;overflow:hidden;margin-top:8px;">
+              <div style="height:100%;width:<%= pct %>%;background:var(--lp-primary);border-radius:999px;"></div>
+            </div>
           </a>
         <% }) %>
       </div>

@@ -1,4 +1,5 @@
 import { Router } from "express";
+import mongoose from "mongoose";
 import { auth, asyncHandler } from "../../middleware/auth.js";
 import Review from "../../models/Review.js";
 import Package from "../../models/Package.js";
@@ -53,6 +54,9 @@ router.post("/:name/reviews", auth, asyncHandler(async (req, res) => {
 }));
 
 router.delete("/:name/reviews/:reviewId", auth, asyncHandler(async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.reviewId)) {
+    return res.status(400).json({ ok: false, error: "Avaliação inválida" });
+  }
   const review = await Review.findOne({ _id: req.params.reviewId, user: req.user.id });
   if (!review) return res.status(404).json({ ok: false, error: "Review não encontrado" });
   await review.deleteOne();

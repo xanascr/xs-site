@@ -7,7 +7,7 @@
 - Linguagem: sintaxe inteiramente em portugues, pensada para falantes nativos.
 - Compilador: otimizante com tempo de inicializacao rapido e alto desempenho.
 - Ecossistema: gerenciador de pacotes, playground online e benchmark publico.
-- Aprendizado: documentacao gratuita, cursos guiados e hackathons.
+- Aprendizado: documentacao gratuita e cursos guiados.
 
 ## Links
 
@@ -16,9 +16,8 @@
 - [Playground](https://xanascript.xyz/playground)
 - [Pacotes](https://xanascript.xyz/packages)
 - [Cursos](https://xanascript.xyz/courses)
-- [Hackathons](https://xanascript.xyz/hackathons)
 - [Politica de Privacidade](https://xanascript.xyz/privacy)
 
 ## Keywords
 
-xanascript, linguagem de programacao em portugues, programacao, sintaxe em portugues, compilador, webassembly, pacotes, cursos, hackathons, playground, open source
+xanascript, linguagem de programacao em portugues, programacao, sintaxe em portugues, compilador, webassembly, pacotes, cursos, playground, open source

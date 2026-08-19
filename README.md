@@ -30,7 +30,6 @@ xs-site/
 │       ├── reviews.js      # avaliações de pacotes
 │       ├── courses.js      # matrícula, progresso, certificado
 │       ├── comments.js     # comentários em aulas
-│       ├── hackathons.js   # submissões
 │       ├── quiz.js         # quiz e correção
 │       ├── playground.js   # executar código XS
 │       └── search.js       # busca global
@@ -57,7 +56,6 @@ xs-site/
 | PlaygroundExample | Exemplos do playground                     |
 | Package           | Pacotes com versões e revisão              |
 | Review            | Avaliações de pacotes (1-5 estrelas)       |
-| Hackathon         | Hackathons e submissões                    |
 | Comment           | Comentários em aulas                       |
 | Quiz / QuizAttempt| Quiz e tentativas                          |
 
@@ -106,7 +104,7 @@ GET    /api/admin/courses         # CRUD cursos
 POST   /api/admin/courses
 PUT    /api/admin/courses/:id
 DELETE /api/admin/courses/:id
-... (docs, playground, hackathons)
+... (docs, playground, cursos, pacotes)
 ```
 
 ### Busca

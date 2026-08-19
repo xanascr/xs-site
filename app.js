@@ -2,10 +2,14 @@ import "dotenv/config";
 import express from "express";
 import mongoose from "mongoose";
 import path from "path";
+import crypto from "crypto";
 import { fileURLToPath } from "url";
 import helmet from "helmet";
 import morgan from "morgan";
 import expressLayouts from "express-ejs-layouts";
+import jwt from "jsonwebtoken";
+
+import { renderMarkdown } from "./services/markdown.js";
 
 import indexRouter from "./routes/index.js";
 import seoRouter from "./routes/seo.js";
@@ -14,7 +18,6 @@ import adminRouter from "./routes/admin.js";
 import apiPackagesRouter from "./routes/api/packages.js";
 import apiCoursesRouter from "./routes/api/courses.js";
 import apiCommentsRouter from "./routes/api/comments.js";
-import apiHackathonsRouter from "./routes/api/hackathons.js";
 import apiPlaygroundRouter from "./routes/api/playground.js";
 import apiQuizRouter from "./routes/api/quiz.js";
 import apiReviewsRouter from "./routes/api/reviews.js";
@@ -26,14 +29,21 @@ const app = express();
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.set("layout", "layouts/main");
+app.locals.renderMarkdown = renderMarkdown;
 
 app.use(expressLayouts);
+
+app.use((req, res, next) => {
+  res.locals.cspNonce = crypto.randomBytes(16).toString("base64");
+  next();
+});
 
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"],
+      scriptSrc: ["'self'", "https://fonts.googleapis.com", (req, res) => `'nonce-${res.locals.cspNonce}'`],
+      scriptSrcAttr: ["'unsafe-inline'"],
       styleSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"],
       imgSrc: ["'self'", "data:", "https:"],
       connectSrc: ["'self'", "https://fonts.googleapis.com", "https://fonts.gstatic.com"],
@@ -48,12 +58,13 @@ app.set("trust proxy", 1);
 app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: true }));
 
-app.use(async (req, res, next) => {
+app.use((req, res, next) => {
   const header = req.headers.authorization;
-  if (header?.startsWith("Bearer ")) {
+  const cookieToken = (req.headers.cookie || "").split(";").find(c => c.trim().startsWith("xana_token="));
+  const token = header?.startsWith("Bearer ") ? header.slice(7) : (cookieToken ? cookieToken.split("=").slice(1).join("=") : null);
+  if (token) {
     try {
-      const jwt = await import("jsonwebtoken");
-      req.user = jwt.verify(header.slice(7), process.env.JWT_SECRET);
+      req.user = jwt.verify(token, process.env.JWT_SECRET);
     } catch {
       req.user = null;
     }
@@ -66,7 +77,7 @@ app.use(async (req, res, next) => {
 app.use("/", seoRouter);
 
 // Maintenance/launch gate: every page request renders only the countdown.
-const LAUNCH_AT = new Date("2026-08-20T14:00:00-03:00");
+const LAUNCH_AT = new Date("2026-08-18T14:00:00-03:00");
 app.use((req, res, next) => {
   if (req.method !== "GET") return next();
   if (req.path.startsWith("/uploads/")) return next();
@@ -85,12 +96,10 @@ app.use("/api/admin", adminRouter);
 app.use("/api/packages", apiPackagesRouter);
 app.use("/api/courses", apiCoursesRouter);
 app.use("/api/courses", apiCommentsRouter);
-app.use("/api/hackathons", apiHackathonsRouter);
 app.use("/api/playground", apiPlaygroundRouter);
 app.use("/api/courses", apiQuizRouter);
 app.use("/api/packages", apiReviewsRouter);
 app.use("/api/search", apiSearchRouter);
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use((req, res) => {
   res.status(404).render("404", { page: "404" });

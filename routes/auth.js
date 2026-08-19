@@ -1,11 +1,29 @@
 import { Router } from "express";
 import crypto from "crypto";
+import rateLimit from "express-rate-limit";
 import User from "../models/User.js";
 import { auth, signToken, asyncHandler } from "../middleware/auth.js";
+import { sendEmail, baseUrl } from "../services/email.js";
 
 const router = Router();
 
-router.post("/signup", asyncHandler(async (req, res) => {
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: process.env.NODE_ENV === "test" ? 1000 : 20,
+  message: { ok: false, error: "Muitas tentativas. Tente novamente em 15 minutos." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const resetLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: process.env.NODE_ENV === "test" ? 1000 : 5,
+  message: { ok: false, error: "Muitas tentativas. Tente novamente em 15 minutos." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+router.post("/signup", authLimiter, asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
   if (!username || !email || !password) {
     return res.status(400).json({ ok: false, error: "Preencha todos os campos" });
@@ -23,7 +41,7 @@ router.post("/signup", asyncHandler(async (req, res) => {
   res.status(201).json({ ok: true, token, user: user.toPublic() });
 }));
 
-router.post("/login", asyncHandler(async (req, res) => {
+router.post("/login", authLimiter, asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) return res.status(400).json({ ok: false, error: "Email e senha obrigatórios" });
   const user = await User.findOne({ email });
@@ -34,9 +52,10 @@ router.post("/login", asyncHandler(async (req, res) => {
   res.json({ ok: true, token, user: user.toPublic() });
 }));
 
-router.post("/logout", auth, (req, res) => {
+router.post("/logout", auth, asyncHandler(async (req, res) => {
+  await User.findByIdAndUpdate(req.user.id, { $inc: { tokenVersion: 1 } });
   res.json({ ok: true });
-});
+}));
 
 router.get("/me", auth, asyncHandler(async (req, res) => {
   const user = await User.findById(req.user.id).select("-password");
@@ -47,6 +66,14 @@ router.put("/me", auth, asyncHandler(async (req, res) => {
   const allowed = {};
   if (req.body.username) allowed.username = req.body.username;
   if (req.body.email) allowed.email = req.body.email;
+  if (Object.keys(allowed).length === 0) {
+    return res.status(400).json({ ok: false, error: "Nada para atualizar" });
+  }
+  const dup = await User.findOne({
+    $or: Object.entries(allowed).map(([k, v]) => ({ [k]: v })),
+    _id: { $ne: req.user.id },
+  });
+  if (dup) return res.status(409).json({ ok: false, error: "Usuário ou email já cadastrado" });
   const user = await User.findByIdAndUpdate(req.user.id, allowed, { new: true, runValidators: true }).select("-password");
   res.json({ ok: true, user });
 }));
@@ -64,16 +91,21 @@ router.put("/password", auth, asyncHandler(async (req, res) => {
   res.json({ ok: true });
 }));
 
-router.post("/forgot-password", asyncHandler(async (req, res) => {
+router.post("/forgot-password", resetLimiter, asyncHandler(async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
   if (!user) return res.json({ ok: true, message: "Se o email existir, você receberá instruções" });
   user.generateResetToken();
   await user.save();
-  console.log("[email] Reset token for", user.email, ":", user.resetPasswordToken);
+  const link = `${baseUrl()}/reset-password/${user.resetPasswordToken}`;
+  await sendEmail({
+    to: user.email,
+    subject: "Recuperação de senha — XanaScript",
+    html: `<p>Você solicitou a recuperação de senha.</p><p><a href="${link}">Clique aqui para redefinir sua senha</a></p><p>Este link expira em 1 hora.</p>`,
+  });
   res.json({ ok: true, message: "Instruções enviadas para o email" });
 }));
 
-router.post("/reset-password/:token", asyncHandler(async (req, res) => {
+router.post("/reset-password/:token", resetLimiter, asyncHandler(async (req, res) => {
   const user = await User.findOne({
     resetPasswordToken: req.params.token,
     resetPasswordExpires: { $gt: new Date() },

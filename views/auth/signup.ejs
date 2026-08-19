@@ -30,7 +30,7 @@
     <p class="mt-16 muted" style="text-align:center">Já tem conta? <a href="/login">Entrar</a></p>
   </form>
 </div>
-<script>
+<script nonce="<%= cspNonce %>">
 document.getElementById('signup-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const data = Object.fromEntries(new FormData(e.target));
@@ -39,6 +39,7 @@ document.getElementById('signup-form').addEventListener('submit', async (e) => {
   const el = document.getElementById('signup-error');
   if (json.ok) {
     localStorage.setItem('token', json.token);
+    document.cookie = 'xana_token=' + json.token + '; path=/; max-age=604800';
     window.location.href = '/';
   } else {
     el.textContent = json.error;

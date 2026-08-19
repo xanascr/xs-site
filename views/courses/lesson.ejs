@@ -1,19 +1,37 @@
 <div class="l-page l-page-narrow">
-  <a href="/courses/<%= course.slug %>" class="back-link">&larr; Voltar ao curso</a>
+  <a href="/courses/<%= course.slug %>" class="back-link"><span class="material-symbols-outlined link-icon">arrow_back</span> Voltar ao curso</a>
   <h1 class="sub-title"><%= lesson.title %></h1>
-  <p class="muted mb-24"><%= course.title %></p>
+  <p class="muted mb-24"><%= course.title %> • Aula <%= lessonIndex + 1 %> de <%= allLessons.length %></p>
 
   <div class="card mb-16">
-    <div class="card-body md-raw"><%- lesson.bodyMd %></div>
+    <div class="card-body md-body"><%- renderMarkdown(lesson.bodyMd) %></div>
   </div>
 
   <div class="filters mb-24">
     <% if (typeof user !== 'undefined' && user) { %>
-      <button id="complete-btn" onclick="completeLesson('<%= course.slug %>', '<%= lesson.slug %>')" class="btn">
-        <%= typeof enrollment !== 'undefined' && enrollment?.completedLessons?.some(l => l.lessonSlug === lesson.slug) ? 'Concluído' : 'Marcar como concluído' %>
-      </button>
+      <% if (typeof enrollment !== 'undefined' && enrollment) { %>
+        <% const isDone = enrollment.completedLessons?.some(l => l.lessonSlug === lesson.slug); %>
+        <form method="POST" action="/courses/<%= course.slug %>/lessons/<%= lesson.slug %>/complete" class="inline-form">
+          <button type="submit" class="btn" <%= isDone ? 'disabled' : '' %>>
+            <% if (isDone) { %>Aula concluída <span class="material-symbols-outlined btn-icon">check_circle</span><% } else { %>Marcar como concluída<% } %>
+          </button>
+        </form>
+      <% } else { %>
+        <a href="/courses/<%= course.slug %>" class="btn">Inscreva-se no curso para começar</a>
+      <% } %>
     <% } else { %>
-      <a href="/login" class="btn">Faça login para se inscrever</a>
+      <a href="/login" class="btn">Entre para acompanhar o curso</a>
+    <% } %>
+  </div>
+
+  <div class="filters mb-24">
+    <% if (typeof prevLesson !== 'undefined' && prevLesson) { %>
+      <a href="/courses/<%= course.slug %>/lessons/<%= prevLesson.slug %>" class="btn-outline"><span class="material-symbols-outlined btn-icon">arrow_back</span> Anterior</a>
+    <% } %>
+    <% if (typeof nextLesson !== 'undefined' && nextLesson) { %>
+      <a href="/courses/<%= course.slug %>/lessons/<%= nextLesson.slug %>" class="btn">Próxima aula <span class="material-symbols-outlined btn-icon">arrow_forward</span></a>
+    <% } else if (typeof quiz !== 'undefined' && quiz) { %>
+      <a href="/courses/<%= course.slug %>/quiz/<%= quiz._id %>" class="btn">Fazer o quiz <span class="material-symbols-outlined btn-icon">arrow_forward</span></a>
     <% } %>
   </div>
 
@@ -32,8 +50,9 @@
     </div>
   </div>
 </div>
-<script>
+<script nonce="<%= cspNonce %>">
 const token = localStorage.getItem('token');
+const authHeader = token ? { 'Authorization': 'Bearer ' + token } : {};
 
 async function loadComments() {
   const res = await fetch('/api/courses/<%= course._id %>/comments?lesson=<%= lesson.slug %>');
@@ -62,20 +81,12 @@ document.getElementById('comment-form')?.addEventListener('submit', async (e) =>
   if (!body) return;
   await fetch('/api/courses/<%= course._id %>/comments', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+    headers: { 'Content-Type': 'application/json', ...authHeader },
     body: JSON.stringify({ lessonSlug: '<%= lesson.slug %>', body }),
   });
   e.target.body.value = '';
   loadComments();
 });
-
-async function completeLesson(courseSlug, lessonSlug) {
-  await fetch('/api/courses/' + courseSlug + '/lessons/' + lessonSlug + '/complete', {
-    method: 'POST',
-    headers: { 'Authorization': 'Bearer ' + token },
-  });
-  document.getElementById('complete-btn').textContent = 'Concluído';
-}
 
 loadComments();
 </script>

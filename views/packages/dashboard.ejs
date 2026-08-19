@@ -98,7 +98,7 @@
   </div>
 </div>
 
-<script>
+<script nonce="<%= cspNonce %>">
 document.getElementById('publish-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const form = e.target;

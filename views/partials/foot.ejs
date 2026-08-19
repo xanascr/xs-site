@@ -1,39 +1,60 @@
 <div id="page-loader" class="page-loader" role="status" aria-label="Carregando">
   <img class="page-loader-logo" src="/icon.png" alt="XanaScript">
 </div>
-<script>
+<script nonce="<%= cspNonce %>">
 (function () {
-  var target = new Date('2026-08-20T14:00:00-03:00');
-  var daysEl = document.getElementById('cd-days');
-  var hoursEl = document.getElementById('cd-hours');
-  var minutesEl = document.getElementById('cd-minutes');
-  var secondsEl = document.getElementById('cd-seconds');
-  function pad(n) { return n < 10 ? '0' + n : String(n); }
-  function tick() {
-    var diff = target.getTime() - Date.now();
-    if (diff <= 0) {
-      daysEl.textContent = '0';
-      hoursEl.textContent = '00';
-      minutesEl.textContent = '00';
-      secondsEl.textContent = '00';
-      return;
-    }
-    var d = Math.floor(diff / 86400000);
-    var h = Math.floor((diff % 86400000) / 3600000);
-    var m = Math.floor((diff % 3600000) / 60000);
-    var s = Math.floor((diff % 60000) / 1000);
-    daysEl.textContent = String(d);
-    hoursEl.textContent = pad(h);
-    minutesEl.textContent = pad(m);
-    secondsEl.textContent = pad(s);
+  var toggle = document.getElementById('nav-toggle');
+  var menu = document.getElementById('mobile-menu');
+  var icon = document.getElementById('nav-toggle-icon');
+  if (!toggle || !menu) return;
+  function setOpen(open) {
+    menu.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    menu.setAttribute('aria-hidden', open ? 'false' : 'true');
+    if (icon) icon.textContent = open ? 'close' : 'menu';
   }
-  if (daysEl) {
-    tick();
-    setInterval(tick, 1000);
-  }
+  toggle.addEventListener('click', function () {
+    setOpen(!menu.classList.contains('open'));
+  });
+  menu.addEventListener('click', function (e) {
+    if (e.target.closest('a, button')) setOpen(false);
+  });
 })();
 </script>
-<script>
+<script nonce="<%= cspNonce %>">
+(function () {
+  function syncAuth() {
+    var logged = !!localStorage.getItem('token');
+    document.querySelectorAll('#nav-auth, #nav-auth-mobile').forEach(function (container) {
+      container.querySelectorAll('.auth-user, .auth-guest').forEach(function (el) {
+        var showUser = logged && el.getAttribute('data-auth') === 'user';
+        var showGuest = !logged && el.getAttribute('data-auth') === 'guest';
+        el.style.display = (showUser || showGuest) ? '' : 'none';
+      });
+    });
+  }
+  syncAuth();
+  window.addEventListener('storage', syncAuth);
+})();
+</script>
+<script nonce="<%= cspNonce %>">
+window.logout = function () {
+  localStorage.removeItem('token');
+  document.cookie = 'xana_token=; path=/; max-age=0';
+  window.location.href = '/';
+};
+</script>
+<script nonce="<%= cspNonce %>">
+(function () {
+  var printBtns = document.querySelectorAll('.cert-print-btn');
+  printBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      window.print();
+    });
+  });
+})();
+</script>
+<script nonce="<%= cspNonce %>">
 (function () {
   var loader = document.getElementById('page-loader');
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -63,7 +84,7 @@
     </div>
   </div>
 </div>
-<script>
+<script nonce="<%= cspNonce %>">
 (function () {
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var io = null;
@@ -104,6 +125,32 @@
       if (!io) initObserver();
       revealEls.forEach(function (el) { io.observe(el); });
     }
+  }
+
+  // Word-by-word text reveal inside cards (lands on the observer above)
+  if (!reduceMotion) {
+    document.querySelectorAll('.l-step p, .l-service p, .l-benefit p, .l-faq-item p').forEach(function (el) {
+      var text = el.textContent.replace(/\s+/g, ' ').trim();
+      if (!text || text.split(/\s+/).length < 3) return;
+      var words = text.split(' ');
+      el.innerHTML = words.map(function (w, i) {
+        return '<span class="l-word" style="--i:' + i + '">' + w + '</span>';
+      }).join(' ');
+    });
+  }
+
+  // FAQ accordion: opening one closes the others
+  var faqItems = document.querySelectorAll('.l-faq-item');
+  if (faqItems.length) {
+    faqItems.forEach(function (item) {
+      item.addEventListener('toggle', function () {
+        if (item.open) {
+          faqItems.forEach(function (other) {
+            if (other !== item) other.open = false;
+          });
+        }
+      });
+    });
   }
 })();
 </script>
