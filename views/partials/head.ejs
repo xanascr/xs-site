@@ -1,25 +1,27 @@
 <%
-  const _title = typeof title !== 'undefined' && title ? title + ' — XanaScript' : 'XanaScript — Linguagem em Português';
-  const _desc = typeof description !== 'undefined' && description ? description : 'XanaScript é uma linguagem de programação com sintaxe em português, ORM embutido, compilador otimizante e suporte a WebAssembly.';
+  const _seoBrand = 'XanaScript';
+  const _brandName = 'XanaScript';
+  const _baseUrl = 'https://xanascript.xyz';
+  const _pageTitle = typeof title !== 'undefined' && title ? title : '';
+  const _title = _pageTitle ? _seoBrand + ' — ' + _pageTitle : 'XanaScript — Linguagem de Programação em Português';
+  const _desc = typeof description !== 'undefined' && description
+    ? description
+    : 'XanaScript é uma linguagem de programação com sintaxe em português: ORM embutido, compilador otimizante, gerenciador de pacotes e suporte a WebAssembly. Aprenda, codifique e publique do seu jeito.';
+  const _canonical = _baseUrl + (typeof canonicalPath !== 'undefined' && canonicalPath ? canonicalPath : path);
+  const _ogImage = typeof ogImage !== 'undefined' && ogImage ? ogImage : _baseUrl + '/og-image.png';
+  const _robots = typeof seoIndexable !== 'undefined' && !seoIndexable ? 'noindex, nofollow' : 'index, follow';
   const _extra = typeof extraStyles !== 'undefined' && extraStyles ? (Array.isArray(extraStyles) ? extraStyles : [extraStyles]) : [];
 %>
 <script>document.documentElement.classList.add('js');</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="<%= _robots %>">
 <meta name="description" content="<%= _desc %>">
+<meta name="theme-color" content="#f25b66">
 <meta name="author" content="@flazo0">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="XanaScript">
-<meta property="og:title" content="<%= _title %>">
-<meta property="og:description" content="<%= _desc %>">
-<meta property="og:image" content="https://xanascript.xyz/og-image.png">
-<meta property="og:url" content="<%= typeof ogUrl !== 'undefined' && ogUrl ? ogUrl : '' %>">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="<%= _title %>">
-<meta name="twitter:description" content="<%= _desc %>">
-<meta name="twitter:image" content="https://xanascript.xyz/og-image.png">
 <title><%= _title %></title>
+<link rel="canonical" href="<%= _canonical %>">
+<link rel="icon" type="image/png" href="/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght,MONO@0,300..800,1;1,300..800,1&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -28,3 +30,17 @@
 <% _extra.forEach(function(href) { %>
 <link rel="stylesheet" href="<%= href %>">
 <% }) %>
+<meta property="og:type" content="<%= typeof ogType !== 'undefined' && ogType ? ogType : 'website' %>">
+<meta property="og:site_name" content="<%= _brandName %>">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="<%= _title %>">
+<meta property="og:description" content="<%= _desc %>">
+<meta property="og:url" content="<%= _canonical %>">
+<meta property="og:image" content="<%= _ogImage %>">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="<%= _title %>">
+<meta name="twitter:description" content="<%= _desc %>">
+<meta name="twitter:image" content="<%= _ogImage %>">
+<% if (typeof jsonLd !== 'undefined' && jsonLd) { %>
+<script type="application/ld+json"><%- JSON.stringify(jsonLd) %></script>
+<% } %>

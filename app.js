@@ -8,6 +8,7 @@ import morgan from "morgan";
 import expressLayouts from "express-ejs-layouts";
 
 import indexRouter from "./routes/index.js";
+import seoRouter from "./routes/seo.js";
 import authRouter from "./routes/auth.js";
 import adminRouter from "./routes/admin.js";
 import apiPackagesRouter from "./routes/api/packages.js";
@@ -61,6 +62,8 @@ app.use(async (req, res, next) => {
   res.locals.path = req.path;
   next();
 });
+
+app.use("/", seoRouter);
 
 // Maintenance/launch gate: every page request renders only the countdown.
 const LAUNCH_AT = new Date("2026-08-20T14:00:00-03:00");

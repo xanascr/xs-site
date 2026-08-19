@@ -12,7 +12,18 @@ import User from "../models/User.js";
 
 const router = Router();
 
-router.get("/", (req, res) => res.render("index"));
+router.get("/", (req, res) => res.render("index", {
+  title: "",
+  description: "XanaScript é uma linguagem de programação com sintaxe em português. Compilador otimizante, ORM embutido, gerenciador de pacotes e suporte a WebAssembly.",
+  jsonLd: {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "XanaScript",
+    url: "https://xanascript.xyz/",
+    description: "Linguagem de programação com sintaxe em português.",
+    author: { "@type": "Person", name: "@flazo0", url: "https://www.instagram.com/flazo0/" },
+  },
+}));
 
 router.get("/docs", asyncHandler(async (req, res) => {
   const articles = await DocArticle.find({ published: true }).sort({ category: 1, order: 1 });
@@ -21,30 +32,45 @@ router.get("/docs", asyncHandler(async (req, res) => {
     if (!categories[a.category]) categories[a.category] = [];
     categories[a.category].push(a);
   }
-  res.render("docs/index", { categories, title: "Documentação" });
+  res.render("docs/index", { categories, title: "Documentação", description: "Documentação oficial da linguagem XanaScript: sintaxe, biblioteca padrão, ORM embutido e guias de início rápido." });
 }));
 
 router.get("/docs/:slug", asyncHandler(async (req, res) => {
   const article = await DocArticle.findOne({ slug: req.params.slug, published: true });
   if (!article) return res.status(404).render("404");
   const all = await DocArticle.find({ published: true }).sort({ category: 1, order: 1 });
-  res.render("docs/show", { article, all, title: article.title });
+  res.render("docs/show", { article, all, title: article.title, description: `Guia de XanaScript: ${article.title}. Aprenda direto na documentação oficial.`, canonicalPath: `/docs/${article.slug}`, jsonLd: {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    about: "XanaScript",
+    datePublished: article.createdAt ? article.createdAt.toISOString() : undefined,
+    dateModified: article.updatedAt ? article.updatedAt.toISOString() : undefined,
+    url: `https://xanascript.xyz/docs/${article.slug}`,
+  } });
 }));
 
 router.get("/playground", asyncHandler(async (req, res) => {
   const examples = await PlaygroundExample.find({ published: true }).sort({ category: 1, order: 1 });
-  res.render("playground/index", { examples, title: "Playground" });
+  res.render("playground/index", { examples, title: "Playground", description: "Experimente XanaScript online no Playground: rode código em português direto no navegador." });
 }));
 
 router.get("/courses", asyncHandler(async (req, res) => {
   const courses = await Course.find({ published: true }).sort({ createdAt: -1 });
-  res.render("courses/index", { courses, title: "Cursos" });
+  res.render("courses/index", { courses, title: "Cursos", description: "Cursos gratuitos de XanaScript: aprenda a programar em português do zero ao avançado." });
 }));
 
 router.get("/courses/:slug", asyncHandler(async (req, res) => {
   const course = await Course.findOne({ slug: req.params.slug, published: true });
   if (!course) return res.status(404).render("404");
-  res.render("courses/show", { course, title: course.title });
+  res.render("courses/show", { course, title: course.title, description: course.description || `Curso de XanaScript: ${course.title}.`, canonicalPath: `/courses/${course.slug}`, jsonLd: {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: course.title,
+    description: course.description || `Curso de XanaScript: ${course.title}.`,
+    provider: { "@type": "Organization", name: "XanaScript", sameAs: "https://xanascript.xyz" },
+    url: `https://xanascript.xyz/courses/${course.slug}`,
+  } });
 }));
 
 router.get("/courses/:slug/lessons/:lessonSlug", optionalAuth, asyncHandler(async (req, res) => {
@@ -105,7 +131,7 @@ router.get("/packages", asyncHandler(async (req, res) => {
     }
     delete p.author;
   }
-  res.render("packages/index", { packages, title: "Pacotes", query: req.query.q || "" });
+  res.render("packages/index", { packages, title: "Pacotes", query: req.query.q || "", description: "Descubra pacotes da comunidade XanaScript: bibliotecas, módulos e ferramentas prontos para usar." });
 }));
 
 router.get("/packages/dashboard", auth, asyncHandler(async (req, res) => {
@@ -127,7 +153,15 @@ router.get("/packages/:name", asyncHandler(async (req, res) => {
   delete pkg.author;
   const Review = (await import("../models/Review.js")).default;
   const reviews = await Review.find({ package: pkg._id }).populate("user", "username").sort({ createdAt: -1 }).limit(50).lean();
-  res.render("packages/show", { pkg, reviews, title: pkg.name });
+  res.render("packages/show", { pkg, reviews, title: pkg.name, description: pkg.description || `Pacote ${pkg.name} para XanaScript.`, canonicalPath: `/packages/${pkg.name}`, jsonLd: {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: pkg.name,
+    description: pkg.description || `Pacote ${pkg.name} para XanaScript.`,
+    applicationCategory: "DeveloperApplication",
+    operatingSystem: "Any",
+    url: `https://xanascript.xyz/packages/${pkg.name}`,
+  } });
 }));
 
 router.get("/packages/:name/:version", asyncHandler(async (req, res) => {
@@ -147,19 +181,35 @@ router.get("/packages/:name/:version", asyncHandler(async (req, res) => {
   delete versionPkg.author;
   const Review = (await import("../models/Review.js")).default;
   const reviews = await Review.find({ package: pkg._id }).populate("user", "username").sort({ createdAt: -1 }).limit(50).lean();
-  res.render("packages/show", { pkg: versionPkg, reviews, title: `${pkg.name} v${ver.version}` });
+  res.render("packages/show", { pkg: versionPkg, reviews, title: `${pkg.name} v${ver.version}`, description: pkg.description || `Pacote ${pkg.name} para XanaScript.`, canonicalPath: `/packages/${pkg.name}`, jsonLd: {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: pkg.name,
+    description: pkg.description || `Pacote ${pkg.name} para XanaScript.`,
+    softwareVersion: ver.version,
+    applicationCategory: "DeveloperApplication",
+    operatingSystem: "Any",
+    url: `https://xanascript.xyz/packages/${pkg.name}`,
+  } });
 }));
 
 router.get("/hackathons", asyncHandler(async (req, res) => {
   const hackathons = await Hackathon.find().sort({ startDate: -1 });
-  res.render("hackathons/index", { hackathons, title: "Hackathons" });
+  res.render("hackathons/index", { hackathons, title: "Hackathons", description: "Participe dos hackathons de XanaScript: desafios, prêmios e projetos da comunidade em português." });
 }));
 
 router.get("/hackathons/:id", asyncHandler(async (req, res) => {
   const hackathon = await Hackathon.findById(req.params.id);
   if (!hackathon) return res.status(404).render("404");
   const submissions = await HackathonSubmission.find({ hackathon: hackathon._id }).populate("user", "username");
-  res.render("hackathons/show", { hackathon, submissions, title: hackathon.title });
+  res.render("hackathons/show", { hackathon, submissions, title: hackathon.title, description: hackathon.description || `Hackathon de XanaScript: ${hackathon.title}.`, canonicalPath: `/hackathons/${hackathon._id}`, jsonLd: {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    name: hackathon.title,
+    description: hackathon.description || `Hackathon de XanaScript: ${hackathon.title}.`,
+    startDate: hackathon.startDate ? hackathon.startDate.toISOString() : undefined,
+    url: `https://xanascript.xyz/hackathons/${hackathon._id}`,
+  } });
 }));
 
 router.get("/dashboard", auth, asyncHandler(async (req, res) => {
@@ -173,14 +223,14 @@ router.get("/settings", auth, asyncHandler(async (req, res) => {
   res.render("settings", { layout: "layouts/app", activeNav: "settings", user, title: "Configurações" });
 }));
 
-router.get("/forgot-password", (req, res) => res.render("auth/forgot-password", { layout: "layouts/auth", title: "Recuperar senha" }));
-router.get("/reset-password/:token", (req, res) => res.render("auth/reset-password", { layout: "layouts/auth", token: req.params.token, title: "Nova senha" }));
-router.get("/login", (req, res) => res.render("auth/login", { layout: "layouts/auth", title: "Entrar" }));
-router.get("/signup", (req, res) => res.render("auth/signup", { layout: "layouts/auth", title: "Criar conta" }));
-router.get("/admin*", (req, res) => res.render("admin/index", { layout: "layouts/app", activeNav: "admin", title: "Admin" }));
-router.get("/examples", (req, res) => res.render("examples", { title: "Exemplos" }));
-router.get("/privacy", (req, res) => res.render("privacy", { title: "Privacidade" }));
-router.get("/donate", (req, res) => res.render("donate", { title: "Doar" }));
+router.get("/forgot-password", (req, res) => res.render("auth/forgot-password", { layout: "layouts/auth", title: "Recuperar senha", seoIndexable: false }));
+router.get("/reset-password/:token", (req, res) => res.render("auth/reset-password", { layout: "layouts/auth", token: req.params.token, title: "Nova senha", seoIndexable: false }));
+router.get("/login", (req, res) => res.render("auth/login", { layout: "layouts/auth", title: "Entrar", seoIndexable: false }));
+router.get("/signup", (req, res) => res.render("auth/signup", { layout: "layouts/auth", title: "Criar conta", seoIndexable: false }));
+router.get("/admin*", (req, res) => res.render("admin/index", { layout: "layouts/app", activeNav: "admin", title: "Admin", seoIndexable: false }));
+router.get("/examples", (req, res) => res.render("examples", { title: "Exemplos", description: "Exemplos de código em XanaScript: sintaxe, loops, funções e ORM embutido para aprender programando." }));
+router.get("/privacy", (req, res) => res.render("privacy", { title: "Privacidade", description: "Política de privacidade do XanaScript: como coletamos, usamos e protegemos seus dados.", canonicalPath: "/privacy" }));
+router.get("/donate", (req, res) => res.render("donate", { title: "Doar", description: "Apoie o desenvolvimento do XanaScript. Sua doação mantém a linguagem gratuita e open source.", canonicalPath: "/donate" }));
 
 router.get("/benchmark", (req, res) => {
   const benchmarks = [
@@ -188,7 +238,7 @@ router.get("/benchmark", (req, res) => {
     { name: "Loop 10M iterações", xs: 0.15, js: 0.18, python: 3.2, lua: 0.35, unit: "s" },
     { name: "Startup time", xs: 0.02, js: 0.08, python: 0.35, lua: 0.01, unit: "s" },
   ];
-  res.render("benchmark", { benchmarks, title: "Benchmark" });
+  res.render("benchmark", { benchmarks, title: "Benchmark", description: "Benchmark do XanaScript vs JavaScript, Python e Lua: velocidade e tempo de inicialização comparados.", canonicalPath: "/benchmark" });
 });
 
 router.get("/changelog", (req, res) => {
@@ -196,7 +246,7 @@ router.get("/changelog", (req, res) => {
     { version: "2.2.8", date: "2026-07-23", type: "patch", changes: ["Auto-install de dependências", "Melhorias no sistema de import", "Correções de segurança"] },
     { version: "2.0.0", date: "2026-07-01", type: "major", changes: ["Compilador otimizante", "ORM embutido", "LSP server", "Gerenciador de pacotes"] },
   ];
-  res.render("changelog", { changelog, title: "Changelog" });
+  res.render("changelog", { changelog, title: "Changelog", description: "Histórico de versões do XanaScript: novidades, correções e melhorias de cada release.", canonicalPath: "/changelog" });
 });
 
 export default router;

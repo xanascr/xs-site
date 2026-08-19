@@ -1,0 +1,24 @@
+# XanaScript
+
+> XanaScript e uma linguagem de programacao com sintaxe em portugues: ORM embutido, compilador otimizante, gerenciador de pacotes e suporte a WebAssembly. Aprenda, codifique e publique do seu jeito.
+
+## Sobre
+
+- Linguagem: sintaxe inteiramente em portugues, pensada para falantes nativos.
+- Compilador: otimizante com tempo de inicializacao rapido e alto desempenho.
+- Ecossistema: gerenciador de pacotes, playground online e benchmark publico.
+- Aprendizado: documentacao gratuita, cursos guiados e hackathons.
+
+## Links
+
+- [Inicio](https://xanascript.xyz/)
+- [Documentacao](https://xanascript.xyz/docs)
+- [Playground](https://xanascript.xyz/playground)
+- [Pacotes](https://xanascript.xyz/packages)
+- [Cursos](https://xanascript.xyz/courses)
+- [Hackathons](https://xanascript.xyz/hackathons)
+- [Politica de Privacidade](https://xanascript.xyz/privacy)
+
+## Keywords
+
+xanascript, linguagem de programacao em portugues, programacao, sintaxe em portugues, compilador, webassembly, pacotes, cursos, hackathons, playground, open source
