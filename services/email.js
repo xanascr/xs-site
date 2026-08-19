@@ -4,20 +4,20 @@ let transporter = null;
 
 function getTransporter() {
   if (transporter) return transporter;
-  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env;
-  if (!SMTP_HOST) return null;
+  const { EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASS } = process.env;
+  if (!EMAIL_HOST) return null;
   transporter = nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: Number(SMTP_PORT) || 587,
-    secure: Number(SMTP_PORT) === 465,
-    auth: SMTP_USER && SMTP_PASS ? { user: SMTP_USER, pass: SMTP_PASS } : undefined,
+    host: EMAIL_HOST,
+    port: Number(EMAIL_PORT) || 587,
+    secure: Number(EMAIL_PORT) === 465,
+    auth: EMAIL_USER && EMAIL_PASS ? { user: EMAIL_USER, pass: EMAIL_PASS } : undefined,
   });
   return transporter;
 }
 
 export async function sendEmail({ to, subject, html }) {
   const transport = getTransporter();
-  const from = process.env.SMTP_FROM || process.env.SMTP_USER || "noreply@xanascript.xyz";
+  const from = process.env.EMAIL_FROM || process.env.EMAIL_USER || "noreply@xanascript.xyz";
   if (!transport) {
     if (process.env.NODE_ENV !== "production") {
       console.log(`[email:dev] ${subject} -> ${to}\n${html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim()}`);

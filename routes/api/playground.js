@@ -2,17 +2,33 @@ import { Router } from "express";
 import { asyncHandler } from "../../middleware/auth.js";
 import { execFile } from "child_process";
 import { promisify } from "util";
-import { writeFileSync, unlinkSync } from "fs";
+import { writeFileSync, unlinkSync, existsSync } from "fs";
 import { tmpdir } from "os";
-import { join } from "path";
+import { join, dirname } from "path";
 import { randomBytes } from "crypto";
+import { fileURLToPath } from "url";
+import { createRequire } from "module";
 
 const execFileAsync = promisify(execFile);
 
 const stripAnsi = (s) => String(s).replace(/\x1b\[[0-9;]*m/g, "");
 const maskPath = (s) => String(s).replace(/[A-Za-z]:\\[^\s"']*xs-playground-[0-9a-f]+\.xs/g, "input.xs").replace(/xs-playground-[0-9a-f]+\.xs/g, "input.xs");
 
-const XS_BIN = join(process.cwd(), "..", "xs", "bin", "xs.js");
+function resolveXsBin() {
+  if (process.env.XS_BIN) return process.env.XS_BIN;
+  try {
+    const require = createRequire(import.meta.url);
+    const pkg = require.resolve("xanascript/package.json");
+    const pkgDir = dirname(pkg);
+    const bin = join(pkgDir, "bin", "xs.js");
+    if (existsSync(bin)) return bin;
+  } catch {}
+  const local = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "..", "xs", "bin", "xs.js");
+  if (existsSync(local)) return local;
+  return join(process.cwd(), "..", "xs", "bin", "xs.js");
+}
+
+const XS_BIN = resolveXsBin();
 const NODE_BIN = process.execPath;
 
 const router = Router();
@@ -30,6 +46,13 @@ function runXs(args, code) {
     try { unlinkSync(tmpFile); } catch {}
   });
 }
+
+router.use((req, res, next) => {
+  if (!existsSync(XS_BIN)) {
+    return res.status(500).json({ ok: false, error: "Playground indisponível: compilador XanaScript não encontrado no servidor (defina XS_BIN)." });
+  }
+  next();
+});
 
 router.post("/run", asyncHandler(async (req, res) => {
   const code = req.body.code?.trim();
