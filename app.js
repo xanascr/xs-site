@@ -42,11 +42,11 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "https://fonts.googleapis.com", (req, res) => `'nonce-${res.locals.cspNonce}'`],
+      scriptSrc: ["'self'", "https://fonts.googleapis.com", "https://www.googletagmanager.com", "https://www.google-analytics.com", (req, res) => `'nonce-${res.locals.cspNonce}'`],
       scriptSrcAttr: ["'unsafe-inline'"],
       styleSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"],
       imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'", "https://fonts.googleapis.com", "https://fonts.gstatic.com"],
+      connectSrc: ["'self'", "https://fonts.googleapis.com", "https://fonts.gstatic.com", "https://www.google-analytics.com", "https://analytics.google.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
     },
   },
