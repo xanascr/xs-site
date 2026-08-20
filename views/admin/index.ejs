@@ -50,6 +50,30 @@ async function loadSection() {
       content.innerHTML = '<div class="card"><div class="card-header">Cursos</div><div class="table-wrap"><table><thead><tr><th>Título</th><th>Slug</th><th>Status</th><th>Ações</th></tr></thead><tbody>' +
         json.courses.map(c => '<tr><td>' + escapeHtml(c.title) + '</td><td class="muted">' + escapeHtml(c.slug) + '</td><td>' + (c.published ? '<span class="badge badge-success">Publicado</span>' : '<span class="badge badge-neutral">Rascunho</span>') + '</td><td><button onclick="deleteCourse(\'' + c._id + '\')" class="btn btn-outline-danger btn-sm">Excluir</button></td></tr>').join('') +
         '</tbody></table></div></div>';
+    } else if (section === 'packages') {
+      const res = await fetch('/api/admin/packages', { headers: { 'Authorization': 'Bearer ' + token } });
+      const json = await res.json();
+      if (!json.ok) { content.textContent = json.error; return; }
+      const statusBadge = { pending: '<span class="badge badge-neutral">Pendente</span>', approved: '<span class="badge badge-success">Aprovado</span>', rejected: '<span class="badge badge-danger">Rejeitado</span>' };
+      const rows = json.packages.map(p => '<tr><td><strong>' + escapeHtml(p.name) + '</strong><div class="muted">v' + escapeHtml(p.version) + '</div></td><td class="muted">' + escapeHtml(p.description || '') + '</td><td>' + (statusBadge[p.status] || escapeHtml(p.status)) + '</td><td class="muted">' + escapeHtml(p.author ? p.author.username : '?') + '</td><td>' +
+        (p.status !== 'approved' ? '<button onclick="approvePackage(\'' + p.name + '\')" class="btn btn-sm btn-secondary">Aprovar</button> ' : '') +
+        (p.status !== 'rejected' ? '<button onclick="rejectPackage(\'' + p.name + '\')" class="btn btn-sm btn-outline-danger">Rejeitar</button>' : '') +
+        '</td></tr>').join('');
+      content.innerHTML = '<div class="card"><div class="card-header">Pacotes</div><div class="table-wrap"><table><thead><tr><th>Pacote</th><th>Descrição</th><th>Status</th><th>Autor</th><th>Ações</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
+    } else if (section === 'docs') {
+      const res = await fetch('/api/admin/docs', { headers: { 'Authorization': 'Bearer ' + token } });
+      const json = await res.json();
+      if (!json.ok) { content.textContent = json.error; return; }
+      content.innerHTML = '<div class="card"><div class="card-header">Docs</div><div class="table-wrap"><table><thead><tr><th>Título</th><th>Slug</th><th>Categoria</th><th>Ações</th></tr></thead><tbody>' +
+        json.docs.map(d => '<tr><td>' + escapeHtml(d.title) + '</td><td class="muted">' + escapeHtml(d.slug) + '</td><td class="muted">' + escapeHtml(d.category || '') + '</td><td><button onclick="deleteDoc(\'' + d._id + '\')" class="btn btn-outline-danger btn-sm">Excluir</button></td></tr>').join('') +
+        '</tbody></table></div></div>';
+    } else if (section === 'examples') {
+      const res = await fetch('/api/admin/playground-examples', { headers: { 'Authorization': 'Bearer ' + token } });
+      const json = await res.json();
+      if (!json.ok) { content.textContent = json.error; return; }
+      content.innerHTML = '<div class="card"><div class="card-header">Playground</div><div class="table-wrap"><table><thead><tr><th>Título</th><th>Slug</th><th>Categoria</th><th>Ações</th></tr></thead><tbody>' +
+        json.examples.map(e => '<tr><td>' + escapeHtml(e.title) + '</td><td class="muted">' + escapeHtml(e.slug) + '</td><td class="muted">' + escapeHtml(e.category || '') + '</td><td><button onclick="deleteExample(\'' + e._id + '\')" class="btn btn-outline-danger btn-sm">Excluir</button></td></tr>').join('') +
+        '</tbody></table></div></div>';
     } else {
       content.innerHTML = '<div class="empty-state">Selecione uma seção no menu acima.</div>';
     }
@@ -65,6 +89,20 @@ async function toggleRole(id) {
   loadSection();
 }
 async function deleteCourse(id) { if (confirm('Excluir curso?')) { await fetch('/api/admin/courses/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token } }); loadSection(); } }
+async function deleteDoc(id) { if (confirm('Excluir doc?')) { await fetch('/api/admin/docs/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token } }); loadSection(); } }
+async function deleteExample(id) { if (confirm('Excluir exemplo?')) { await fetch('/api/admin/playground-examples/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token } }); loadSection(); } }
+async function approvePackage(name) {
+  if (!confirm('Aprovar pacote ' + name + '?')) return;
+  await fetch('/api/admin/packages/' + encodeURIComponent(name) + '/approve', { method: 'POST', headers: { 'Authorization': 'Bearer ' + token } });
+  loadSection();
+}
+async function rejectPackage(name) {
+  const reason = prompt('Motivo da rejeição (opcional):') || '';
+  if (confirm('Rejeitar pacote ' + name + '?')) {
+    await fetch('/api/admin/packages/' + encodeURIComponent(name) + '/reject', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify({ reason }) });
+    loadSection();
+  }
+}
 
 loadSection();
 </script>
