@@ -3,6 +3,8 @@ services:
     build: .
     ports:
       - "3010:3010"
+    volumes:
+      - uploads_data:/app/uploads
     environment:
       - MONGODB_URI=mongodb://mongo:27017/xanascript
       - JWT_SECRET=${JWT_SECRET:-change-me}
@@ -26,3 +28,4 @@ services:
 
 volumes:
   mongo_data:
+  uploads_data:
