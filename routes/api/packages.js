@@ -34,6 +34,21 @@ function isPathInside(child, parent) {
   return resolved.startsWith(parentResolved + path.sep) || resolved === parentResolved;
 }
 
+function parseKeywords(input) {
+  if (Array.isArray(input)) return input.map(k => String(k).trim()).filter(Boolean);
+  if (typeof input === "string") {
+    const trimmed = input.trim();
+    if (trimmed.startsWith("[") && trimmed.endsWith("]")) {
+      try {
+        const arr = JSON.parse(trimmed);
+        if (Array.isArray(arr)) return arr.map(k => String(k).trim()).filter(Boolean);
+      } catch {}
+    }
+    return trimmed.split(",").map(k => k.replace(/^"|"$/g, "").replace(/^'|'$/g, "").trim()).filter(Boolean);
+  }
+  return [];
+}
+
 const publishLimiter = rateLimit({
   windowMs: 60 * 1000,
   max: 10,
@@ -144,7 +159,7 @@ router.post("/", auth, publishLimiter, (req, res, next) => {
     return res.status(400).json({ ok: false, error: "README máximo 100000 caracteres" });
   }
 
-  const parsedKeywords = typeof keywords === "string" ? keywords.split(",").map(k => k.trim()).filter(Boolean) : (Array.isArray(keywords) ? keywords : []);
+  const parsedKeywords = parseKeywords(keywords);
   const parsedDeps = typeof dependencies === "string" ? dependencies.split(",").map(d => d.trim()).filter(Boolean) : (Array.isArray(dependencies) ? dependencies : []);
   const sanitizedReadme = stripHtml(readme || "");
   const sanitizedDescription = stripHtml((description || "").slice(0, 2000));
@@ -222,8 +237,8 @@ router.put("/:name", auth, asyncHandler(async (req, res) => {
   for (const field of allowed) {
     if (req.body[field] !== undefined) {
       let value = req.body[field];
-      if (field === "keywords" && typeof value === "string") {
-        value = value.split(",").map(k => k.trim()).filter(Boolean);
+      if (field === "keywords") {
+        value = parseKeywords(value);
       }
       if (field === "readme") value = stripHtml(String(value).slice(0, 100000));
       if (field === "description") value = stripHtml(String(value).slice(0, 2000));
@@ -236,8 +251,8 @@ router.put("/:name", auth, asyncHandler(async (req, res) => {
     for (const field of allowed) {
       if (req.body[field] !== undefined) {
         let value = req.body[field];
-        if (field === "keywords" && typeof value === "string") {
-          value = value.split(",").map(k => k.trim()).filter(Boolean);
+        if (field === "keywords") {
+          value = parseKeywords(value);
         }
         if (field === "readme") value = stripHtml(String(value).slice(0, 100000));
         if (field === "description") value = stripHtml(String(value).slice(0, 2000));
